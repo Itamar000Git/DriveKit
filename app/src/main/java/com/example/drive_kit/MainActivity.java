@@ -4,7 +4,7 @@ package com.example.drive_kit;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
-import com.example.drive_kit.SignUp;
+//import com.example.drive_kit.SignUp;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
