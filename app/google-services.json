@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1040780334008",
+    "project_id": "drivekit-85de4",
+    "storage_bucket": "drivekit-85de4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1040780334008:android:df55ab2969526c395cf54d",
+        "android_client_info": {
+          "package_name": "com.example.appwithfirebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxuYaTJsQ3_UW0FDKmB_AeBydJk4OeWTo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1040780334008:android:9da125e9d39ff0db5cf54d",
+        "android_client_info": {
+          "package_name": "com.example.drive_kit"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxuYaTJsQ3_UW0FDKmB_AeBydJk4OeWTo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
