@@ -1,14 +1,195 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:padding="24dp"
+    tools:context=".SignUp">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+<LinearLayout
+android:id="@+id/logoContainer"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:orientation="horizontal"
+app:layout_constraintTop_toTopOf="parent"
+app:layout_constraintStart_toStartOf="parent"
+app:layout_constraintEnd_toEndOf="parent"
+android:layout_marginTop="40dp">
+
+<TextView
+    android:id="@+id/logoDrive"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Drive"
+    android:textSize="48sp"
+    android:textStyle="bold"
+    android:textColor="#E0E0E0" />
+
+<TextView
+    android:id="@+id/logoKit"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Kit"
+    android:textSize="48sp"
+    android:textStyle="bold"
+    android:textColor="#8BC34A"
+    android:layout_marginStart="4dp"/>
+</LinearLayout>
+
+    <!-- כותרת -->
+<TextView
+android:id="@+id/signupTitle"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="משתמש חדש"
+android:textSize="20sp"
+android:textColor="#E0E0E0"
+app:layout_constraintTop_toBottomOf="@id/logoContainer"
+app:layout_constraintStart_toStartOf="parent"
+app:layout_constraintEnd_toEndOf="parent"
+android:layout_marginTop="16dp"/>
+
+
+    <!-- שם פרטי -->
+<com.google.android.material.textfield.TextInputLayout
+android:id="@+id/firstNameLayout"
+style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+android:layout_width="0dp"
+
+android:layout_height="wrap_content"
+app:boxBackgroundColor="#99FFFFFF"
+app:boxStrokeColor="#8BC34A"
+app:hintTextColor="#B0BEC5"
+app:layout_constraintTop_toBottomOf="@id/signupTitle"
+app:layout_constraintStart_toStartOf="parent"
+app:layout_constraintEnd_toEndOf="parent"
+android:layout_marginTop="32dp">
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/firstNameEditText"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="174dp"
-        tools:layout_editor_absoluteY="173dp" />
+        android:hint="שם פרטי"
+        android:inputType="textPersonName"
+        android:textColor="#E0E0E0"
+        android:textColorHint="#B0BEC5" />
+</com.google.android.material.textfield.TextInputLayout>
+
+    <!-- שם משפחה -->
+<com.google.android.material.textfield.TextInputLayout
+android:id="@+id/lastNameLayout"
+style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+android:layout_width="0dp"
+android:layout_height="wrap_content"
+    app:boxBackgroundColor="#99FFFFFF"
+    app:boxStrokeColor="#8BC34A"
+app:hintTextColor="#B0BEC5"
+app:layout_constraintTop_toBottomOf="@id/firstNameLayout"
+app:layout_constraintStart_toStartOf="parent"
+app:layout_constraintEnd_toEndOf="parent"
+android:layout_marginTop="12dp">
+
+<com.google.android.material.textfield.TextInputEditText
+    android:id="@+id/lastNameEditText"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="שם משפחה"
+    android:textColor="#E0E0E0"
+    android:textColorHint="#B0BEC5"
+    android:inputType="textPersonName"/>
+</com.google.android.material.textfield.TextInputLayout>
+
+    <!-- אימייל -->
+<com.google.android.material.textfield.TextInputLayout
+android:id="@+id/emailLayout"
+style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+android:layout_width="0dp"
+android:layout_height="wrap_content"
+    app:boxBackgroundColor="#99FFFFFF"
+
+    app:boxStrokeColor="#8BC34A"
+app:hintTextColor="#B0BEC5"
+app:layout_constraintTop_toBottomOf="@id/lastNameLayout"
+app:layout_constraintStart_toStartOf="parent"
+app:layout_constraintEnd_toEndOf="parent"
+android:layout_marginTop="12dp">
+
+<com.google.android.material.textfield.TextInputEditText
+    android:id="@+id/emailEditText"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="אימייל"
+    android:inputType="textEmailAddress"
+    android:textColor="#E0E0E0"
+    android:textColorHint="#B0BEC5"/>
+</com.google.android.material.textfield.TextInputLayout>
+
+    <!-- מספר רכב -->
+<com.google.android.material.textfield.TextInputLayout
+android:id="@+id/carNumberLayout"
+style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+android:layout_width="0dp"
+android:layout_height="wrap_content"
+app:boxBackgroundColor="#99FFFFFF"
+app:boxStrokeColor="#8BC34A"
+app:hintTextColor="#B0BEC5"
+app:layout_constraintTop_toBottomOf="@id/emailLayout"
+app:layout_constraintStart_toStartOf="parent"
+app:layout_constraintEnd_toEndOf="parent"
+android:layout_marginTop="12dp">
+
+<com.google.android.material.textfield.TextInputEditText
+    android:id="@+id/carNumberEditText"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="מספר רכב"
+    android:inputType="number"
+    android:textColor="#E0E0E0"
+    android:textColorHint="#B0BEC5"/>
+</com.google.android.material.textfield.TextInputLayout>
+
+    <!-- תאריך ביטוח -->
+<com.google.android.material.textfield.TextInputLayout
+android:id="@+id/insuranceDateLayout"
+style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+android:layout_width="0dp"
+android:layout_height="wrap_content"
+app:boxBackgroundColor="#99FFFFFF"
+app:boxStrokeColor="#8BC34A"
+app:hintTextColor="#B0BEC5"
+app:layout_constraintTop_toBottomOf="@id/carNumberLayout"
+app:layout_constraintStart_toStartOf="parent"
+app:layout_constraintEnd_toEndOf="parent"
+android:layout_marginTop="12dp">
+
+<com.google.android.material.textfield.TextInputEditText
+    android:id="@+id/insuranceDateEditText"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="תאריך ביטוח"
+    android:inputType="date"
+    android:textColor="#E0E0E0"
+    android:textColorHint="#B0BEC5"/>
+</com.google.android.material.textfield.TextInputLayout>
+
+
+    <!-- כפתור רישום -->
+    <Button
+        android:id="@+id/signupButton"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:text="רישום"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:backgroundTint="#D6D6D6"
+        app:layout_constraintTop_toBottomOf="@id/insuranceDateLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
