@@ -19,24 +19,24 @@ app:layout_constraintStart_toStartOf="parent"
 app:layout_constraintEnd_toEndOf="parent"
 android:layout_marginTop="40dp">
 
-<TextView
-    android:id="@+id/logoDrive"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Drive"
-    android:textSize="48sp"
-    android:textStyle="bold"
-    android:textColor="#E0E0E0" />
+    <TextView
+        android:id="@+id/logoKit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="Kit"
+        android:textColor="#8BC34A"
+        android:textSize="48sp"
+        android:textStyle="bold" />
 
-<TextView
-    android:id="@+id/logoKit"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Kit"
-    android:textSize="48sp"
-    android:textStyle="bold"
-    android:textColor="#8BC34A"
-    android:layout_marginStart="4dp"/>
+    <TextView
+        android:id="@+id/logoDrive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Drive"
+        android:textColor="#E0E0E0"
+        android:textSize="48sp"
+        android:textStyle="bold" />
 </LinearLayout>
 
     <!-- כותרת -->
