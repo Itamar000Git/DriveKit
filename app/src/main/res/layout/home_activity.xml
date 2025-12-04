@@ -16,23 +16,25 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="40dp"/>
+        android:layout_marginTop="60dp"/>
 
-    <!-- כותרת שלום + שם -->
+    <!-- כותרת שלום -->
+
+    <!-- Grid של עיגולים -->
     <TextView
         android:id="@+id/welcomeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="שלום!"
-        android:textColor="#E0E0E0"
-        android:textSize="24sp"
+        android:layout_marginTop="4dp"
+        android:text=" "
+        android:textColor="#001F3F"
+        android:textSize="35sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/logoContainer"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="32dp" />
+        app:layout_constraintHorizontal_bias="0.921"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logoContainer" />
 
-    <!-- Grid של עיגולים -->
     <androidx.gridlayout.widget.GridLayout
         android:id="@+id/circlesGrid"
         android:layout_width="0dp"
@@ -46,7 +48,7 @@
         app:rowCount="2"
         app:useDefaultMargins="true">
 
-        <!-- הרכב שלי -->
+        <!-- עיגול 1 – הרכב שלי -->
         <LinearLayout
             android:id="@+id/circleMyCar"
             android:layout_width="0dp"
@@ -56,26 +58,38 @@
             app:layout_columnWeight="1">
 
             <FrameLayout
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:background="@drawable/circle_button"
-                android:foreground="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
-                android:focusable="true"
-                android:gravity="center">
+                android:focusable="true">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="הרכב שלי"
-                    android:textColor="#000000"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:gravity="center"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/myCarIcon"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:src="@drawable/car4"
+                        android:scaleType="centerInside" />
+                </LinearLayout>
             </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="הרכב שלי"
+                android:textColor="#001F3F"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginTop="-35dp"/>
         </LinearLayout>
 
-        <!-- DIY -->
+
+        <!-- עיגול 2 – DIY -->
         <LinearLayout
             android:id="@+id/circleDIY"
             android:layout_width="0dp"
@@ -85,26 +99,39 @@
             app:layout_columnWeight="1">
 
             <FrameLayout
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:background="@drawable/circle_button"
-                android:foreground="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
-                android:focusable="true"
-                android:gravity="center">
+                android:focusable="true">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="DIY"
-                    android:textColor="#000000"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:gravity="center"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/diyIcon"
+                        android:layout_width="180dp"
+                        android:layout_height="120dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/diy1" />
+                </LinearLayout>
             </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DIY"
+                android:textColor="#001F3F"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginTop="-35dp"/>
         </LinearLayout>
 
-        <!-- מוסך קרוב -->
+
+
+        <!-- עיגול 3 – מוסך קרוב -->
         <LinearLayout
             android:id="@+id/circleGarage"
             android:layout_width="0dp"
@@ -114,26 +141,38 @@
             app:layout_columnWeight="1">
 
             <FrameLayout
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:background="@drawable/circle_button"
-                android:foreground="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
-                android:focusable="true"
-                android:gravity="center">
+                android:focusable="true">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="מוסך קרוב"
-                    android:textColor="#000000"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:gravity="center"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/garageIcon"
+                        android:layout_width="121dp"
+                        android:layout_height="105dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/garage" />
+                </LinearLayout>
             </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="מוסך קרוב"
+                android:textColor="#001F3F"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginTop="-35dp"/>
         </LinearLayout>
 
-        <!-- ביטוח רכב -->
+
+        <!-- עיגול 4 – ביטוח רכב -->
         <LinearLayout
             android:id="@+id/circleInsurance"
             android:layout_width="0dp"
@@ -143,23 +182,34 @@
             app:layout_columnWeight="1">
 
             <FrameLayout
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:background="@drawable/circle_button"
-                android:foreground="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
-                android:focusable="true"
-                android:gravity="center">
+                android:focusable="true">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="ביטוח רכב"
-                    android:textColor="#000000"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:gravity="center"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/insuranceIcon"
+                        android:layout_width="120dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/insurencepic"
+                        android:scaleType="centerInside" />
+                </LinearLayout>
             </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ביטוח רכב"
+                android:textColor="#001F3F"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginTop="-35dp"/>
         </LinearLayout>
 
     </androidx.gridlayout.widget.GridLayout>

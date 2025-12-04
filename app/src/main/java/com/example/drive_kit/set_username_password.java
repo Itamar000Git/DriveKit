@@ -86,9 +86,9 @@ public class set_username_password extends AppCompatActivity {
                                     Toast.makeText(this, "הרשמה הושלמה בהצלחה", Toast.LENGTH_SHORT).show();
 
 
-                                    // Intent home = new Intent(this, HomeActivity.class);
-                                    // startActivity(home);
-                                    // finish();
+                                     Intent home = new Intent(this, HomeActivity.class);
+                                     startActivity(home);
+                                     finish();
                                 })
                                 .addOnFailureListener(e -> {
                                     Log.e("Firebase", "Error saving driver", e);
