@@ -28,9 +28,10 @@ public class LoadingActivity extends AppCompatActivity {
                     //successful login
                     Log.d("Auth", "Login successful");
                     Toast.makeText(this, "התחברת בהצלחה", Toast.LENGTH_SHORT).show();
-//                    Intent goToHome = new Intent(LoadingActivity.this, HomeActivity.class);
-////                    startActivity(goToHome);
-////                    finish();
+                    Intent home = new Intent(LoadingActivity.this, HomeActivity.class);
+                    startActivity(home);
+                    finish();
+
                 })
                 .addOnFailureListener(e -> {
                     //failed login
@@ -38,9 +39,9 @@ public class LoadingActivity extends AppCompatActivity {
 
                     Toast.makeText(this, "פרטי ההתחברות שגויים", Toast.LENGTH_SHORT).show();
 
-                    //Intent backToLogin = new Intent(LoadingActivity.this, LoginActivity.class);
-                    //startActivity(backToLogin);
-                    //finish();
+                    Intent backToLogin = new Intent(LoadingActivity.this,MainActivity.class);
+                    startActivity(backToLogin);
+                    finish();
                 });
 
     }
