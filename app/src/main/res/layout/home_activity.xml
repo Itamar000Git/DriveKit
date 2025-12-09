@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background2"
@@ -19,8 +20,6 @@
         android:layout_marginTop="60dp"/>
 
     <!-- כותרת שלום -->
-
-    <!-- Grid של עיגולים -->
     <TextView
         android:id="@+id/welcomeText"
         android:layout_width="wrap_content"
@@ -35,18 +34,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/logoContainer" />
 
+    <!-- Grid של עיגולים -->
     <androidx.gridlayout.widget.GridLayout
         android:id="@+id/circlesGrid"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:alignmentMode="alignMargins"
         app:columnCount="2"
+        app:rowCount="2"
+        app:useDefaultMargins="true"
         app:layout_constraintTop_toBottomOf="@id/welcomeText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="40dp"
-        app:rowCount="2"
-        app:useDefaultMargins="true">
+        android:layout_marginTop="40dp">
 
         <!-- עיגול 1 – הרכב שלי -->
         <LinearLayout
@@ -88,7 +88,6 @@
                 android:layout_marginTop="-35dp"/>
         </LinearLayout>
 
-
         <!-- עיגול 2 – DIY -->
         <LinearLayout
             android:id="@+id/circleDIY"
@@ -129,8 +128,6 @@
                 android:layout_marginTop="-35dp"/>
         </LinearLayout>
 
-
-
         <!-- עיגול 3 – מוסך קרוב -->
         <LinearLayout
             android:id="@+id/circleGarage"
@@ -170,7 +167,6 @@
                 android:textSize="18sp"
                 android:layout_marginTop="-35dp"/>
         </LinearLayout>
-
 
         <!-- עיגול 4 – ביטוח רכב -->
         <LinearLayout
@@ -213,5 +209,31 @@
         </LinearLayout>
 
     </androidx.gridlayout.widget.GridLayout>
+
+    <!-- עיגול 5 – notification -->
+    <LinearLayout
+        android:id="@+id/circleNoty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/circlesGrid"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp">
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/noty_icon"
+        android:layout_width="92dp"
+        android:layout_height="55dp"
+        android:clickable="true"
+        android:contentDescription="התראות"
+        android:focusable="true"
+        android:scaleType="centerInside"
+        android:src="@drawable/notification_bell"
+        tools:layout_editor_absoluteX="-18dp"
+        tools:layout_editor_absoluteY="-2dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

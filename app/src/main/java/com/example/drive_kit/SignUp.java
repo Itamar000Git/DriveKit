@@ -7,30 +7,27 @@ import Model.Driver;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.datepicker.MaterialDatePicker;
 
-
-
-
-//class that represent the signup page
 public class SignUp extends AppCompatActivity {
 
     private Button next;
     private EditText firstNameEditText;
-
     private EditText lastNameEditText;
     private EditText emailEditText;
     private EditText carNumberEditText;
-    private EditText insuranceDateEditText;
+    private TextInputEditText insuranceDateEditText;
 
+    // משתנה שישמור את התאריך בפורמט millis
+    private long selectedInsuranceDateMillis = -1;
 
-//in this page we take the client details and create a driver object
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup);
 
-
-        //find the text fields and the button
+        // find views
         next = findViewById(R.id.next);
         firstNameEditText = findViewById(R.id.firstNameEditText);
         lastNameEditText = findViewById(R.id.lastNameEditText);
@@ -38,29 +35,53 @@ public class SignUp extends AppCompatActivity {
         carNumberEditText = findViewById(R.id.carNumberEditText);
         insuranceDateEditText = findViewById(R.id.insuranceDateEditText);
 
-        //listening to the signup button
+        if (insuranceDateEditText == null) {
+            Log.e("SignUp", "insuranceDateEditText is NULL (check XML id!)");
+        }
+
+        // לחיצה על שדה תאריך → פותח DatePicker פעם אחת בלבד
+        insuranceDateEditText.setOnClickListener(v -> openDatePicker());
+
+        // לחיצה על כפתור "הבא"
         next.setOnClickListener(v -> {
 
-            //  extract the text from the text fields
+            // בדיקה שהתאריך נבחר
+            if (selectedInsuranceDateMillis == -1) {
+                insuranceDateEditText.setError("בחר תאריך ביטוח");
+                return;
+            }
+
+            // extract text fields
             String firstName = firstNameEditText.getText().toString().trim();
             String lastName = lastNameEditText.getText().toString().trim();
             String email = emailEditText.getText().toString().trim();
             String carNumber = carNumberEditText.getText().toString().trim();
-            String insuranceDate = insuranceDateEditText.getText().toString().trim();
 
-
+            // העברה לדף הבא
             Intent intent = new Intent(SignUp.this, set_username_password.class);
             intent.putExtra("firstName", firstName);
             intent.putExtra("lastName", lastName);
             intent.putExtra("email", email);
             intent.putExtra("carNumber", carNumber);
-            intent.putExtra("insuranceDate", insuranceDate);
-
+            intent.putExtra("insuranceDateMillis", selectedInsuranceDateMillis);
 
             startActivity(intent);
-            // Logcat
         });
-
     }
 
+    private void openDatePicker() {
+        MaterialDatePicker<Long> datePicker =
+                MaterialDatePicker.Builder.datePicker()
+                        .setTitleText("בחר תאריך ביטוח")
+                        .build();
+
+        datePicker.show(getSupportFragmentManager(), "DATE_PICKER");
+
+        datePicker.addOnPositiveButtonClickListener(selection -> {
+
+            selectedInsuranceDateMillis = selection;
+
+            insuranceDateEditText.setText(datePicker.getHeaderText());
+        });
+    }
 }

@@ -1,9 +1,6 @@
 package com.example.drive_kit;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,37 +8,26 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+
 import Model.Driver;
 
-public class HomeActivity extends AppCompatActivity {
+public class NotificationsActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private FirebaseFirestore db;
-    private TextView welcomeText;
-    @Override
+    private ArrayList<String> noty;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home_activity);
-        //find the welcomeText and insert it into the variable
-        welcomeText = findViewById(R.id.welcomeText);
-        ImageView notyIcon = findViewById(R.id.noty_icon);
+        setContentView(R.layout.notifications);
 
-        notyIcon.setOnClickListener(v -> {
-            Intent intent = new Intent(HomeActivity.this, NotificationsActivity.class);
-            startActivity(intent);
-        });
-
-        //we need the auth for the uid
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+        noty = new ArrayList<>();
 
         FirebaseUser user = auth.getCurrentUser();
-
-        if (user == null) {
-            welcomeText.setText("שלום אורח");
-            return;
-        }
-        //gets the unique id of the user
         String uid = user.getUid();
+
 
         db.collection("drivers")
                 .document(uid)
@@ -52,18 +38,16 @@ public class HomeActivity extends AppCompatActivity {
                         Driver driver = documentSnapshot.toObject(Driver.class);
 
                         if (driver != null) {
-                            String firstName = driver.getFirstName();
-
-                            welcomeText.setText("שלום, " + firstName + "!");
+//                            String firstName = driver.getFirstName();
+//
+//                            welcomeText.setText("שלום, " + firstName + "!");
                         }
                     } else {
-                        welcomeText.setText("שלום!");
+                       // welcomeText.setText("שלום!");
                     }
                 })
                 .addOnFailureListener(e -> {
-                    welcomeText.setText("שגיאה בטעינת הנתונים");
+                  //  welcomeText.setText("שגיאה בטעינת הנתונים");
                 });
     }
-
-
 }
