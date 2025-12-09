@@ -25,6 +25,8 @@
         <activity android:name="com.example.drive_kit.set_username_password" />
         <activity android:name=".LoadingActivity" />
         <activity android:name=".HomeActivity" />
+        <activity android:name=".NotificationsActivity" />
+
 
     </application>
 

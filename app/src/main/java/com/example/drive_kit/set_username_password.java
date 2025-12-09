@@ -38,7 +38,8 @@ public class set_username_password extends AppCompatActivity {
         String lastName = intent.getStringExtra("lastName");
         String email = intent.getStringExtra("email");
         String carNumber = intent.getStringExtra("carNumber");
-        String insuranceDate = intent.getStringExtra("insuranceDate");
+        long insuranceDateMillis = intent.getLongExtra("insuranceDate", 0);
+
 
         // Initialize views
         signupButton = findViewById(R.id.registerButton);
@@ -74,7 +75,7 @@ public class set_username_password extends AppCompatActivity {
                                 lastName,
                                 email,
                                 carNumber,
-                                insuranceDate
+                                insuranceDateMillis
                         );
 
                         // save driver to firebase
