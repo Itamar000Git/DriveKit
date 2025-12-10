@@ -69,6 +69,9 @@ public class SignUp extends AppCompatActivity {
         });
     }
 
+
+
+    //convert the date to millis
     private void openDatePicker() {
         MaterialDatePicker<Long> datePicker =
                 MaterialDatePicker.Builder.datePicker()

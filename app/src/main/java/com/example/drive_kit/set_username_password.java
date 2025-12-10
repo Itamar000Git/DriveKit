@@ -38,9 +38,12 @@ public class set_username_password extends AppCompatActivity {
         String lastName = intent.getStringExtra("lastName");
         String email = intent.getStringExtra("email");
         String carNumber = intent.getStringExtra("carNumber");
-        long insuranceDateMillis = intent.getLongExtra("insuranceDate", 0);
-
-
+        //long insuranceDateMillis = intent.getLongExtra("insuranceDate", 0);
+        long insuranceDateMillis = intent.getLongExtra("insuranceDateMillis", -1);
+        if (insuranceDateMillis == -1) {
+            Log.e("SetUsernamePassword", "insuranceDateMillis not received from intent");
+            Toast.makeText(this, "שגיאה בטעינת תאריך הביטוח", Toast.LENGTH_SHORT).show();
+        }
         // Initialize views
         signupButton = findViewById(R.id.registerButton);
         passwordEditText = findViewById(R.id.passwordEditText);

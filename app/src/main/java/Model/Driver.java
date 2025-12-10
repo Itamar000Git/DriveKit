@@ -14,6 +14,7 @@ public class Driver {
     private String carNumber;
     private long insuranceDateMillis;   // התאריך נשמר במילישניות
 
+
     // Empty constructor for Firebase
     public Driver() {
     }
@@ -102,4 +103,5 @@ public class Driver {
                 ", insuranceDate='" + getFormattedInsuranceDate() + '\'' +
                 '}';
     }
+
 }
