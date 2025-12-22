@@ -1,4 +1,4 @@
-package com.example.drive_kit;
+package com.example.drive_kit.View;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,11 +7,12 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.drive_kit.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import Model.Driver;
+import com.example.drive_kit.Model.Driver;
 
 public class HomeActivity extends AppCompatActivity {
     private FirebaseAuth auth;
@@ -21,6 +22,7 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
+
         //find the welcomeText and insert it into the variable
         welcomeText = findViewById(R.id.welcomeText);
         ImageView notyIcon = findViewById(R.id.noty_icon);

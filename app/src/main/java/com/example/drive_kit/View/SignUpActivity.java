@@ -1,16 +1,18 @@
-package com.example.drive_kit;
+package com.example.drive_kit.View;
 
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
-import Model.Driver;
+
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.example.drive_kit.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.datepicker.MaterialDatePicker;
 
-public class SignUp extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
 
     private Button next;
     private EditText firstNameEditText;
@@ -58,7 +60,7 @@ public class SignUp extends AppCompatActivity {
             String carNumber = carNumberEditText.getText().toString().trim();
 
             // העברה לדף הבא
-            Intent intent = new Intent(SignUp.this, set_username_password.class);
+            Intent intent = new Intent(SignUpActivity.this, setUsernamePasswordActivity.class);
             intent.putExtra("firstName", firstName);
             intent.putExtra("lastName", lastName);
             intent.putExtra("email", email);

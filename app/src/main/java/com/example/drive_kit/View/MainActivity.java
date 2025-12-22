@@ -1,16 +1,15 @@
-package com.example.drive_kit;
+package com.example.drive_kit.View;
 
 
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 //import com.example.drive_kit.SignUp;
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
 import android.content.Intent;
+
+import com.example.drive_kit.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         });
         //listening to the signup button
         signupButton.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, SignUp.class);
+            Intent intent = new Intent(MainActivity.this, SignUpActivity.class);
             startActivity(intent);
         });
     }

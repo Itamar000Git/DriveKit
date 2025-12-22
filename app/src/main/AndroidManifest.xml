@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Drive_Kit">
         <activity
-            android:name="com.example.drive_kit.MainActivity"
+            android:name="com.example.drive_kit.View.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,11 +21,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.example.drive_kit.SignUp" />
-        <activity android:name="com.example.drive_kit.set_username_password" />
-        <activity android:name=".LoadingActivity" />
-        <activity android:name=".HomeActivity" />
-        <activity android:name=".NotificationsActivity" />
+        <activity android:name="com.example.drive_kit.View.SignUpActivity" />
+        <activity android:name="com.example.drive_kit.View.setUsernamePasswordActivity" />
+        <activity android:name=".View.LoadingActivity" />
+        <activity android:name=".View.HomeActivity" />
+        <activity android:name=".View.NotificationsActivity" />
 
 
     </application>
