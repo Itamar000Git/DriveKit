@@ -22,7 +22,7 @@
         </activity>
 
         <activity android:name="com.example.drive_kit.View.SignUpActivity" />
-        <activity android:name="com.example.drive_kit.View.setUsernamePasswordActivity" />
+        <activity android:name="com.example.drive_kit.View.SetUsernamePasswordActivity" />
         <activity android:name=".View.LoadingActivity" />
         <activity android:name=".View.HomeActivity" />
         <activity android:name=".View.NotificationsActivity" />
