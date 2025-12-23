@@ -6,12 +6,19 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.drive_kit.Data.Repository.LoadingRepository;
 
+/**
+ * ViewModel for the LoadingActivity.
+ * It uses the LoadingRepository to access the database.
+ * It observes the LiveData in the ViewModel and updates the UI accordingly.
+ * If the login is successful, it starts the HomeActivity.
+ * If the login fails, it starts the MainActivity.
+ */
 public class LoadingViewModel extends ViewModel {
 
-    private final LoadingRepository repo = new LoadingRepository();
+    private final LoadingRepository repo = new LoadingRepository(); //object for access to the database
+    private final MutableLiveData<Boolean> loginSuccess = new MutableLiveData<>(); //for login success
+    private final MutableLiveData<String> loginError = new MutableLiveData<>(); //for login error
 
-    private final MutableLiveData<Boolean> loginSuccess = new MutableLiveData<>();
-    private final MutableLiveData<String> loginError = new MutableLiveData<>();
 
     public LiveData<Boolean> getLoginSuccess() {
         return loginSuccess;
@@ -21,6 +28,13 @@ public class LoadingViewModel extends ViewModel {
         return loginError;
     }
 
+    /**
+     * logs in the user with the given email and password
+     * if the login is successful, it starts the HomeActivity
+     * if the login fails, it starts the MainActivity
+     * @param email
+     * @param password
+     */
     public void login(String email, String password) {
         repo.signIn(email, password, new LoadingRepository.LoadingCallback() {
             @Override
