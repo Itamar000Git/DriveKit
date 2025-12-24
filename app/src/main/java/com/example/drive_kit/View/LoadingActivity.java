@@ -31,9 +31,12 @@ public class LoadingActivity extends AppCompatActivity {
         // Initialize the ViewModel
         LoadingViewModel viewModel = new ViewModelProvider(this).get(LoadingViewModel.class);
 
+
+
         // Observe the LiveData and update the UI when the login is successful
         viewModel.getLoginSuccess().observe(this, success -> {
             if (Boolean.TRUE.equals(success)) {
+                viewModel.startNotifications(getApplicationContext());////
                 Toast.makeText(this, "התחברת בהצלחה", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(this, HomeActivity.class));
                 finish();
