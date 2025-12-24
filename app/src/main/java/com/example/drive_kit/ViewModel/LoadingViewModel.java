@@ -3,6 +3,9 @@ package com.example.drive_kit.ViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import android.content.Context;
+import com.example.drive_kit.Data.Repository.NotificationSchedulerRepository;
+
 
 import com.example.drive_kit.Data.Repository.LoadingRepository;
 
@@ -34,4 +37,10 @@ public class LoadingViewModel extends ViewModel {
             }
         });
     }
+    private final NotificationSchedulerRepository schedulerRepo = new NotificationSchedulerRepository();
+
+    public void startNotifications(Context appContext) {
+        schedulerRepo.scheduleDaily(appContext);
+    }
+
 }
