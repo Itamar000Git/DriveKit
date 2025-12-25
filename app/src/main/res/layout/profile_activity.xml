@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5"
+    android:padding="24dp"
+    android:layoutDirection="rtl"
+    android:textDirection="rtl">
+
+    <TextView
+        android:id="@+id/profileTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="הפרופיל שלי"
+        android:textColor="#001F3F"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/profileCard"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="4dp"
+        app:cardBackgroundColor="@android:color/white"
+        app:layout_constraintTop_toBottomOf="@id/profileTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/editProfileButton"
+        android:layout_marginBottom="24dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:id="@+id/profileContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="24dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="שם פרטי"
+                    android:textSize="14sp"
+                    android:textColor="#757575"
+                    android:gravity="start"
+                    android:textAlignment="viewStart"/>
+
+                <TextView
+                    android:id="@+id/firstNameText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="-"
+                    android:textColor="#001F3F"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:gravity="start"
+                    android:textAlignment="viewStart"
+                    android:layout_marginBottom="16dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="-"
+                    android:textSize="14sp"
+                    android:textColor="#757575"
+                    android:gravity="start"
+                    android:textAlignment="viewStart"/>
+
+                <TextView
+                    android:id="@+id/lastNameText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ישראלי"
+                    android:textColor="#001F3F"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:gravity="start"
+                    android:textAlignment="viewStart"
+                    android:layout_marginBottom="16dp"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#E0E0E0"
+                    android:layout_marginBottom="16dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="אימייל"
+                    android:textSize="14sp"
+                    android:textColor="#757575"
+                    android:gravity="start"
+                    android:textAlignment="viewStart"/>
+
+                <TextView
+                    android:id="@+id/emailValue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="-"
+                    android:textColor="#001F3F"
+                    android:textSize="18sp"
+                    android:textStyle="normal"
+                    android:gravity="start"
+                    android:textAlignment="viewStart"
+                    android:layout_marginBottom="16dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="טלפון"
+                    android:textSize="14sp"
+                    android:textColor="#757575"
+                    android:gravity="start"
+                    android:textAlignment="viewStart"/>
+
+                <TextView
+                    android:id="@+id/phoneValue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="-"
+                    android:textColor="#001F3F"
+                    android:textSize="18sp"
+                    android:textStyle="normal"
+                    android:gravity="start"
+                    android:textAlignment="viewStart"
+                    android:layout_marginBottom="16dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="מספר רכב"
+                    android:textSize="14sp"
+                    android:textColor="#757575"
+                    android:gravity="start"
+                    android:textAlignment="viewStart"/>
+
+                <TextView
+                    android:id="@+id/carNumberValue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="-"
+                    android:textColor="#001F3F"
+                    android:textSize="18sp"
+                    android:textStyle="normal"
+                    android:gravity="start"
+                    android:textAlignment="viewStart"
+                    android:layout_marginBottom="16dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="תאריך ביטוח"
+                    android:textSize="14sp"
+                    android:textColor="#757575"
+                    android:gravity="start"
+                    android:textAlignment="viewStart"/>
+
+                <TextView
+                    android:id="@+id/insuranceDateValue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="-"
+                    android:textColor="#001F3F"
+                    android:textSize="18sp"
+                    android:textStyle="normal"
+                    android:gravity="start"
+                    android:textAlignment="viewStart"
+                    android:layout_marginBottom="16dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="תאריך טסט"
+                    android:textSize="14sp"
+                    android:textColor="#757575"
+                    android:gravity="start"
+                    android:textAlignment="viewStart"/>
+
+                <TextView
+                    android:id="@+id/testDateValue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="-"
+                    android:textColor="#001F3F"
+                    android:textSize="18sp"
+                    android:textStyle="normal"
+                    android:gravity="start"
+                    android:textAlignment="viewStart"/>
+
+            </LinearLayout>
+        </ScrollView>
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/editProfileButton"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:text="עריכת פרטים"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:backgroundTint="#8BC34A"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

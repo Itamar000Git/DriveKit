@@ -66,4 +66,41 @@ public class NotificationsRepository {
                 .addOnSuccessListener(v -> cb.onSuccess())
                 .addOnFailureListener(cb::onError);
     }
+
+
+
+    public void updateServiceDate(String uid,NotificationItem.Type type,long newDateMillis,SimpleCallback cb) {
+
+        if (uid == null || uid.trim().isEmpty()) {
+            cb.onError(new IllegalArgumentException("uid is null/empty"));
+            return;
+        }
+        if (newDateMillis <= 0) {
+            cb.onError(new IllegalArgumentException("newDateMillis invalid"));
+            return;
+        }
+
+        String dateField;
+        String dismissedField;
+
+        if (type == NotificationItem.Type.INSURANCE) {
+            dateField = "insuranceDateMillis";
+            dismissedField = "dismissedInsuranceStage";
+        } else {
+            dateField = "testDateMillis";
+            dismissedField = "dismissedTestStage";
+        }
+
+        Map<String, Object> updates = new HashMap<>();
+        updates.put(dateField, newDateMillis);
+
+        updates.put(dismissedField, null);
+
+        FirebaseFirestore.getInstance()
+                .collection("drivers")
+                .document(uid)
+                .update(updates)
+                .addOnSuccessListener(v -> cb.onSuccess())
+                .addOnFailureListener(cb::onError);
+    }
 }

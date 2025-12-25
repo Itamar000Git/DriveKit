@@ -32,8 +32,10 @@ public class HomeActivity extends AppCompatActivity {
 
         // Initialize the text view for displaying the welcome text
         welcomeText = findViewById(R.id.welcomeText);
+
         // Initialize the notification icon
         ImageView notyIcon = findViewById(R.id.noty_icon);
+        ImageView profileIcon = findViewById(R.id.profile_icon);
 
         if (android.os.Build.VERSION.SDK_INT >= 33) {
             if (checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)
@@ -45,6 +47,9 @@ public class HomeActivity extends AppCompatActivity {
         notyIcon.setOnClickListener(v -> {
             Intent intent = new Intent(HomeActivity.this, NotificationsActivity.class);
             startActivity(intent);
+        });
+        profileIcon.setOnClickListener(v -> {
+            startActivity(new Intent(HomeActivity.this, ProfileActivity.class));
         });
         // Schedule the daily notification worker
         WorkManager.getInstance(getApplicationContext())

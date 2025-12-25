@@ -7,7 +7,7 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/dk_icom"
         android:label="DriveKit"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -27,6 +27,8 @@
         <activity android:name=".View.LoadingActivity" />
         <activity android:name=".View.HomeActivity" />
         <activity android:name=".View.NotificationsActivity" />
+        <activity android:name=".View.ProfileActivity" />
+<!--        <activity android:name=".View.EditProfileActivity" />-->
 
 
 
