@@ -8,6 +8,8 @@ import androidx.work.WorkerParameters;
 
 import com.example.drive_kit.Data.Notification.NotificationHelper;
 import com.example.drive_kit.Model.Driver;
+import com.example.drive_kit.Model.NotificationItem;
+import com.example.drive_kit.ViewModel.NotificationsViewModel;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -55,15 +57,27 @@ public class NotyWorker extends Worker {
         long oneYearMillis = TimeUnit.DAYS.toMillis(366);
 
         long insuranceStart = driver.getInsuranceDateMillis();
-        if (insuranceStart > 0) {
-            long insuranceEnd = insuranceStart + oneYearMillis;
-            maybeNotify(insuranceEnd, now, "הביטוח");
+        long insuranceEnd = insuranceStart + oneYearMillis;
+        NotificationItem.Stage stage = NotificationsViewModel.calcStage(insuranceEnd, now);
+        String dismissed = driver.getDismissedInsuranceStage();
+
+
+        if (stage != NotificationItem.Stage.NONE && (dismissed == null || !stage.name().equals(dismissed))) {
+            if (insuranceStart > 0) {
+                maybeNotify(insuranceEnd, now, "הביטוח");
+            }
         }
 
         long testStart = driver.getTestDateMillis();
-        if (testStart > 0) {
-            long testEnd = testStart + oneYearMillis;
-            maybeNotify(testEnd, now, "הטסט");
+        long testEnd = testStart + oneYearMillis;
+
+        stage = NotificationsViewModel.calcStage(insuranceEnd, now);
+        dismissed = driver.getDismissedTestStage();
+
+        if (stage != NotificationItem.Stage.NONE && (dismissed == null || !stage.name().equals(dismissed))) {
+            if (testStart > 0) {
+                maybeNotify(testEnd, now, "הטסט");
+            }
         }
     }
 

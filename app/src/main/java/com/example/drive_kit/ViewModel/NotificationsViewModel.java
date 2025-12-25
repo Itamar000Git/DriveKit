@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.drive_kit.Data.Repository.NotificationsRepository;
 import com.example.drive_kit.Model.Driver;
+import com.example.drive_kit.Model.NotificationItem;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -21,10 +22,19 @@ public class NotificationsViewModel extends ViewModel {
 
     private final NotificationsRepository repo = new NotificationsRepository();//object for access to the database
 
-    private final MutableLiveData<ArrayList<String>> noty = new MutableLiveData<>(new ArrayList<>()); //list for notifications
+    //private final MutableLiveData<ArrayList<String>> noty = new MutableLiveData<>(new ArrayList<>()); //list for notifications
+    private final MutableLiveData<ArrayList<NotificationItem>> noty =
+            new MutableLiveData<>(new ArrayList<>());
+    private final MutableLiveData<String> toastMessage = new MutableLiveData<>();
 
-    public LiveData<ArrayList<String>> getNoty() {
+    //    public LiveData<ArrayList<String>> getNoty() {
+//        return noty;
+//    }
+    public LiveData<ArrayList<NotificationItem>> getNoty() {
         return noty;
+    }
+    public LiveData<String> getToastMessage() {
+        return toastMessage;
     }
 
     /**
@@ -52,44 +62,147 @@ public class NotificationsViewModel extends ViewModel {
      * @param driver
      * @return
      */
-    private ArrayList<String> buildNotifications(Driver driver) {
-        ArrayList<String> list = new ArrayList<>();
+    private ArrayList<NotificationItem> buildNotifications(Driver driver) {
+        ArrayList<NotificationItem> list = new ArrayList<>();
         if (driver == null) return list;
 
-        long now = System.currentTimeMillis(); // get the current time in milliseconds
-        long oneYearMillis = TimeUnit.DAYS.toMillis(366); // calculate the number of milliseconds in a year
+        long now = System.currentTimeMillis();
+        long oneYearMillis = TimeUnit.DAYS.toMillis(366);
 
-
-        long insuranceStart = driver.getInsuranceDateMillis(); // get the insurance start date
+        // --- INSURANCE ---
+        long insuranceStart = driver.getInsuranceDateMillis();
         if (insuranceStart > 0) {
-            long insuranceEnd = insuranceStart + oneYearMillis; // calculate the insurance end date
-            addExpiringMessages(list, insuranceEnd, now, "הביטוח"); // add the messages to the list
+            long insuranceEnd = insuranceStart + oneYearMillis;
+
+            NotificationItem.Stage stage = calcStage(insuranceEnd, now);
+            String dismissed = driver.getDismissedInsuranceStage();
+
+            if (stage != NotificationItem.Stage.NONE &&
+                    (dismissed == null || !stage.name().equals(dismissed))) {
+
+                list.add(new NotificationItem(
+                        NotificationItem.Type.INSURANCE,
+                        stage,
+                        messageFor("הביטוח", stage)
+                ));
+            }
         }
 
-        long testStart = driver.getTestDateMillis(); // get the test start date
+        // --- TEST ---
+        long testStart = driver.getTestDateMillis();
         if (testStart > 0) {
-            long testEnd = testStart + oneYearMillis; // calculate the test end date
-            addExpiringMessages(list, testEnd, now, "הטסט"); // add the messages to the list
+            long testEnd = testStart + oneYearMillis;
+
+            NotificationItem.Stage stage = calcStage(testEnd, now);
+            String dismissed = driver.getDismissedTestStage(); // יכול להיות null
+
+            if (stage != NotificationItem.Stage.NONE &&
+                    (dismissed == null || !stage.name().equals(dismissed))) {
+
+                list.add(new NotificationItem(
+                        NotificationItem.Type.TEST,
+                        stage,
+                        messageFor("הטסט", stage)
+                ));
+            }
         }
 
-        return list; // return the list
+        return list;
     }
 
-    /**
-     * adds the messages to the list based on the given parameters and the current time
-     * @param list
-     * @param endMillis
-     * @param now
-     * @param label
-     */
-    private void addExpiringMessages(ArrayList<String> list, long endMillis, long now, String label) {
-        long diffMillis = endMillis - now;
-        long daysUntil = TimeUnit.MILLISECONDS.toDays(diffMillis);
 
-        if (daysUntil <= 28 && daysUntil > 14) list.add("בעוד פחות מ 28 ימים יפוג תוקף " + label + " שלך");
-        if (daysUntil <= 14 && daysUntil > 7) list.add("בעוד פחות מ 14 ימים יפוג תוקף " + label + " שלך");
-        if (daysUntil <= 7  && daysUntil > 1) list.add("בעוד פחות מ 7 ימים יפוג תוקף " + label + " שלך");
-        if (daysUntil == 1) list.add("בעוד יום אחד יפוג תוקף " + label + " שלך");
-        if (daysUntil < 0) list.add("פג תוקף " + label + " שלך, נא לחדש בהקדם");
+//    /**
+//     * adds the messages to the list based on the given parameters and the current time
+//     * @param list
+//     * @param endMillis
+//     * @param now
+//     * @param label
+//     */
+//    private void addExpiringMessages(ArrayList<String> list, long endMillis, long now, String label) {
+//        long diffMillis = endMillis - now;
+//        long daysUntil = TimeUnit.MILLISECONDS.toDays(diffMillis);
+//
+//        if (daysUntil <= 28 && daysUntil > 14) list.add("בעוד פחות מ 28 ימים יפוג תוקף " + label + " שלך");
+//        if (daysUntil <= 14 && daysUntil > 7) list.add("בעוד פחות מ 14 ימים יפוג תוקף " + label + " שלך");
+//        if (daysUntil <= 7  && daysUntil > 1) list.add("בעוד פחות מ 7 ימים יפוג תוקף " + label + " שלך");
+//        if (daysUntil == 1) list.add("בעוד יום אחד יפוג תוקף " + label + " שלך");
+//        if (daysUntil < 0) list.add("פג תוקף " + label + " שלך, נא לחדש בהקדם");
+//    }
+
+    private String messageFor(String label, NotificationItem.Stage stage) {
+        switch (stage) {
+            case D28: return "בעוד פחות מ 28 ימים יפוג תוקף " + label + " שלך";
+            case D14: return "בעוד פחות מ 14 ימים יפוג תוקף " + label + " שלך";
+            case D7:  return "בעוד פחות מ 7 ימים יפוג תוקף " + label + " שלך";
+            case D1:  return "בעוד יום אחד יפוג תוקף " + label + " שלך";
+            case EXPIRED: return "פג תוקף " + label + " שלך, נא לחדש בהקדם";
+            default: return "";
+        }
     }
+
+
+    public static NotificationItem.Stage calcStage(long endMillis, long now) {
+        long daysUntil = TimeUnit.MILLISECONDS.toDays(endMillis - now);
+
+        if (daysUntil <= 28 && daysUntil > 14) return NotificationItem.Stage.D28;
+        if (daysUntil <= 14 && daysUntil > 7)  return NotificationItem.Stage.D14;
+        if (daysUntil <= 7  && daysUntil > 1)  return NotificationItem.Stage.D7;
+        if (daysUntil == 1)                    return NotificationItem.Stage.D1;
+        if (daysUntil < 0)                     return NotificationItem.Stage.EXPIRED;
+
+        return NotificationItem.Stage.NONE;
+    }
+
+//
+//    public void deferNotification(String uid, NotificationItem item) {
+//        repo.saveDismissStage(
+//                uid,
+//                item.getType(),
+//                item.getStage(),
+//                new NotificationsRepository.SimpleCallback() {
+//                    @Override
+//                    public void onSuccess() {
+//                        ArrayList<NotificationItem> current = noty.getValue();
+//                        if (current == null) return;
+//
+//                        ArrayList<NotificationItem> updated = new ArrayList<>(current);
+//                        updated.remove(item);
+//
+//                        noty.postValue(updated);
+//                        toastMessage.postValue("ההתראה נדחתה לשלב הבא");
+//                        toastMessage.postValue(null);
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Exception e) {
+//                        toastMessage.postValue("שגיאה בדחיית ההתראה");
+//                        toastMessage.postValue(null);
+//
+//                    }
+//                }
+//        );
+//    }
+
+    public void deferNotification(String uid, NotificationItem item) {
+        repo.deferNotification(uid, item, new NotificationsRepository.SimpleCallback() {
+            @Override
+            public void onSuccess() {
+                ArrayList<NotificationItem> current = noty.getValue();
+                if (current == null) return;
+
+                ArrayList<NotificationItem> updated = new ArrayList<>(current);
+                updated.remove(item);
+                noty.postValue(updated);
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
+    }
+
+
+
 }

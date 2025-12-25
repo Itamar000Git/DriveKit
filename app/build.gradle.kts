@@ -49,7 +49,5 @@ dependencies {
     implementation("androidx.gridlayout:gridlayout:1.0.0")
     implementation(platform("com.google.firebase:firebase-bom:34.6.0"))
     implementation("androidx.work:work-runtime:2.9.0")
-    implementation("androidx.work:work-runtime:2.9.0")
     implementation("com.google.guava:guava:31.1-android")
-
 }

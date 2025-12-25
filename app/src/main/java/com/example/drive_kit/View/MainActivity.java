@@ -75,12 +75,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (android.os.Build.VERSION.SDK_INT >= 33) {
-            if (checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)
-                    != android.content.pm.PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, 1001);
-            }
-        }
+
+
 
 
         emailEditText = findViewById(R.id.emailEditText);
@@ -118,8 +114,6 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, SignUpActivity.class);
             startActivity(intent);
         });
-        // ✅ פה בדיוק לשים את זה לבדיקה חד־פעמית:
-        WorkManager.getInstance(getApplicationContext())
-                .enqueue(new OneTimeWorkRequest.Builder(NotyWorker.class).build());
+
     }
 }

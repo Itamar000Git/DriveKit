@@ -2,10 +2,18 @@ package com.example.drive_kit.View;
 import androidx.lifecycle.ViewModelProvider;
 
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.drive_kit.Model.NotificationItem;
 import com.example.drive_kit.R;
 import com.example.drive_kit.ViewModel.NotificationsViewModel;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,7 +29,9 @@ import java.util.ArrayList;
 public class NotificationsActivity extends AppCompatActivity {
 
     private LinearLayout notificationsContainer; // container for notifications
+    private NotificationsViewModel viewModel;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +39,7 @@ public class NotificationsActivity extends AppCompatActivity {
 
         notificationsContainer = findViewById(R.id.notificationsContainer);
         // Initialize the ViewModel
-        NotificationsViewModel viewModel = new ViewModelProvider(this).get(NotificationsViewModel.class);
+        viewModel = new ViewModelProvider(this).get(NotificationsViewModel.class);
 
         // Observe the LiveData and update the UI when the data changes with showNotifications()
         viewModel.getNoty().observe(this, this::showNotifications);
@@ -39,26 +49,75 @@ public class NotificationsActivity extends AppCompatActivity {
 
         viewModel.loadNoty(user.getUid()); // load the notifications for the current user
 
+        viewModel.getToastMessage().observe(this, msg -> {
+            if (msg != null) {
+                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
-    /**
-     * Shows the notifications in the UI.
-     * If the list is empty, it removes all views from the container.
-     * Otherwise, it creates a new TextView for each notification and adds it to the container.
-     * @param noty
-     */
-    private void showNotifications(ArrayList<String> noty) {
+//    /**
+//     * Shows the notifications in the UI.
+//     * If the list is empty, it removes all views from the container.
+//     * Otherwise, it creates a new TextView for each notification and adds it to the container.
+//     * @param noty
+//     */
+//    private void showNotifications(ArrayList<String> noty) {
+//        notificationsContainer.removeAllViews();
+//        if (noty == null || noty.isEmpty()) {
+//            return;
+//        }
+//        for (String msg : noty) {
+//            TextView tv = new TextView(this);
+//            tv.setText(msg);
+//            tv.setTextSize(16f);
+//            tv.setTextColor(0xFF001F3F);
+//            tv.setPadding(8, 8, 8, 16);
+//            notificationsContainer.addView(tv);
+//        }
+//    }
+
+    private void showNotifications(ArrayList<NotificationItem> noty) {
         notificationsContainer.removeAllViews();
+
         if (noty == null || noty.isEmpty()) {
             return;
         }
-        for (String msg : noty) {
-            TextView tv = new TextView(this);
-            tv.setText(msg);
-            tv.setTextSize(16f);
-            tv.setTextColor(0xFF001F3F);
-            tv.setPadding(8, 8, 8, 16);
-            notificationsContainer.addView(tv);
+
+        LayoutInflater inflater = LayoutInflater.from(this);
+
+        for (NotificationItem item : noty) {
+            // מנפחים את ה-XML של ההתראה
+            View itemView = inflater.inflate(
+                    R.layout.item_notification,
+                    notificationsContainer,
+                    false
+            );
+
+            // מוצאים רכיבים פנימיים
+            TextView tv = itemView.findViewById(R.id.notificationText);
+            Button btnDefer = itemView.findViewById(R.id.btnDefer);
+            Button btnDone = itemView.findViewById(R.id.btnDone);
+            viewModel = new ViewModelProvider(this).get(NotificationsViewModel.class);
+
+            // קובעים טקסט
+            tv.setText(item.getMessage());
+
+            btnDefer.setOnClickListener(v -> {
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if (user == null) return;
+                Toast.makeText(this, "ההתראה נדחתה", Toast.LENGTH_SHORT).show();
+                viewModel.deferNotification(user.getUid(), item);
+            });
+
+            // לחיצה על "בוצע" – כרגע רק Toast
+            btnDone.setOnClickListener(v -> {
+                Toast.makeText(this, "המשימה בוצעה בהצלחה", Toast.LENGTH_SHORT).show();
+            });
+
+            // מוסיפים למסך
+            notificationsContainer.addView(itemView);
         }
     }
 

@@ -1,7 +1,11 @@
 package com.example.drive_kit.Data.Repository;
 
 import com.example.drive_kit.Model.Driver;
+import com.example.drive_kit.Model.NotificationItem;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Repository for accessing the database.
@@ -17,6 +21,11 @@ public class NotificationsRepository {
         void onSuccess(Driver driver);
         void onError(Exception e);
     }
+    public interface SimpleCallback {
+        void onSuccess();
+        void onError(Exception e);
+    }
+
 
     /**
      * Gets the driver from the database.
@@ -31,6 +40,30 @@ public class NotificationsRepository {
                 .document(uid)
                 .get()
                 .addOnSuccessListener(doc -> cb.onSuccess(doc.toObject(Driver.class)))
+                .addOnFailureListener(cb::onError);
+    }
+
+
+
+    public void deferNotification(String uid,NotificationItem item, SimpleCallback cb) {
+        if (uid == null || item == null) {
+            cb.onError(new IllegalArgumentException("uid or item is null"));
+            return;
+        }
+        String fieldName;
+        if (item.getType() == NotificationItem.Type.INSURANCE) {
+            fieldName = "dismissedInsuranceStage";
+        } else {
+            fieldName = "dismissedTestStage";
+        }
+
+        Map<String, Object> update = new HashMap<>();
+        update.put(fieldName, item.getStage().name());
+        FirebaseFirestore.getInstance()
+                .collection("drivers")
+                .document(uid)
+                .update(update)
+                .addOnSuccessListener(v -> cb.onSuccess())
                 .addOnFailureListener(cb::onError);
     }
 }
