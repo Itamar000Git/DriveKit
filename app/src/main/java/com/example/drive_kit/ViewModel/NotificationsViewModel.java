@@ -21,15 +21,11 @@ import java.util.concurrent.TimeUnit;
 public class NotificationsViewModel extends ViewModel {
 
     private final NotificationsRepository repo = new NotificationsRepository();//object for access to the database
-
-    //private final MutableLiveData<ArrayList<String>> noty = new MutableLiveData<>(new ArrayList<>()); //list for notifications
     private final MutableLiveData<ArrayList<NotificationItem>> noty =
             new MutableLiveData<>(new ArrayList<>());
     private final MutableLiveData<String> toastMessage = new MutableLiveData<>();
 
-    //    public LiveData<ArrayList<String>> getNoty() {
-//        return noty;
-//    }
+
     public LiveData<ArrayList<NotificationItem>> getNoty() {
         return noty;
     }
@@ -111,24 +107,6 @@ public class NotificationsViewModel extends ViewModel {
     }
 
 
-//    /**
-//     * adds the messages to the list based on the given parameters and the current time
-//     * @param list
-//     * @param endMillis
-//     * @param now
-//     * @param label
-//     */
-//    private void addExpiringMessages(ArrayList<String> list, long endMillis, long now, String label) {
-//        long diffMillis = endMillis - now;
-//        long daysUntil = TimeUnit.MILLISECONDS.toDays(diffMillis);
-//
-//        if (daysUntil <= 28 && daysUntil > 14) list.add("בעוד פחות מ 28 ימים יפוג תוקף " + label + " שלך");
-//        if (daysUntil <= 14 && daysUntil > 7) list.add("בעוד פחות מ 14 ימים יפוג תוקף " + label + " שלך");
-//        if (daysUntil <= 7  && daysUntil > 1) list.add("בעוד פחות מ 7 ימים יפוג תוקף " + label + " שלך");
-//        if (daysUntil == 1) list.add("בעוד יום אחד יפוג תוקף " + label + " שלך");
-//        if (daysUntil < 0) list.add("פג תוקף " + label + " שלך, נא לחדש בהקדם");
-//    }
-
     private String messageFor(String label, NotificationItem.Stage stage) {
         switch (stage) {
             case D28: return "בעוד פחות מ 28 ימים יפוג תוקף " + label + " שלך";
@@ -153,37 +131,6 @@ public class NotificationsViewModel extends ViewModel {
         return NotificationItem.Stage.NONE;
     }
 
-//
-//    public void deferNotification(String uid, NotificationItem item) {
-//        repo.saveDismissStage(
-//                uid,
-//                item.getType(),
-//                item.getStage(),
-//                new NotificationsRepository.SimpleCallback() {
-//                    @Override
-//                    public void onSuccess() {
-//                        ArrayList<NotificationItem> current = noty.getValue();
-//                        if (current == null) return;
-//
-//                        ArrayList<NotificationItem> updated = new ArrayList<>(current);
-//                        updated.remove(item);
-//
-//                        noty.postValue(updated);
-//                        toastMessage.postValue("ההתראה נדחתה לשלב הבא");
-//                        toastMessage.postValue(null);
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Exception e) {
-//                        toastMessage.postValue("שגיאה בדחיית ההתראה");
-//                        toastMessage.postValue(null);
-//
-//                    }
-//                }
-//        );
-//    }
-
     public void deferNotification(String uid, NotificationItem item) {
         repo.deferNotification(uid, item, new NotificationsRepository.SimpleCallback() {
             @Override
@@ -202,6 +149,26 @@ public class NotificationsViewModel extends ViewModel {
             }
         });
     }
+
+    public void doneNotification(String uid, NotificationItem item, long newDateMillis) {
+        repo.updateServiceDate(uid, item.getType(), newDateMillis, new NotificationsRepository.SimpleCallback() {
+            @Override
+            public void onSuccess() {
+                toastMessage.postValue("עודכן בהצלחה");
+
+                loadNoty(uid);
+
+                toastMessage.postValue(null);
+            }
+
+            @Override
+            public void onError(Exception e) {
+                toastMessage.postValue("שגיאה בעדכון התאריך");
+                toastMessage.postValue(null);
+            }
+        });
+    }
+
 
 
 
