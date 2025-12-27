@@ -14,11 +14,14 @@ public class SignUpViewModel extends ViewModel {
     private final MutableLiveData<String> insuranceDateError = new MutableLiveData<>(null);
     private final MutableLiveData<String> testDateError = new MutableLiveData<>(null);
 
+    /**
+     * sets the selected insurance date in millis and clears the error message
+     * @param millis
+     */
     public void setSelectedInsuranceDateMillis(long millis) {
         selectedInsuranceDateMillis = millis;
         insuranceDateError.setValue(null);
     }
-
     public void setSelectedTestDateMillis(long millis) {
         selectedTestDateMillis = millis;
         testDateError.setValue(null);
@@ -41,6 +44,11 @@ public class SignUpViewModel extends ViewModel {
     }
 
 
+    /**
+     * checks if the selected dates are valid and sets the error messages accordingly
+     * and returns true if they are valid
+     * @return
+     */
     public boolean validateDates() {
         boolean ok = true;
 

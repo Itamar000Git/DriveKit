@@ -24,8 +24,6 @@ public class NotificationsViewModel extends ViewModel {
     private final MutableLiveData<ArrayList<NotificationItem>> noty =
             new MutableLiveData<>(new ArrayList<>());
     private final MutableLiveData<String> toastMessage = new MutableLiveData<>();
-
-
     public LiveData<ArrayList<NotificationItem>> getNoty() {
         return noty;
     }
@@ -107,6 +105,13 @@ public class NotificationsViewModel extends ViewModel {
     }
 
 
+    /**
+     * builds the message for the given notification item
+     * based on the given label and stage
+     * @param label
+     * @param stage
+     * @return
+     */
     private String messageFor(String label, NotificationItem.Stage stage) {
         switch (stage) {
             case D28: return "בעוד פחות מ 28 ימים יפוג תוקף " + label + " שלך";
@@ -119,6 +124,13 @@ public class NotificationsViewModel extends ViewModel {
     }
 
 
+    /**
+     * calculates the stage of the given notification item based on the given end date and now
+     * and returns the corresponding stage
+     * @param endMillis
+     * @param now
+     * @return
+     */
     public static NotificationItem.Stage calcStage(long endMillis, long now) {
         long daysUntil = TimeUnit.MILLISECONDS.toDays(endMillis - now);
 
@@ -131,6 +143,12 @@ public class NotificationsViewModel extends ViewModel {
         return NotificationItem.Stage.NONE;
     }
 
+    /**
+     * defers the given notification item for the given user
+     * and removes it from the list of notifications
+     * @param uid
+     * @param item
+     */
     public void deferNotification(String uid, NotificationItem item) {
         repo.deferNotification(uid, item, new NotificationsRepository.SimpleCallback() {
             @Override
@@ -150,17 +168,21 @@ public class NotificationsViewModel extends ViewModel {
         });
     }
 
+    /**
+     * updates the service date for the given notification item for the given user
+     * and updates the list of notifications
+     * @param uid
+     * @param item
+     * @param newDateMillis
+     */
     public void doneNotification(String uid, NotificationItem item, long newDateMillis) {
         repo.updateServiceDate(uid, item.getType(), newDateMillis, new NotificationsRepository.SimpleCallback() {
             @Override
             public void onSuccess() {
                 toastMessage.postValue("עודכן בהצלחה");
-
                 loadNoty(uid);
-
                 toastMessage.postValue(null);
             }
-
             @Override
             public void onError(Exception e) {
                 toastMessage.postValue("שגיאה בעדכון התאריך");

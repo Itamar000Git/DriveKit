@@ -141,7 +141,6 @@ import com.example.drive_kit.R;
 import com.example.drive_kit.ViewModel.SignUpViewModel;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.TextInputEditText;
-/// //////////////////////////////////////////////////////////////
 public class SignUpActivity extends AppCompatActivity {
 
     private Button next;
@@ -152,7 +151,6 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText carNumberEditText;
     private TextInputEditText insuranceDateEditText;
     private TextInputEditText testDateEditText;
-
     private SignUpViewModel viewModel;
 
     @Override
@@ -179,7 +177,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         viewModel = new ViewModelProvider(this).get(SignUpViewModel.class);
 
-        // מאזינים לשגיאות מה-ViewModel ומציגים ב-UI
+        // Observe the LiveData and update the UI when the dates are invalid
         viewModel.getInsuranceDateError().observe(this, err -> {
             if (err != null) insuranceDateEditText.setError(err);
         });
@@ -187,19 +185,16 @@ public class SignUpActivity extends AppCompatActivity {
         viewModel.getTestDateError().observe(this, err -> {
             if (err != null) testDateEditText.setError(err);
         });
-
-        // DatePicker נשאר ב-View
+        // Set the click listener for the insurance date edit text
         insuranceDateEditText.setOnClickListener(v -> openDatePickerInsurance());
         testDateEditText.setOnClickListener(v -> openDatePickerTest());
 
         next.setOnClickListener(v -> {
 
-            // ולידציה דרך ViewModel (במקום if-ים ב-Activity)
             if (!viewModel.validateDates()) {
                 return;
             }
-
-            // extract text fields (נשאר ב-View)
+            // extract text fields
             String firstName = firstNameEditText.getText().toString().trim();
             String lastName = lastNameEditText.getText().toString().trim();
             String email = emailEditText.getText().toString().trim();

@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
-import com.example.drive_kit.Data.Notification.NotificationHelper;
+import com.example.drive_kit.Data.Notification_forAndroid.NotificationHelper;
 import com.example.drive_kit.Model.Driver;
 import com.example.drive_kit.Model.NotificationItem;
 import com.example.drive_kit.ViewModel.NotificationsViewModel;
@@ -17,12 +17,26 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Worker for scheduling the daily notification.
+ * It uses the NotificationHelper class to show notifications.
+ */
 public class NotyWorker extends Worker {
 
+    /**
+     * Constructor for the worker.
+     * @param context
+     * @param params
+     */
     public NotyWorker(@NonNull Context context, @NonNull WorkerParameters params) {
         super(context, params);
     }
 
+    /**
+     * Does the work.
+     * It uses the NotificationHelper class to show notifications.
+     * @return
+     */
     @NonNull
     @Override
     public Result doWork() {
@@ -34,6 +48,7 @@ public class NotyWorker extends Worker {
 
             String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+            //getting the driver object from the database
             DocumentSnapshot doc = Tasks.await(
                     FirebaseFirestore.getInstance()
                             .collection("drivers")
@@ -41,9 +56,11 @@ public class NotyWorker extends Worker {
                             .get()
             );
 
+            //if the driver object is null, it returns success
             Driver driver = doc.toObject(Driver.class);
             if (driver == null) return Result.success();
 
+            //building the notification list and showing it
             buildAndNotify(driver);
 
             return Result.success();
@@ -52,15 +69,20 @@ public class NotyWorker extends Worker {
         }
     }
 
+    /**
+     * Builds the notification list and shows it.
+     * It uses the NotificationHelper class to show notifications.
+     * @param driver
+     */
     private void buildAndNotify(Driver driver) {
         long now = System.currentTimeMillis();
         long oneYearMillis = TimeUnit.DAYS.toMillis(366);
 
         long insuranceStart = driver.getInsuranceDateMillis();
         long insuranceEnd = insuranceStart + oneYearMillis;
+
         NotificationItem.Stage stage = NotificationsViewModel.calcStage(insuranceEnd, now);
         String dismissed = driver.getDismissedInsuranceStage();
-
 
         if (stage != NotificationItem.Stage.NONE && (dismissed == null || !stage.name().equals(dismissed))) {
             if (insuranceStart > 0) {
@@ -71,7 +93,7 @@ public class NotyWorker extends Worker {
         long testStart = driver.getTestDateMillis();
         long testEnd = testStart + oneYearMillis;
 
-        stage = NotificationsViewModel.calcStage(insuranceEnd, now);
+        stage = NotificationsViewModel.calcStage(testEnd, now);
         dismissed = driver.getDismissedTestStage();
 
         if (stage != NotificationItem.Stage.NONE && (dismissed == null || !stage.name().equals(dismissed))) {
@@ -81,6 +103,16 @@ public class NotyWorker extends Worker {
         }
     }
 
+    /**
+     * Maybe shows a notification.
+     * It uses the NotificationHelper class to show notifications.
+     * If the driver object is null, it returns.
+     * If the driver object is not null, it checks if the notification should be shown.
+     * If the notification should be shown, it shows it.
+     * @param endMillis
+     * @param now
+     * @param label
+     */
     private void maybeNotify(long endMillis, long now, String label) {
         long daysUntil = TimeUnit.MILLISECONDS.toDays(endMillis - now);
 

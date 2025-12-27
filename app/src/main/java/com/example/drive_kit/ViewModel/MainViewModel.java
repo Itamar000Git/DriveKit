@@ -8,6 +8,10 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.drive_kit.Data.Repository.NotificationSchedulerRepository;
 
+/**
+ * ViewModel for the MainActivity.
+ * It observes the LiveData in the ViewModel and updates the UI accordingly.
+ */
 public class MainViewModel extends ViewModel {
 
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>(null);

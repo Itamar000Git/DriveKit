@@ -54,14 +54,16 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.work.OneTimeWorkRequest;
-import androidx.work.WorkManager;
 /// ////////////////////////////////////////////////////////////////
-import com.example.drive_kit.Data.Notification.NotificationHelper;
-import com.example.drive_kit.Data.Workers.NotyWorker;
 import com.example.drive_kit.R;
 import com.example.drive_kit.ViewModel.MainViewModel;
 
+/**
+ * Activity for logging in.
+ * It observes the LiveData in the ViewModel and updates the UI accordingly.
+ * If the login is successful, it starts the HomeActivity.
+ * If the login fails, it starts the MainActivity.
+ */
 public class MainActivity extends AppCompatActivity {
 
     private EditText emailEditText;

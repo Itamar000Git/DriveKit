@@ -16,6 +16,11 @@ public class ProfileViewModel extends ViewModel {
     public LiveData<Driver> getDriver() { return driver; }
     public LiveData<String> getErrorMessage() { return errorMessage; }
 
+    /**
+     * loads the profile for the given user and updates the UI accordingly
+     * if the user is not logged in, it shows an error message
+     * @param uid
+     */
     public void loadProfile(String uid) {
         repo.getDriver(uid, new ProfileRepository.DriverCallback() {
             @Override

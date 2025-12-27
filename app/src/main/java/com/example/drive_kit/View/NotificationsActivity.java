@@ -57,6 +57,12 @@ public class NotificationsActivity extends AppCompatActivity {
         });
 
     }
+
+    /**
+     * Shows the notifications in the UI.
+     * If the list is empty, it removes all views from the container.
+     * @param noty
+     */
     private void showNotifications(ArrayList<NotificationItem> noty) {
         notificationsContainer.removeAllViews();
 
@@ -99,6 +105,12 @@ public class NotificationsActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Opens the date picker for the done button.
+     * It uses the MaterialDatePicker class to show the date picker.
+     * @param item
+     * @param uid
+     */
     private void openDoneDatePicker(NotificationItem item, String uid) {
         String title = (item.getType() == NotificationItem.Type.INSURANCE)
                 ? "בחר תאריך ביטוח חדש"

@@ -44,7 +44,13 @@ public class NotificationsRepository {
     }
 
 
-
+    /**
+     * Defer the notification.
+     * It uses the FirebaseFirestore class to access the database.
+     * @param uid
+     * @param item
+     * @param cb
+     */
     public void deferNotification(String uid,NotificationItem item, SimpleCallback cb) {
         if (uid == null || item == null) {
             cb.onError(new IllegalArgumentException("uid or item is null"));
@@ -68,7 +74,14 @@ public class NotificationsRepository {
     }
 
 
-
+    /**
+     * Updates the service date.
+     * It uses the FirebaseFirestore class to access the database.
+     * @param uid
+     * @param type
+     * @param newDateMillis
+     * @param cb
+     */
     public void updateServiceDate(String uid,NotificationItem.Type type,long newDateMillis,SimpleCallback cb) {
 
         if (uid == null || uid.trim().isEmpty()) {

@@ -23,9 +23,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView carNumberValue;
     private TextView insuranceDateValue;
     private TextView testDateValue;
-
     private Button editProfileButton;
-
     private ProfileViewModel viewModel;
 
     @Override
