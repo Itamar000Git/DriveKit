@@ -204,7 +204,31 @@
                     android:textColor="#E0E0E0"
                     android:textColorHint="#B0BEC5" />
             </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/testDateLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:boxBackgroundColor="#99FFFFFF"
+                app:boxStrokeColor="#8BC34A"
+                app:hintTextColor="#B0BEC5"
+                app:layout_constraintTop_toBottomOf="@id/insuranceDateLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
 
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/testDateEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="תאריך טסט"
+                    android:focusable="false"
+                    android:clickable="true"
+                    android:textColor="#E0E0E0"
+                    android:textColorHint="#B0BEC5" />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/service10kDateLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -222,11 +246,24 @@
                     android:id="@+id/service10kDateEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="תאריך טיפול 10,000"
+                    android:hint=" תאריך טיפול 10,000 אחרון"
                     android:focusable="false"
                     android:clickable="true"
                     android:textColor="#E0E0E0"
-                    android:textColorHint="#B0BEC5" />
+                    android:textColorHint="#B0BEC5"
+                    />
+                <TextView
+                    android:id="@+id/notremember"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="לא זוכר? בחר מהאפשרויות הבאות"
+                    android:textColor="#E0E0E0"
+                    android:textSize="20sp"
+                    android:gravity="end"
+                    app:layout_constraintTop_toBottomOf="@id/service10kDateLayout"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
@@ -275,29 +312,7 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/testDateLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                app:boxBackgroundColor="#99FFFFFF"
-                app:boxStrokeColor="#8BC34A"
-                app:hintTextColor="#B0BEC5"
-                app:layout_constraintTop_toBottomOf="@id/insuranceDateLayout"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/testDateEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="תאריך טסט"
-                    android:focusable="false"
-                    android:clickable="true"
-                    android:textColor="#E0E0E0"
-                    android:textColorHint="#B0BEC5" />
-            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/next"
@@ -311,10 +326,12 @@
                 android:text="הבא"
                 android:textColor="#000000"
                 android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@id/service10kDateLayout"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/service10kRangeButtonsRow"
+                app:layout_constraintVertical_bias="1.0" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
