@@ -39,7 +39,7 @@ public class NotificationsActivity extends AppCompatActivity {
         setContentView(R.layout.notifications);
 
         notificationsContainer = findViewById(R.id.notificationsContainer);
-        // Initialize the ViewModel
+        //Initialize the ViewModel
         viewModel = new ViewModelProvider(this).get(NotificationsViewModel.class);
 
         // Observe the LiveData and update the UI when the data changes with showNotifications()

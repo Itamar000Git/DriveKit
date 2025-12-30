@@ -40,9 +40,10 @@ public class SetUsernamePasswordActivity extends AppCompatActivity {
         String carNumber = intent.getStringExtra("carNumber");
         long insuranceDateMillis = intent.getLongExtra("insuranceDateMillis", -1);
         long testDateMillis = intent.getLongExtra("testDateMillis", -1);
+        long treatmentDateMillis = intent.getLongExtra("treatmentDateMillis", -1);
 
         // Validate the received data
-        if (insuranceDateMillis == -1 || testDateMillis == -1) {
+        if (insuranceDateMillis == -1 || testDateMillis == -1|| treatmentDateMillis==-1) {
             Log.e("SetUsernamePassword", "Dates not received");
             Toast.makeText(this, "שגיאה בטעינת נתונים", Toast.LENGTH_SHORT).show();
         }
@@ -55,7 +56,8 @@ public class SetUsernamePasswordActivity extends AppCompatActivity {
                 phone,
                 carNumber,
                 insuranceDateMillis,
-                testDateMillis
+                testDateMillis,
+                treatmentDateMillis
         );
 
         // Initialize the edit text and button

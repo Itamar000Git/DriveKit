@@ -135,10 +135,10 @@ public class NotificationsViewModel extends ViewModel {
         long daysUntil = TimeUnit.MILLISECONDS.toDays(endMillis - now);
 
         if (daysUntil <= 28 && daysUntil > 14) return NotificationItem.Stage.D28;
-        if (daysUntil <= 14 && daysUntil > 7)  return NotificationItem.Stage.D14;
-        if (daysUntil <= 7  && daysUntil > 1)  return NotificationItem.Stage.D7;
-        if (daysUntil == 1)                    return NotificationItem.Stage.D1;
-        if (daysUntil < 0)                     return NotificationItem.Stage.EXPIRED;
+        if (daysUntil <= 14 && daysUntil > 7) return NotificationItem.Stage.D14;
+        if (daysUntil <= 7  && daysUntil > 1) return NotificationItem.Stage.D7;
+        if (daysUntil == 1) return NotificationItem.Stage.D1;
+        if (daysUntil < 0) return NotificationItem.Stage.EXPIRED;
 
         return NotificationItem.Stage.NONE;
     }

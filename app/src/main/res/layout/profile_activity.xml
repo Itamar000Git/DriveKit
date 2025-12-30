@@ -188,10 +188,32 @@
                     android:textSize="14sp"
                     android:textColor="#757575"
                     android:gravity="start"
-                    android:textAlignment="viewStart"/>
+                    android:textAlignment="viewStart"
+                    />
 
                 <TextView
                     android:id="@+id/testDateValue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="-"
+                    android:textColor="#001F3F"
+                    android:textSize="18sp"
+                    android:textStyle="normal"
+                    android:gravity="start"
+                    android:textAlignment="viewStart"
+                    android:layout_marginBottom="16dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="  תאריך טיפול 10K אחרון"
+                    android:textSize="14sp"
+                    android:textColor="#757575"
+                    android:gravity="start"
+                    android:textAlignment="viewStart"/>
+
+                <TextView
+                    android:id="@+id/treatmentDateValue"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="-"

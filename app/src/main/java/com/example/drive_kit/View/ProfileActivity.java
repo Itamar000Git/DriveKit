@@ -23,6 +23,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView carNumberValue;
     private TextView insuranceDateValue;
     private TextView testDateValue;
+    private TextView treatmentDateValue;
     private Button editProfileButton;
     private ProfileViewModel viewModel;
 
@@ -38,7 +39,7 @@ public class ProfileActivity extends AppCompatActivity {
         carNumberValue = findViewById(R.id.carNumberValue);
         insuranceDateValue = findViewById(R.id.insuranceDateValue);
         testDateValue = findViewById(R.id.testDateValue);
-
+        treatmentDateValue = findViewById(R.id.treatmentDateValue);
         editProfileButton = findViewById(R.id.editProfileButton);
 
         viewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
@@ -53,6 +54,7 @@ public class ProfileActivity extends AppCompatActivity {
 
             insuranceDateValue.setText(safe(d.getFormattedInsuranceDate()));
             testDateValue.setText(safe(d.getFormattedTestDate()));
+            treatmentDateValue.setText(safe(d.getFormattedTreatDate()));
         });
 
         viewModel.getErrorMessage().observe(this, msg -> {

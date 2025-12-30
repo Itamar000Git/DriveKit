@@ -8,12 +8,11 @@ public class SignUpViewModel extends ViewModel {
 
     private long selectedInsuranceDateMillis = -1;
     private long selectedTestDateMillis = -1;
-
-
+    private long selectedTreatDateMillis= -1;
     //will tell us if there an error
     private final MutableLiveData<String> insuranceDateError = new MutableLiveData<>(null);
     private final MutableLiveData<String> testDateError = new MutableLiveData<>(null);
-
+    private final MutableLiveData<String> treatmentDateError= new MutableLiveData<>(null);
     /**
      * sets the selected insurance date in millis and clears the error message
      * @param millis
@@ -26,6 +25,10 @@ public class SignUpViewModel extends ViewModel {
         selectedTestDateMillis = millis;
         testDateError.setValue(null);
     }
+    public void setSelectedTreatDateMillis(long millis) {
+        selectedTreatDateMillis = millis;
+        treatmentDateError.setValue(null);
+    }
 
     public long getSelectedInsuranceDateMillis() {
         return selectedInsuranceDateMillis;
@@ -34,15 +37,15 @@ public class SignUpViewModel extends ViewModel {
     public long getSelectedTestDateMillis() {
         return selectedTestDateMillis;
     }
-
+    public long getSelectedTreatDateMillis() {
+        return selectedTreatDateMillis;
+    }
     public LiveData<String> getInsuranceDateError() {
         return insuranceDateError;
     }
 
-    public LiveData<String> getTestDateError() {
-        return testDateError;
-    }
-
+    public LiveData<String> getTestDateError() { return testDateError; }
+    public LiveData<String> getTreatDateError() { return treatmentDateError; }
 
     /**
      * checks if the selected dates are valid and sets the error messages accordingly
@@ -59,6 +62,10 @@ public class SignUpViewModel extends ViewModel {
 
         if (selectedTestDateMillis == -1) {
             testDateError.setValue("בחר תאריך טסט");
+            ok = false;
+        }
+        if (selectedTreatDateMillis== -1){
+            treatmentDateError.setValue("בחר תאריך טיפול 10K");
             ok = false;
         }
 

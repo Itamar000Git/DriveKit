@@ -16,10 +16,11 @@ public class Driver {
     private String carNumber;
     private long insuranceDateMillis; // in millis
     private long testDateMillis;
+    private long treatmentDateMillis;
     private ArrayList<Car> cars = new ArrayList<>();
     private String dismissedInsuranceStage;
     private String dismissedTestStage;
-
+    private String dismissedTreatStage;
 
     // Empty constructor for Firebase
     public Driver() {
@@ -31,7 +32,8 @@ public class Driver {
                   String phone,
                   String carNumber,
                   long insuranceDateMillis,
-                  long testDate) {
+                  long testDate,
+                  long treatDate) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -39,6 +41,7 @@ public class Driver {
         this.carNumber = carNumber;
         this.insuranceDateMillis = insuranceDateMillis;
         this.testDateMillis = testDate;
+        this.treatmentDateMillis= treatDate;
     }
 
     // Getters and setters
@@ -84,7 +87,6 @@ public class Driver {
     public long getInsuranceDateMillis() {
         return insuranceDateMillis;
     }
-
     public void setInsuranceDateMillis(long insuranceDateMillis) {
         this.insuranceDateMillis = insuranceDateMillis;
     }
@@ -94,6 +96,12 @@ public class Driver {
 
     public void setTestDateMillis(long testDateMillis) {
         this.testDateMillis = testDateMillis;
+    }
+    public long getTreatDateMillis() {
+        return treatmentDateMillis;
+    }
+    public void setTreatDateMillis(long treatDateMillis) {
+        this.treatmentDateMillis = treatDateMillis;
     }
     public ArrayList<Car> getCars() {
         return cars;
@@ -115,6 +123,12 @@ public class Driver {
     }
     public void setDismissedTestStage(String dismissedTestStage) {
         this.dismissedTestStage = dismissedTestStage;
+    }
+    public String getDismissedTreatStage() {
+        return dismissedTreatStage;
+    }
+    public void setDismissedTreatStage(String dismissedTreatStage) {
+        this.dismissedTreatStage = dismissedTreatStage;
     }
 
     // Returns the formatted insurance date
@@ -145,6 +159,25 @@ public class Driver {
         LocalDate date = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             date = Instant.ofEpochMilli(testDateMillis)
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate();
+        }
+        DateTimeFormatter formatter = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            return date.format(formatter);
+        }
+        return "";
+    }
+    public String getFormattedTreatDate() {
+        if (treatmentDateMillis <= 0) {
+            return "";
+        }
+        LocalDate date = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            date = Instant.ofEpochMilli(treatmentDateMillis)
                     .atZone(ZoneId.systemDefault())
                     .toLocalDate();
         }
@@ -201,6 +234,7 @@ public class Driver {
                 ", carNumber='" + carNumber + '\'' +
                 ", insuranceDate='" + getFormattedInsuranceDate() + '\'' +
                 ", testDate='" +  getFormattedTestDate() + '\'' +
+                ", treatmentDate='"+ getFormattedTreatDate()+ '\'' +
                 '}';
     }
 
