@@ -20,6 +20,7 @@ public class SetUsernamePasswordViewModel extends ViewModel {
     private final MutableLiveData<Boolean> signUpSuccess = new MutableLiveData<>(); //for registration success
     private final MutableLiveData<String> signUpError = new MutableLiveData<>(); //for registration error
 
+
     public LiveData<Boolean> getSignUpSuccess() {
         return signUpSuccess;
     }
@@ -48,6 +49,9 @@ public class SetUsernamePasswordViewModel extends ViewModel {
             signUpError.postValue("הסיסמאות אינן תואמות");
             return;
         }
+
+
+
         // using the signUp method from the SetUsernamePasswordRepository to register the user
         repo.register(email, password, driver, new SetUsernamePasswordRepository.SignUpCallback() {
             @Override

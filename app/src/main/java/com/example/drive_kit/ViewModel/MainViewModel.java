@@ -10,23 +10,62 @@ import com.example.drive_kit.Data.Repository.NotificationSchedulerRepository;
 
 /**
  * ViewModel for the MainActivity.
- * It observes the LiveData in the ViewModel and updates the UI accordingly.
+ * This class holds UI-related logic and data.
+ * It does NOT know about Views, Buttons, or Activities directly.
  */
 public class MainViewModel extends ViewModel {
-
+    // LiveData that holds an error message for the UI.
+    // The Activity observes this value and shows a Toast when it changes.
+    // Initial value is null, which means "no error".
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>(null);
-    ///
+
+    // Repository responsible for scheduling notification background work.
+    // This ViewModel delegates notification scheduling to this repository.
+    /////////////////////
     private final NotificationSchedulerRepository schedulerRepo =
             new NotificationSchedulerRepository();
-
+    /**
+     * Starts daily background notifications.
+     *
+     * This method is usually called after a successful login.
+     * It uses the application context (not Activity context!)
+     * to register a WorkManager task that runs once per day.
+     *
+     * @param appContext Application context used by WorkManager
+     */
     public void startNotifications(Context appContext) {
         schedulerRepo.scheduleDaily(appContext);
     }
-
+    /**
+     * Exposes the error message LiveData to the UI.
+     *
+     * The Activity observes this LiveData.
+     * Whenever the value changes, the observer in the Activity is triggered.
+     *
+     * @return LiveData containing the current error message (or null if no error)
+     */
     public LiveData<String> getErrorMessage() {
         return errorMessage;
     }
-
+    /**
+     * Validates the login input fields.
+     *
+     * This method checks that both email and password:
+     * - Are not null
+     * - Are not empty after trimming spaces
+     *
+     * If validation fails:
+     * - An error message is published via LiveData
+     * - The method returns false
+     *
+     * If validation succeeds:
+     * - The error message is cleared (set to null)
+     * - The method returns true
+     *
+     * @param email    User input email
+     * @param password User input password
+     * @return true if inputs are valid, false otherwise
+     */
     public boolean validateLoginInputs(String email, String password) {
         if (email == null || email.trim().isEmpty() ||
                 password == null || password.trim().isEmpty()) {
