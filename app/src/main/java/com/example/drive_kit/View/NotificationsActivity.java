@@ -29,17 +29,20 @@ import java.util.ArrayList;
  */
 public class NotificationsActivity extends AppCompatActivity {
 
-    private LinearLayout notificationsContainer; // container for notifications
+    private LinearLayout notificationsContainer;
     private NotificationsViewModel viewModel;
 
-    @SuppressLint("MissingInflatedId")
+
+    @SuppressLint("MissingInflatedId")/// ///
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.notifications);
 
         notificationsContainer = findViewById(R.id.notificationsContainer);
         //Initialize the ViewModel
+
         viewModel = new ViewModelProvider(this).get(NotificationsViewModel.class);
 
         // Observe the LiveData and update the UI when the data changes with showNotifications()
@@ -47,6 +50,7 @@ public class NotificationsActivity extends AppCompatActivity {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); // get the current user
         if (user == null) return;
+
 
         viewModel.loadNoty(user.getUid()); // load the notifications for the current user
 
@@ -80,8 +84,10 @@ public class NotificationsActivity extends AppCompatActivity {
             );
 
             TextView tv = itemView.findViewById(R.id.notificationText);
+
             Button btnDefer = itemView.findViewById(R.id.btnDefer);
             Button btnDone = itemView.findViewById(R.id.btnDone);
+
             viewModel = new ViewModelProvider(this).get(NotificationsViewModel.class);
 
             tv.setText(item.getMessage());
@@ -92,6 +98,7 @@ public class NotificationsActivity extends AppCompatActivity {
                 Toast.makeText(this, "ההתראה נדחתה", Toast.LENGTH_SHORT).show();
                 viewModel.deferNotification(user.getUid(), item);
             });
+
 
             btnDone.setOnClickListener(v -> {
                 Toast.makeText(this, "המשימה בוצעה בהצלחה", Toast.LENGTH_SHORT).show();
