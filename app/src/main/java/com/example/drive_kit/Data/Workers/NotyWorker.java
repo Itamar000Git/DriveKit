@@ -101,6 +101,7 @@ public class NotyWorker extends Worker {
                 maybeNotify(testEnd, now, "הטסט");
             }
         }
+
     }
 
     /**
