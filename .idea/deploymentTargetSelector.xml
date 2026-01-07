@@ -2,12 +2,12 @@
 <project version="4">
   <component name="deploymentTargetSelector">
     <selectionStates>
-      <SelectionState runConfigName="app">
+      <SelectionState runConfigName="DriveKit">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-12-30T17:46:13.684223Z">
+        <DropdownSelection timestamp="2026-01-07T07:48:01.725373500Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="PhysicalDevice" identifier="serial=RF8NA07GQKE" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\97258\.android\avd\Pixel_4.avd" />
             </handle>
           </Target>
         </DropdownSelection>
