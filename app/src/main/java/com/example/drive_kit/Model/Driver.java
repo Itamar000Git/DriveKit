@@ -20,7 +20,7 @@ public class Driver {
     private ArrayList<Car> cars = new ArrayList<>();
     private String dismissedInsuranceStage;
     private String dismissedTestStage;
-    private String dismissedTreatStage;
+    private String dismissedTreatment10kStage;
 
     // Empty constructor for Firebase
     public Driver() {
@@ -124,11 +124,13 @@ public class Driver {
     public void setDismissedTestStage(String dismissedTestStage) {
         this.dismissedTestStage = dismissedTestStage;
     }
+
     public String getDismissedTreatment10kStage() {
-        return dismissedTreatStage;
+        return dismissedTreatment10kStage;
     }
-    public void setDismissedTreatStage(String dismissedTreatStage) {
-        this.dismissedTreatStage = dismissedTreatStage;
+
+    public void setDismissedTreatment10kStage(String dismissedTreatment10kStage) {
+        this.dismissedTreatment10kStage = dismissedTreatment10kStage;
     }
 
     // Returns the formatted insurance date

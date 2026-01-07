@@ -65,7 +65,7 @@ public class NotificationsRepository {
                 fieldName = "dismissedTestStage";
                 break;
             case TREATMENT_10K:
-                fieldName = "dismissedTreatStage";
+                fieldName = "dismissedTreatment10kStage";
                 break;
             default:
                 cb.onError(new IllegalArgumentException("Unknown notification type: " + item.getType()));
@@ -116,7 +116,7 @@ public class NotificationsRepository {
                 break;
             case TREATMENT_10K:
                 dateField = "treatment10kDateMillis";
-                dismissedField = "dismissedTreatStage";
+                dismissedField = "dismissedTreatment10kStage";
                 break;
             default:
                 cb.onError(new IllegalArgumentException("Unknown notification type: " + type));

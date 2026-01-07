@@ -58,7 +58,9 @@ public class NotificationsViewModel extends ViewModel {
      * @return
      */
     private ArrayList<NotificationItem> buildNotifications(Driver driver) {
+
         ArrayList<NotificationItem> list = new ArrayList<>();
+
         if (driver == null) return list;
 
         long now = System.currentTimeMillis();
