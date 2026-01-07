@@ -54,6 +54,7 @@ public class NotificationsActivity extends AppCompatActivity {
 
         viewModel.loadNoty(user.getUid()); // load the notifications for the current user
 
+
         viewModel.getToastMessage().observe(this, msg -> {
             if (msg != null) {
                 Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();

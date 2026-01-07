@@ -244,7 +244,7 @@ public class NotificationsViewModel extends ViewModel {
      * @param newDateMillis
      */
     public void doneNotification(String uid, NotificationItem item, long newDateMillis) {
-        repo.updateServiceDate(uid, item.getType(), newDateMillis, new NotificationsRepository.SimpleCallback() {
+        repo.doneButton(uid, item.getType(), newDateMillis, new NotificationsRepository.SimpleCallback() {
             @Override
             public void onSuccess() {
                 toastMessage.postValue("עודכן בהצלחה");
