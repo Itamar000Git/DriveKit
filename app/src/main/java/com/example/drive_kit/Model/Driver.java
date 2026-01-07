@@ -97,7 +97,7 @@ public class Driver {
     public void setTestDateMillis(long testDateMillis) {
         this.testDateMillis = testDateMillis;
     }
-    public long getTreatDateMillis() {
+    public long getTreatment10kDateMillis() {
         return treatmentDateMillis;
     }
     public void setTreatDateMillis(long treatDateMillis) {
@@ -124,7 +124,7 @@ public class Driver {
     public void setDismissedTestStage(String dismissedTestStage) {
         this.dismissedTestStage = dismissedTestStage;
     }
-    public String getDismissedTreatStage() {
+    public String getDismissedTreatment10kStage() {
         return dismissedTreatStage;
     }
     public void setDismissedTreatStage(String dismissedTreatStage) {
