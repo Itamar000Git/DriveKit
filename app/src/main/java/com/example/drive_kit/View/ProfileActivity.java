@@ -104,11 +104,11 @@ public class ProfileActivity extends AppCompatActivity {
         // Load the profile data for the current user using their UID
         viewModel.loadProfile(user.getUid());
 //        Button click listener for editing the profile (currently commented out)
-//        editProfileButton.setOnClickListener(v -> {
-//
-//           Intent i = new Intent(ProfileActivity.this, EditProfileActivity.class);
-//           startActivity(i);
-//        });
+        editProfileButton.setOnClickListener(v -> {
+
+           Intent i = new Intent(ProfileActivity.this, EditProfileActivity.class);
+           startActivity(i);
+        });
     }
 
     /**

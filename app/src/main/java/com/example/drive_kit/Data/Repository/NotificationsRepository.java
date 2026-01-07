@@ -4,8 +4,12 @@ import com.example.drive_kit.Model.Driver;
 import com.example.drive_kit.Model.NotificationItem;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 /**
  * Repository for accessing the database.
@@ -91,8 +95,12 @@ public class NotificationsRepository {
      * @param newDateMillis
      * @param cb
      */
-    public void updateServiceDate(String uid,NotificationItem.Type type,long newDateMillis,SimpleCallback cb) {
-
+    public void doneButton(
+            String uid,
+            NotificationItem.Type type,
+            long newDateMillis,
+            SimpleCallback cb
+    ) {
         if (uid == null || uid.trim().isEmpty()) {
             cb.onError(new IllegalArgumentException("uid is null/empty"));
             return;
@@ -104,29 +112,40 @@ public class NotificationsRepository {
 
         String dateField;
         String dismissedField;
+        String formattedField;
 
         switch (type) {
             case INSURANCE:
                 dateField = "insuranceDateMillis";
                 dismissedField = "dismissedInsuranceStage";
+                formattedField = "formattedInsuranceDate";
                 break;
+
             case TEST:
                 dateField = "testDateMillis";
                 dismissedField = "dismissedTestStage";
+                formattedField = "formattedTestDate";
                 break;
+
             case TREATMENT_10K:
-                dateField = "treatment10kDateMillis";
+                dateField = "treatmentDateMillis";
                 dismissedField = "dismissedTreatment10kStage";
+                formattedField = "formattedTreatDate";
                 break;
+
             default:
                 cb.onError(new IllegalArgumentException("Unknown notification type: " + type));
                 return;
         }
 
+        String formattedDate = formatDate(newDateMillis);
 
         Map<String, Object> updates = new HashMap<>();
         updates.put(dateField, newDateMillis);
 
+        updates.put(formattedField, formattedDate);
+
+        // reset dismissed stage so notifications can appear again for the new date
         updates.put(dismissedField, null);
 
         FirebaseFirestore.getInstance()
@@ -135,5 +154,14 @@ public class NotificationsRepository {
                 .update(updates)
                 .addOnSuccessListener(v -> cb.onSuccess())
                 .addOnFailureListener(cb::onError);
+    }
+
+    /**
+     * Formats millis into "dd/MM/yyyy" using the device timezone.
+     */
+    private String formatDate(long millis) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        sdf.setTimeZone(TimeZone.getDefault());
+        return sdf.format(new Date(millis));
     }
 }
