@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.drive_kit.Data.Repository.SetUsernamePasswordRepository;
 import com.example.drive_kit.Model.Driver;
+import android.util.Log;
 
 /**
  * ViewModel for the SetUsernamePasswordActivity.
@@ -49,9 +50,7 @@ public class SetUsernamePasswordViewModel extends ViewModel {
             signUpError.postValue("הסיסמאות אינן תואמות");
             return;
         }
-
-
-
+        System.out.println("drivercheck"+driver.toString());
         // using the signUp method from the SetUsernamePasswordRepository to register the user
         repo.register(email, password, driver, new SetUsernamePasswordRepository.SignUpCallback() {
             @Override
