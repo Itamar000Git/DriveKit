@@ -97,11 +97,13 @@ public class Driver {
     public void setTestDateMillis(long testDateMillis) {
         this.testDateMillis = testDateMillis;
     }
-    public long treatmentDateMillis() {
+
+    public long getTreatmentDateMillis() {
         return treatmentDateMillis;
     }
-    public void setTreatDateMillis(long treatDateMillis) {
-        this.treatmentDateMillis = treatDateMillis;
+
+    public void setTreatmentDateMillis(long treatmentDateMillis) {
+        this.treatmentDateMillis = treatmentDateMillis;
     }
     public ArrayList<Car> getCars() {
         return cars;

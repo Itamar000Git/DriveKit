@@ -1,5 +1,7 @@
 package com.example.drive_kit.Data.Repository;
 
+import android.util.Log;
+
 import com.example.drive_kit.Model.Driver;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -30,7 +32,7 @@ public class SetUsernamePasswordRepository {
                 .createUserWithEmailAndPassword(email, password)
                 .addOnSuccessListener(authResult -> {
                     String uid = authResult.getUser().getUid();
-
+                    Log.d("SIGNUP", "treatMillis=" + driver.getTreatmentDateMillis());
                     //setting the driver object to the database
                     FirebaseFirestore.getInstance()
                             .collection("drivers")
