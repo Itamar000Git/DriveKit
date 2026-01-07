@@ -13,6 +13,11 @@ import com.example.drive_kit.R;
 import com.example.drive_kit.ViewModel.SignUpViewModel;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.TextInputEditText;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
 /**
  * SignUpActivity is responsible for collecting user registration details.
  *
@@ -28,6 +33,10 @@ import com.google.android.material.textfield.TextInputEditText;
 public class SignUpActivity extends AppCompatActivity {
     // Button to move to the next registration step
     private Button next;
+    private Button canNotRemember2Month;
+    private Button canNotRemember4Month;
+    private Button canNotRemember6Month;
+
 
     // Input fields for personal details
     private EditText firstNameEditText;
@@ -62,6 +71,10 @@ public class SignUpActivity extends AppCompatActivity {
         insuranceDateEditText = findViewById(R.id.insuranceDateEditText);
         testDateEditText = findViewById(R.id.testDateEditText);
         treatmentDateEditText= findViewById(R.id.service10kDateEditText);
+        canNotRemember2Month = findViewById(R.id.btnService10kUpTo2Months);
+        canNotRemember4Month = findViewById(R.id.btnService10kUpTo4Months);
+        canNotRemember6Month = findViewById(R.id.btnService10kUpTo6MonthsPlus);
+
 
         // Debug checks to ensure that date fields are correctly linked to the XML
         // If one of these logs appears, it means the ID is missing or incorrect in XML
@@ -108,6 +121,39 @@ public class SignUpActivity extends AppCompatActivity {
         // Open date picker when 10K treatment date field is clicked
 
         treatmentDateEditText.setOnClickListener(v -> openDatePickerTreat());
+        long now = System.currentTimeMillis();
+
+
+
+        canNotRemember2Month.setOnClickListener(v -> {
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.MONTH, -2);
+            long millis = cal.getTimeInMillis();
+            viewModel.setSelectedTreatDateMillis(millis);
+            SimpleDateFormat sdf =
+                    new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            treatmentDateEditText.setText(sdf.format(cal.getTime()));
+        });
+        canNotRemember4Month.setOnClickListener(v -> {
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.MONTH, -4);
+            long millis = cal.getTimeInMillis();
+            viewModel.setSelectedTreatDateMillis(millis);
+            SimpleDateFormat sdf =
+                    new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            treatmentDateEditText.setText(sdf.format(cal.getTime()));
+        });
+        canNotRemember6Month.setOnClickListener(v -> {
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.MONTH, -6);
+            long millis = cal.getTimeInMillis();
+            viewModel.setSelectedTreatDateMillis(millis);
+            SimpleDateFormat sdf =
+                    new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            treatmentDateEditText.setText(sdf.format(cal.getTime()));
+        });
+
+
 
 
 
@@ -199,5 +245,6 @@ public class SignUpActivity extends AppCompatActivity {
             treatmentDateEditText.setText(datePicker.getHeaderText());
         });
     }
+
 }
 
