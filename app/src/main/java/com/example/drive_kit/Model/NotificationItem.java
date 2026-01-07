@@ -1,8 +1,10 @@
 package com.example.drive_kit.Model;
 public class NotificationItem {
 
-    public enum Type { INSURANCE, TEST }
-    public enum Stage { NONE, D28, D14, D7, D1, EXPIRED }
+    public enum Type { INSURANCE, TEST ,TREATMENT_10K
+    }
+    public enum Stage { NONE, D28, D14, D7, D1, EXPIRED ,M6, M7, M8, EXPIRED_TREAT
+        }
 
     private final Type type;
     private final Stage stage;

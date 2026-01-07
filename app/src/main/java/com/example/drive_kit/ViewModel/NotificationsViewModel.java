@@ -9,6 +9,7 @@ import com.example.drive_kit.Model.Driver;
 import com.example.drive_kit.Model.NotificationItem;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -100,6 +101,23 @@ public class NotificationsViewModel extends ViewModel {
                 ));
             }
         }
+        // --- TREATMENT 10K ---
+        long treatStart = driver.getTreatment10kDateMillis();
+        if (treatStart > 0) {
+
+            NotificationItem.Stage stage = calcTreatStage(treatStart, now);
+            String dismissed = driver.getDismissedTreatment10kStage(); // יכול להיות null
+
+            if (stage != NotificationItem.Stage.NONE &&
+                    (dismissed == null || !stage.name().equals(dismissed))) {
+
+                list.add(new NotificationItem(
+                        NotificationItem.Type.TREATMENT_10K,
+                        stage,
+                        messageFor("טיפול 10K", stage)
+                ));
+            }
+        }
 
         return list;
     }
@@ -119,6 +137,11 @@ public class NotificationsViewModel extends ViewModel {
             case D7:  return "בעוד פחות מ 7 ימים יפוג תוקף " + label + " שלך";
             case D1:  return "בעוד יום אחד יפוג תוקף " + label + " שלך";
             case EXPIRED: return "פג תוקף " + label + " שלך, נא לחדש בהקדם";
+            case M6: return "עברו 6 חודשים מהטיפול האחרון. מומלץ לקבוע טיפול 10K";
+            case M7: return "עברו 7 חודשים מהטיפול האחרון. מומלץ לקבוע טיפול 10K";
+            case M8: return "עברו 8 חודשים מהטיפול האחרון. מומלץ לקבוע טיפול 10K";
+            case EXPIRED_TREAT: return "עברו 9 חודשים מהטיפול האחרון. פג תוקף טיפול 10K, נא לטפל בהקדם";
+
             default: return "";
         }
     }
@@ -142,6 +165,49 @@ public class NotificationsViewModel extends ViewModel {
 
         return NotificationItem.Stage.NONE;
     }
+
+    /**
+     * calculates the number of full months between the given start and end dates
+     * @param startMillis
+     * @param endMillis
+     * @return
+     */
+    private static int fullMonthsBetween(long startMillis, long endMillis) {
+        Calendar start = Calendar.getInstance();
+        start.setTimeInMillis(startMillis);
+
+        Calendar end = Calendar.getInstance();
+        end.setTimeInMillis(endMillis);
+
+        int startTotal = start.get(Calendar.YEAR) * 12 + start.get(Calendar.MONTH);
+        int endTotal   = end.get(Calendar.YEAR)   * 12 + end.get(Calendar.MONTH);
+
+        int diff = endTotal - startTotal;
+
+        if (end.get(Calendar.DAY_OF_MONTH) < start.get(Calendar.DAY_OF_MONTH)) {
+            diff--;
+        }
+
+        return Math.max(diff, 0);
+    }
+
+
+    /**
+     * @param treatStartMillis
+     * @param now
+     * @return
+     */
+    public static NotificationItem.Stage calcTreatStage(long treatStartMillis, long now) {
+        int monthsSince = fullMonthsBetween(treatStartMillis, now);
+
+        if (monthsSince >= 9) return NotificationItem.Stage.EXPIRED_TREAT;
+        if (monthsSince == 8) return NotificationItem.Stage.M8;
+        if (monthsSince == 7) return NotificationItem.Stage.M7;
+        if (monthsSince == 6) return NotificationItem.Stage.M6;
+
+        return NotificationItem.Stage.NONE;
+    }
+
 
     /**
      * defers the given notification item for the given user

@@ -57,10 +57,19 @@ public class NotificationsRepository {
             return;
         }
         String fieldName;
-        if (item.getType() == NotificationItem.Type.INSURANCE) {
-            fieldName = "dismissedInsuranceStage";
-        } else {
-            fieldName = "dismissedTestStage";
+        switch (item.getType()) {
+            case INSURANCE:
+                fieldName = "dismissedInsuranceStage";
+                break;
+            case TEST:
+                fieldName = "dismissedTestStage";
+                break;
+            case TREATMENT_10K:
+                fieldName = "dismissedTreatStage";
+                break;
+            default:
+                cb.onError(new IllegalArgumentException("Unknown notification type: " + item.getType()));
+                return;
         }
 
         Map<String, Object> update = new HashMap<>();
@@ -96,13 +105,24 @@ public class NotificationsRepository {
         String dateField;
         String dismissedField;
 
-        if (type == NotificationItem.Type.INSURANCE) {
-            dateField = "insuranceDateMillis";
-            dismissedField = "dismissedInsuranceStage";
-        } else {
-            dateField = "testDateMillis";
-            dismissedField = "dismissedTestStage";
+        switch (type) {
+            case INSURANCE:
+                dateField = "insuranceDateMillis";
+                dismissedField = "dismissedInsuranceStage";
+                break;
+            case TEST:
+                dateField = "testDateMillis";
+                dismissedField = "dismissedTestStage";
+                break;
+            case TREATMENT_10K:
+                dateField = "treatment10kDateMillis";
+                dismissedField = "dismissedTreatStage";
+                break;
+            default:
+                cb.onError(new IllegalArgumentException("Unknown notification type: " + type));
+                return;
         }
+
 
         Map<String, Object> updates = new HashMap<>();
         updates.put(dateField, newDateMillis);
