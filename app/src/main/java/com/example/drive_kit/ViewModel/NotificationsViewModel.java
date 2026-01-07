@@ -104,7 +104,7 @@ public class NotificationsViewModel extends ViewModel {
             }
         }
         // --- TREATMENT 10K ---
-        long treatStart = driver.treatmentDateMillis();
+        long treatStart = driver.getTreatmentDateMillis();
         if (treatStart > 0) {
 
             NotificationItem.Stage stage = calcTreatStage(treatStart, now);

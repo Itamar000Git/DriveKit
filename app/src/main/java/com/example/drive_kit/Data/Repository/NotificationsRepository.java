@@ -115,7 +115,7 @@ public class NotificationsRepository {
                 dismissedField = "dismissedTestStage";
                 break;
             case TREATMENT_10K:
-                dateField = "treatment10kDateMillis";
+                dateField = "treatmentDateMillis";
                 dismissedField = "dismissedTreatment10kStage";
                 break;
             default:
