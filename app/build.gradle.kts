@@ -36,6 +36,12 @@ android {
 
 }
 
+configurations.configureEach {
+    if (name.contains("AndroidTest", ignoreCase = true)) {
+        exclude(group = "com.google.protobuf", module = "protobuf-lite")
+    }
+}
+
 dependencies {
     implementation(libs.appcompat)
     implementation(libs.material)
@@ -46,6 +52,7 @@ dependencies {
     implementation(libs.work.runtime)
     implementation(libs.ext.junit)
     implementation(libs.espresso.core)
+    implementation(libs.rules)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -61,6 +68,11 @@ dependencies {
     androidTestImplementation ("androidx.test:runner:1.5.2")
     androidTestImplementation ("androidx.test:rules:1.5.0")
     androidTestImplementation ("androidx.test.espresso:espresso-core:3.5.1")
-    
+    androidTestImplementation("androidx.test.espresso:espresso-contrib:3.5.1") {
+        exclude(group = "com.google.protobuf", module = "protobuf-lite")
+    }
+
+
+
 
 }

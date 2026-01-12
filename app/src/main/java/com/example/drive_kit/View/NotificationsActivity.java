@@ -33,34 +33,58 @@ public class NotificationsActivity extends AppCompatActivity {
     private NotificationsViewModel viewModel;
 
 
-    @SuppressLint("MissingInflatedId")/// ///
+//    @SuppressLint("MissingInflatedId")/// ///
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        /// //////
+//        boolean isTest = "true".equals(getIntent().getStringExtra("ui_test"));
+//        if (!isTest) {
+//            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//            if (user == null) return;
+//        }
+//
+//        super.onCreate(savedInstanceState);
+//
+//        setContentView(R.layout.notifications);
+//
+//        notificationsContainer = findViewById(R.id.notificationsContainer);
+//        //Initialize the ViewModel
+//
+//        viewModel = new ViewModelProvider(this).get(NotificationsViewModel.class);
+//
+//        // Observe the LiveData and update the UI when the data changes with showNotifications()
+//        viewModel.getNoty().observe(this, this::showNotifications);
+//
+//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); // get the current user
+//        if (user == null) return;
+//
+//
+//        viewModel.loadNoty(user.getUid()); // load the notifications for the current user
+//
+//
+//        viewModel.getToastMessage().observe(this, msg -> {
+//            if (msg != null) {
+//                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//
+//    }
+
+
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        /// //////
-        boolean isTest = "true".equals(getIntent().getStringExtra("ui_test"));
-        if (!isTest) {
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            if (user == null) return;
-        }
-
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.notifications);
 
+        // UI refs
         notificationsContainer = findViewById(R.id.notificationsContainer);
-        //Initialize the ViewModel
 
+        // ViewModel
         viewModel = new ViewModelProvider(this).get(NotificationsViewModel.class);
 
-        // Observe the LiveData and update the UI when the data changes with showNotifications()
+        // Observers (כמו שהיה)
         viewModel.getNoty().observe(this, this::showNotifications);
-
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); // get the current user
-        if (user == null) return;
-
-
-        viewModel.loadNoty(user.getUid()); // load the notifications for the current user
-
 
         viewModel.getToastMessage().observe(this, msg -> {
             if (msg != null) {
@@ -68,7 +92,24 @@ public class NotificationsActivity extends AppCompatActivity {
             }
         });
 
+        // Original logic: if not ui_test -> must have logged in user
+        boolean isTest = "true".equals(getIntent().getStringExtra("ui_test"));
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (!isTest) {
+            if (user == null) {
+                finish();
+                return;
+            }
+            viewModel.loadNoty(user.getUid());
+        } else {
+            // UI test mode:
+            if (user != null) {
+                viewModel.loadNoty(user.getUid());
+            }
+        }
     }
+
 
     /**
      * Shows the notifications in the UI.
