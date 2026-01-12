@@ -57,13 +57,15 @@ public class NotificationsViewModel extends ViewModel {
      * @param driver
      * @return
      */
-    private ArrayList<NotificationItem> buildNotifications(Driver driver) {
+    public ArrayList<NotificationItem> buildNotifications(Driver driver) {
+        return buildNotifications(driver, System.currentTimeMillis());
+    }
+
+    public ArrayList<NotificationItem> buildNotifications(Driver driver, long now) {
 
         ArrayList<NotificationItem> list = new ArrayList<>();
-
         if (driver == null) return list;
 
-        long now = System.currentTimeMillis();
         long oneYearMillis = TimeUnit.DAYS.toMillis(366);
 
         // --- INSURANCE ---
@@ -91,7 +93,7 @@ public class NotificationsViewModel extends ViewModel {
             long testEnd = testStart + oneYearMillis;
 
             NotificationItem.Stage stage = calcStage(testEnd, now);
-            String dismissed = driver.getDismissedTestStage(); // יכול להיות null
+            String dismissed = driver.getDismissedTestStage();
 
             if (stage != NotificationItem.Stage.NONE &&
                     (dismissed == null || !stage.name().equals(dismissed))) {
@@ -103,12 +105,13 @@ public class NotificationsViewModel extends ViewModel {
                 ));
             }
         }
+
         // --- TREATMENT 10K ---
         long treatStart = driver.getTreatmentDateMillis();
         if (treatStart > 0) {
 
             NotificationItem.Stage stage = calcTreatStage(treatStart, now);
-            String dismissed = driver.getDismissedTreatment10kStage(); // יכול להיות null
+            String dismissed = driver.getDismissedTreatment10kStage();
 
             if (stage != NotificationItem.Stage.NONE &&
                     (dismissed == null || !stage.name().equals(dismissed))) {
