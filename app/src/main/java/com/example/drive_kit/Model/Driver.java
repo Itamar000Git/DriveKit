@@ -44,7 +44,6 @@ public class Driver {
         this.treatmentDateMillis= treatDate;
     }
 
-
     // Getters and setters
     public String getFirstName() {
         return firstName;
@@ -238,7 +237,6 @@ public class Driver {
                 ", insuranceDate='" + getFormattedInsuranceDate() + '\'' +
                 ", testDate='" +  getFormattedTestDate() + '\'' +
                 ", treatmentDate='"+ getFormattedTreatDate()+ '\'' +
-                ", treatmentDate='"+ getTreatmentDateMillis()+ '\''+
                 '}';
     }
 

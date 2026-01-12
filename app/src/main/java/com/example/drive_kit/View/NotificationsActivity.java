@@ -36,6 +36,13 @@ public class NotificationsActivity extends AppCompatActivity {
     @SuppressLint("MissingInflatedId")/// ///
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        /// //////
+        boolean isTest = "true".equals(getIntent().getStringExtra("ui_test"));
+        if (!isTest) {
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if (user == null) return;
+        }
+
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.notifications);
@@ -68,7 +75,8 @@ public class NotificationsActivity extends AppCompatActivity {
      * If the list is empty, it removes all views from the container.
      * @param noty
      */
-    private void showNotifications(ArrayList<NotificationItem> noty) {
+    //private
+    public void showNotifications(ArrayList<NotificationItem> noty) {
         notificationsContainer.removeAllViews();
 
         if (noty == null || noty.isEmpty()) {
@@ -89,7 +97,7 @@ public class NotificationsActivity extends AppCompatActivity {
             Button btnDefer = itemView.findViewById(R.id.btnDefer);
             Button btnDone = itemView.findViewById(R.id.btnDone);
 
-            viewModel = new ViewModelProvider(this).get(NotificationsViewModel.class);
+            /// viewModel = new ViewModelProvider(this).get(NotificationsViewModel.class);
 
             tv.setText(item.getMessage());
 
