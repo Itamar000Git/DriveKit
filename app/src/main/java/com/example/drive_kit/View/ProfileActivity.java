@@ -77,7 +77,7 @@ public class ProfileActivity extends AppCompatActivity {
             lastNameText.setText(safe(d.getLastName()));
             emailValue.setText(safe(d.getEmail()));
             phoneValue.setText(safe(d.getPhone()));
-            carNumberValue.setText(safe(d.getCarNumber()));
+            carNumberValue.setText(safe(d.getCar().getCarNum()));
 
             // Display formatted dates
             insuranceDateValue.setText(safe(d.getFormattedInsuranceDate()));

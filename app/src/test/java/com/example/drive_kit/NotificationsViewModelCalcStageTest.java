@@ -60,11 +60,11 @@ public class NotificationsViewModelCalcStageTest {
         Driver driver = mock(Driver.class);
 
         // Make sure only TEST creates a notification
-        when(driver.getInsuranceDateMillis()).thenReturn(0L);
-        when(driver.getTreatmentDateMillis()).thenReturn(0L);
+        when(driver.getCar().getInsuranceDateMillis()).thenReturn(0L);
+        when(driver.getCar().getTreatmentDateMillis()).thenReturn(0L);
 
-        when(driver.getTestDateMillis()).thenReturn(testStart);
-        when(driver.getDismissedTestStage()).thenReturn(null);
+        when(driver.getCar().getTestDateMillis()).thenReturn(testStart);
+        when(driver.getCar().getDismissedTestStage()).thenReturn(null);
 
         NotificationsViewModel vm = new NotificationsViewModel();
         ArrayList<NotificationItem> list = vm.buildNotifications(driver);
@@ -86,20 +86,20 @@ public class NotificationsViewModelCalcStageTest {
         NotificationsViewModel vm = new NotificationsViewModel();
         Driver driver = mock(Driver.class);
         // keep only TEST active
-        when(driver.getInsuranceDateMillis()).thenReturn(0L);
-        when(driver.getTreatmentDateMillis()).thenReturn(0L);
+        when(driver.getCar().getInsuranceDateMillis()).thenReturn(0L);
+        when(driver.getCar().getTreatmentDateMillis()).thenReturn(0L);
         long now = 1_700_000_000_000L; // fixed "now" for stable test
         // Make TEST stage = D14 (end in 10 days)
         long testStart = testStartForEndInDays(now, 10);
-        when(driver.getTestDateMillis()).thenReturn(testStart);
+        when(driver.getCar().getTestDateMillis()).thenReturn(testStart);
         // 1) Before defer: dismissed is null -> should appear
-        when(driver.getDismissedTestStage()).thenReturn(null);
+        when(driver.getCar().getDismissedTestStage()).thenReturn(null);
         ArrayList<NotificationItem> list1 = vm.buildNotifications(driver, now);
         assertEquals(1, list1.size());
         assertEquals(NotificationItem.Type.TEST, list1.get(0).getType());
         assertEquals(NotificationItem.Stage.D14, list1.get(0).getStage());
         // 2) Simulate pressing "Defer": store dismissed stage = current stage name ("D14")
-        when(driver.getDismissedTestStage()).thenReturn(NotificationItem.Stage.D14.name());
+        when(driver.getCar().getDismissedTestStage()).thenReturn(NotificationItem.Stage.D14.name());
         ArrayList<NotificationItem> list2 = vm.buildNotifications(driver, now);
         assertEquals(0, list2.size()); //  hidden after defer
         // 3) Simulate time passing: now is later so stage becomes D7
@@ -143,10 +143,10 @@ public class NotificationsViewModelCalcStageTest {
     public void buildNotifications_addsTreatment10k_M6() {
         Driver driver = mock(Driver.class);
 
-        when(driver.getInsuranceDateMillis()).thenReturn(0L);
-        when(driver.getTestDateMillis()).thenReturn(0L);
-        when(driver.getTreatmentDateMillis()).thenReturn(monthsAgoMillis(6));
-        when(driver.getDismissedTreatment10kStage()).thenReturn(null);
+        when(driver.getCar().getInsuranceDateMillis()).thenReturn(0L);
+        when(driver.getCar().getTestDateMillis()).thenReturn(0L);
+        when(driver.getCar().getTreatmentDateMillis()).thenReturn(monthsAgoMillis(6));
+        when(driver.getCar().getDismissedTreatment10kStage()).thenReturn(null);
 
         NotificationsViewModel vm = new NotificationsViewModel();
 

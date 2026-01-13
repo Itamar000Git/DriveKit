@@ -78,11 +78,11 @@ public class NotyWorker extends Worker {
         long now = System.currentTimeMillis();
         long oneYearMillis = TimeUnit.DAYS.toMillis(366);
 
-        long insuranceStart = driver.getInsuranceDateMillis();
+        long insuranceStart = driver.getCar().getInsuranceDateMillis();
         long insuranceEnd = insuranceStart + oneYearMillis;
 
         NotificationItem.Stage stage = NotificationsViewModel.calcStage(insuranceEnd, now);
-        String dismissed = driver.getDismissedInsuranceStage();
+        String dismissed = driver.getCar().getDismissedInsuranceStage();
 
         if (stage != NotificationItem.Stage.NONE && (dismissed == null || !stage.name().equals(dismissed))) {
             if (insuranceStart > 0) {
@@ -90,11 +90,11 @@ public class NotyWorker extends Worker {
             }
         }
 
-        long testStart = driver.getTestDateMillis();
+        long testStart = driver.getCar().getTestDateMillis();
         long testEnd = testStart + oneYearMillis;
 
         stage = NotificationsViewModel.calcStage(testEnd, now);
-        dismissed = driver.getDismissedTestStage();
+        dismissed = driver.getCar().getDismissedTestStage();
 
         if (stage != NotificationItem.Stage.NONE && (dismissed == null || !stage.name().equals(dismissed))) {
             if (testStart > 0) {
@@ -103,13 +103,13 @@ public class NotyWorker extends Worker {
         }
 
         // --- TREATMENT 10K ---
-        long treatStart = driver.getTreatmentDateMillis();
+        long treatStart = driver.getCar().getTreatmentDateMillis();
         if (treatStart > 0) {
 
             NotificationItem.Stage treatStage =
                     NotificationsViewModel.calcTreatStage(treatStart, now);
 
-            String dismissedTreat = driver.getDismissedTreatment10kStage();
+            String dismissedTreat = driver.getCar().getDismissedTreatment10kStage();
 
             if (treatStage != NotificationItem.Stage.NONE &&
                     (dismissedTreat == null || !treatStage.name().equals(dismissedTreat))) {

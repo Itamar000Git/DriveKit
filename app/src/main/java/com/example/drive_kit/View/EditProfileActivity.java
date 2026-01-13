@@ -64,7 +64,7 @@
                 firstNameEditText.setText(nullToEmpty(d.getFirstName()));
                 lastNameEditText.setText(nullToEmpty(d.getLastName()));
                 phoneEditText.setText(nullToEmpty(d.getPhone()));
-                carNumberEditText.setText(nullToEmpty(d.getCarNumber()));
+                carNumberEditText.setText(nullToEmpty(d.getCar().getCarNum()));
 
                 // show formatted text
                 insuranceDateEditText.setText(nullToEmpty(d.getFormattedInsuranceDate()));
@@ -72,9 +72,9 @@
                 treatmentDateEditText.setText(nullToEmpty(d.getFormattedTreatDate()));
 
                 // keep millis in ViewModel
-                viewModel.setSelectedInsuranceDateMillis(d.getInsuranceDateMillis());
-                viewModel.setSelectedTestDateMillis(d.getTestDateMillis());
-                viewModel.setSelectedTreatDateMillis(d.getTreatmentDateMillis());
+                viewModel.setSelectedInsuranceDateMillis(d.getCar().getInsuranceDateMillis());
+                viewModel.setSelectedTestDateMillis(d.getCar().getTestDateMillis());
+                viewModel.setSelectedTreatDateMillis(d.getCar().getTreatmentDateMillis());
             });
 
             viewModel.getToastMessage().observe(this, msg -> {

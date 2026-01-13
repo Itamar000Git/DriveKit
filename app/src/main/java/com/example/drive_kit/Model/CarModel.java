@@ -5,5 +5,6 @@ public enum CarModel {
     MAZDA,
     HONDA,
     BMW,
-    TESLA
+    TESLA,
+    UNKNOWN;
 }

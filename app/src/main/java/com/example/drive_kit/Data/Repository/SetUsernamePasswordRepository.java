@@ -32,7 +32,7 @@ public class SetUsernamePasswordRepository {
                 .createUserWithEmailAndPassword(email, password)
                 .addOnSuccessListener(authResult -> {
                     String uid = authResult.getUser().getUid();
-                    Log.d("SIGNUP", "treatMillis=" + driver.getTreatmentDateMillis());
+                    Log.d("SIGNUP", "treatMillis=" + driver.getCar().getTreatmentDateMillis());
                     //setting the driver object to the database
                     FirebaseFirestore.getInstance()
                             .collection("drivers")
