@@ -3,8 +3,12 @@ package com.example.drive_kit.Model;
 public class Car {
 
     private Double carNum;
+    private String id;
     private String model;
     private CarModel carModel;
+    private String plate;
+    private String Nickname;
+    private boolean manufacturer;
     private String carColor;
     private long carLicenseTestDate;
     private long insuranceDateMills;
@@ -16,6 +20,29 @@ public class Car {
 
     public Double getCarNum() {
         return carNum;
+    }
+    public String getNickname() {
+        return Nickname;
+    }
+    public String getPlate() {
+        return plate;
+    }
+
+    public void setPlate(String plate) {
+        this.plate = plate;
+    }
+
+    public void setNickname(String nickname) {
+        Nickname = nickname;
+    }
+
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setCarNum(Double carNum) {
@@ -76,5 +103,13 @@ public class Car {
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    public boolean getManufacturer() {
+        return manufacturer;
+    }
+
+    public void setManufacturer(boolean manufacturer) {
+        this.manufacturer = manufacturer;
     }
 }

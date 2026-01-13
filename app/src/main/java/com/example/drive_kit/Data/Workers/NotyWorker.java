@@ -102,6 +102,23 @@ public class NotyWorker extends Worker {
             }
         }
 
+        // --- TREATMENT 10K ---
+        long treatStart = driver.getTreatmentDateMillis();
+        if (treatStart > 0) {
+
+            NotificationItem.Stage treatStage =
+                    NotificationsViewModel.calcTreatStage(treatStart, now);
+
+            String dismissedTreat = driver.getDismissedTreatment10kStage();
+
+            if (treatStage != NotificationItem.Stage.NONE &&
+                    (dismissedTreat == null || !treatStage.name().equals(dismissedTreat))) {
+
+                maybeNotifyTreat(treatStage);
+            }
+        }
+
+
     }
 
     /**
@@ -129,4 +146,27 @@ public class NotyWorker extends Worker {
             NotificationHelper.show(getApplicationContext(), "DriveKit", "פג תוקף " + label + " שלך, נא לחדש בהקדם");
         }
     }
+    private void maybeNotifyTreat(NotificationItem.Stage stage) {
+        switch (stage) {
+            case M6:
+                NotificationHelper.show(getApplicationContext(), "DriveKit",
+                        "עברו 6 חודשים מהטיפול האחרון. מומלץ לקבוע טיפול 10K");
+                break;
+            case M7:
+                NotificationHelper.show(getApplicationContext(), "DriveKit",
+                        "עברו 7 חודשים מהטיפול האחרון. מומלץ לקבוע טיפול 10K");
+                break;
+            case M8:
+                NotificationHelper.show(getApplicationContext(), "DriveKit",
+                        "עברו 8 חודשים מהטיפול האחרון. מומלץ לקבוע טיפול 10K");
+                break;
+            case EXPIRED_TREAT:
+                NotificationHelper.show(getApplicationContext(), "DriveKit",
+                        "עברו 9 חודשים מהטיפול האחרון. פג תוקף טיפול 10K, נא לטפל בהקדם");
+                break;
+            default:
+                break;
+        }
+    }
+
 }

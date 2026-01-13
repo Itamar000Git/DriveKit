@@ -31,6 +31,8 @@
         <activity android:name=".View.NotificationsActivity" />
         <activity android:name=".View.ProfileActivity" />
         <activity android:name=".View.EditProfileActivity" />
+        <activity android:name=".View.MyCarsActivity" />
+        <activity android:name=".View.CarDetailsActivity" />
 
 
 
