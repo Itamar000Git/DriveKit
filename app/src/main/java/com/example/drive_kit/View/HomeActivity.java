@@ -169,9 +169,13 @@ public class HomeActivity extends AppCompatActivity {
         // Profile icon
         ImageView profileIcon = findViewById(R.id.profile_icon);
 
-        findViewById(R.id.circleMyCar).setOnClickListener(v ->
-                startActivity(new Intent(HomeActivity.this, MyCarsActivity.class))
-        );
+//        findViewById(R.id.circleMyCar).setOnClickListener(v ->
+//                startActivity(new Intent(HomeActivity.this, MyCarsActivity.class))
+//        );
+        findViewById(R.id.circleMyCar).setOnClickListener(v -> {
+            startActivity(new Intent(HomeActivity.this, CarDetailsActivity.class));
+        });
+
         // Bell container + badge (requires XML change: FrameLayout id notyContainer + TextView id noty_badge)
         View notyContainer = findViewById(R.id.notyContainer);
         badgeTv = findViewById(R.id.noty_badge);
