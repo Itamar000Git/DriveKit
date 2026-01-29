@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.drive_kit.Model.CarModel;
 import com.example.drive_kit.R;
 import com.example.drive_kit.Model.Driver;
 import com.example.drive_kit.ViewModel.SetUsernamePasswordViewModel;
@@ -61,6 +62,11 @@ public class SetUsernamePasswordActivity extends AppCompatActivity {
         String email = intent.getStringExtra("email");
         String phone = intent.getStringExtra("phone");
         String carNumber = intent.getStringExtra("carNumber");
+        CarModel carModel = (CarModel) getIntent().getSerializableExtra("carModel");
+        int year = intent.getIntExtra("year", 0);
+
+
+        if (carModel == null) carModel = CarModel.UNKNOWN;
 
         // Extract important dates (stored as milliseconds)
         long insuranceDateMillis = intent.getLongExtra("insuranceDateMillis", -1);
@@ -82,6 +88,8 @@ public class SetUsernamePasswordActivity extends AppCompatActivity {
                 email,
                 phone,
                 carNumber,
+                carModel,
+                year,
                 insuranceDateMillis,
                 testDateMillis,
                 treatmentDateMillis
@@ -95,7 +103,7 @@ public class SetUsernamePasswordActivity extends AppCompatActivity {
         // Create (or retrieve) the ViewModel associated with this Activity
         // The ViewModel contains all signup-related logic
         SetUsernamePasswordViewModel viewModel = new ViewModelProvider(this).get(SetUsernamePasswordViewModel.class);
-
+        Log.d("SetUsernamePassword", "carModel extra = " + driver.toString());
         // Observe signup success LiveData
         // If signup succeeds, show a success message and move to HomeActivity
         viewModel.getSignUpSuccess().observe(this, success -> {

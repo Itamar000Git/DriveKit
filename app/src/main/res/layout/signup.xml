@@ -137,28 +137,7 @@
                     android:textColorHint="#B0BEC5" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/phoneLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                app:boxBackgroundColor="#99FFFFFF"
-                app:boxStrokeColor="#8BC34A"
-                app:hintTextColor="#B0BEC5"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/emailLayout">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/phoneEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="מספר טלפון"
-                    android:inputType="phone"
-                    android:textColor="#E0E0E0"
-                    android:textColorHint="#B0BEC5" />
-            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/carNumberLayout"
@@ -171,7 +150,7 @@
                 app:hintTextColor="#B0BEC5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/phoneLayout">
+                app:layout_constraintTop_toBottomOf="@+id/emailLayout">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/carNumberEditText"
@@ -184,6 +163,88 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/phoneLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:boxBackgroundColor="#99FFFFFF"
+                app:boxStrokeColor="#8BC34A"
+                app:hintTextColor="#B0BEC5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/carNumberLayout">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/phoneEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="מספר טלפון"
+                    android:inputType="phone"
+                    android:textColor="#E0E0E0"
+                    android:textColorHint="#B0BEC5" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- ADDED: Manufacturer dropdown (Exposed Dropdown Menu) -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/manufacturerLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:boxBackgroundColor="#99FFFFFF"
+                app:boxStrokeColor="#8BC34A"
+                app:hintTextColor="#B0BEC5"
+                app:endIconMode="dropdown_menu"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/phoneLayout">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/manufacturerDropdown"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="יצרן"
+                    android:inputType="none"
+                    android:focusable="false"
+                    android:cursorVisible="false"
+                    android:clickable="true"
+                    android:textColor="#E0E0E0"
+                    android:textColorHint="#B0BEC5"
+                    android:paddingRight="16dp"
+                    android:paddingEnd="16dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/yearLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:boxBackgroundColor="#99FFFFFF"
+                app:boxStrokeColor="#8BC34A"
+                app:hintTextColor="#B0BEC5"
+                app:endIconMode="dropdown_menu"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/manufacturerLayout">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/yearDropdown"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="שנת ייצור"
+                    android:inputType="none"
+                    android:focusable="false"
+                    android:cursorVisible="false"
+                    android:clickable="true"
+                    android:textColor="#E0E0E0"
+                    android:textColorHint="#B0BEC5"
+                    android:paddingRight="16dp"
+                    android:paddingEnd="16dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/insuranceDateLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
@@ -194,7 +255,7 @@
                 app:hintTextColor="#B0BEC5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/carNumberLayout">
+                app:layout_constraintTop_toBottomOf="@+id/yearLayout">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/insuranceDateEditText"
@@ -229,8 +290,6 @@
                     android:hint="תאריך טסט"
                     android:textColor="#E0E0E0"
                     android:textColorHint="#B0BEC5" />
-
-
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -343,7 +402,6 @@
 
             </HorizontalScrollView>
 
-
             <Button
                 android:id="@+id/next"
                 android:layout_width="0dp"
@@ -364,6 +422,5 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
