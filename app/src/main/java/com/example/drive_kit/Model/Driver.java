@@ -304,6 +304,8 @@ public class Driver {
                   String email,
                   String phone,
                   String carNumber,
+                  CarModel carModel,
+                  int year,
                   long insuranceDateMillis,
                   long testDateMillis,
                   long treatDateMillis) {
@@ -314,7 +316,7 @@ public class Driver {
         this.phone = phone;
 
         // Create a new instance of Car (רכב יחיד)
-        this.car = new Car(carNumber, insuranceDateMillis, testDateMillis, treatDateMillis);
+        this.car = new Car(carNumber,carModel,year, insuranceDateMillis, testDateMillis, treatDateMillis);
     }
 
     // ====== Helpers ======
@@ -482,6 +484,7 @@ public class Driver {
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 ", carNumber='" + car.getCarNum() + '\'' +
+                ", carModel='" + car.getCarModel() + '\'' +
                 ", insuranceDate='" + getFormattedInsuranceDate() + '\'' +
                 ", testDate='" + getFormattedTestDate() + '\'' +
                 ", treatmentDate='" + getFormattedTreatDate() + '\'' +

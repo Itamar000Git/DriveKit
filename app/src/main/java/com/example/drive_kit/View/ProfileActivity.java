@@ -79,6 +79,7 @@ public class ProfileActivity extends AppCompatActivity {
             phoneValue.setText(safe(d.getPhone()));
             carNumberValue.setText(safe(d.getCar().getCarNum()));
 
+
             // Display formatted dates
             insuranceDateValue.setText(safe(d.getFormattedInsuranceDate()));
             testDateValue.setText(safe(d.getFormattedTestDate()));

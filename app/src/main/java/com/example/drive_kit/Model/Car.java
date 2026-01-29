@@ -224,18 +224,20 @@ public class Car {
     }
 
     public Car(String carNum,
+               CarModel carModel,
+               int year,
                long insuranceDateMillis,
                long testDateMillis,
                long treatmentDateMillis) {
 
         this.carNum = carNum;
+        this.carModel = carModel;
         this.insuranceDateMillis = insuranceDateMillis;
         this.testDateMillis = testDateMillis;
         this.treatmentDateMillis = treatmentDateMillis;
 
         // Defaults
-        this.year = 2023; // אם תרצי שלא יהיה קבוע: תשני ל-0
-        this.carModel = CarModel.UNKNOWN;
+        this.year = year;
         this.carColor = "";
         this.nickname = "";
         this.insuranceCompanyId = "";
@@ -368,6 +370,7 @@ public class Car {
     public void setCarNumber(String carNumber) {
         this.carNum = carNumber;
     }
+
 
     /**
      * שם ישן שהיה אצלך עבור טיפול (Treat).
