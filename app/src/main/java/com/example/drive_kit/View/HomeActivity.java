@@ -175,6 +175,9 @@ public class HomeActivity extends AppCompatActivity {
         findViewById(R.id.circleMyCar).setOnClickListener(v -> {
             startActivity(new Intent(HomeActivity.this, CarDetailsActivity.class));
         });
+        findViewById(R.id.circleDIY).setOnClickListener(v -> {
+            startActivity(new Intent(HomeActivity.this, DIYFilterActivity.class));
+        });
 
         // Bell container + badge (requires XML change: FrameLayout id notyContainer + TextView id noty_badge)
         View notyContainer = findViewById(R.id.notyContainer);

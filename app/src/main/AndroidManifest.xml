@@ -33,6 +33,10 @@
         <activity android:name=".View.ProfileActivity" />
         <activity android:name=".View.EditProfileActivity" />
         <activity android:name=".View.CarDetailsActivity" />
+        <activity android:name=".View.DIYFilterActivity" />
+        <activity android:name=".View.DIYIssuesActivity" />
+
+
 
 
 
