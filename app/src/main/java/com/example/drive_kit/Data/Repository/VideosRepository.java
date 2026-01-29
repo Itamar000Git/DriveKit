@@ -115,28 +115,86 @@ public class VideosRepository {
                 .addOnFailureListener(cb::onError);
     }
 
-    /* =========================================================
-       DEV ONLY: Seed Firestore from assets/videos_seed.json
-       ========================================================= */
-
-    /**
-     * Uploads a JSON file from assets into Firestore collection "videos".
-     *
-     * Requirements:
-     * - Put file in: app/src/main/assets/videos_seed.json
-     * - JSON must be an array of objects that match VideoItem fields:
-     *   manufacturer, model, yearRange, issueKey, issueNameHe, url
-     *
-     * Behavior:
-     * - Uses stable docId, so you can run it again without duplicates (it overwrites).
-     * - Runs in one batch commit (up to 500 docs per batch in Firestore).
-     */
     public void seedVideosFromAssets(Context context, ResultCallback<Integer> cb) {
+        // Replace-All: delete all docs in "videos" and then upload from JSON
+        deleteAllVideos(new ResultCallback<Integer>() {
+            @Override
+            public void onSuccess(Integer deletedCount) {
+                uploadVideosFromAssets(context, new ResultCallback<Integer>() {
+                    @Override
+                    public void onSuccess(Integer uploadedCount) {
+                        cb.onSuccess(uploadedCount);
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        cb.onError(e);
+                    }
+                });
+            }
+
+            @Override
+            public void onError(Exception e) {
+                cb.onError(e);
+            }
+        });
+    }
+
+/* =========================
+   1) DELETE ALL videos docs
+   ========================= */
+
+    private void deleteAllVideos(ResultCallback<Integer> cb) {
+        // Firestore batch delete limit is 500 operations
+        db.collection("videos")
+                .limit(500)
+                .get()
+                .addOnSuccessListener(snapshot -> {
+                    if (snapshot.isEmpty()) {
+                        cb.onSuccess(0);
+                        return;
+                    }
+
+                    WriteBatch batch = db.batch();
+                    int count = 0;
+
+                    for (QueryDocumentSnapshot doc : snapshot) {
+                        batch.delete(doc.getReference());
+                        count++;
+                    }
+
+                    int finalCount = count;
+                    batch.commit()
+                            .addOnSuccessListener(v -> {
+                                // Continue deleting next page
+                                deleteAllVideos(new ResultCallback<Integer>() {
+                                    @Override
+                                    public void onSuccess(Integer nextDeleted) {
+                                        cb.onSuccess(finalCount + nextDeleted);
+                                    }
+
+                                    @Override
+                                    public void onError(Exception e) {
+                                        cb.onError(e);
+                                    }
+                                });
+                            })
+                            .addOnFailureListener(cb::onError);
+                })
+                .addOnFailureListener(cb::onError);
+    }
+
+/* =========================
+   2) UPLOAD from assets JSON
+   ========================= */
+
+    private void uploadVideosFromAssets(Context context, ResultCallback<Integer> cb) {
         try {
+            // IMPORTANT: assets file name only (NO path)
             String json = readAssetFile(context, "videos_seed.json");
 
             Gson gson = new Gson();
-            Type listType = new TypeToken<List<VideoItem>>() {}.getType();
+            Type listType = new com.google.gson.reflect.TypeToken<List<VideoItem>>() {}.getType();
             List<VideoItem> items = gson.fromJson(json, listType);
 
             if (items == null || items.isEmpty()) {
@@ -144,49 +202,48 @@ public class VideosRepository {
                 return;
             }
 
-            // Firestore batch limit is 500 writes, so we split if needed
-            int totalUploaded = 0;
-            int i = 0;
-
-            while (i < items.size()) {
-                WriteBatch batch = db.batch();
-                int batchCount = 0;
-
-                while (i < items.size() && batchCount < 500) {
-                    VideoItem item = items.get(i);
-                    i++;
-
-                    if (!isValid(item)) continue;
-
-                    String docId = buildStableDocId(item);
-                    DocumentReference ref = db.collection("videos").document(docId);
-
-                    // Overwrite if exists (safe re-run)
-                    batch.set(ref, item);
-                    batchCount++;
-                }
-
-                int finalBatchCount = batchCount;
-                int finalUploadedSoFar = totalUploaded;
-
-                // Commit this batch
-                batch.commit()
-                        .addOnSuccessListener(v -> {
-                            // Only report success when the last batch is done.
-                            // (Simple approach: call cb at the end of each batch; ok for dev.)
-                            cb.onSuccess(finalUploadedSoFar + finalBatchCount);
-                        })
-                        .addOnFailureListener(cb::onError);
-
-                totalUploaded += batchCount;
-            }
+            uploadInBatches(items, 0, 0, cb);
 
         } catch (Exception e) {
             cb.onError(e);
         }
     }
 
-    // --- Helpers for seed ---
+    private void uploadInBatches(List<VideoItem> items, int index, int uploadedSoFar, ResultCallback<Integer> cb) {
+        if (index >= items.size()) {
+            cb.onSuccess(uploadedSoFar);
+            return;
+        }
+
+        WriteBatch batch = db.batch();
+        int batchCount = 0;
+        int i = index;
+
+        while (i < items.size() && batchCount < 500) {
+            VideoItem item = items.get(i);
+            i++;
+
+            if (!isValid(item)) continue;
+
+            String docId = buildStableDocId(item);
+            DocumentReference ref = db.collection("videos").document(docId);
+
+            // set() with stable docId = overwrite safely (but we already deleted all)
+            batch.set(ref, item);
+            batchCount++;
+        }
+
+        final int nextIndex = i;
+        final int nextUploaded = uploadedSoFar + batchCount;
+
+        batch.commit()
+                .addOnSuccessListener(v -> uploadInBatches(items, nextIndex, nextUploaded, cb))
+                .addOnFailureListener(cb::onError);
+    }
+
+/* =========================
+   Helpers (keep yours)
+   ========================= */
 
     private String readAssetFile(Context context, String fileName) throws Exception {
         InputStream is = context.getAssets().open(fileName);
@@ -198,10 +255,6 @@ public class VideosRepository {
         return sb.toString();
     }
 
-    /**
-     * Stable ID so running seed again won't create duplicates.
-     * Example: TOYOTA_COROLLA_2016-2020_AC
-     */
     private String buildStableDocId(VideoItem item) {
         return normalizeId(item.getManufacturer()) + "_" +
                 normalizeId(item.getModel()) + "_" +
@@ -213,7 +266,6 @@ public class VideosRepository {
         if (s == null) return "";
         return s.trim()
                 .toUpperCase(Locale.ROOT)
-                // keep letters/digits/_/-
                 .replaceAll("[^0-9A-Z_\\-]+", "");
     }
 
@@ -229,4 +281,5 @@ public class VideosRepository {
     private boolean isBlank(String s) {
         return s == null || s.trim().isEmpty();
     }
+
 }

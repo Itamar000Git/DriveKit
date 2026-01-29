@@ -323,11 +323,12 @@ public class DIYFilterActivity extends AppCompatActivity {
     private CarModel selectedManufacturer = CarModel.UNKNOWN;
     private String selectedModelName = null;        // enum name (e.g., "COROLLA")
     private String selectedYearRangeLabel = null;   // from Firestore (e.g., "2016-2020")
-
+    private static final boolean DEV_SEED = false; //change to true only when needed insert json to video collection in firebase
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.diy_filter);
+
 
         // --- Find views ---
         manufacturerLayout = findViewById(R.id.manufacturerLayout);
@@ -388,6 +389,8 @@ public class DIYFilterActivity extends AppCompatActivity {
                 Log.e("DIY_FILTER", "VM error: " + err);
             }
         });
+        if (DEV_SEED) vm.seedDatabaseFromAssets(this);
+
 
         // --- Optional: pre-fill manufacturer from Intent ---
         prefillFromIntent(getIntent());
@@ -441,6 +444,7 @@ public class DIYFilterActivity extends AppCompatActivity {
             if (selectedManufacturer == null) selectedManufacturer = CarModel.UNKNOWN;
             if (selectedModelName == null) selectedModelName = "";
             if (selectedYearRangeLabel == null) selectedYearRangeLabel = "";
+
 
             // Log all collected values
             Log.d("DIY_FILTER",

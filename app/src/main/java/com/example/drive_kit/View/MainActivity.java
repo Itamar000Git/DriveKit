@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
         // Android needs this to create the Activity properly.
         super.onCreate(savedInstanceState);
 
+
         // Attach the XML layout file to this Activity.
         // After this line, all views inside activity_main.xml exist in memory.
         setContentView(R.layout.activity_main);
@@ -147,16 +148,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-/// ///////DO NOT DELETE!!!!! - for init video collection in DB///////////////////////
-//        VideosViewModel vm = new ViewModelProvider(this).get(VideosViewModel.class);
-//
-//        // TEMP: seed DB (run once when you need)
-//        // vm.seedDatabaseFromAssets(this);
-//
-//        vm.getError().observe(this, msg -> {
-//            if (msg != null) Log.d("SEED", msg);
-//        });
-/// //////////////////////////////////////////////////////////////////////////////////
+
 
     }
 }

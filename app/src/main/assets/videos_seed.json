@@ -14,5 +14,215 @@
     "issueKey": "Air-filter Inside",
     "issueNameHe": "פילטר אוויר רכב פנים",
     "url": "https://www.carcarekiosk.com/video/2014_Toyota_Corolla_S_1.8L_4_Cyl./air_filter_cabin/replace"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2014-2018",
+    "issueKey": "Air-filter Engine",
+    "issueNameHe": "פילטר אוויר מנוע",
+    "url": "https://www.carcarekiosk.com/video/2014_Toyota_Corolla_S_1.8L_4_Cyl./air_filter_engine/replace"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2014-2018",
+    "issueKey": "Battery - Jumpstart",
+    "issueNameHe": "מצבר - כבלים",
+    "url": "https://www.carcarekiosk.com/video/2014_Toyota_Corolla_S_1.8L_4_Cyl./battery/jump_start"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2014-2018",
+    "issueKey": "Battery - replacement",
+    "issueNameHe": "מצבר - החלפה",
+    "url": "https://www.carcarekiosk.com/video/2014_Toyota_Corolla_S_1.8L_4_Cyl./battery/replace_battery"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2014-2018",
+    "issueKey": "Brake Fluid - Add fluid",
+    "issueNameHe": "נוזל בלמים - הוספה",
+    "url": "https://www.carcarekiosk.com/video/2014_Toyota_Corolla_S_1.8L_4_Cyl./brake_fluid/add_fluid"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2014-2018",
+    "issueKey": "Brake Fluid - Check Fluid Level",
+    "issueNameHe": "נוזל בלמים -  בדיקה",
+    "url": "https://www.carcarekiosk.com/video/2014_Toyota_Corolla_S_1.8L_4_Cyl./brake_fluid/check_fluid_level"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2014-2018",
+    "issueKey": "Check Engine Light",
+    "issueNameHe": "נורת מנוע",
+    "url": "https://www.carcarekiosk.com/video/2014_Toyota_Corolla_S_1.8L_4_Cyl./check_engine_light/diagnose"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2014-2018",
+    "issueKey": "Clock",
+    "issueNameHe": "שעון",
+    "url": "https://www.carcarekiosk.com/video/2014_Toyota_Corolla_S_1.8L_4_Cyl./clock/set_clock"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2014-2018",
+    "issueKey": "Coolant - Add Coolant",
+    "issueNameHe": "הוספת נוזל קירור",
+    "url": "https://www.carcarekiosk.com/video/2014_Toyota_Corolla_S_1.8L_4_Cyl./coolant_antifreeze/add_coolant"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2014-2018",
+    "issueKey": "Coolant - Check Coolant Level",
+    "issueNameHe": "בדיקת כמות נוזל קירור",
+    "url": "https://www.carcarekiosk.com/video/2014_Toyota_Corolla_S_1.8L_4_Cyl./coolant_antifreeze/check_coolant_level"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2014-2018",
+    "issueKey": "Coolant - Fix Leaks",
+    "issueNameHe": "נוזל קירור - תיקון דליפות",
+    "url": "https://www.carcarekiosk.com/video/2014_Toyota_Corolla_S_1.8L_4_Cyl./coolant_antifreeze/fix_leaks"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2014-2018",
+    "issueKey": "Coolant - Flush Coolant",
+    "issueNameHe": "נוזל קירור - ניקוז",
+    "url": "https://www.carcarekiosk.com/video/2014_Toyota_Corolla_S_1.8L_4_Cyl./coolant_antifreeze/flush_coolant"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2014-2018",
+    "issueKey": "Fuse - Engine fuse check",
+    "issueNameHe": "פיוז - בדיקת פיוז מנוע",
+    "url": "https://www.carcarekiosk.com/video/2014_Toyota_Corolla_S_1.8L_4_Cyl./fuse_engine/check"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2014-2018",
+    "issueKey": "Fuse - Engine fuse replace",
+    "issueNameHe": "פיוז - החלפת פיוז מנוע",
+    "url": "https://www.carcarekiosk.com/video/2014_Toyota_Corolla_S_1.8L_4_Cyl./fuse_engine/replace"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2014-2018",
+    "issueKey": "Fuse - Interior fuse check",
+    "issueNameHe": "פיוז - בדיקת פיוז פנימי",
+    "url": "https://www.carcarekiosk.com/video/2014_Toyota_Corolla_S_1.8L_4_Cyl./fuse_interior/check"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2014-2018",
+    "issueKey": "Fuse - Interior fuse replace",
+    "issueNameHe": "פיוז - החלפת פיוז פנימי",
+    "url": "https://www.carcarekiosk.com/video/2014_Toyota_Corolla_S_1.8L_4_Cyl./fuse_interior/replace"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2014-2018",
+    "issueKey": "Hood - Open the hood",
+    "issueNameHe": "פתיחת מכסה מנוע",
+    "url": "https://www.carcarekiosk.com/video/2014_Toyota_Corolla_S_1.8L_4_Cyl./hood/open_the_hood"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2014-2018",
+    "issueKey": "Jack Up Car",
+    "issueNameHe": "הרמת רכב על ג'ק",
+    "url": "https://www.carcarekiosk.com/video/2014_Toyota_Corolla_S_1.8L_4_Cyl./jack_up_car/use_your_jack_to_raise_your_car"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2014-2018",
+    "issueKey": "Lights - Brake Light",
+    "issueNameHe": "אורות - אורות בלמים",
+    "url": "https://www.carcarekiosk.com/video/2014_Toyota_Corolla_S_1.8L_4_Cyl./lights/brake_light"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2014-2018",
+    "issueKey": "Lights - Headlight",
+    "issueNameHe": "אורות - אורות קדמיים",
+    "url": "https://www.carcarekiosk.com/video/2014_Toyota_Corolla_S_1.8L_4_Cyl./lights/headlight"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2014-2018",
+    "issueKey": "Oil - Add oil",
+    "issueNameHe": "שמן - הוספת שמן",
+    "url": "https://www.carcarekiosk.com/video/2014_Toyota_Corolla_S_1.8L_4_Cyl./oil/add_oil"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2014-2018",
+    "issueKey": "Oil - Change oil and oil filter",
+    "issueNameHe": "שמן - החלפת שמן ופילטר שמן",
+    "url": "https://www.carcarekiosk.com/video/2014_Toyota_Corolla_S_1.8L_4_Cyl./oil/change_oil_and_oil_filter"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2014-2018",
+    "issueKey": "Oil - check oil level",
+    "issueNameHe": "שמן - בדיקת כמות שמן",
+    "url": "https://www.carcarekiosk.com/video/2014_Toyota_Corolla_S_1.8L_4_Cyl./oil/check_oil_level"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2014-2018",
+    "issueKey": "Tires - Change a Flat Tire",
+    "issueNameHe": "צמיגים - החלפת צמיג עם פנצ'ר",
+    "url": "https://www.carcarekiosk.com/video/2014_Toyota_Corolla_S_1.8L_4_Cyl./tires_and_wheels/change_a_flat_tire"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2014-2018",
+    "issueKey": "Tires - Check Tire Pressure",
+    "issueNameHe": "צמיגים - בדיקת לחץ אוויר",
+    "url": "https://www.carcarekiosk.com/video/2014_Toyota_Corolla_S_1.8L_4_Cyl./tires_and_wheels/check_tire_pressure"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2014-2018",
+    "issueKey": "Add Washer Fluid",
+    "issueNameHe": "הוספת נוזל שמשות",
+    "url": "https://www.carcarekiosk.com/video/2014_Toyota_Corolla_S_1.8L_4_Cyl./windshield_washer_fluid/add_fluid"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2014-2018",
+    "issueKey": "Front Wiper Blade - Replace",
+    "issueNameHe": "החלפת מגבים קידמיים",
+    "url": "https://www.carcarekiosk.com/video/2014_Toyota_Corolla_S_1.8L_4_Cyl./windshield_wiper_blade_front/replace_wiper_blades"
   }
+
+
 ]
