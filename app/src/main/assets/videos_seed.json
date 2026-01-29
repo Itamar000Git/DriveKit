@@ -1,0 +1,18 @@
+[
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2014-2018",
+    "issueKey": "AC",
+    "issueNameHe": "מזגן",
+    "url": "https://www.carcarekiosk.com/video/2014_Toyota_Corolla_S_1.8L_4_Cyl./air_conditioner/recharge_freon"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2014-2018",
+    "issueKey": "Air-filter Inside",
+    "issueNameHe": "פילטר אוויר רכב פנים",
+    "url": "https://www.carcarekiosk.com/video/2014_Toyota_Corolla_S_1.8L_4_Cyl./air_filter_cabin/replace"
+  }
+]

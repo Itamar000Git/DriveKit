@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/diyFilterRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".View.DIYFilterActivity">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/diyFilterScroll"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:padding="24dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/diyFilterContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- DIY (green) -->
+            <TextView
+                android:id="@+id/diyGreenTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="DIY"
+                android:textColor="#8BC34A"
+                android:textSize="48sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- Title -->
+            <TextView
+                android:id="@+id/diyFilterTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="סינון מדריכים"
+                android:textColor="#E0E0E0"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/diyGreenTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- Manufacturer -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/manufacturerLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:boxBackgroundColor="#99FFFFFF"
+                app:boxStrokeColor="#8BC34A"
+                app:hintTextColor="#B0BEC5"
+                app:endIconMode="dropdown_menu"
+                app:endIconTint="#001F3F"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/diyFilterTitle">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/manufacturerDropdown"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="יצרן"
+                    android:inputType="none"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:clickable="true"
+                    android:cursorVisible="false"
+                    android:longClickable="false"
+                    android:importantForAutofill="no"
+                    android:textColor="#001F3F"
+                    android:textColorHint="#607D8B"
+                    android:paddingEnd="16dp"
+                    android:paddingRight="16dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Model (depends on Manufacturer) -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/modelLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:boxBackgroundColor="#99FFFFFF"
+                app:boxStrokeColor="#8BC34A"
+                app:hintTextColor="#B0BEC5"
+                app:endIconMode="dropdown_menu"
+                app:endIconTint="#001F3F"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/manufacturerLayout">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/modelDropdown"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="דגם"
+                    android:inputType="none"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:clickable="true"
+                    android:cursorVisible="false"
+                    android:longClickable="false"
+                    android:importantForAutofill="no"
+                    android:textColor="#001F3F"
+                    android:textColorHint="#607D8B"
+                    android:paddingEnd="16dp"
+                    android:paddingRight="16dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <!-- Year -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/yearLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:boxBackgroundColor="#99FFFFFF"
+                app:boxStrokeColor="#8BC34A"
+                app:hintTextColor="#B0BEC5"
+                app:endIconMode="dropdown_menu"
+                app:endIconTint="#001F3F"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/modelLayout">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/yearDropdown"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="שנה"
+                    android:inputType="none"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:clickable="true"
+                    android:cursorVisible="false"
+                    android:longClickable="false"
+                    android:importantForAutofill="no"
+                    android:textColor="#001F3F"
+                    android:textColorHint="#607D8B"
+                    android:paddingEnd="16dp"
+                    android:paddingRight="16dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Search button -->
+            <Button
+                android:id="@+id/searchButton"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginBottom="24dp"
+                android:backgroundTint="#D6D6D6"
+                android:text="חפש"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/yearLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <TextView
+                android:id="@+id/creditCarCareKiosk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="קרדיט: CarCareKiosk"
+                android:textColor="#607D8B"
+                android:textSize="12sp"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintTop_toBottomOf="@id/searchButton"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/disclaimerText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:gravity="center"
+                android:text="המידע והסרטונים ניתנים לצורכי מידע בלבד. השימוש בהם והביצוע בפועל הם באחריות הצופה בלבד. אין באמור ייעוץ מקצועי, ואיננו אחראים לכל נזק, תקלה או פגיעה. במקרה של ספק יש לפנות לבעל מקצוע מוסמך."
+                android:textColor="#607D8B"
+                android:textSize="12sp"
+                app:layout_constraintTop_toBottomOf="@id/creditCarCareKiosk"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

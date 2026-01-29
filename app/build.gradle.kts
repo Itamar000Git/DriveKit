@@ -53,6 +53,7 @@ dependencies {
     implementation(libs.ext.junit)
     implementation(libs.espresso.core)
     implementation(libs.rules)
+    implementation(libs.firebase.crashlytics.buildtools)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -71,6 +72,7 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-contrib:3.5.1") {
         exclude(group = "com.google.protobuf", module = "protobuf-lite")
     }
+    implementation("com.google.code.gson:gson:2.10.1")
 
 
 
