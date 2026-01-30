@@ -222,7 +222,3634 @@
     "issueKey": "Front Wiper Blade - Replace",
     "issueNameHe": "החלפת מגבים קידמיים",
     "url": "https://www.carcarekiosk.com/video/2014_Toyota_Corolla_S_1.8L_4_Cyl./windshield_wiper_blade_front/replace_wiper_blades"
-  }
+  },
 
+
+
+
+
+
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2019-2024",
+    "issueKey": "AC",
+    "issueNameHe": "מזגן",
+    "url": "https://www.carcarekiosk.com/video/2014_Toyota_Corolla_S_1.8L_4_Cyl./air_conditioner/recharge_freon"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2019-2024",
+    "issueKey": "Air-filter Inside",
+    "issueNameHe": "פילטר אוויר רכב פנים",
+    "url": "https://www.carcarekiosk.com/video/2019_Toyota_Corolla_SE_1.8L_4_Cyl._Hatchback/air_filter_cabin/replace"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2019-2024",
+    "issueKey": "Air-filter Engine",
+    "issueNameHe": "פילטר אוויר מנוע",
+    "url": "https://www.carcarekiosk.com/video/2019_Toyota_Corolla_SE_1.8L_4_Cyl._Hatchback/air_filter_engine/replace"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2019-2024",
+    "issueKey": "Battery - Jumpstart",
+    "issueNameHe": "מצבר - כבלים",
+    "url": "https://www.carcarekiosk.com/video/2019_Toyota_Corolla_SE_1.8L_4_Cyl._Hatchback/battery/jump_start"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2019-2024",
+    "issueKey": "Battery - replacement",
+    "issueNameHe": "מצבר - החלפה",
+    "url": "https://www.carcarekiosk.com/video/2019_Toyota_Corolla_SE_1.8L_4_Cyl._Hatchback/battery/replace_battery"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2019-2024",
+    "issueKey": "Bluetooth - Pair phone",
+    "issueNameHe": "בלוטוס - חיבור טלפון",
+    "url": "https://www.carcarekiosk.com/video/2019_Toyota_Corolla_SE_1.8L_4_Cyl._Hatchback/bluetooth/pair_phone"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2019-2024",
+    "issueKey": "Brake Fluid - Add fluid",
+    "issueNameHe": "נוזל בלמים - הוספה",
+    "url": "https://www.carcarekiosk.com/video/2019_Toyota_Corolla_SE_1.8L_4_Cyl._Hatchback/brake_fluid/add_fluid"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2019-2024",
+    "issueKey": "Brake Fluid - Check Fluid Level",
+    "issueNameHe": "נוזל בלמים -  בדיקה",
+    "url": "https://www.carcarekiosk.com/video/2019_Toyota_Corolla_SE_1.8L_4_Cyl._Hatchback/brake_fluid/check_fluid_level"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2019-2024",
+    "issueKey": "Car Seats - Install",
+    "issueNameHe": "כיסאות רכב - התקנה",
+    "url": "https://www.carcarekiosk.com/video/2019_Toyota_Corolla_SE_1.8L_4_Cyl._Hatchback/car_seats/install"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2019-2024",
+    "issueKey": "Check Engine Light",
+    "issueNameHe": "נורת מנוע",
+    "url": "https://www.carcarekiosk.com/video/2019_Toyota_Corolla_SE_1.8L_4_Cyl._Hatchback/check_engine_light/diagnose"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2019-2024",
+    "issueKey": "Clock",
+    "issueNameHe": "שעון",
+    "url": "https://www.carcarekiosk.com/video/2019_Toyota_Corolla_SE_1.8L_4_Cyl._Hatchback/clock/set_clock"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2019-2024",
+    "issueKey": "Coolant - Add Coolant",
+    "issueNameHe": "הוספת נוזל קירור",
+    "url": "https://www.carcarekiosk.com/video/2019_Toyota_Corolla_SE_1.8L_4_Cyl._Hatchback/coolant_antifreeze/add_coolant"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2019-2024",
+    "issueKey": "Coolant - Check Coolant Level",
+    "issueNameHe": "בדיקת כמות נוזל קירור",
+    "url": "https://www.carcarekiosk.com/video/2019_Toyota_Corolla_SE_1.8L_4_Cyl._Hatchback/coolant_antifreeze/check_coolant_level"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2019-2024",
+    "issueKey": "Coolant - Fix Leaks",
+    "issueNameHe": "נוזל קירור - תיקון דליפות",
+    "url": "https://www.carcarekiosk.com/video/2019_Toyota_Corolla_SE_1.8L_4_Cyl._Hatchback/coolant_antifreeze/fix_leaks"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2019-2024",
+    "issueKey": "Coolant - Flush Coolant",
+    "issueNameHe": "נוזל קירור - ניקוז",
+    "url": "https://www.carcarekiosk.com/video/2019_Toyota_Corolla_SE_1.8L_4_Cyl._Hatchback/coolant_antifreeze/flush_coolant"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2019-2024",
+    "issueKey": "Fuse - Engine fuse check",
+    "issueNameHe": "פיוז - בדיקת פיוז מנוע",
+    "url": "https://www.carcarekiosk.com/video/2019_Toyota_Corolla_SE_1.8L_4_Cyl._Hatchback/fuse_engine/check"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2019-2024",
+    "issueKey": "Fuse - Engine fuse replace",
+    "issueNameHe": "פיוז - החלפת פיוז מנוע",
+    "url": "https://www.carcarekiosk.com/video/2019_Toyota_Corolla_SE_1.8L_4_Cyl._Hatchback/fuse_engine/replace"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2019-2024",
+    "issueKey": "Fuse - Interior fuse check",
+    "issueNameHe": "פיוז - בדיקת פיוז פנימי",
+    "url": "https://www.carcarekiosk.com/video/2019_Toyota_Corolla_SE_1.8L_4_Cyl._Hatchback/fuse_interior/check"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2019-2024",
+    "issueKey": "Fuse - Interior fuse replace",
+    "issueNameHe": "פיוז - החלפת פיוז פנימי",
+    "url": "https://www.carcarekiosk.com/video/2019_Toyota_Corolla_SE_1.8L_4_Cyl._Hatchback/fuse_interior/replace"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2019-2024",
+    "issueKey": "Hood - Open the hood",
+    "issueNameHe": "פתיחת מכסה מנוע",
+    "url": "https://www.carcarekiosk.com/video/2019_Toyota_Corolla_SE_1.8L_4_Cyl._Hatchback/hood/open_the_hood"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2019-2024",
+    "issueKey": "Jack Up Car",
+    "issueNameHe": "הרמת רכב על ג'ק",
+    "url": "https://www.carcarekiosk.com/video/2019_Toyota_Corolla_SE_1.8L_4_Cyl._Hatchback/jack_up_car/use_your_jack_to_raise_your_car"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2019-2024",
+    "issueKey": "Lights - Brake Light",
+    "issueNameHe": "אורות - אורות בלמים",
+    "url": "https://www.carcarekiosk.com/video/2019_Toyota_Corolla_SE_1.8L_4_Cyl._Hatchback/lights/brake_light"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2019-2024",
+    "issueKey": "Lights - Headlight",
+    "issueNameHe": "אורות - אורות קדמיים",
+    "url": "https://www.carcarekiosk.com/video/2019_Toyota_Corolla_SE_1.8L_4_Cyl._Hatchback/lights/headlight"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2019-2024",
+    "issueKey": "Oil - Add oil",
+    "issueNameHe": "שמן - הוספת שמן",
+    "url": "https://www.carcarekiosk.com/video/2019_Toyota_Corolla_SE_1.8L_4_Cyl._Hatchback/oil/add_oil"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2019-2024",
+    "issueKey": "Oil - Change oil and oil filter",
+    "issueNameHe": "שמן - החלפת שמן ופילטר שמן",
+    "url": "https://www.carcarekiosk.com/video/2019_Toyota_Corolla_SE_1.8L_4_Cyl._Hatchback/oil/change_oil_and_oil_filter"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2019-2024",
+    "issueKey": "Oil - check oil level",
+    "issueNameHe": "שמן - בדיקת כמות שמן",
+    "url": "https://www.carcarekiosk.com/video/2019_Toyota_Corolla_SE_1.8L_4_Cyl._Hatchback/oil/check_oil_level"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2019-2024",
+    "issueKey": "Transmission Fluid - Add fluid",
+    "issueNameHe": "שמן גיר - הוספת שמן",
+    "url": "https://www.carcarekiosk.com/video/2019_Toyota_Corolla_SE_1.8L_4_Cyl._Hatchback/transmission_fluid/add_level"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2019-2024",
+    "issueKey": "Transmission Fluid - Check Fluid Level",
+    "issueNameHe": "שמן גיר - בדיקת כמות שמן",
+    "url": "https://www.carcarekiosk.com/video/2019_Toyota_Corolla_SE_1.8L_4_Cyl._Hatchback/transmission_fluid/check_fluid_level"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2019-2024",
+    "issueKey": "Tires - Change a Flat Tire",
+    "issueNameHe": "צמיגים - החלפת צמיג עם פנצ'ר",
+    "url": "https://www.carcarekiosk.com/video/2019_Toyota_Corolla_SE_1.8L_4_Cyl._Hatchback/tires_and_wheels/change_a_flat_tire"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2019-2024",
+    "issueKey": "Tires - Check Tire Pressure",
+    "issueNameHe": "צמיגים - בדיקת לחץ אוויר",
+    "url": "https://www.carcarekiosk.com/video/2019_Toyota_Corolla_SE_1.8L_4_Cyl._Hatchback/tires_and_wheels/check_tire_pressure"
+  },
+
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2019-2024",
+    "issueKey": "Add Washer Fluid",
+    "issueNameHe": "הוספת נוזל שמשות",
+    "url": "https://www.carcarekiosk.com/video/2019_Toyota_Corolla_SE_1.8L_4_Cyl._Hatchback/windshield_washer_fluid/add_fluid"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2019-2024",
+    "issueKey": "Front Wiper Blades - Replace",
+    "issueNameHe": "החלפת מגבים קידמיים",
+    "url": "https://www.carcarekiosk.com/video/2019_Toyota_Corolla_SE_1.8L_4_Cyl._Hatchback/windshield_wiper_blade_front/replace_wiper_blades"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "COROLLA",
+    "yearRange": "2019-2024",
+    "issueKey": "Rear Wiper Blade - Replace",
+    "issueNameHe": "החלפת מגב אחורי",
+    "url": "https://www.carcarekiosk.com/video/2019_Toyota_Corolla_SE_1.8L_4_Cyl._Hatchback/windshield_wiper_blade_rear/replace_wiper_blade"
+  },
+
+
+
+
+
+
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2015-2017",
+    "issueKey": "AC",
+    "issueNameHe": "מזגן",
+    "url": "https://www.carcarekiosk.com/video/2017_Toyota_Camry_XLE_3.5L_V6/air_conditioner/recharge_freon"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2015-2017",
+    "issueKey": "Air-filter Inside",
+    "issueNameHe": "פילטר אוויר רכב פנים",
+    "url": "https://www.carcarekiosk.com/video/2017_Toyota_Camry_XLE_3.5L_V6/air_filter_cabin/replace"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2015-2017",
+    "issueKey": "Air-filter Engine",
+    "issueNameHe": "פילטר אוויר מנוע",
+    "url": "https://www.carcarekiosk.com/video/2017_Toyota_Camry_XLE_3.5L_V6/air_filter_engine/replace"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2015-2017",
+    "issueKey": "Battery - Jumpstart",
+    "issueNameHe": "מצבר - כבלים",
+    "url": "https://www.carcarekiosk.com/video/2017_Toyota_Camry_XLE_3.5L_V6/battery/jump_start"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2015-2017",
+    "issueKey": "Battery - replacement",
+    "issueNameHe": "מצבר - החלפה",
+    "url": "https://www.carcarekiosk.com/video/2017_Toyota_Camry_XLE_3.5L_V6/battery/replace_battery"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2015-2017",
+    "issueKey": "Bluetooth - Pair phone",
+    "issueNameHe": "בלוטוס - חיבור טלפון",
+    "url": "https://www.carcarekiosk.com/video/2017_Toyota_Camry_XLE_3.5L_V6/bluetooth/pair_phone"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2015-2017",
+    "issueKey": "Brake Fluid - Add fluid",
+    "issueNameHe": "נוזל בלמים - הוספה",
+    "url": "https://www.carcarekiosk.com/video/2017_Toyota_Camry_XLE_3.5L_V6/brake_fluid/add_fluid"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2015-2017",
+    "issueKey": "Brake Fluid - Check Fluid Level",
+    "issueNameHe": "נוזל בלמים -  בדיקה",
+    "url": "https://www.carcarekiosk.com/video/2017_Toyota_Camry_XLE_3.5L_V6/brake_fluid/check_fluid_level"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2015-2017",
+    "issueKey": "Car Seats - Install",
+    "issueNameHe": "התקנת מושבים",
+    "url": "https://www.carcarekiosk.com/video/2017_Toyota_Camry_XLE_3.5L_V6/car_seats/install"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2015-2017",
+    "issueKey": "Check Engine Light",
+    "issueNameHe": "נורת מנוע",
+    "url": "https://www.carcarekiosk.com/video/2017_Toyota_Camry_XLE_3.5L_V6/check_engine_light/diagnose"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2015-2017",
+    "issueKey": "Clock",
+    "issueNameHe": "שעון",
+    "url": "https://www.carcarekiosk.com/video/2017_Toyota_Camry_XLE_3.5L_V6/clock/set_clock"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2015-2017",
+    "issueKey": "Coolant - Add Coolant",
+    "issueNameHe": "הוספת נוזל קירור",
+    "url": "https://www.carcarekiosk.com/video/2017_Toyota_Camry_XLE_3.5L_V6/coolant_antifreeze/add_coolant"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2015-2017",
+    "issueKey": "Coolant - Check Coolant Level",
+    "issueNameHe": "בדיקת כמות נוזל קירור",
+    "url": "https://www.carcarekiosk.com/video/2017_Toyota_Camry_XLE_3.5L_V6/coolant_antifreeze/check_coolant_level"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2015-2017",
+    "issueKey": "Coolant - Fix Leaks",
+    "issueNameHe": "נוזל קירור - תיקון דליפות",
+    "url": "https://www.carcarekiosk.com/video/2017_Toyota_Camry_XLE_3.5L_V6/coolant_antifreeze/fix_leaks"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2015-2017",
+    "issueKey": "Coolant - Flush Coolant",
+    "issueNameHe": "נוזל קירור - ניקוז",
+    "url": "https://www.carcarekiosk.com/video/2017_Toyota_Camry_XLE_3.5L_V6/coolant_antifreeze/flush_coolant"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2015-2017",
+    "issueKey": "Fuse - Engine fuse check",
+    "issueNameHe": "פיוז - בדיקת פיוז מנוע",
+    "url": "https://www.carcarekiosk.com/video/2017_Toyota_Camry_XLE_3.5L_V6/fuse_engine/check"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2015-2017",
+    "issueKey": "Fuse - Engine fuse replace",
+    "issueNameHe": "פיוז - החלפת פיוז מנוע",
+    "url": "https://www.carcarekiosk.com/video/2017_Toyota_Camry_XLE_3.5L_V6/fuse_engine/replace"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2015-2017",
+    "issueKey": "Fuse - Interior fuse check",
+    "issueNameHe": "פיוז - בדיקת פיוז פנימי",
+    "url": "https://www.carcarekiosk.com/video/2017_Toyota_Camry_XLE_3.5L_V6/fuse_interior/check"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2015-2017",
+    "issueKey": "Fuse - Interior fuse replace",
+    "issueNameHe": "פיוז - החלפת פיוז פנימי",
+    "url": "https://www.carcarekiosk.com/video/2017_Toyota_Camry_XLE_3.5L_V6/fuse_interior/replace"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2015-2017",
+    "issueKey": "Hood - Open the hood",
+    "issueNameHe": "פתיחת מכסה מנוע",
+    "url": "https://www.carcarekiosk.com/video/2017_Toyota_Camry_XLE_3.5L_V6/hood/open_the_hood"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2015-2017",
+    "issueKey": "Jack Up Car",
+    "issueNameHe": "הרמת רכב על ג'ק",
+    "url": "https://www.carcarekiosk.com/video/2017_Toyota_Camry_XLE_3.5L_V6/jack_up_car/use_your_jack_to_raise_your_car"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2015-2017",
+    "issueKey": "Lights - Brake Light",
+    "issueNameHe": "אורות - אורות בלמים",
+    "url": "https://www.carcarekiosk.com/video/2017_Toyota_Camry_XLE_3.5L_V6/lights/brake_light"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2015-2017",
+    "issueKey": "Lights - Headlight",
+    "issueNameHe": "אורות - אורות קדמיים",
+    "url": "https://www.carcarekiosk.com/video/2017_Toyota_Camry_XLE_3.5L_V6/lights/headlight"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2015-2017",
+    "issueKey": "Oil - Add oil",
+    "issueNameHe": "שמן - הוספת שמן",
+    "url": "https://www.carcarekiosk.com/video/2017_Toyota_Camry_XLE_3.5L_V6/oil/add_oil"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2015-2017",
+    "issueKey": "Oil - Change oil and oil filter",
+    "issueNameHe": "שמן - החלפת שמן ופילטר שמן",
+    "url": "https://www.carcarekiosk.com/video/2017_Toyota_Camry_XLE_3.5L_V6/oil/change_oil_and_oil_filter"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2015-2017",
+    "issueKey": "Oil - check oil level",
+    "issueNameHe": "שמן - בדיקת כמות שמן",
+    "url": "https://www.carcarekiosk.com/video/2017_Toyota_Camry_XLE_3.5L_V6/oil/check_oil_level"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2015-2017",
+    "issueKey": "Tires - Change a Flat Tire",
+    "issueNameHe": "צמיגים - החלפת צמיג עם פנצ'ר",
+    "url": "https://www.carcarekiosk.com/video/2017_Toyota_Camry_XLE_3.5L_V6/tires_and_wheels/change_a_flat_tire"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2015-2017",
+    "issueKey": "Tires - Check Tire Pressure",
+    "issueNameHe": "צמיגים - בדיקת לחץ אוויר",
+    "url": "https://www.carcarekiosk.com/video/2017_Toyota_Camry_XLE_3.5L_V6/tires_and_wheels/check_tire_pressure"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2015-2017",
+    "issueKey": "Add Washer Fluid",
+    "issueNameHe": "הוספת נוזל שמשות",
+    "url": "https://www.carcarekiosk.com/video/2017_Toyota_Camry_XLE_3.5L_V6/windshield_washer_fluid/add_fluid"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2015-2017",
+    "issueKey": "Front Wiper Blade - Replace",
+    "issueNameHe": "החלפת מגבים קידמיים",
+    "url": "https://www.carcarekiosk.com/video/2017_Toyota_Camry_XLE_3.5L_V6/windshield_wiper_blade_front/replace_wiper_blades"
+  },
+
+
+
+
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2019-2024",
+    "issueKey": "AC",
+    "issueNameHe": "מזגן",
+    "url": "https://www.carcarekiosk.com/video/2018_Toyota_Camry_SE_2.5L_4_Cyl./air_conditioner/recharge_freon"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2019-2024",
+    "issueKey": "Air-filter Inside",
+    "issueNameHe": "פילטר אוויר רכב פנים",
+    "url": "https://www.carcarekiosk.com/video/2018_Toyota_Camry_SE_2.5L_4_Cyl./air_filter_cabin/replace"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2019-2024",
+    "issueKey": "Air-filter Engine",
+    "issueNameHe": "פילטר אוויר מנוע",
+    "url": "https://www.carcarekiosk.com/video/2018_Toyota_Camry_SE_2.5L_4_Cyl./air_filter_engine/replace"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2019-2024",
+    "issueKey": "Battery - Jumpstart",
+    "issueNameHe": "מצבר - כבלים",
+    "url": "https://www.carcarekiosk.com/video/2018_Toyota_Camry_SE_2.5L_4_Cyl./battery/jump_start"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2019-2024",
+    "issueKey": "Battery - replacement",
+    "issueNameHe": "מצבר - החלפה",
+    "url": "https://www.carcarekiosk.com/video/2018_Toyota_Camry_SE_2.5L_4_Cyl./battery/replace_battery"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2019-2024",
+    "issueKey": "Bluetooth - Pair phone",
+    "issueNameHe": "בלוטוס - חיבור טלפון",
+    "url": "https://www.carcarekiosk.com/video/2018_Toyota_Camry_SE_2.5L_4_Cyl./bluetooth/pair_phone"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2019-2024",
+    "issueKey": "Brake Fluid - Add fluid",
+    "issueNameHe": "נוזל בלמים - הוספה",
+    "url": "https://www.carcarekiosk.com/video/2018_Toyota_Camry_SE_2.5L_4_Cyl./brake_fluid/add_fluid"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2019-2024",
+    "issueKey": "Brake Fluid - Check Fluid Level",
+    "issueNameHe": "נוזל בלמים -  בדיקה",
+    "url": "https://www.carcarekiosk.com/video/2018_Toyota_Camry_SE_2.5L_4_Cyl./brake_fluid/check_fluid_level"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2019-2024",
+    "issueKey": "Car Seats - Install",
+    "issueNameHe": "כיסאות רכב - התקנה",
+    "url": "https://www.carcarekiosk.com/video/2018_Toyota_Camry_SE_2.5L_4_Cyl./car_seats/install"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2019-2024",
+    "issueKey": "Check Engine Light",
+    "issueNameHe": "נורת מנוע",
+    "url": "https://www.carcarekiosk.com/video/2018_Toyota_Camry_SE_2.5L_4_Cyl./check_engine_light/diagnose"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2019-2024",
+    "issueKey": "Clock",
+    "issueNameHe": "שעון",
+    "url": "https://www.carcarekiosk.com/video/2018_Toyota_Camry_SE_2.5L_4_Cyl./clock/set_clock"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2019-2024",
+    "issueKey": "Coolant - Add Coolant",
+    "issueNameHe": "הוספת נוזל קירור",
+    "url": "https://www.carcarekiosk.com/video/2018_Toyota_Camry_SE_2.5L_4_Cyl./coolant_antifreeze/add_coolant"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2019-2024",
+    "issueKey": "Coolant - Check Coolant Level",
+    "issueNameHe": "בדיקת כמות נוזל קירור",
+    "url": "https://www.carcarekiosk.com/video/2018_Toyota_Camry_SE_2.5L_4_Cyl./coolant_antifreeze/check_coolant_level"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2019-2024",
+    "issueKey": "Coolant - Fix Leaks",
+    "issueNameHe": "נוזל קירור - תיקון דליפות",
+    "url": "https://www.carcarekiosk.com/video/2018_Toyota_Camry_SE_2.5L_4_Cyl./coolant_antifreeze/fix_leaks"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2019-2024",
+    "issueKey": "Coolant - Flush Coolant",
+    "issueNameHe": "נוזל קירור - ניקוז",
+    "url": "https://www.carcarekiosk.com/video/2018_Toyota_Camry_SE_2.5L_4_Cyl./coolant_antifreeze/flush_coolant"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2019-2024",
+    "issueKey": "Fuse - Engine fuse check",
+    "issueNameHe": "פיוז - בדיקת פיוז מנוע",
+    "url": "https://www.carcarekiosk.com/video/2018_Toyota_Camry_SE_2.5L_4_Cyl./fuse_engine/check"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2019-2024",
+    "issueKey": "Fuse - Engine fuse replace",
+    "issueNameHe": "פיוז - החלפת פיוז מנוע",
+    "url": "https://www.carcarekiosk.com/video/2018_Toyota_Camry_SE_2.5L_4_Cyl./fuse_engine/replace"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2019-2024",
+    "issueKey": "Fuse - Interior fuse check",
+    "issueNameHe": "פיוז - בדיקת פיוז פנימי",
+    "url": "https://www.carcarekiosk.com/video/2018_Toyota_Camry_SE_2.5L_4_Cyl./fuse_interior/check"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2019-2024",
+    "issueKey": "Fuse - Interior fuse replace",
+    "issueNameHe": "פיוז - החלפת פיוז פנימי",
+    "url": "https://www.carcarekiosk.com/video/2018_Toyota_Camry_SE_2.5L_4_Cyl./fuse_interior/replace"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2019-2024",
+    "issueKey": "Hood - Open the hood",
+    "issueNameHe": "פתיחת מכסה מנוע",
+    "url": "https://www.carcarekiosk.com/video/2018_Toyota_Camry_SE_2.5L_4_Cyl./hood/open_the_hood"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2019-2024",
+    "issueKey": "Jack Up Car",
+    "issueNameHe": "הרמת רכב על ג'ק",
+    "url": "https://www.carcarekiosk.com/video/2018_Toyota_Camry_SE_2.5L_4_Cyl./jack_up_car/use_your_jack_to_raise_your_car"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2019-2024",
+    "issueKey": "Lights - Brake Light",
+    "issueNameHe": "אורות - אורות בלמים",
+    "url": "https://www.carcarekiosk.com/video/2018_Toyota_Camry_SE_2.5L_4_Cyl./lights/brake_light"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2019-2024",
+    "issueKey": "Lights - Headlight",
+    "issueNameHe": "אורות - אורות קדמיים",
+    "url": "https://www.carcarekiosk.com/video/2018_Toyota_Camry_SE_2.5L_4_Cyl./lights/headlight"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2019-2024",
+    "issueKey": "Oil - Add oil",
+    "issueNameHe": "שמן - הוספת שמן",
+    "url": "https://www.carcarekiosk.com/video/2018_Toyota_Camry_SE_2.5L_4_Cyl./oil/add_oil"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2019-2024",
+    "issueKey": "Oil - Change oil and oil filter",
+    "issueNameHe": "שמן - החלפת שמן ופילטר שמן",
+    "url": "https://www.carcarekiosk.com/video/2018_Toyota_Camry_SE_2.5L_4_Cyl./oil/change_oil_and_oil_filter"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2019-2024",
+    "issueKey": "Oil - check oil level",
+    "issueNameHe": "שמן - בדיקת כמות שמן",
+    "url": "https://www.carcarekiosk.com/video/2018_Toyota_Camry_SE_2.5L_4_Cyl./oil/check_oil_level"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2019-2024",
+    "issueKey": "Transmission Fluid - Add fluid",
+    "issueNameHe": "שמן גיר - הוספת שמן",
+    "url": "https://www.carcarekiosk.com/video/2018_Toyota_Camry_SE_2.5L_4_Cyl./transmission_fluid/add_level"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2019-2024",
+    "issueKey": "Transmission Fluid - Check Fluid Level",
+    "issueNameHe": "שמן גיר - בדיקת כמות שמן",
+    "url": "https://www.carcarekiosk.com/video/2018_Toyota_Camry_SE_2.5L_4_Cyl./transmission_fluid/check_fluid_level"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2019-2024",
+    "issueKey": "Tires - Change a Flat Tire",
+    "issueNameHe": "צמיגים - החלפת צמיג עם פנצ'ר",
+    "url": "https://www.carcarekiosk.com/video/2018_Toyota_Camry_SE_2.5L_4_Cyl./tires_and_wheels/change_a_flat_tire"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2019-2024",
+    "issueKey": "Tires - Check Tire Pressure",
+    "issueNameHe": "צמיגים - בדיקת לחץ אוויר",
+    "url": "https://www.carcarekiosk.com/video/2018_Toyota_Camry_SE_2.5L_4_Cyl./tires_and_wheels/check_tire_pressure"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2019-2024",
+    "issueKey": "Add Washer Fluid",
+    "issueNameHe": "הוספת נוזל שמשות",
+    "url": "https://www.carcarekiosk.com/video/2018_Toyota_Camry_SE_2.5L_4_Cyl./windshield_washer_fluid/add_fluid"
+  },
+  {
+    "manufacturer": "TOYOTA",
+    "model": "CAMRY",
+    "yearRange": "2019-2024",
+    "issueKey": "Front Wiper Blades - Replace",
+    "issueNameHe": "החלפת מגבים קידמיים",
+    "url": "https://www.carcarekiosk.com/video/2018_Toyota_Camry_SE_2.5L_4_Cyl./windshield_washer_fluid/add_fluid"
+  },
+
+
+
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2014-2018",
+    "issueKey": "AC",
+    "issueNameHe": "מזגן",
+    "url": "https://www.carcarekiosk.com/video/2014_Mazda_3_Touring_2.0L_4_Cyl._Sedan/air_conditioner/recharge_freon"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2014-2018",
+    "issueKey": "Air-filter Inside",
+    "issueNameHe": "פילטר אוויר רכב פנים",
+    "url": "https://www.carcarekiosk.com/video/2014_Mazda_3_Touring_2.0L_4_Cyl._Sedan/air_filter_cabin/replace"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2014-2018",
+    "issueKey": "Air-filter Engine",
+    "issueNameHe": "פילטר אוויר מנוע",
+    "url": "https://www.carcarekiosk.com/video/2014_Mazda_3_Touring_2.0L_4_Cyl._Sedan/air_filter_engine/replace"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2014-2018",
+    "issueKey": "Battery - Jumpstart",
+    "issueNameHe": "מצבר - כבלים",
+    "url": "https://www.carcarekiosk.com/video/2014_Mazda_3_Touring_2.0L_4_Cyl._Sedan/battery/jump_start"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2014-2018",
+    "issueKey": "Battery - replacement",
+    "issueNameHe": "מצבר - החלפה",
+    "url": "https://www.carcarekiosk.com/video/2014_Mazda_3_Touring_2.0L_4_Cyl._Sedan/battery/replace_battery"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2014-2018",
+    "issueKey": "Bluetooth - Pair phone",
+    "issueNameHe": "בלוטוס - חיבור טלפון",
+    "url": "https://www.carcarekiosk.com/video/2014_Mazda_3_Touring_2.0L_4_Cyl._Sedan/bluetooth/pair_phone"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2014-2018",
+    "issueKey": "Brake Fluid - Add fluid",
+    "issueNameHe": "נוזל בלמים - הוספה",
+    "url": "https://www.carcarekiosk.com/video/2014_Mazda_3_Touring_2.0L_4_Cyl._Sedan/brake_fluid/add_fluid"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2014-2018",
+    "issueKey": "Brake Fluid - Check Fluid Level",
+    "issueNameHe": "נוזל בלמים -  בדיקה",
+    "url": "https://www.carcarekiosk.com/video/2014_Mazda_3_Touring_2.0L_4_Cyl._Sedan/brake_fluid/check_fluid_level"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2014-2018",
+    "issueKey": "Car Seats - Install",
+    "issueNameHe": "כיסאות רכב - התקנה",
+    "url": "https://www.carcarekiosk.com/video/2014_Mazda_3_Touring_2.0L_4_Cyl._Sedan/car_seats/install"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2014-2018",
+    "issueKey": "Check Engine Light",
+    "issueNameHe": "נורת מנוע",
+    "url": "https://www.carcarekiosk.com/video/2014_Mazda_3_Touring_2.0L_4_Cyl._Sedan/check_engine_light/diagnose"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2014-2018",
+    "issueKey": "Clock",
+    "issueNameHe": "שעון",
+    "url": "https://www.carcarekiosk.com/video/2014_Mazda_3_Touring_2.0L_4_Cyl._Sedan/clock/set_clock"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2014-2018",
+    "issueKey": "Coolant - Add Coolant",
+    "issueNameHe": "הוספת נוזל קירור",
+    "url": "https://www.carcarekiosk.com/video/2014_Mazda_3_Touring_2.0L_4_Cyl._Sedan/coolant_antifreeze/add_coolant"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2014-2018",
+    "issueKey": "Coolant - Check Coolant Level",
+    "issueNameHe": "בדיקת כמות נוזל קירור",
+    "url": "https://www.carcarekiosk.com/video/2014_Mazda_3_Touring_2.0L_4_Cyl._Sedan/coolant_antifreeze/check_coolant_level"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2014-2018",
+    "issueKey": "Coolant - Fix Leaks",
+    "issueNameHe": "נוזל קירור - תיקון דליפות",
+    "url": "https://www.carcarekiosk.com/video/2014_Mazda_3_Touring_2.0L_4_Cyl._Sedan/coolant_antifreeze/fix_leaks"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2014-2018",
+    "issueKey": "Coolant - Flush Coolant",
+    "issueNameHe": "נוזל קירור - ניקוז",
+    "url": "https://www.carcarekiosk.com/video/2014_Mazda_3_Touring_2.0L_4_Cyl._Sedan/coolant_antifreeze/flush_coolant"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2014-2018",
+    "issueKey": "Fuse - Engine fuse check",
+    "issueNameHe": "פיוז - בדיקת פיוז מנוע",
+    "url": "https://www.carcarekiosk.com/video/2014_Mazda_3_Touring_2.0L_4_Cyl._Sedan/fuse_engine/check"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2014-2018",
+    "issueKey": "Fuse - Engine fuse replace",
+    "issueNameHe": "פיוז - החלפת פיוז מנוע",
+    "url": "https://www.carcarekiosk.com/video/2014_Mazda_3_Touring_2.0L_4_Cyl._Sedan/fuse_engine/replace"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2014-2018",
+    "issueKey": "Fuse - Interior fuse check",
+    "issueNameHe": "פיוז - בדיקת פיוז פנימי",
+    "url": "https://www.carcarekiosk.com/video/2014_Mazda_3_Touring_2.0L_4_Cyl._Sedan/fuse_interior/check"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2014-2018",
+    "issueKey": "Fuse - Interior fuse replace",
+    "issueNameHe": "פיוז - החלפת פיוז פנימי",
+    "url": "https://www.carcarekiosk.com/video/2014_Mazda_3_Touring_2.0L_4_Cyl._Sedan/fuse_interior/replace"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2014-2018",
+    "issueKey": "Hood - Open the hood",
+    "issueNameHe": "פתיחת מכסה מנוע",
+    "url": "https://www.carcarekiosk.com/video/2014_Mazda_3_Touring_2.0L_4_Cyl._Sedan/hood/open_the_hood"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2014-2018",
+    "issueKey": "Jack Up Car",
+    "issueNameHe": "הרמת רכב על ג'ק",
+    "url": "https://www.carcarekiosk.com/video/2014_Mazda_3_Touring_2.0L_4_Cyl._Sedan/jack_up_car/use_your_jack_to_raise_your_car"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2014-2018",
+    "issueKey": "Lights - Brake Light",
+    "issueNameHe": "אורות - אורות בלמים",
+    "url": "https://www.carcarekiosk.com/video/2014_Mazda_3_Touring_2.0L_4_Cyl._Sedan/lights/brake_light"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2014-2018",
+    "issueKey": "Lights - Headlight",
+    "issueNameHe": "אורות - אורות קדמיים",
+    "url": "https://www.carcarekiosk.com/video/2014_Mazda_3_Touring_2.0L_4_Cyl._Sedan/lights/headlight"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2014-2018",
+    "issueKey": "Oil - Add oil",
+    "issueNameHe": "שמן - הוספת שמן",
+    "url": "https://www.carcarekiosk.com/video/2014_Mazda_3_Touring_2.0L_4_Cyl._Sedan/oil/add_oil"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2014-2018",
+    "issueKey": "Oil - Change oil and oil filter",
+    "issueNameHe": "שמן - החלפת שמן ופילטר שמן",
+    "url": "https://www.carcarekiosk.com/video/2014_Mazda_3_Touring_2.0L_4_Cyl._Sedan/oil/change_oil_and_oil_filter"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2014-2018",
+    "issueKey": "Oil - check oil level",
+    "issueNameHe": "שמן - בדיקת כמות שמן",
+    "url": "https://www.carcarekiosk.com/video/2014_Mazda_3_Touring_2.0L_4_Cyl._Sedan/oil/check_oil_level"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2014-2018",
+    "issueKey": "Transmission Fluid - Add fluid",
+    "issueNameHe": "שמן גיר - הוספת שמן",
+    "url": "https://www.carcarekiosk.com/video/2014_Mazda_3_Touring_2.0L_4_Cyl._Sedan/transmission_fluid/add_level"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2014-2018",
+    "issueKey": "Transmission Fluid - Check Fluid Level",
+    "issueNameHe": "שמן גיר - בדיקת כמות שמן",
+    "url": "https://www.carcarekiosk.com/video/2014_Mazda_3_Touring_2.0L_4_Cyl._Sedan/transmission_fluid/check_fluid_level"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2014-2018",
+    "issueKey": "Tires - Change a Flat Tire",
+    "issueNameHe": "צמיגים - החלפת צמיג עם פנצ'ר",
+    "url": "https://www.carcarekiosk.com/video/2014_Mazda_3_Touring_2.0L_4_Cyl._Sedan/tires_and_wheels/change_a_flat_tire"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2014-2018",
+    "issueKey": "Tires - Check Tire Pressure",
+    "issueNameHe": "צמיגים - בדיקת לחץ אוויר",
+    "url": "https://www.carcarekiosk.com/video/2014_Mazda_3_Touring_2.0L_4_Cyl._Sedan/tires_and_wheels/check_tire_pressure"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2014-2018",
+    "issueKey": "Add Washer Fluid",
+    "issueNameHe": "הוספת נוזל שמשות",
+    "url": "https://www.carcarekiosk.com/video/2014_Mazda_3_Touring_2.0L_4_Cyl._Sedan/windshield_washer_fluid/add_fluid"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2014-2018",
+    "issueKey": "Front Wiper Blades - Replace",
+    "issueNameHe": "החלפת מגבים קידמיים",
+    "url": "https://www.carcarekiosk.com/video/2014_Mazda_3_Touring_2.0L_4_Cyl._Sedan/windshield_wiper_blade_front/replace_wiper_blades"
+  },
+
+
+
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2019-2024",
+    "issueKey": "AC",
+    "issueNameHe": "מזגן",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_3_Premium_2.5L_4_Cyl._Hatchback_%284_Door%29/air_conditioner/recharge_freon"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2019-2024",
+    "issueKey": "Air-filter Inside",
+    "issueNameHe": "פילטר אוויר רכב פנים",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_3_Premium_2.5L_4_Cyl._Hatchback_%284_Door%29/air_filter_cabin/replace"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2019-2024",
+    "issueKey": "Air-filter Engine",
+    "issueNameHe": "פילטר אוויר מנוע",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_3_Premium_2.5L_4_Cyl._Hatchback_%284_Door%29/air_filter_engine/replace"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2019-2024",
+    "issueKey": "Battery - Jumpstart",
+    "issueNameHe": "מצבר - כבלים",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_3_Premium_2.5L_4_Cyl._Hatchback_%284_Door%29/battery/jump_start"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2019-2024",
+    "issueKey": "Battery - replacement",
+    "issueNameHe": "מצבר - החלפה",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_3_Premium_2.5L_4_Cyl._Hatchback_%284_Door%29/battery/replace_battery"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2019-2024",
+    "issueKey": "Bluetooth - Pair phone",
+    "issueNameHe": "בלוטוס - חיבור טלפון",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_3_Premium_2.5L_4_Cyl._Hatchback_%284_Door%29/bluetooth/pair_phone"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2019-2024",
+    "issueKey": "Brake Fluid - Add fluid",
+    "issueNameHe": "נוזל בלמים - הוספה",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_3_Premium_2.5L_4_Cyl._Hatchback_%284_Door%29/brake_fluid/add_fluid"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2019-2024",
+    "issueKey": "Brake Fluid - Check Fluid Level",
+    "issueNameHe": "נוזל בלמים -  בדיקה",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_3_Premium_2.5L_4_Cyl._Hatchback_%284_Door%29/brake_fluid/check_fluid_level"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2019-2024",
+    "issueKey": "Car Seats - Install",
+    "issueNameHe": "כיסאות רכב - התקנה",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_3_Premium_2.5L_4_Cyl._Hatchback_%284_Door%29/car_seats/install"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2019-2024",
+    "issueKey": "Check Engine Light",
+    "issueNameHe": "נורת מנוע",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_3_Premium_2.5L_4_Cyl._Hatchback_%284_Door%29/check_engine_light/diagnose"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2019-2024",
+    "issueKey": "Clock",
+    "issueNameHe": "שעון",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_3_Premium_2.5L_4_Cyl._Hatchback_%284_Door%29/clock/set_clock"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2019-2024",
+    "issueKey": "Coolant - Add Coolant",
+    "issueNameHe": "הוספת נוזל קירור",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_3_Premium_2.5L_4_Cyl._Hatchback_%284_Door%29/coolant_antifreeze/add_coolant"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2019-2024",
+    "issueKey": "Coolant - Check Coolant Level",
+    "issueNameHe": "בדיקת כמות נוזל קירור",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_3_Premium_2.5L_4_Cyl._Hatchback_%284_Door%29/coolant_antifreeze/check_coolant_level"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2019-2024",
+    "issueKey": "Coolant - Fix Leaks",
+    "issueNameHe": "נוזל קירור - תיקון דליפות",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_3_Premium_2.5L_4_Cyl._Hatchback_%284_Door%29/coolant_antifreeze/fix_leaks"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2019-2024",
+    "issueKey": "Coolant - Flush Coolant",
+    "issueNameHe": "נוזל קירור - ניקוז",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_3_Premium_2.5L_4_Cyl._Hatchback_%284_Door%29/coolant_antifreeze/flush_coolant"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2019-2024",
+    "issueKey": "Fuse - Engine fuse check",
+    "issueNameHe": "פיוז - בדיקת פיוז מנוע",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_3_Premium_2.5L_4_Cyl._Hatchback_%284_Door%29/fuse_engine/check"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2019-2024",
+    "issueKey": "Fuse - Engine fuse replace",
+    "issueNameHe": "פיוז - החלפת פיוז מנוע",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_3_Premium_2.5L_4_Cyl._Hatchback_%284_Door%29/fuse_engine/replace"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2019-2024",
+    "issueKey": "Fuse - Interior fuse check",
+    "issueNameHe": "פיוז - בדיקת פיוז פנימי",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_3_Premium_2.5L_4_Cyl._Hatchback_%284_Door%29/fuse_interior/check"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2019-2024",
+    "issueKey": "Fuse - Interior fuse replace",
+    "issueNameHe": "פיוז - החלפת פיוז פנימי",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_3_Premium_2.5L_4_Cyl._Hatchback_%284_Door%29/fuse_interior/replace"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2019-2024",
+    "issueKey": "Hood - Open the hood",
+    "issueNameHe": "פתיחת מכסה מנוע",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_3_Premium_2.5L_4_Cyl._Hatchback_%284_Door%29/hood/open_the_hood"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2019-2024",
+    "issueKey": "Jack Up Car",
+    "issueNameHe": "הרמת רכב על ג'ק",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_3_Premium_2.5L_4_Cyl._Hatchback_%284_Door%29/jack_up_car/use_your_jack_to_raise_your_car"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2019-2024",
+    "issueKey": "Lights - Brake Light",
+    "issueNameHe": "אורות - אורות בלמים",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_3_Premium_2.5L_4_Cyl._Hatchback_%284_Door%29/lights/brake_light"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2019-2024",
+    "issueKey": "Lights - Headlight",
+    "issueNameHe": "אורות - אורות קדמיים",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_3_Premium_2.5L_4_Cyl._Hatchback_%284_Door%29/lights/headlight"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2019-2024",
+    "issueKey": "Oil - Add oil",
+    "issueNameHe": "שמן - הוספת שמן",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_3_Premium_2.5L_4_Cyl._Hatchback_%284_Door%29/oil/add_oil"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2019-2024",
+    "issueKey": "Oil - Change oil and oil filter",
+    "issueNameHe": "שמן - החלפת שמן ופילטר שמן",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_3_Premium_2.5L_4_Cyl._Hatchback_%284_Door%29/oil/change_oil_and_oil_filter"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2019-2024",
+    "issueKey": "Oil - check oil level",
+    "issueNameHe": "שמן - בדיקת כמות שמן",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_3_Premium_2.5L_4_Cyl._Hatchback_%284_Door%29/oil/check_oil_level"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2019-2024",
+    "issueKey": "Transmission Fluid - Add fluid",
+    "issueNameHe": "שמן גיר - הוספת שמן",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_3_Premium_2.5L_4_Cyl._Hatchback_%284_Door%29/transmission_fluid/add_level"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2019-2024",
+    "issueKey": "Transmission Fluid - Check Fluid Level",
+    "issueNameHe": "שמן גיר - בדיקת כמות שמן",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_3_Premium_2.5L_4_Cyl._Hatchback_%284_Door%29/transmission_fluid/check_fluid_level"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2019-2024",
+    "issueKey": "Tires - Change a Flat Tire",
+    "issueNameHe": "צמיגים - החלפת צמיג עם פנצ'ר",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_3_Premium_2.5L_4_Cyl._Hatchback_%284_Door%29/tires_and_wheels/change_a_flat_tire"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2019-2024",
+    "issueKey": "Tires - Check Tire Pressure",
+    "issueNameHe": "צמיגים - בדיקת לחץ אוויר",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_3_Premium_2.5L_4_Cyl._Hatchback_%284_Door%29/tires_and_wheels/check_tire_pressure"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2019-2024",
+    "issueKey": "Add Washer Fluid",
+    "issueNameHe": "הוספת נוזל שמשות",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_3_Premium_2.5L_4_Cyl._Hatchback_%284_Door%29/windshield_washer_fluid/add_fluid"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2019-2024",
+    "issueKey": "Front Wiper Blades - Replace",
+    "issueNameHe": "החלפת מגבים קידמיים",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_3_Premium_2.5L_4_Cyl._Hatchback_%284_Door%29/windshield_wiper_blade_front/replace_wiper_blades"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "MAZDA3",
+    "yearRange": "2019-2024",
+    "issueKey": "Rear Wiper Blade - Replace",
+    "issueNameHe": "החלפת מגב אחורי",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_3_Premium_2.5L_4_Cyl._Hatchback_%284_Door%29/windshield_wiper_blade_rear/replace_wiper_blade"
+  },
+
+
+
+
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2013-2016",
+    "issueKey": "AC",
+    "issueNameHe": "מזגן",
+    "url": "https://www.carcarekiosk.com/video/2013_Mazda_CX-5_Sport_2.0L_4_Cyl./air_conditioner/recharge_freon"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2013-2016",
+    "issueKey": "Air-filter Inside",
+    "issueNameHe": "פילטר אוויר רכב פנים",
+    "url": "https://www.carcarekiosk.com/video/2013_Mazda_CX-5_Sport_2.0L_4_Cyl./air_filter_cabin/replace"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2013-2016",
+    "issueKey": "Air-filter Engine",
+    "issueNameHe": "פילטר אוויר מנוע",
+    "url": "https://www.carcarekiosk.com/video/2013_Mazda_CX-5_Sport_2.0L_4_Cyl./air_filter_engine/replace"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2013-2016",
+    "issueKey": "Battery - Jumpstart",
+    "issueNameHe": "מצבר - כבלים",
+    "url": "https://www.carcarekiosk.com/video/2013_Mazda_CX-5_Sport_2.0L_4_Cyl./battery/jump_start"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2013-2016",
+    "issueKey": "Battery - replacement",
+    "issueNameHe": "מצבר - החלפה",
+    "url": "https://www.carcarekiosk.com/video/2013_Mazda_CX-5_Sport_2.0L_4_Cyl./battery/replace_battery"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2013-2016",
+    "issueKey": "Bluetooth - Pair phone",
+    "issueNameHe": "בלוטוס - חיבור טלפון",
+    "url": ""
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2013-2016",
+    "issueKey": "Brake Fluid - Add fluid",
+    "issueNameHe": "נוזל בלמים - הוספה",
+    "url": "https://www.carcarekiosk.com/video/2013_Mazda_CX-5_Sport_2.0L_4_Cyl./brake_fluid/add_fluid"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2013-2016",
+    "issueKey": "Brake Fluid - Check Fluid Level",
+    "issueNameHe": "נוזל בלמים -  בדיקה",
+    "url": "https://www.carcarekiosk.com/video/2013_Mazda_CX-5_Sport_2.0L_4_Cyl./brake_fluid/check_fluid_level"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2013-2016",
+    "issueKey": "Car Seats - Install",
+    "issueNameHe": "כיסאות רכב - התקנה",
+    "url": ""
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2013-2016",
+    "issueKey": "Check Engine Light",
+    "issueNameHe": "נורת מנוע",
+    "url": "https://www.carcarekiosk.com/video/2013_Mazda_CX-5_Sport_2.0L_4_Cyl./check_engine_light/diagnose"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2013-2016",
+    "issueKey": "Clock",
+    "issueNameHe": "שעון",
+    "url": "https://www.carcarekiosk.com/video/2013_Mazda_CX-5_Sport_2.0L_4_Cyl./clock/set_clock"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2013-2016",
+    "issueKey": "Coolant - Add Coolant",
+    "issueNameHe": "הוספת נוזל קירור",
+    "url": "https://www.carcarekiosk.com/video/2013_Mazda_CX-5_Sport_2.0L_4_Cyl./coolant_antifreeze/add_coolant"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2013-2016",
+    "issueKey": "Coolant - Check Coolant Level",
+    "issueNameHe": "בדיקת כמות נוזל קירור",
+    "url": "https://www.carcarekiosk.com/video/2013_Mazda_CX-5_Sport_2.0L_4_Cyl./coolant_antifreeze/check_coolant_level"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2013-2016",
+    "issueKey": "Coolant - Fix Leaks",
+    "issueNameHe": "נוזל קירור - תיקון דליפות",
+    "url": "https://www.carcarekiosk.com/video/2013_Mazda_CX-5_Sport_2.0L_4_Cyl./coolant_antifreeze/fix_leaks"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2013-2016",
+    "issueKey": "Coolant - Flush Coolant",
+    "issueNameHe": "נוזל קירור - ניקוז",
+    "url": "https://www.carcarekiosk.com/video/2013_Mazda_CX-5_Sport_2.0L_4_Cyl./coolant_antifreeze/flush_coolant"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2013-2016",
+    "issueKey": "Fuse - Engine fuse check",
+    "issueNameHe": "פיוז - בדיקת פיוז מנוע",
+    "url": "https://www.carcarekiosk.com/video/2013_Mazda_CX-5_Sport_2.0L_4_Cyl./fuse_engine/check"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2013-2016",
+    "issueKey": "Fuse - Engine fuse replace",
+    "issueNameHe": "פיוז - החלפת פיוז מנוע",
+    "url": "https://www.carcarekiosk.com/video/2013_Mazda_CX-5_Sport_2.0L_4_Cyl./fuse_engine/replace"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2013-2016",
+    "issueKey": "Fuse - Interior fuse check",
+    "issueNameHe": "פיוז - בדיקת פיוז פנימי",
+    "url": "https://www.carcarekiosk.com/video/2013_Mazda_CX-5_Sport_2.0L_4_Cyl./fuse_interior/check"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2013-2016",
+    "issueKey": "Fuse - Interior fuse replace",
+    "issueNameHe": "פיוז - החלפת פיוז פנימי",
+    "url": "https://www.carcarekiosk.com/video/2013_Mazda_CX-5_Sport_2.0L_4_Cyl./fuse_interior/replace"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2013-2016",
+    "issueKey": "Hood - Open the hood",
+    "issueNameHe": "פתיחת מכסה מנוע",
+    "url": "https://www.carcarekiosk.com/video/2013_Mazda_CX-5_Sport_2.0L_4_Cyl./hood/open_the_hood"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2013-2016",
+    "issueKey": "Jack Up Car",
+    "issueNameHe": "הרמת רכב על ג'ק",
+    "url": "https://www.carcarekiosk.com/video/2013_Mazda_CX-5_Sport_2.0L_4_Cyl./jack_up_car/use_your_jack_to_raise_your_car"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2013-2016",
+    "issueKey": "Lights - Brake Light",
+    "issueNameHe": "אורות - אורות בלמים",
+    "url": "https://www.carcarekiosk.com/video/2013_Mazda_CX-5_Sport_2.0L_4_Cyl./lights/brake_light"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2013-2016",
+    "issueKey": "Lights - Headlight",
+    "issueNameHe": "אורות - אורות קדמיים",
+    "url": "https://www.carcarekiosk.com/video/2013_Mazda_CX-5_Sport_2.0L_4_Cyl./lights/headlight"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2013-2016",
+    "issueKey": "Oil - Add oil",
+    "issueNameHe": "שמן - הוספת שמן",
+    "url": "https://www.carcarekiosk.com/video/2013_Mazda_CX-5_Sport_2.0L_4_Cyl./oil/add_oil"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2013-2016",
+    "issueKey": "Oil - Change oil and oil filter",
+    "issueNameHe": "שמן - החלפת שמן ופילטר שמן",
+    "url": "https://www.carcarekiosk.com/video/2013_Mazda_CX-5_Sport_2.0L_4_Cyl./oil/change_oil_and_oil_filter"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2013-2016",
+    "issueKey": "Oil - check oil level",
+    "issueNameHe": "שמן - בדיקת כמות שמן",
+    "url": "https://www.carcarekiosk.com/video/2013_Mazda_CX-5_Sport_2.0L_4_Cyl./oil/check_oil_level"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2013-2016",
+    "issueKey": "Transmission Fluid - Add fluid",
+    "issueNameHe": "שמן גיר - הוספת שמן",
+    "url": "https://www.carcarekiosk.com/video/2013_Mazda_CX-5_Sport_2.0L_4_Cyl./transmission_fluid/add_level"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2013-2016",
+    "issueKey": "Transmission Fluid - Check Fluid Level",
+    "issueNameHe": "שמן גיר - בדיקת כמות שמן",
+    "url": "https://www.carcarekiosk.com/video/2013_Mazda_CX-5_Sport_2.0L_4_Cyl./transmission_fluid/check_fluid_level"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2013-2016",
+    "issueKey": "Tires - Change a Flat Tire",
+    "issueNameHe": "צמיגים - החלפת צמיג עם פנצ'ר",
+    "url": "https://www.carcarekiosk.com/video/2013_Mazda_CX-5_Sport_2.0L_4_Cyl./tires_and_wheels/change_a_flat_tire"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2013-2016",
+    "issueKey": "Tires - Check Tire Pressure",
+    "issueNameHe": "צמיגים - בדיקת לחץ אוויר",
+    "url": "https://www.carcarekiosk.com/video/2013_Mazda_CX-5_Sport_2.0L_4_Cyl./tires_and_wheels/check_tire_pressure"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2013-2016",
+    "issueKey": "Add Washer Fluid",
+    "issueNameHe": "הוספת נוזל שמשות",
+    "url": "https://www.carcarekiosk.com/video/2013_Mazda_CX-5_Sport_2.0L_4_Cyl./windshield_washer_fluid/add_fluid"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2013-2016",
+    "issueKey": "Front Wiper Blades - Replace",
+    "issueNameHe": "החלפת מגבים קידמיים",
+    "url": "https://www.carcarekiosk.com/video/2013_Mazda_CX-5_Sport_2.0L_4_Cyl./windshield_wiper_blade_front/replace_wiper_blades"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2013-2016",
+    "issueKey": "Rear Wiper Blade - Replace",
+    "issueNameHe": "החלפת מגב אחורי",
+    "url": "https://www.carcarekiosk.com/video/2013_Mazda_CX-5_Sport_2.0L_4_Cyl./windshield_wiper_blade_rear/replace_wiper_blade"
+  },
+
+
+
+
+
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2017-2024",
+    "issueKey": "AC",
+    "issueNameHe": "מזגן",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_CX-5_Touring_2.5L_4_Cyl./air_conditioner/recharge_freon"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2017-2024",
+    "issueKey": "Air-filter Inside",
+    "issueNameHe": "פילטר אוויר רכב פנים",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_CX-5_Touring_2.5L_4_Cyl./air_filter_cabin/replace"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2017-2024",
+    "issueKey": "Air-filter Engine",
+    "issueNameHe": "פילטר אוויר מנוע",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_CX-5_Touring_2.5L_4_Cyl./air_filter_engine/replace"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2017-2024",
+    "issueKey": "Battery - Jumpstart",
+    "issueNameHe": "מצבר - כבלים",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_CX-5_Touring_2.5L_4_Cyl./battery/jump_start"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2017-2024",
+    "issueKey": "Battery - replacement",
+    "issueNameHe": "מצבר - החלפה",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_CX-5_Touring_2.5L_4_Cyl./battery/replace_battery"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2017-2024",
+    "issueKey": "Bluetooth - Pair phone",
+    "issueNameHe": "בלוטוס - חיבור טלפון",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_CX-5_Touring_2.5L_4_Cyl./bluetooth/pair_phone"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2017-2024",
+    "issueKey": "Brake Fluid - Add fluid",
+    "issueNameHe": "נוזל בלמים - הוספה",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_CX-5_Touring_2.5L_4_Cyl./brake_fluid/add_fluid"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2017-2024",
+    "issueKey": "Brake Fluid - Check Fluid Level",
+    "issueNameHe": "נוזל בלמים -  בדיקה",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_CX-5_Touring_2.5L_4_Cyl./brake_fluid/check_fluid_level"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2017-2024",
+    "issueKey": "Car Seats - Install",
+    "issueNameHe": "כיסאות רכב - התקנה",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_CX-5_Touring_2.5L_4_Cyl./car_seats/install"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2017-2024",
+    "issueKey": "Check Engine Light",
+    "issueNameHe": "נורת מנוע",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_CX-5_Touring_2.5L_4_Cyl./check_engine_light/diagnose"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2017-2024",
+    "issueKey": "Clock",
+    "issueNameHe": "שעון",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_CX-5_Touring_2.5L_4_Cyl./clock/set_clock"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2017-2024",
+    "issueKey": "Coolant - Add Coolant",
+    "issueNameHe": "הוספת נוזל קירור",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_CX-5_Touring_2.5L_4_Cyl./coolant_antifreeze/add_coolant"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2017-2024",
+    "issueKey": "Coolant - Check Coolant Level",
+    "issueNameHe": "בדיקת כמות נוזל קירור",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_CX-5_Touring_2.5L_4_Cyl./coolant_antifreeze/check_coolant_level"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2017-2024",
+    "issueKey": "Coolant - Fix Leaks",
+    "issueNameHe": "נוזל קירור - תיקון דליפות",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_CX-5_Touring_2.5L_4_Cyl./coolant_antifreeze/fix_leaks"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2017-2024",
+    "issueKey": "Coolant - Flush Coolant",
+    "issueNameHe": "נוזל קירור - ניקוז",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_CX-5_Touring_2.5L_4_Cyl./coolant_antifreeze/flush_coolant"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2017-2024",
+    "issueKey": "Fuse - Engine fuse check",
+    "issueNameHe": "פיוז - בדיקת פיוז מנוע",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_CX-5_Touring_2.5L_4_Cyl./fuse_engine/check"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2017-2024",
+    "issueKey": "Fuse - Engine fuse replace",
+    "issueNameHe": "פיוז - החלפת פיוז מנוע",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_CX-5_Touring_2.5L_4_Cyl./fuse_engine/replace"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2017-2024",
+    "issueKey": "Fuse - Interior fuse check",
+    "issueNameHe": "פיוז - בדיקת פיוז פנימי",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_CX-5_Touring_2.5L_4_Cyl./fuse_interior/check"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2017-2024",
+    "issueKey": "Fuse - Interior fuse replace",
+    "issueNameHe": "פיוז - החלפת פיוז פנימי",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_CX-5_Touring_2.5L_4_Cyl./fuse_interior/replace"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2017-2024",
+    "issueKey": "Hood - Open the hood",
+    "issueNameHe": "פתיחת מכסה מנוע",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_CX-5_Touring_2.5L_4_Cyl./hood/open_the_hood"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2017-2024",
+    "issueKey": "Jack Up Car",
+    "issueNameHe": "הרמת רכב על ג'ק",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_CX-5_Touring_2.5L_4_Cyl./jack_up_car/use_your_jack_to_raise_your_car"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2017-2024",
+    "issueKey": "Lights - Brake Light",
+    "issueNameHe": "אורות - אורות בלמים",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_CX-5_Touring_2.5L_4_Cyl./lights/brake_light"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2017-2024",
+    "issueKey": "Lights - Headlight",
+    "issueNameHe": "אורות - אורות קדמיים",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_CX-5_Touring_2.5L_4_Cyl./lights/headlight"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2017-2024",
+    "issueKey": "Oil - Add oil",
+    "issueNameHe": "שמן - הוספת שמן",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_CX-5_Touring_2.5L_4_Cyl./oil/add_oil"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2017-2024",
+    "issueKey": "Oil - Change oil and oil filter",
+    "issueNameHe": "שמן - החלפת שמן ופילטר שמן",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_CX-5_Touring_2.5L_4_Cyl./oil/change_oil_and_oil_filter"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2017-2024",
+    "issueKey": "Oil - check oil level",
+    "issueNameHe": "שמן - בדיקת כמות שמן",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_CX-5_Touring_2.5L_4_Cyl./oil/check_oil_level"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2017-2024",
+    "issueKey": "Transmission Fluid - Add fluid",
+    "issueNameHe": "שמן גיר - הוספת שמן",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_CX-5_Touring_2.5L_4_Cyl./transmission_fluid/add_level"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2017-2024",
+    "issueKey": "Transmission Fluid - Check Fluid Level",
+    "issueNameHe": "שמן גיר - בדיקת כמות שמן",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_CX-5_Touring_2.5L_4_Cyl./transmission_fluid/check_fluid_level"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2017-2024",
+    "issueKey": "Tires - Change a Flat Tire",
+    "issueNameHe": "צמיגים - החלפת צמיג עם פנצ'ר",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_CX-5_Touring_2.5L_4_Cyl./tires_and_wheels/change_a_flat_tire"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2017-2024",
+    "issueKey": "Tires - Check Tire Pressure",
+    "issueNameHe": "צמיגים - בדיקת לחץ אוויר",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_CX-5_Touring_2.5L_4_Cyl./tires_and_wheels/check_tire_pressure"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2017-2024",
+    "issueKey": "Add Washer Fluid",
+    "issueNameHe": "הוספת נוזל שמשות",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_CX-5_Touring_2.5L_4_Cyl./windshield_washer_fluid/add_fluid"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2017-2024",
+    "issueKey": "Front Wiper Blades - Replace",
+    "issueNameHe": "החלפת מגבים קידמיים",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_CX-5_Touring_2.5L_4_Cyl./windshield_wiper_blade_front/replace_wiper_blades"
+  },
+  {
+    "manufacturer": "MAZDA",
+    "model": "CX5",
+    "yearRange": "2017-2024",
+    "issueKey": "Rear Wiper Blade - Replace",
+    "issueNameHe": "החלפת מגב אחורי",
+    "url": "https://www.carcarekiosk.com/video/2019_Mazda_CX-5_Touring_2.5L_4_Cyl./windshield_wiper_blade_rear/replace_wiper_blade"
+  },
+
+
+
+
+
+
+
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2016-2021",
+    "issueKey": "AC",
+    "issueNameHe": "מזגן",
+    "url": "https://www.carcarekiosk.com/video/2016_Honda_Civic_LX_2.0L_4_Cyl._Sedan/air_conditioner/recharge_freon"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2016-2021",
+    "issueKey": "Air-filter Inside",
+    "issueNameHe": "פילטר אוויר רכב פנים",
+    "url": "https://www.carcarekiosk.com/video/2016_Honda_Civic_LX_2.0L_4_Cyl._Sedan/air_filter_cabin/replace"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2016-2021",
+    "issueKey": "Air-filter Engine",
+    "issueNameHe": "פילטר אוויר מנוע",
+    "url": "https://www.carcarekiosk.com/video/2016_Honda_Civic_LX_2.0L_4_Cyl._Sedan/air_filter_engine/replace"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2016-2021",
+    "issueKey": "Battery - Jumpstart",
+    "issueNameHe": "מצבר - כבלים",
+    "url": "https://www.carcarekiosk.com/video/2016_Honda_Civic_LX_2.0L_4_Cyl._Sedan/battery/jump_start"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2016-2021",
+    "issueKey": "Battery - replacement",
+    "issueNameHe": "מצבר - החלפה",
+    "url": "https://www.carcarekiosk.com/video/2016_Honda_Civic_LX_2.0L_4_Cyl._Sedan/battery/replace_battery"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2016-2021",
+    "issueKey": "Bluetooth - Pair phone",
+    "issueNameHe": "בלוטוס - חיבור טלפון",
+    "url": "https://www.carcarekiosk.com/video/2016_Honda_Civic_LX_2.0L_4_Cyl._Sedan/bluetooth/pair_phone"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2016-2021",
+    "issueKey": "Brake Fluid - Add fluid",
+    "issueNameHe": "נוזל בלמים - הוספה",
+    "url": "https://www.carcarekiosk.com/video/2016_Honda_Civic_LX_2.0L_4_Cyl._Sedan/brake_fluid/add_fluid"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2016-2021",
+    "issueKey": "Brake Fluid - Check Fluid Level",
+    "issueNameHe": "נוזל בלמים -  בדיקה",
+    "url": "https://www.carcarekiosk.com/video/2016_Honda_Civic_LX_2.0L_4_Cyl._Sedan/brake_fluid/check_fluid_level"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2016-2021",
+    "issueKey": "Car Seats - Install",
+    "issueNameHe": "כיסאות רכב - התקנה",
+    "url": "https://www.carcarekiosk.com/video/2016_Honda_Civic_LX_2.0L_4_Cyl._Sedan/car_seats/install"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2016-2021",
+    "issueKey": "Check Engine Light",
+    "issueNameHe": "נורת מנוע",
+    "url": "https://www.carcarekiosk.com/video/2016_Honda_Civic_LX_2.0L_4_Cyl._Sedan/check_engine_light/diagnose"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2016-2021",
+    "issueKey": "Clock",
+    "issueNameHe": "שעון",
+    "url": "https://www.carcarekiosk.com/video/2016_Honda_Civic_LX_2.0L_4_Cyl._Sedan/clock/set_clock"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2016-2021",
+    "issueKey": "Coolant - Add Coolant",
+    "issueNameHe": "הוספת נוזל קירור",
+    "url": "https://www.carcarekiosk.com/video/2016_Honda_Civic_LX_2.0L_4_Cyl._Sedan/coolant_antifreeze/add_coolant"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2016-2021",
+    "issueKey": "Coolant - Check Coolant Level",
+    "issueNameHe": "בדיקת כמות נוזל קירור",
+    "url": "https://www.carcarekiosk.com/video/2016_Honda_Civic_LX_2.0L_4_Cyl._Sedan/coolant_antifreeze/check_coolant_level"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2016-2021",
+    "issueKey": "Coolant - Fix Leaks",
+    "issueNameHe": "נוזל קירור - תיקון דליפות",
+    "url": "https://www.carcarekiosk.com/video/2016_Honda_Civic_LX_2.0L_4_Cyl._Sedan/coolant_antifreeze/fix_leaks"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2016-2021",
+    "issueKey": "Coolant - Flush Coolant",
+    "issueNameHe": "נוזל קירור - ניקוז",
+    "url": "https://www.carcarekiosk.com/video/2016_Honda_Civic_LX_2.0L_4_Cyl._Sedan/coolant_antifreeze/flush_coolant"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2016-2021",
+    "issueKey": "Fuse - Engine fuse check",
+    "issueNameHe": "פיוז - בדיקת פיוז מנוע",
+    "url": "https://www.carcarekiosk.com/video/2016_Honda_Civic_LX_2.0L_4_Cyl._Sedan/fuse_engine/check"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2016-2021",
+    "issueKey": "Fuse - Engine fuse replace",
+    "issueNameHe": "פיוז - החלפת פיוז מנוע",
+    "url": "https://www.carcarekiosk.com/video/2016_Honda_Civic_LX_2.0L_4_Cyl._Sedan/fuse_engine/replace"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2016-2021",
+    "issueKey": "Fuse - Interior fuse check",
+    "issueNameHe": "פיוז - בדיקת פיוז פנימי",
+    "url": "https://www.carcarekiosk.com/video/2016_Honda_Civic_LX_2.0L_4_Cyl._Sedan/fuse_interior/check"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2016-2021",
+    "issueKey": "Fuse - Interior fuse replace",
+    "issueNameHe": "פיוז - החלפת פיוז פנימי",
+    "url": "https://www.carcarekiosk.com/video/2016_Honda_Civic_LX_2.0L_4_Cyl._Sedan/fuse_interior/replace"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2016-2021",
+    "issueKey": "Hood - Open the hood",
+    "issueNameHe": "פתיחת מכסה מנוע",
+    "url": "https://www.carcarekiosk.com/video/2016_Honda_Civic_LX_2.0L_4_Cyl._Sedan/hood/open_the_hood"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2016-2021",
+    "issueKey": "Jack Up Car",
+    "issueNameHe": "הרמת רכב על ג'ק",
+    "url": "https://www.carcarekiosk.com/video/2016_Honda_Civic_LX_2.0L_4_Cyl._Sedan/jack_up_car/use_your_jack_to_raise_your_car"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2016-2021",
+    "issueKey": "Lights - Brake Light",
+    "issueNameHe": "אורות - אורות בלמים",
+    "url": "https://www.carcarekiosk.com/video/2016_Honda_Civic_LX_2.0L_4_Cyl._Sedan/lights/brake_light"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2016-2021",
+    "issueKey": "Lights - Headlight",
+    "issueNameHe": "אורות - אורות קדמיים",
+    "url": "https://www.carcarekiosk.com/video/2016_Honda_Civic_LX_2.0L_4_Cyl._Sedan/lights/headlight"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2016-2021",
+    "issueKey": "Oil - Add oil",
+    "issueNameHe": "שמן - הוספת שמן",
+    "url": "https://www.carcarekiosk.com/video/2016_Honda_Civic_LX_2.0L_4_Cyl._Sedan/oil/add_oil"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2016-2021",
+    "issueKey": "Oil - Change oil and oil filter",
+    "issueNameHe": "שמן - החלפת שמן ופילטר שמן",
+    "url": "https://www.carcarekiosk.com/video/2016_Honda_Civic_LX_2.0L_4_Cyl._Sedan/oil/change_oil_and_oil_filter"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2016-2021",
+    "issueKey": "Oil - check oil level",
+    "issueNameHe": "שמן - בדיקת כמות שמן",
+    "url": "https://www.carcarekiosk.com/video/2016_Honda_Civic_LX_2.0L_4_Cyl._Sedan/oil/check_oil_level"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2016-2021",
+    "issueKey": "Transmission Fluid - Add fluid",
+    "issueNameHe": "שמן גיר - הוספת שמן",
+    "url": "https://www.carcarekiosk.com/video/2016_Honda_Civic_LX_2.0L_4_Cyl._Sedan/transmission_fluid/add_level"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2016-2021",
+    "issueKey": "Transmission Fluid - Check Fluid Level",
+    "issueNameHe": "שמן גיר - בדיקת כמות שמן",
+    "url": "https://www.carcarekiosk.com/video/2016_Honda_Civic_LX_2.0L_4_Cyl._Sedan/transmission_fluid/check_fluid_level"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2016-2021",
+    "issueKey": "Tires - Change a Flat Tire",
+    "issueNameHe": "צמיגים - החלפת צמיג עם פנצ'ר",
+    "url": "https://www.carcarekiosk.com/video/2016_Honda_Civic_LX_2.0L_4_Cyl._Sedan/tires_and_wheels/change_a_flat_tire"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2016-2021",
+    "issueKey": "Tires - Check Tire Pressure",
+    "issueNameHe": "צמיגים - בדיקת לחץ אוויר",
+    "url": "https://www.carcarekiosk.com/video/2016_Honda_Civic_LX_2.0L_4_Cyl._Sedan/tires_and_wheels/check_tire_pressure"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2016-2021",
+    "issueKey": "Add Washer Fluid",
+    "issueNameHe": "הוספת נוזל שמשות",
+    "url": "https://www.carcarekiosk.com/video/2016_Honda_Civic_LX_2.0L_4_Cyl._Sedan/windshield_washer_fluid/add_fluid"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2016-2021",
+    "issueKey": "Front Wiper Blades - Replace",
+    "issueNameHe": "החלפת מגבים קידמיים",
+    "url": "https://www.carcarekiosk.com/video/2016_Honda_Civic_LX_2.0L_4_Cyl._Sedan/windshield_wiper_blade_front/replace_wiper_blades"
+  },
+
+
+
+
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2022-2024",
+    "issueKey": "AC",
+    "issueNameHe": "מזגן",
+    "url": "https://www.carcarekiosk.com/video/2022_Honda_Civic_Sport_2.0L_4_Cyl./air_conditioner/recharge_freon"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2022-2024",
+    "issueKey": "Air-filter Inside",
+    "issueNameHe": "פילטר אוויר רכב פנים",
+    "url": "https://www.carcarekiosk.com/video/2022_Honda_Civic_Sport_2.0L_4_Cyl./air_filter_cabin/replace"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2022-2024",
+    "issueKey": "Air-filter Engine",
+    "issueNameHe": "פילטר אוויר מנוע",
+    "url": "https://www.carcarekiosk.com/video/2022_Honda_Civic_Sport_2.0L_4_Cyl./air_filter_engine/replace"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2022-2024",
+    "issueKey": "Battery - Jumpstart",
+    "issueNameHe": "מצבר - כבלים",
+    "url": "https://www.carcarekiosk.com/video/2022_Honda_Civic_Sport_2.0L_4_Cyl./battery/jump_start"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2022-2024",
+    "issueKey": "Battery - replacement",
+    "issueNameHe": "מצבר - החלפה",
+    "url": "https://www.carcarekiosk.com/video/2022_Honda_Civic_Sport_2.0L_4_Cyl./battery/replace_battery"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2022-2024",
+    "issueKey": "Bluetooth - Pair phone",
+    "issueNameHe": "בלוטוס - חיבור טלפון",
+    "url": "https://www.carcarekiosk.com/video/2022_Honda_Civic_Sport_2.0L_4_Cyl./bluetooth/pair_phone"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2022-2024",
+    "issueKey": "Brake Fluid - Add fluid",
+    "issueNameHe": "נוזל בלמים - הוספה",
+    "url": "https://www.carcarekiosk.com/video/2022_Honda_Civic_Sport_2.0L_4_Cyl./brake_fluid/add_fluid"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2022-2024",
+    "issueKey": "Brake Fluid - Check Fluid Level",
+    "issueNameHe": "נוזל בלמים -  בדיקה",
+    "url": "https://www.carcarekiosk.com/video/2022_Honda_Civic_Sport_2.0L_4_Cyl./brake_fluid/check_fluid_level"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2022-2024",
+    "issueKey": "Car Seats - Install",
+    "issueNameHe": "כיסאות רכב - התקנה",
+    "url": "https://www.carcarekiosk.com/video/2022_Honda_Civic_Sport_2.0L_4_Cyl./car_seats/install"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2022-2024",
+    "issueKey": "Check Engine Light",
+    "issueNameHe": "נורת מנוע",
+    "url": "https://www.carcarekiosk.com/video/2022_Honda_Civic_Sport_2.0L_4_Cyl./check_engine_light/diagnose"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2022-2024",
+    "issueKey": "Clock",
+    "issueNameHe": "שעון",
+    "url": "https://www.carcarekiosk.com/video/2022_Honda_Civic_Sport_2.0L_4_Cyl./clock/set_clock"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2022-2024",
+    "issueKey": "Coolant - Add Coolant",
+    "issueNameHe": "הוספת נוזל קירור",
+    "url": "https://www.carcarekiosk.com/video/2022_Honda_Civic_Sport_2.0L_4_Cyl./coolant_antifreeze/add_coolant"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2022-2024",
+    "issueKey": "Coolant - Check Coolant Level",
+    "issueNameHe": "בדיקת כמות נוזל קירור",
+    "url": "https://www.carcarekiosk.com/video/2022_Honda_Civic_Sport_2.0L_4_Cyl./coolant_antifreeze/check_coolant_level"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2022-2024",
+    "issueKey": "Coolant - Fix Leaks",
+    "issueNameHe": "נוזל קירור - תיקון דליפות",
+    "url": "https://www.carcarekiosk.com/video/2022_Honda_Civic_Sport_2.0L_4_Cyl./coolant_antifreeze/fix_leaks"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2022-2024",
+    "issueKey": "Coolant - Flush Coolant",
+    "issueNameHe": "נוזל קירור - ניקוז",
+    "url": "https://www.carcarekiosk.com/video/2022_Honda_Civic_Sport_2.0L_4_Cyl./coolant_antifreeze/flush_coolant"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2022-2024",
+    "issueKey": "Fuse - Engine fuse check",
+    "issueNameHe": "פיוז - בדיקת פיוז מנוע",
+    "url": "https://www.carcarekiosk.com/video/2022_Honda_Civic_Sport_2.0L_4_Cyl./fuse_engine/check"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2022-2024",
+    "issueKey": "Fuse - Engine fuse replace",
+    "issueNameHe": "פיוז - החלפת פיוז מנוע",
+    "url": "https://www.carcarekiosk.com/video/2022_Honda_Civic_Sport_2.0L_4_Cyl./fuse_engine/replace"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2022-2024",
+    "issueKey": "Fuse - Interior fuse check",
+    "issueNameHe": "פיוז - בדיקת פיוז פנימי",
+    "url": "https://www.carcarekiosk.com/video/2022_Honda_Civic_Sport_2.0L_4_Cyl./fuse_interior/check"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2022-2024",
+    "issueKey": "Fuse - Interior fuse replace",
+    "issueNameHe": "פיוז - החלפת פיוז פנימי",
+    "url": "https://www.carcarekiosk.com/video/2022_Honda_Civic_Sport_2.0L_4_Cyl./fuse_interior/replace"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2022-2024",
+    "issueKey": "Hood - Open the hood",
+    "issueNameHe": "פתיחת מכסה מנוע",
+    "url": "https://www.carcarekiosk.com/video/2022_Honda_Civic_Sport_2.0L_4_Cyl./hood/open_the_hood"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2022-2024",
+    "issueKey": "Jack Up Car",
+    "issueNameHe": "הרמת רכב על ג'ק",
+    "url": "https://www.carcarekiosk.com/video/2022_Honda_Civic_Sport_2.0L_4_Cyl./jack_up_car/use_your_jack_to_raise_your_car"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2022-2024",
+    "issueKey": "Lights - Brake Light",
+    "issueNameHe": "אורות - אורות בלמים",
+    "url": "https://www.carcarekiosk.com/video/2022_Honda_Civic_Sport_2.0L_4_Cyl./lights/brake_light"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2022-2024",
+    "issueKey": "Lights - Headlight",
+    "issueNameHe": "אורות - אורות קדמיים",
+    "url": "https://www.carcarekiosk.com/video/2022_Honda_Civic_Sport_2.0L_4_Cyl./lights/headlight"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2022-2024",
+    "issueKey": "Oil - Add oil",
+    "issueNameHe": "שמן - הוספת שמן",
+    "url": "https://www.carcarekiosk.com/video/2022_Honda_Civic_Sport_2.0L_4_Cyl./oil/add_oil"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2022-2024",
+    "issueKey": "Oil - Change oil and oil filter",
+    "issueNameHe": "שמן - החלפת שמן ופילטר שמן",
+    "url": "https://www.carcarekiosk.com/video/2022_Honda_Civic_Sport_2.0L_4_Cyl./oil/change_oil_and_oil_filter"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2022-2024",
+    "issueKey": "Oil - check oil level",
+    "issueNameHe": "שמן - בדיקת כמות שמן",
+    "url": "https://www.carcarekiosk.com/video/2022_Honda_Civic_Sport_2.0L_4_Cyl./oil/check_oil_level"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2022-2024",
+    "issueKey": "Transmission Fluid - Add fluid",
+    "issueNameHe": "שמן גיר - הוספת שמן",
+    "url": "https://www.carcarekiosk.com/video/2022_Honda_Civic_Sport_2.0L_4_Cyl./transmission_fluid/add_level"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2022-2024",
+    "issueKey": "Transmission Fluid - Check Fluid Level",
+    "issueNameHe": "שמן גיר - בדיקת כמות שמן",
+    "url": "https://www.carcarekiosk.com/video/2022_Honda_Civic_Sport_2.0L_4_Cyl./transmission_fluid/check_fluid_level"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2022-2024",
+    "issueKey": "Tires - Change a Flat Tire",
+    "issueNameHe": "צמיגים - החלפת צמיג עם פנצ'ר",
+    "url": "https://www.carcarekiosk.com/video/2022_Honda_Civic_Sport_2.0L_4_Cyl./tires_and_wheels/change_a_flat_tire"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2022-2024",
+    "issueKey": "Tires - Check Tire Pressure",
+    "issueNameHe": "צמיגים - בדיקת לחץ אוויר",
+    "url": "https://www.carcarekiosk.com/video/2022_Honda_Civic_Sport_2.0L_4_Cyl./tires_and_wheels/check_tire_pressure"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2022-2024",
+    "issueKey": "Add Washer Fluid",
+    "issueNameHe": "הוספת נוזל שמשות",
+    "url": "https://www.carcarekiosk.com/video/2022_Honda_Civic_Sport_2.0L_4_Cyl./windshield_washer_fluid/add_fluid"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CIVIC",
+    "yearRange": "2022-2024",
+    "issueKey": "Front Wiper Blades - Replace",
+    "issueNameHe": "החלפת מגבים קידמיים",
+    "url": "https://www.carcarekiosk.com/video/2022_Honda_Civic_Sport_2.0L_4_Cyl./windshield_wiper_blade_front/replace_wiper_blades"
+  },
+
+
+
+
+
+
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2017-2022",
+    "issueKey": "AC",
+    "issueNameHe": "מזגן",
+    "url": "https://www.carcarekiosk.com/video/2018_Honda_CR-V_LX_2.4L_4_Cyl./air_conditioner/recharge_freon"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2017-2022",
+    "issueKey": "Air-filter Inside",
+    "issueNameHe": "פילטר אוויר רכב פנים",
+    "url": "https://www.carcarekiosk.com/video/2018_Honda_CR-V_LX_2.4L_4_Cyl./air_filter_cabin/replace"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2017-2022",
+    "issueKey": "Air-filter Engine",
+    "issueNameHe": "פילטר אוויר מנוע",
+    "url": "https://www.carcarekiosk.com/video/2018_Honda_CR-V_LX_2.4L_4_Cyl./air_filter_engine/replace"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2017-2022",
+    "issueKey": "Battery - Jumpstart",
+    "issueNameHe": "מצבר - כבלים",
+    "url": "https://www.carcarekiosk.com/video/2018_Honda_CR-V_LX_2.4L_4_Cyl./battery/jump_start"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2017-2022",
+    "issueKey": "Battery - replacement",
+    "issueNameHe": "מצבר - החלפה",
+    "url": "https://www.carcarekiosk.com/video/2018_Honda_CR-V_LX_2.4L_4_Cyl./battery/replace_battery"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2017-2022",
+    "issueKey": "Bluetooth - Pair phone",
+    "issueNameHe": "בלוטוס - חיבור טלפון",
+    "url": "https://www.carcarekiosk.com/video/2018_Honda_CR-V_LX_2.4L_4_Cyl./bluetooth/pair_phone"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2017-2022",
+    "issueKey": "Brake Fluid - Add fluid",
+    "issueNameHe": "נוזל בלמים - הוספה",
+    "url": "https://www.carcarekiosk.com/video/2018_Honda_CR-V_LX_2.4L_4_Cyl./brake_fluid/add_fluid"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2017-2022",
+    "issueKey": "Brake Fluid - Check Fluid Level",
+    "issueNameHe": "נוזל בלמים -  בדיקה",
+    "url": "https://www.carcarekiosk.com/video/2018_Honda_CR-V_LX_2.4L_4_Cyl./brake_fluid/check_fluid_level"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2017-2022",
+    "issueKey": "Car Seats - Install",
+    "issueNameHe": "כיסאות רכב - התקנה",
+    "url": "https://www.carcarekiosk.com/video/2018_Honda_CR-V_LX_2.4L_4_Cyl./car_seats/install"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2017-2022",
+    "issueKey": "Check Engine Light",
+    "issueNameHe": "נורת מנוע",
+    "url": "https://www.carcarekiosk.com/video/2018_Honda_CR-V_LX_2.4L_4_Cyl./check_engine_light/diagnose"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2017-2022",
+    "issueKey": "Clock",
+    "issueNameHe": "שעון",
+    "url": "https://www.carcarekiosk.com/video/2018_Honda_CR-V_LX_2.4L_4_Cyl./clock/set_clock"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2017-2022",
+    "issueKey": "Coolant - Add Coolant",
+    "issueNameHe": "הוספת נוזל קירור",
+    "url": "https://www.carcarekiosk.com/video/2018_Honda_CR-V_LX_2.4L_4_Cyl./coolant_antifreeze/add_coolant"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2017-2022",
+    "issueKey": "Coolant - Check Coolant Level",
+    "issueNameHe": "בדיקת כמות נוזל קירור",
+    "url": "https://www.carcarekiosk.com/video/2018_Honda_CR-V_LX_2.4L_4_Cyl./coolant_antifreeze/check_coolant_level"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2017-2022",
+    "issueKey": "Coolant - Fix Leaks",
+    "issueNameHe": "נוזל קירור - תיקון דליפות",
+    "url": "https://www.carcarekiosk.com/video/2018_Honda_CR-V_LX_2.4L_4_Cyl./coolant_antifreeze/fix_leaks"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2017-2022",
+    "issueKey": "Coolant - Flush Coolant",
+    "issueNameHe": "נוזל קירור - ניקוז",
+    "url": "https://www.carcarekiosk.com/video/2018_Honda_CR-V_LX_2.4L_4_Cyl./coolant_antifreeze/flush_coolant"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2017-2022",
+    "issueKey": "Fuse - Engine fuse check",
+    "issueNameHe": "פיוז - בדיקת פיוז מנוע",
+    "url": "https://www.carcarekiosk.com/video/2018_Honda_CR-V_LX_2.4L_4_Cyl./fuse_engine/check"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2017-2022",
+    "issueKey": "Fuse - Engine fuse replace",
+    "issueNameHe": "פיוז - החלפת פיוז מנוע",
+    "url": "https://www.carcarekiosk.com/video/2018_Honda_CR-V_LX_2.4L_4_Cyl./fuse_engine/replace"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2017-2022",
+    "issueKey": "Fuse - Interior fuse check",
+    "issueNameHe": "פיוז - בדיקת פיוז פנימי",
+    "url": "https://www.carcarekiosk.com/video/2018_Honda_CR-V_LX_2.4L_4_Cyl./fuse_interior/check"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2017-2022",
+    "issueKey": "Fuse - Interior fuse replace",
+    "issueNameHe": "פיוז - החלפת פיוז פנימי",
+    "url": "https://www.carcarekiosk.com/video/2018_Honda_CR-V_LX_2.4L_4_Cyl./fuse_interior/replace"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2017-2022",
+    "issueKey": "Hood - Open the hood",
+    "issueNameHe": "פתיחת מכסה מנוע",
+    "url": "https://www.carcarekiosk.com/video/2018_Honda_CR-V_LX_2.4L_4_Cyl./hood/open_the_hood"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2017-2022",
+    "issueKey": "Jack Up Car",
+    "issueNameHe": "הרמת רכב על ג'ק",
+    "url": "https://www.carcarekiosk.com/video/2018_Honda_CR-V_LX_2.4L_4_Cyl./jack_up_car/use_your_jack_to_raise_your_car"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2017-2022",
+    "issueKey": "Lights - Brake Light",
+    "issueNameHe": "אורות - אורות בלמים",
+    "url": "https://www.carcarekiosk.com/video/2018_Honda_CR-V_LX_2.4L_4_Cyl./lights/brake_light"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2017-2022",
+    "issueKey": "Lights - Headlight",
+    "issueNameHe": "אורות - אורות קדמיים",
+    "url": "https://www.carcarekiosk.com/video/2018_Honda_CR-V_LX_2.4L_4_Cyl./lights/headlight"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2017-2022",
+    "issueKey": "Oil - Add oil",
+    "issueNameHe": "שמן - הוספת שמן",
+    "url": "https://www.carcarekiosk.com/video/2018_Honda_CR-V_LX_2.4L_4_Cyl./oil/add_oil"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2017-2022",
+    "issueKey": "Oil - Change oil and oil filter",
+    "issueNameHe": "שמן - החלפת שמן ופילטר שמן",
+    "url": "https://www.carcarekiosk.com/video/2018_Honda_CR-V_LX_2.4L_4_Cyl./oil/change_oil_and_oil_filter"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2017-2022",
+    "issueKey": "Oil - check oil level",
+    "issueNameHe": "שמן - בדיקת כמות שמן",
+    "url": "https://www.carcarekiosk.com/video/2018_Honda_CR-V_LX_2.4L_4_Cyl./oil/check_oil_level"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2017-2022",
+    "issueKey": "Transmission Fluid - Add fluid",
+    "issueNameHe": "שמן גיר - הוספת שמן",
+    "url": "https://www.carcarekiosk.com/video/2018_Honda_CR-V_LX_2.4L_4_Cyl./transmission_fluid/add_level"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2017-2022",
+    "issueKey": "Transmission Fluid - Check Fluid Level",
+    "issueNameHe": "שמן גיר - בדיקת כמות שמן",
+    "url": "https://www.carcarekiosk.com/video/2018_Honda_CR-V_LX_2.4L_4_Cyl./transmission_fluid/check_fluid_level"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2017-2022",
+    "issueKey": "Tires - Change a Flat Tire",
+    "issueNameHe": "צמיגים - החלפת צמיג עם פנצ'ר",
+    "url": "https://www.carcarekiosk.com/video/2018_Honda_CR-V_LX_2.4L_4_Cyl./tires_and_wheels/change_a_flat_tire"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2017-2022",
+    "issueKey": "Tires - Check Tire Pressure",
+    "issueNameHe": "צמיגים - בדיקת לחץ אוויר",
+    "url": "https://www.carcarekiosk.com/video/2018_Honda_CR-V_LX_2.4L_4_Cyl./tires_and_wheels/check_tire_pressure"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2017-2022",
+    "issueKey": "Add Washer Fluid",
+    "issueNameHe": "הוספת נוזל שמשות",
+    "url": "https://www.carcarekiosk.com/video/2018_Honda_CR-V_LX_2.4L_4_Cyl./windshield_washer_fluid/add_fluid"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2017-2022",
+    "issueKey": "Front Wiper Blades - Replace",
+    "issueNameHe": "החלפת מגבים קידמיים",
+    "url": "https://www.carcarekiosk.com/video/2018_Honda_CR-V_LX_2.4L_4_Cyl./windshield_wiper_blade_front/replace_wiper_blades"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2017-2022",
+    "issueKey": "Rear Wiper Blade - Replace",
+    "issueNameHe": "החלפת מגב אחורי",
+    "url": "https://www.carcarekiosk.com/video/2018_Honda_CR-V_LX_2.4L_4_Cyl./windshield_wiper_blade_rear/replace_wiper_blade"
+  },
+
+
+
+
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2022-2023",
+    "issueKey": "AC",
+    "issueNameHe": "מזגן",
+    "url": "https://www.carcarekiosk.com/video/2023_Honda_CR-V_LX_1.5L_4_Cyl._Turbo/air_conditioner/recharge_freon"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2022-2023",
+    "issueKey": "Air-filter Inside",
+    "issueNameHe": "פילטר אוויר רכב פנים",
+    "url": "https://www.carcarekiosk.com/video/2023_Honda_CR-V_LX_1.5L_4_Cyl._Turbo/air_filter_cabin/replace"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2022-2023",
+    "issueKey": "Air-filter Engine",
+    "issueNameHe": "פילטר אוויר מנוע",
+    "url": "https://www.carcarekiosk.com/video/2023_Honda_CR-V_LX_1.5L_4_Cyl._Turbo/air_filter_engine/replace"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2022-2023",
+    "issueKey": "Battery - Jumpstart",
+    "issueNameHe": "מצבר - כבלים",
+    "url": "https://www.carcarekiosk.com/video/2023_Honda_CR-V_LX_1.5L_4_Cyl._Turbo/battery/jump_start"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2022-2023",
+    "issueKey": "Battery - replacement",
+    "issueNameHe": "מצבר - החלפה",
+    "url": "https://www.carcarekiosk.com/video/2023_Honda_CR-V_LX_1.5L_4_Cyl._Turbo/battery/replace_battery"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2022-2023",
+    "issueKey": "Bluetooth - Pair phone",
+    "issueNameHe": "בלוטוס - חיבור טלפון",
+    "url": "https://www.carcarekiosk.com/video/2023_Honda_CR-V_LX_1.5L_4_Cyl._Turbo/bluetooth/pair_phone"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2022-2023",
+    "issueKey": "Brake Fluid - Add fluid",
+    "issueNameHe": "נוזל בלמים - הוספה",
+    "url": "https://www.carcarekiosk.com/video/2023_Honda_CR-V_LX_1.5L_4_Cyl._Turbo/brake_fluid/add_fluid"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2022-2023",
+    "issueKey": "Brake Fluid - Check Fluid Level",
+    "issueNameHe": "נוזל בלמים -  בדיקה",
+    "url": "https://www.carcarekiosk.com/video/2023_Honda_CR-V_LX_1.5L_4_Cyl._Turbo/brake_fluid/check_fluid_level"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2022-2023",
+    "issueKey": "Car Seats - Install",
+    "issueNameHe": "כיסאות רכב - התקנה",
+    "url": "https://www.carcarekiosk.com/video/2023_Honda_CR-V_LX_1.5L_4_Cyl._Turbo/car_seats/install"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2022-2023",
+    "issueKey": "Check Engine Light",
+    "issueNameHe": "נורת מנוע",
+    "url": "https://www.carcarekiosk.com/video/2023_Honda_CR-V_LX_1.5L_4_Cyl._Turbo/check_engine_light/diagnose"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2022-2023",
+    "issueKey": "Clock",
+    "issueNameHe": "שעון",
+    "url": "https://www.carcarekiosk.com/video/2023_Honda_CR-V_LX_1.5L_4_Cyl._Turbo/clock/set_clock"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2022-2023",
+    "issueKey": "Coolant - Add Coolant",
+    "issueNameHe": "הוספת נוזל קירור",
+    "url": "https://www.carcarekiosk.com/video/2023_Honda_CR-V_LX_1.5L_4_Cyl._Turbo/coolant_antifreeze/add_coolant"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2022-2023",
+    "issueKey": "Coolant - Check Coolant Level",
+    "issueNameHe": "בדיקת כמות נוזל קירור",
+    "url": "https://www.carcarekiosk.com/video/2023_Honda_CR-V_LX_1.5L_4_Cyl._Turbo/coolant_antifreeze/check_coolant_level"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2022-2023",
+    "issueKey": "Coolant - Fix Leaks",
+    "issueNameHe": "נוזל קירור - תיקון דליפות",
+    "url": "https://www.carcarekiosk.com/video/2023_Honda_CR-V_LX_1.5L_4_Cyl._Turbo/coolant_antifreeze/fix_leaks"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2022-2023",
+    "issueKey": "Coolant - Flush Coolant",
+    "issueNameHe": "נוזל קירור - ניקוז",
+    "url": "https://www.carcarekiosk.com/video/2023_Honda_CR-V_LX_1.5L_4_Cyl._Turbo/coolant_antifreeze/flush_coolant"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2022-2023",
+    "issueKey": "Fuse - Engine fuse check",
+    "issueNameHe": "פיוז - בדיקת פיוז מנוע",
+    "url": "https://www.carcarekiosk.com/video/2023_Honda_CR-V_LX_1.5L_4_Cyl._Turbo/fuse_engine/check"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2022-2023",
+    "issueKey": "Fuse - Engine fuse replace",
+    "issueNameHe": "פיוז - החלפת פיוז מנוע",
+    "url": "https://www.carcarekiosk.com/video/2023_Honda_CR-V_LX_1.5L_4_Cyl._Turbo/fuse_engine/replace"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2022-2023",
+    "issueKey": "Fuse - Interior fuse check",
+    "issueNameHe": "פיוז - בדיקת פיוז פנימי",
+    "url": "https://www.carcarekiosk.com/video/2023_Honda_CR-V_LX_1.5L_4_Cyl._Turbo/fuse_interior/check"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2022-2023",
+    "issueKey": "Fuse - Interior fuse replace",
+    "issueNameHe": "פיוז - החלפת פיוז פנימי",
+    "url": "https://www.carcarekiosk.com/video/2023_Honda_CR-V_LX_1.5L_4_Cyl._Turbo/fuse_interior/replace"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2022-2023",
+    "issueKey": "Hood - Open the hood",
+    "issueNameHe": "פתיחת מכסה מנוע",
+    "url": "https://www.carcarekiosk.com/video/2023_Honda_CR-V_LX_1.5L_4_Cyl._Turbo/hood/open_the_hood"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2022-2023",
+    "issueKey": "Jack Up Car",
+    "issueNameHe": "הרמת רכב על ג'ק",
+    "url": "https://www.carcarekiosk.com/video/2023_Honda_CR-V_LX_1.5L_4_Cyl._Turbo/jack_up_car/use_your_jack_to_raise_your_car"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2022-2023",
+    "issueKey": "Lights - Brake Light",
+    "issueNameHe": "אורות - אורות בלמים",
+    "url": "https://www.carcarekiosk.com/video/2023_Honda_CR-V_LX_1.5L_4_Cyl._Turbo/lights/brake_light"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2022-2023",
+    "issueKey": "Lights - Headlight",
+    "issueNameHe": "אורות - אורות קדמיים",
+    "url": "https://www.carcarekiosk.com/video/2023_Honda_CR-V_LX_1.5L_4_Cyl._Turbo/lights/headlight"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2022-2023",
+    "issueKey": "Oil - Add oil",
+    "issueNameHe": "שמן - הוספת שמן",
+    "url": "https://www.carcarekiosk.com/video/2023_Honda_CR-V_LX_1.5L_4_Cyl._Turbo/oil/add_oil"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2022-2023",
+    "issueKey": "Oil - Change oil and oil filter",
+    "issueNameHe": "שמן - החלפת שמן ופילטר שמן",
+    "url": "https://www.carcarekiosk.com/video/2023_Honda_CR-V_LX_1.5L_4_Cyl._Turbo/oil/change_oil_and_oil_filter"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2022-2023",
+    "issueKey": "Oil - check oil level",
+    "issueNameHe": "שמן - בדיקת כמות שמן",
+    "url": "https://www.carcarekiosk.com/video/2023_Honda_CR-V_LX_1.5L_4_Cyl._Turbo/oil/check_oil_level"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2022-2023",
+    "issueKey": "Transmission Fluid - Add fluid",
+    "issueNameHe": "שמן גיר - הוספת שמן",
+    "url": "https://www.carcarekiosk.com/video/2023_Honda_CR-V_LX_1.5L_4_Cyl._Turbo/transmission_fluid/add_level"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2022-2023",
+    "issueKey": "Transmission Fluid - Check Fluid Level",
+    "issueNameHe": "שמן גיר - בדיקת כמות שמן",
+    "url": "https://www.carcarekiosk.com/video/2023_Honda_CR-V_LX_1.5L_4_Cyl._Turbo/transmission_fluid/check_fluid_level"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2022-2023",
+    "issueKey": "Tires - Change a Flat Tire",
+    "issueNameHe": "צמיגים - החלפת צמיג עם פנצ'ר",
+    "url": "https://www.carcarekiosk.com/video/2023_Honda_CR-V_LX_1.5L_4_Cyl._Turbo/tires_and_wheels/change_a_flat_tire"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2022-2023",
+    "issueKey": "Tires - Check Tire Pressure",
+    "issueNameHe": "צמיגים - בדיקת לחץ אוויר",
+    "url": "https://www.carcarekiosk.com/video/2023_Honda_CR-V_LX_1.5L_4_Cyl._Turbo/tires_and_wheels/check_tire_pressure"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2022-2023",
+    "issueKey": "Add Washer Fluid",
+    "issueNameHe": "הוספת נוזל שמשות",
+    "url": "https://www.carcarekiosk.com/video/2023_Honda_CR-V_LX_1.5L_4_Cyl._Turbo/windshield_washer_fluid/add_fluid"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2022-2023",
+    "issueKey": "Front Wiper Blades - Replace",
+    "issueNameHe": "החלפת מגבים קידמיים",
+    "url": "https://www.carcarekiosk.com/video/2023_Honda_CR-V_LX_1.5L_4_Cyl._Turbo/windshield_wiper_blade_front/replace_wiper_blades"
+  },
+  {
+    "manufacturer": "HONDA",
+    "model": "CRV",
+    "yearRange": "2022-2023",
+    "issueKey": "Rear Wiper Blade - Replace",
+    "issueNameHe": "החלפת מגב אחורי",
+    "url": "https://www.carcarekiosk.com/video/2023_Honda_CR-V_LX_1.5L_4_Cyl._Turbo/windshield_wiper_blade_rear/replace_wiper_blade"
+  },
+
+
+
+
+
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "I10",
+    "yearRange": "2007-2017",
+    "issueKey": "AC",
+    "issueNameHe": "מזגן",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_i10_Era_1.1L_4_Cyl./air_conditioner/recharge_freon"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "I10",
+    "yearRange": "2007-2017",
+    "issueKey": "Air-filter Inside",
+    "issueNameHe": "פילטר אוויר רכב פנים",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_i10_Era_1.1L_4_Cyl./air_filter_cabin/replace"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "I10",
+    "yearRange": "2007-2017",
+    "issueKey": "Air-filter Engine",
+    "issueNameHe": "פילטר אוויר מנוע",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_i10_Era_1.1L_4_Cyl./air_filter_engine/replace"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "I10",
+    "yearRange": "2007-2017",
+    "issueKey": "Battery - Jumpstart",
+    "issueNameHe": "מצבר - כבלים",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_i10_Era_1.1L_4_Cyl./battery/jump_start"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "I10",
+    "yearRange": "2007-2017",
+    "issueKey": "Battery - replacement",
+    "issueNameHe": "מצבר - החלפה",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_i10_Era_1.1L_4_Cyl./battery/replace_battery"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "I10",
+    "yearRange": "2007-2017",
+    "issueKey": "Brake Fluid - Add fluid",
+    "issueNameHe": "נוזל בלמים - הוספה",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_i10_Era_1.1L_4_Cyl./brake_fluid/add_fluid"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "I10",
+    "yearRange": "2007-2017",
+    "issueKey": "Brake Fluid - Check Fluid Level",
+    "issueNameHe": "נוזל בלמים -  בדיקה",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_i10_Era_1.1L_4_Cyl./brake_fluid/check_fluid_level"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "I10",
+    "yearRange": "2007-2017",
+    "issueKey": "Check Engine Light",
+    "issueNameHe": "נורת מנוע",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_i10_Era_1.1L_4_Cyl./check_engine_light/diagnose"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "I10",
+    "yearRange": "2007-2017",
+    "issueKey": "Clock",
+    "issueNameHe": "שעון",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_i10_Era_1.1L_4_Cyl./clock/set_clock"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "I10",
+    "yearRange": "2007-2017",
+    "issueKey": "Coolant - Add Coolant",
+    "issueNameHe": "הוספת נוזל קירור",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_i10_Era_1.1L_4_Cyl./coolant_antifreeze/add_coolant"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "I10",
+    "yearRange": "2007-2017",
+    "issueKey": "Coolant - Check Coolant Level",
+    "issueNameHe": "בדיקת כמות נוזל קירור",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_i10_Era_1.1L_4_Cyl./coolant_antifreeze/check_coolant_level"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "I10",
+    "yearRange": "2007-2017",
+    "issueKey": "Coolant - Fix Leaks",
+    "issueNameHe": "נוזל קירור - תיקון דליפות",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_i10_Era_1.1L_4_Cyl./coolant_antifreeze/fix_leaks"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "I10",
+    "yearRange": "2007-2017",
+    "issueKey": "Coolant - Flush Coolant",
+    "issueNameHe": "נוזל קירור - ניקוז",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_i10_Era_1.1L_4_Cyl./coolant_antifreeze/flush_coolant"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "I10",
+    "yearRange": "2007-2017",
+    "issueKey": "Fuse - Engine fuse check",
+    "issueNameHe": "פיוז - בדיקת פיוז מנוע",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_i10_Era_1.1L_4_Cyl./fuse_engine/check"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "I10",
+    "yearRange": "2007-2017",
+    "issueKey": "Fuse - Engine fuse replace",
+    "issueNameHe": "פיוז - החלפת פיוז מנוע",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_i10_Era_1.1L_4_Cyl./fuse_engine/replace"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "I10",
+    "yearRange": "2007-2017",
+    "issueKey": "Fuse - Interior fuse check",
+    "issueNameHe": "פיוז - בדיקת פיוז פנימי",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_i10_Era_1.1L_4_Cyl./fuse_interior/check"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "I10",
+    "yearRange": "2007-2017",
+    "issueKey": "Fuse - Interior fuse replace",
+    "issueNameHe": "פיוז - החלפת פיוז פנימי",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_i10_Era_1.1L_4_Cyl./fuse_interior/replace"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "I10",
+    "yearRange": "2007-2017",
+    "issueKey": "Hood - Open the hood",
+    "issueNameHe": "פתיחת מכסה מנוע",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_i10_Era_1.1L_4_Cyl./hood/open_the_hood"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "I10",
+    "yearRange": "2007-2017",
+    "issueKey": "Lights - Brake Light",
+    "issueNameHe": "אורות - אורות בלמים",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_i10_Era_1.1L_4_Cyl./lights/brake_light"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "I10",
+    "yearRange": "2007-2017",
+    "issueKey": "Lights - Headlight",
+    "issueNameHe": "אורות - אורות קדמיים",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_i10_Era_1.1L_4_Cyl./lights/headlight"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "I10",
+    "yearRange": "2007-2017",
+    "issueKey": "Oil - Add oil",
+    "issueNameHe": "שמן - הוספת שמן",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_i10_Era_1.1L_4_Cyl./oil/add_oil"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "I10",
+    "yearRange": "2007-2017",
+    "issueKey": "Oil - Change oil and oil filter",
+    "issueNameHe": "שמן - החלפת שמן ופילטר שמן",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_i10_Era_1.1L_4_Cyl./oil/change_oil_and_oil_filter"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "I10",
+    "yearRange": "2007-2017",
+    "issueKey": "Oil - check oil level",
+    "issueNameHe": "שמן - בדיקת כמות שמן",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_i10_Era_1.1L_4_Cyl./oil/check_oil_level"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "I10",
+    "yearRange": "2007-2017",
+    "issueKey": "Tires - Check Tire Pressure",
+    "issueNameHe": "צמיגים - בדיקת לחץ אוויר",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_i10_Era_1.1L_4_Cyl./tires_and_wheels/check_tire_pressure"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "I10",
+    "yearRange": "2007-2017",
+    "issueKey": "Add Washer Fluid",
+    "issueNameHe": "הוספת נוזל שמשות",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_i10_Era_1.1L_4_Cyl./windshield_washer_fluid/add_fluid"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "I10",
+    "yearRange": "2007-2017",
+    "issueKey": "Front Wiper Blades - Replace",
+    "issueNameHe": "החלפת מגבים קידמיים",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_i10_Era_1.1L_4_Cyl./windshield_wiper_blade_front/replace_wiper_blades"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "I10",
+    "yearRange": "2007-2017",
+    "issueKey": "Rear Wiper Blade - Replace",
+    "issueNameHe": "החלפת מגב אחורי",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_i10_Era_1.1L_4_Cyl./windshield_wiper_blade_rear/replace_wiper_blade"
+  },
+
+
+
+
+
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2010-2015",
+    "issueKey": "Air-filter Inside",
+    "issueNameHe": "פילטר אוויר רכב פנים",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_Tucson_Limited_2.4L_4_Cyl./air_filter_cabin/replace"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2010-2015",
+    "issueKey": "Air-filter Engine",
+    "issueNameHe": "פילטר אוויר מנוע",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_Tucson_Limited_2.4L_4_Cyl./air_filter_engine/replace"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2010-2015",
+    "issueKey": "Battery - Jumpstart",
+    "issueNameHe": "מצבר - כבלים",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_Tucson_Limited_2.4L_4_Cyl./battery/jump_start"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2010-2015",
+    "issueKey": "Battery - replacement",
+    "issueNameHe": "מצבר - החלפה",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_Tucson_Limited_2.4L_4_Cyl./battery/replace_battery"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2010-2015",
+    "issueKey": "Bluetooth - Pair phone",
+    "issueNameHe": "בלוטוס - חיבור טלפון",
+    "url": ""
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2010-2015",
+    "issueKey": "Brake Fluid - Add fluid",
+    "issueNameHe": "נוזל בלמים - הוספה",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_Tucson_Limited_2.4L_4_Cyl./brake_fluid/add_fluid"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2010-2015",
+    "issueKey": "Brake Fluid - Check Fluid Level",
+    "issueNameHe": "נוזל בלמים -  בדיקה",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_Tucson_Limited_2.4L_4_Cyl./brake_fluid/check_fluid_level"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2010-2015",
+    "issueKey": "Check Engine Light",
+    "issueNameHe": "נורת מנוע",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_Tucson_Limited_2.4L_4_Cyl./check_engine_light/diagnose"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2010-2015",
+    "issueKey": "Clock",
+    "issueNameHe": "שעון",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_Tucson_Limited_2.4L_4_Cyl./clock/set_clock"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2010-2015",
+    "issueKey": "Coolant - Add Coolant",
+    "issueNameHe": "הוספת נוזל קירור",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_Tucson_Limited_2.4L_4_Cyl./coolant_antifreeze/add_coolant"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2010-2015",
+    "issueKey": "Coolant - Check Coolant Level",
+    "issueNameHe": "בדיקת כמות נוזל קירור",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_Tucson_Limited_2.4L_4_Cyl./coolant_antifreeze/check_coolant_level"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2010-2015",
+    "issueKey": "Coolant - Fix Leaks",
+    "issueNameHe": "נוזל קירור - תיקון דליפות",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_Tucson_Limited_2.4L_4_Cyl./coolant_antifreeze/fix_leaks"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2010-2015",
+    "issueKey": "Coolant - Flush Coolant",
+    "issueNameHe": "נוזל קירור - ניקוז",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_Tucson_Limited_2.4L_4_Cyl./coolant_antifreeze/flush_coolant"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2010-2015",
+    "issueKey": "Fuse - Engine fuse check",
+    "issueNameHe": "פיוז - בדיקת פיוז מנוע",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_Tucson_Limited_2.4L_4_Cyl./fuse_engine/check"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2010-2015",
+    "issueKey": "Fuse - Engine fuse replace",
+    "issueNameHe": "פיוז - החלפת פיוז מנוע",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_Tucson_Limited_2.4L_4_Cyl./fuse_engine/replace"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2010-2015",
+    "issueKey": "Fuse - Interior fuse check",
+    "issueNameHe": "פיוז - בדיקת פיוז פנימי",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_Tucson_Limited_2.4L_4_Cyl./fuse_interior/check"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2010-2015",
+    "issueKey": "Fuse - Interior fuse replace",
+    "issueNameHe": "פיוז - החלפת פיוז פנימי",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_Tucson_Limited_2.4L_4_Cyl./fuse_interior/replace"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2010-2015",
+    "issueKey": "Hood - Open the hood",
+    "issueNameHe": "פתיחת מכסה מנוע",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_Tucson_Limited_2.4L_4_Cyl./hood/open_the_hood"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2010-2015",
+    "issueKey": "Jack Up Car",
+    "issueNameHe": "הרמת רכב על ג'ק",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_Tucson_Limited_2.4L_4_Cyl./jack_up_car/use_your_jack_to_raise_your_car"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2010-2015",
+    "issueKey": "Lights - Brake Light",
+    "issueNameHe": "אורות - אורות בלמים",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_Tucson_Limited_2.4L_4_Cyl./lights/brake_light"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2010-2015",
+    "issueKey": "Lights - Headlight",
+    "issueNameHe": "אורות - אורות קדמיים",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_Tucson_Limited_2.4L_4_Cyl./lights/headlight"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2010-2015",
+    "issueKey": "Oil - Add oil",
+    "issueNameHe": "שמן - הוספת שמן",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_Tucson_Limited_2.4L_4_Cyl./oil/add_oil"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2010-2015",
+    "issueKey": "Oil - Change oil and oil filter",
+    "issueNameHe": "שמן - החלפת שמן ופילטר שמן",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_Tucson_Limited_2.4L_4_Cyl./oil/change_oil_and_oil_filter"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2010-2015",
+    "issueKey": "Oil - check oil level",
+    "issueNameHe": "שמן - בדיקת כמות שמן",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_Tucson_Limited_2.4L_4_Cyl./oil/check_oil_level"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2010-2015",
+    "issueKey": "Tires - Change a Flat Tire",
+    "issueNameHe": "צמיגים - החלפת צמיג עם פנצ'ר",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_Tucson_Limited_2.4L_4_Cyl./tires_and_wheels/change_a_flat_tire"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2010-2015",
+    "issueKey": "Tires - Check Tire Pressure",
+    "issueNameHe": "צמיגים - בדיקת לחץ אוויר",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_Tucson_Limited_2.4L_4_Cyl./tires_and_wheels/check_tire_pressure"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2010-2015",
+    "issueKey": "Add Washer Fluid",
+    "issueNameHe": "הוספת נוזל שמשות",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_Tucson_Limited_2.4L_4_Cyl./windshield_washer_fluid/add_fluid"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2010-2015",
+    "issueKey": "Front Wiper Blades - Replace",
+    "issueNameHe": "החלפת מגבים קידמיים",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_Tucson_Limited_2.4L_4_Cyl./windshield_wiper_blade_front/replace_wiper_blades"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2010-2015",
+    "issueKey": "Rear Wiper Blade - Replace",
+    "issueNameHe": "החלפת מגב אחורי",
+    "url": "https://www.carcarekiosk.com/video/2012_Hyundai_Tucson_Limited_2.4L_4_Cyl./windshield_wiper_blade_rear/replace_wiper_blade"
+  },
+
+
+
+
+
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2016-2021",
+    "issueKey": "AC",
+    "issueNameHe": "מזגן",
+    "url": "https://www.carcarekiosk.com/video/2019_Hyundai_Tucson_Limited_2.4L_4_Cyl./air_conditioner/recharge_freon"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2016-2021",
+    "issueKey": "Air-filter Inside",
+    "issueNameHe": "פילטר אוויר רכב פנים",
+    "url": "https://www.carcarekiosk.com/video/2019_Hyundai_Tucson_Limited_2.4L_4_Cyl./air_filter_cabin/replace"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2016-2021",
+    "issueKey": "Air-filter Engine",
+    "issueNameHe": "פילטר אוויר מנוע",
+    "url": "https://www.carcarekiosk.com/video/2019_Hyundai_Tucson_Limited_2.4L_4_Cyl./air_filter_engine/replace"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2016-2021",
+    "issueKey": "Battery - Jumpstart",
+    "issueNameHe": "מצבר - כבלים",
+    "url": "https://www.carcarekiosk.com/video/2019_Hyundai_Tucson_Limited_2.4L_4_Cyl./battery/jump_start"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2016-2021",
+    "issueKey": "Battery - replacement",
+    "issueNameHe": "מצבר - החלפה",
+    "url": "https://www.carcarekiosk.com/video/2019_Hyundai_Tucson_Limited_2.4L_4_Cyl./battery/replace_battery"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2016-2021",
+    "issueKey": "Bluetooth - Pair phone",
+    "issueNameHe": "בלוטוס - חיבור טלפון",
+    "url": "https://www.carcarekiosk.com/video/2019_Hyundai_Tucson_Limited_2.4L_4_Cyl./bluetooth/pair_phone"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2016-2021",
+    "issueKey": "Brake Fluid - Add fluid",
+    "issueNameHe": "נוזל בלמים - הוספה",
+    "url": "https://www.carcarekiosk.com/video/2019_Hyundai_Tucson_Limited_2.4L_4_Cyl./brake_fluid/add_fluid"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2016-2021",
+    "issueKey": "Brake Fluid - Check Fluid Level",
+    "issueNameHe": "נוזל בלמים -  בדיקה",
+    "url": "https://www.carcarekiosk.com/video/2019_Hyundai_Tucson_Limited_2.4L_4_Cyl./brake_fluid/check_fluid_level"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2016-2021",
+    "issueKey": "Car Seats - Install",
+    "issueNameHe": "כיסאות רכב - התקנה",
+    "url": "https://www.carcarekiosk.com/video/2019_Hyundai_Tucson_Limited_2.4L_4_Cyl./car_seats/install"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2016-2021",
+    "issueKey": "Check Engine Light",
+    "issueNameHe": "נורת מנוע",
+    "url": "https://www.carcarekiosk.com/video/2019_Hyundai_Tucson_Limited_2.4L_4_Cyl./check_engine_light/diagnose"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2016-2021",
+    "issueKey": "Clock",
+    "issueNameHe": "שעון",
+    "url": "https://www.carcarekiosk.com/video/2019_Hyundai_Tucson_Limited_2.4L_4_Cyl./clock/set_clock"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2016-2021",
+    "issueKey": "Coolant - Add Coolant",
+    "issueNameHe": "הוספת נוזל קירור",
+    "url": "https://www.carcarekiosk.com/video/2019_Hyundai_Tucson_Limited_2.4L_4_Cyl./coolant_antifreeze/add_coolant"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2016-2021",
+    "issueKey": "Coolant - Check Coolant Level",
+    "issueNameHe": "בדיקת כמות נוזל קירור",
+    "url": "https://www.carcarekiosk.com/video/2019_Hyundai_Tucson_Limited_2.4L_4_Cyl./coolant_antifreeze/check_coolant_level"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2016-2021",
+    "issueKey": "Coolant - Fix Leaks",
+    "issueNameHe": "נוזל קירור - תיקון דליפות",
+    "url": "https://www.carcarekiosk.com/video/2019_Hyundai_Tucson_Limited_2.4L_4_Cyl./coolant_antifreeze/fix_leaks"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2016-2021",
+    "issueKey": "Coolant - Flush Coolant",
+    "issueNameHe": "נוזל קירור - ניקוז",
+    "url": "https://www.carcarekiosk.com/video/2019_Hyundai_Tucson_Limited_2.4L_4_Cyl./coolant_antifreeze/flush_coolant"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2016-2021",
+    "issueKey": "Fuse - Engine fuse check",
+    "issueNameHe": "פיוז - בדיקת פיוז מנוע",
+    "url": "https://www.carcarekiosk.com/video/2019_Hyundai_Tucson_Limited_2.4L_4_Cyl./fuse_engine/check"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2016-2021",
+    "issueKey": "Fuse - Engine fuse replace",
+    "issueNameHe": "פיוז - החלפת פיוז מנוע",
+    "url": "https://www.carcarekiosk.com/video/2019_Hyundai_Tucson_Limited_2.4L_4_Cyl./fuse_engine/replace"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2016-2021",
+    "issueKey": "Fuse - Interior fuse check",
+    "issueNameHe": "פיוז - בדיקת פיוז פנימי",
+    "url": "https://www.carcarekiosk.com/video/2019_Hyundai_Tucson_Limited_2.4L_4_Cyl./fuse_interior/check"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2016-2021",
+    "issueKey": "Fuse - Interior fuse replace",
+    "issueNameHe": "פיוז - החלפת פיוז פנימי",
+    "url": "https://www.carcarekiosk.com/video/2019_Hyundai_Tucson_Limited_2.4L_4_Cyl./fuse_interior/replace"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2016-2021",
+    "issueKey": "Hood - Open the hood",
+    "issueNameHe": "פתיחת מכסה מנוע",
+    "url": "https://www.carcarekiosk.com/video/2019_Hyundai_Tucson_Limited_2.4L_4_Cyl./hood/open_the_hood"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2016-2021",
+    "issueKey": "Jack Up Car",
+    "issueNameHe": "הרמת רכב על ג'ק",
+    "url": "https://www.carcarekiosk.com/video/2019_Hyundai_Tucson_Limited_2.4L_4_Cyl./jack_up_car/use_your_jack_to_raise_your_car"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2016-2021",
+    "issueKey": "Lights - Brake Light",
+    "issueNameHe": "אורות - אורות בלמים",
+    "url": "https://www.carcarekiosk.com/video/2019_Hyundai_Tucson_Limited_2.4L_4_Cyl./lights/brake_light"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2016-2021",
+    "issueKey": "Lights - Headlight",
+    "issueNameHe": "אורות - אורות קדמיים",
+    "url": "https://www.carcarekiosk.com/video/2019_Hyundai_Tucson_Limited_2.4L_4_Cyl./lights/headlight"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2016-2021",
+    "issueKey": "Oil - Add oil",
+    "issueNameHe": "שמן - הוספת שמן",
+    "url": "https://www.carcarekiosk.com/video/2019_Hyundai_Tucson_Limited_2.4L_4_Cyl./oil/add_oil"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2016-2021",
+    "issueKey": "Oil - Change oil and oil filter",
+    "issueNameHe": "שמן - החלפת שמן ופילטר שמן",
+    "url": "https://www.carcarekiosk.com/video/2019_Hyundai_Tucson_Limited_2.4L_4_Cyl./oil/change_oil_and_oil_filter"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2016-2021",
+    "issueKey": "Oil - check oil level",
+    "issueNameHe": "שמן - בדיקת כמות שמן",
+    "url": "https://www.carcarekiosk.com/video/2019_Hyundai_Tucson_Limited_2.4L_4_Cyl./oil/check_oil_level"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2016-2021",
+    "issueKey": "Transmission Fluid - Add fluid",
+    "issueNameHe": "שמן גיר - הוספת שמן",
+    "url": "https://www.carcarekiosk.com/video/2019_Hyundai_Tucson_Limited_2.4L_4_Cyl./transmission_fluid/add_level"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2016-2021",
+    "issueKey": "Transmission Fluid - Check Fluid Level",
+    "issueNameHe": "שמן גיר - בדיקת כמות שמן",
+    "url": "https://www.carcarekiosk.com/video/2019_Hyundai_Tucson_Limited_2.4L_4_Cyl./transmission_fluid/check_fluid_level"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2016-2021",
+    "issueKey": "Tires - Change a Flat Tire",
+    "issueNameHe": "צמיגים - החלפת צמיג עם פנצ'ר",
+    "url": "https://www.carcarekiosk.com/video/2019_Hyundai_Tucson_Limited_2.4L_4_Cyl./tires_and_wheels/change_a_flat_tire"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2016-2021",
+    "issueKey": "Tires - Check Tire Pressure",
+    "issueNameHe": "צמיגים - בדיקת לחץ אוויר",
+    "url": "https://www.carcarekiosk.com/video/2019_Hyundai_Tucson_Limited_2.4L_4_Cyl./tires_and_wheels/check_tire_pressure"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2016-2021",
+    "issueKey": "Add Washer Fluid",
+    "issueNameHe": "הוספת נוזל שמשות",
+    "url": "https://www.carcarekiosk.com/video/2019_Hyundai_Tucson_Limited_2.4L_4_Cyl./windshield_washer_fluid/add_fluid"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2016-2021",
+    "issueKey": "Front Wiper Blades - Replace",
+    "issueNameHe": "החלפת מגבים קידמיים",
+    "url": "https://www.carcarekiosk.com/video/2019_Hyundai_Tucson_Limited_2.4L_4_Cyl./windshield_wiper_blade_front/replace_wiper_blades"
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "model": "TUCSON",
+    "yearRange": "2016-2021",
+    "issueKey": "Rear Wiper Blade - Replace",
+    "issueNameHe": "החלפת מגב אחורי",
+    "url": "https://www.carcarekiosk.com/video/2019_Hyundai_Tucson_Limited_2.4L_4_Cyl./windshield_wiper_blade_rear/replace_wiper_blade"
+  }
 
 ]

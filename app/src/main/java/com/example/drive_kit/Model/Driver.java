@@ -485,6 +485,7 @@ public class Driver {
                 ", phone='" + phone + '\'' +
                 ", carNumber='" + car.getCarNum() + '\'' +
                 ", carModel='" + car.getCarModel() + '\'' +
+                ", carSpecificModel='" + car.getCarSpecificModel() + '\'' +
                 ", insuranceDate='" + getFormattedInsuranceDate() + '\'' +
                 ", testDate='" + getFormattedTestDate() + '\'' +
                 ", treatmentDate='" + getFormattedTreatDate() + '\'' +
