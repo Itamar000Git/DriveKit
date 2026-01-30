@@ -323,7 +323,7 @@ public class DIYFilterActivity extends AppCompatActivity {
     private CarModel selectedManufacturer = CarModel.UNKNOWN;
     private String selectedModelName = null;        // enum name (e.g., "COROLLA")
     private String selectedYearRangeLabel = null;   // from Firestore (e.g., "2016-2020")
-    private static final boolean DEV_SEED = false; //change to true only when needed insert json to video collection in firebase
+    private static final boolean DEV_SEED =false; //change to true only when needed insert json to video collection in firebase
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

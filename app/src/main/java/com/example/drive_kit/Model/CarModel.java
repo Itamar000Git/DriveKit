@@ -6,7 +6,7 @@ public enum CarModel {
     TOYOTA("טויוטה", "Toyota"),
     MAZDA("מאזדה", "Mazda"),
     HONDA("הונדה", "Honda"),
-    HYUNDAY("יונדאי", "HYUNDAI", "Hyundai"),
+    HYUNDAI("יונדאי", "HYUNDAI", "Hyundai"),
     UNKNOWN();
 
     private final String[] aliases;
@@ -65,7 +65,7 @@ public enum CarModel {
                 return MazdaModel.values();
             case HONDA:
                 return HondaModel.values();
-            case HYUNDAY:
+            case HYUNDAI:
                 return HyundaiModel.values();
             default:
                 return GenericModel.values();
@@ -87,7 +87,7 @@ public enum CarModel {
                     return MazdaModel.valueOf(selectedModelName).getYearRanges();
                 case HONDA:
                     return HondaModel.valueOf(selectedModelName).getYearRanges();
-                case HYUNDAY:
+                case HYUNDAI:
                     return HyundaiModel.valueOf(selectedModelName).getYearRanges();
                 default:
                     return GenericModel.valueOf(selectedModelName).getYearRanges();
@@ -103,11 +103,23 @@ public enum CarModel {
    ========================= */
 
 enum YearRange {
-    RANGE_2010_2015("2010-2015", 2010, 2015),
-    RANGE_2016_2020("2016-2020", 2016, 2020),
-    RANGE_2021_2024("2021-2024", 2021, 2024),
+//    RANGE_2010_2015("2010-2015", 2010, 2015),
+//    RANGE_2016_2020("2016-2020", 2016, 2020),
+//    RANGE_2021_2024("2021-2024", 2021, 2024),
     RANGE_2014_2018("2014-2018", 2014, 2018),
-    RANGE_2018_2024("2018-2014", 2018, 2024),
+    RANGE_2019_2024("2019-2024", 2019, 2024),
+    RANGE_2015_2017("2015-2017", 2015, 2017),
+    RANGE_2018_2024("2018-2024", 2018, 2024),
+    RANGE_2013_2016("2013-2016", 2013, 2016),
+    RANGE_2017_2024("2017-2024", 2017, 2024),
+    RANGE_2016_2021("2016-2021", 2016, 2021),
+    RANGE_2022_2024("2022-2024", 2022, 2024),
+    RANGE_2007_2017("2007-2017", 2007, 2017),
+    RANGE_2010_2015("2010-2015", 2010, 2015),
+    RANGE_2017_2022("2017-2022", 2017, 2022),
+    RANGE_2023_2024("2023-2024", 2023, 2024),
+
+
     UNKNOWN("לא ידוע", -1, -1);
 
     public final String label;
@@ -132,8 +144,8 @@ enum YearRange {
    ========================= */
 
 enum ToyotaModel {
-    COROLLA(YearRange.RANGE_2010_2015, YearRange.RANGE_2016_2020),
-    CAMERY(YearRange.RANGE_2016_2020, YearRange.RANGE_2021_2024),
+    COROLLA(YearRange.RANGE_2014_2018, YearRange.RANGE_2019_2024),
+    CAMRY(YearRange.RANGE_2015_2017, YearRange.RANGE_2018_2024),
     UNKNOWN(YearRange.UNKNOWN, YearRange.UNKNOWN);
 
     private final YearRange r1;
@@ -150,8 +162,8 @@ enum ToyotaModel {
 }
 
 enum MazdaModel {
-    MAZDA3(YearRange.RANGE_2010_2015, YearRange.RANGE_2016_2020),
-    CX5(YearRange.RANGE_2016_2020, YearRange.RANGE_2021_2024),
+    MAZDA3(YearRange.RANGE_2014_2018, YearRange.RANGE_2019_2024),
+    CX5(YearRange.RANGE_2013_2016, YearRange.RANGE_2017_2024),
     UNKNOWN(YearRange.UNKNOWN, YearRange.UNKNOWN);
 
     private final YearRange r1;
@@ -168,8 +180,8 @@ enum MazdaModel {
 }
 
 enum HondaModel {
-    CIVIC(YearRange.RANGE_2010_2015, YearRange.RANGE_2016_2020),
-    CRV(YearRange.RANGE_2016_2020, YearRange.RANGE_2021_2024),
+    CIVIC(YearRange.RANGE_2016_2021, YearRange.RANGE_2022_2024),
+    CRV(YearRange.RANGE_2017_2022, YearRange.RANGE_2023_2024),
     UNKNOWN(YearRange.UNKNOWN, YearRange.UNKNOWN);
 
     private final YearRange r1;
@@ -186,8 +198,8 @@ enum HondaModel {
 }
 
 enum HyundaiModel {
-    I10(YearRange.RANGE_2010_2015, YearRange.RANGE_2016_2020),
-    TUCSON(YearRange.RANGE_2016_2020, YearRange.RANGE_2021_2024),
+    I10(YearRange.RANGE_2007_2017 ,YearRange.UNKNOWN),
+    TUCSON(YearRange.RANGE_2010_2015, YearRange.RANGE_2016_2021),
     UNKNOWN(YearRange.UNKNOWN, YearRange.UNKNOWN);
 
     private final YearRange r1;

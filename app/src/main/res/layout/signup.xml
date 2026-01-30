@@ -137,8 +137,6 @@
                     android:textColorHint="#B0BEC5" />
             </com.google.android.material.textfield.TextInputLayout>
 
-
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/carNumberLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -150,7 +148,7 @@
                 app:hintTextColor="#B0BEC5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/emailLayout">
+                app:layout_constraintTop_toBottomOf="@id/emailLayout">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/carNumberEditText"
@@ -173,7 +171,7 @@
                 app:hintTextColor="#B0BEC5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/carNumberLayout">
+                app:layout_constraintTop_toBottomOf="@id/carNumberLayout">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/phoneEditText"
@@ -185,7 +183,7 @@
                     android:textColorHint="#B0BEC5" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- ADDED: Manufacturer dropdown (Exposed Dropdown Menu) -->
+            <!-- Manufacturer dropdown -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/manufacturerLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -198,7 +196,7 @@
                 app:endIconMode="dropdown_menu"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/phoneLayout">
+                app:layout_constraintTop_toBottomOf="@id/phoneLayout">
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/manufacturerDropdown"
@@ -211,11 +209,13 @@
                     android:clickable="true"
                     android:textColor="#E0E0E0"
                     android:textColorHint="#B0BEC5"
-                    android:paddingRight="16dp"
-                    android:paddingEnd="16dp" />
+                    android:paddingEnd="16dp"
+                    android:paddingRight="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- ADDED: Model dropdown (same style as manufacturer) -->
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/yearLayout"
+                android:id="@+id/modelLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -229,6 +229,36 @@
                 app:layout_constraintTop_toBottomOf="@id/manufacturerLayout">
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/modelDropdown"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="דגם"
+                    android:inputType="none"
+                    android:focusable="false"
+                    android:cursorVisible="false"
+                    android:clickable="true"
+                    android:textColor="#E0E0E0"
+                    android:textColorHint="#B0BEC5"
+                    android:paddingEnd="16dp"
+                    android:paddingRight="16dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Year dropdown -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/yearLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:boxBackgroundColor="#99FFFFFF"
+                app:boxStrokeColor="#8BC34A"
+                app:hintTextColor="#B0BEC5"
+                app:endIconMode="dropdown_menu"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/modelLayout">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/yearDropdown"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -239,10 +269,9 @@
                     android:clickable="true"
                     android:textColor="#E0E0E0"
                     android:textColorHint="#B0BEC5"
-                    android:paddingRight="16dp"
-                    android:paddingEnd="16dp" />
+                    android:paddingEnd="16dp"
+                    android:paddingRight="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
-
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/insuranceDateLayout"
@@ -255,7 +284,7 @@
                 app:hintTextColor="#B0BEC5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/yearLayout">
+                app:layout_constraintTop_toBottomOf="@id/yearLayout">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/insuranceDateEditText"
@@ -314,22 +343,22 @@
                     android:hint=" תאריך טיפול 10,000 אחרון"
                     android:textColor="#E0E0E0"
                     android:textColorHint="#B0BEC5" />
-
-                <TextView
-                    android:id="@+id/notremember"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:gravity="end"
-                    android:text="לא זוכר? בחר מהאפשרויות הבאות"
-                    android:textColor="#E0E0E0"
-                    android:textSize="20sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/service10kDateLayout" />
-
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Range buttons: scrollable so text is readable -->
+            <TextView
+                android:id="@+id/notremember"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="end"
+                android:text="לא זוכר? בחר מהאפשרויות הבאות"
+                android:textColor="#E0E0E0"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/service10kDateLayout" />
+
+            <!-- Range buttons -->
             <HorizontalScrollView
                 android:id="@+id/service10kRangeButtonsScroll"
                 android:layout_width="0dp"
@@ -341,7 +370,7 @@
                 android:textDirection="rtl"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/service10kDateLayout">
+                app:layout_constraintTop_toBottomOf="@id/notremember">
 
                 <LinearLayout
                     android:id="@+id/service10kRangeButtonsRow"
@@ -394,7 +423,7 @@
                         android:paddingStart="14dp"
                         android:paddingEnd="14dp"
                         android:singleLine="false"
-                        android:text="עד חצי שנה\nוהלאה"
+                        android:text="עד חצי שנה \n והלאה"
                         android:textColor="#000000"
                         android:textSize="14sp"
                         android:textStyle="bold" />

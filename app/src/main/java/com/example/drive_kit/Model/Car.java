@@ -205,6 +205,7 @@ public class Car {
     // ====== Extra fields shown in UI / future use ======
     //private String id;                  // החלטה: לא בשימוש כרגע, נשאר בהערה
     private CarModel carModel;
+    private String carSpecificModel;
     private String nickname;              // היה אצלך Nickname
     private String carColor;
     private int year;
@@ -217,6 +218,7 @@ public class Car {
         // keep defaults, Firestore will fill values
         this.carModel = CarModel.UNKNOWN;
         this.carColor = "";
+        this.carSpecificModel = "";
         this.nickname = "";
         this.year = 0;
         this.insuranceCompanyId = "";
@@ -239,6 +241,7 @@ public class Car {
         // Defaults
         this.year = year;
         this.carColor = "";
+        this.carSpecificModel = "";
         this.nickname = "";
         this.insuranceCompanyId = "";
         this.insuranceCompanyName = "";
@@ -307,6 +310,14 @@ public class Car {
 
     public CarModel getCarModel() {
         return carModel;
+    }
+
+    public String getCarSpecificModel() {
+        return carSpecificModel;
+    }
+
+    public void setCarSpecificModel(String carSpecificModel) {
+        this.carSpecificModel = carSpecificModel;
     }
 
     public void setCarModel(CarModel carModel) {
