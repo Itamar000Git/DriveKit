@@ -802,14 +802,40 @@ public class SignUpActivity extends AppCompatActivity {
 
         // ===== Next =====
         next.setOnClickListener(v -> {
+
+            // 1) Validate dates first (your existing logic)
             if (!viewModel.validateDates()) return;
 
+            // 2) Read inputs
             String firstName = firstNameEditText.getText().toString().trim();
-            String lastName = lastNameEditText.getText().toString().trim();
-            String email = emailEditText.getText().toString().trim();
+            String lastName  = lastNameEditText.getText().toString().trim();
+            String email     = emailEditText.getText().toString().trim();
             String carNumber = carNumberEditText.getText().toString().trim();
-            String phone = phoneEditText.getText().toString().trim();
+            String phone     = phoneEditText.getText().toString().trim();
 
+            // 3) Validate all required fields
+            boolean missingText =
+                    firstName.isEmpty() ||
+                            lastName.isEmpty()  ||
+                            email.isEmpty()     ||
+                            phone.isEmpty()     ||
+                            carNumber.isEmpty();
+
+            boolean missingDropdowns =
+                    carModel == null || carModel == CarModel.UNKNOWN ||
+                            year <= 0 ||
+                            selectedModelName == null || selectedModelName.trim().isEmpty();
+
+            if (missingText || missingDropdowns) {
+                android.widget.Toast.makeText(
+                        SignUpActivity.this,
+                        "נא למלא את כל השדות",
+                        android.widget.Toast.LENGTH_SHORT
+                ).show();
+                return;
+            }
+
+            // 4) Continue as usual
             Intent intent = new Intent(SignUpActivity.this, SetUsernamePasswordActivity.class);
             intent.putExtra("firstName", firstName);
             intent.putExtra("lastName", lastName);
@@ -823,12 +849,11 @@ public class SignUpActivity extends AppCompatActivity {
 
             intent.putExtra("carModel", carModel);
             intent.putExtra("year", year);
-
-            // ADDED: send selected specific model name
             intent.putExtra("carSpecificModel", selectedModelName);
 
             startActivity(intent);
         });
+
     }
 
     private void setTreatByMonthsBack(int months) {

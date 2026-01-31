@@ -26,7 +26,7 @@ import java.util.List;
  * MVVM:
  * Activity -> VideosViewModel -> VideosRepository -> Firestore
  */
-public class DIYIssuesActivity extends AppCompatActivity {
+public class DIYIssuesActivity extends BaseLoggedInActivity {
 
     private VideosViewModel vm;
 
@@ -40,7 +40,9 @@ public class DIYIssuesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.diy_issues);
+        //setContentView(R.layout.diy_issues);
+        getContentLayoutId();
+
 
         // --- 1) Read filter from Intent ---
         Intent i = getIntent();
@@ -92,6 +94,11 @@ public class DIYIssuesActivity extends AppCompatActivity {
 
         // --- 4) Load issues for this filter ---
         vm.loadIssues(manufacturer, model, yearRange);
+    }
+
+    @Override
+    protected int getContentLayoutId() {
+        return R.layout.diy_issues;
     }
 
     /**

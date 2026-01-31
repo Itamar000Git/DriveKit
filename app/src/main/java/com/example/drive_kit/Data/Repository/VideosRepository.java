@@ -2,7 +2,10 @@ package com.example.drive_kit.Data.Repository;
 
 import android.content.Context;
 
+import com.example.drive_kit.Model.Car;
+import com.example.drive_kit.Model.Driver;
 import com.example.drive_kit.Model.VideoItem;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.reflect.TypeToken;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -280,6 +283,44 @@ public class VideosRepository {
 
     private boolean isBlank(String s) {
         return s == null || s.trim().isEmpty();
+    }
+
+
+
+    public void getMyCar(ResultCallback<Car> cb) {
+        if (cb == null) return;
+
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            cb.onError(new Exception("User not logged in"));
+            return;
+        }
+
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        db.collection("drivers")
+                .document(uid)
+                .get()
+                .addOnSuccessListener(doc -> {
+                    if (doc == null || !doc.exists()) {
+                        cb.onError(new Exception("Driver document not found"));
+                        return;
+                    }
+
+                    Driver driver = doc.toObject(Driver.class);
+                    if (driver == null) {
+                        cb.onError(new Exception("Failed to parse Driver"));
+                        return;
+                    }
+
+                    Car car = driver.getCar(); // אצלך getCar() עושה ensureCar()
+                    if (car == null || car.getCarNum() == null || car.getCarNum().trim().isEmpty()) {
+                        cb.onError(new Exception("No car saved for this user"));
+                        return;
+                    }
+
+                    cb.onSuccess(car);
+                })
+                .addOnFailureListener(cb::onError);
     }
 
 }

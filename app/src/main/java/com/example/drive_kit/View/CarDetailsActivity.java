@@ -54,7 +54,7 @@ import com.example.drive_kit.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class CarDetailsActivity extends AppCompatActivity {
+public class CarDetailsActivity extends BaseLoggedInActivity {
 
     private TextView title;
     private TextView info;
@@ -62,7 +62,8 @@ public class CarDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_car_details);
+        //setContentView(R.layout.activity_car_details);
+        getContentLayoutId();
 
         title = findViewById(R.id.carTitle);
         info  = findViewById(R.id.carInfo);
@@ -103,6 +104,11 @@ public class CarDetailsActivity extends AppCompatActivity {
                     info.setText(text);
                 })
                 .addOnFailureListener(e -> info.setText("שגיאה בטעינת נתונים"));
+    }
+
+    @Override
+    protected int getContentLayoutId() {
+        return R.layout.activity_car_details;
     }
 
     private String safe(String s) {

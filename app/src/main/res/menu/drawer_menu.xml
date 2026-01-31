@@ -1,0 +1,48 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:title="דף הבית"
+            android:icon="@drawable/ic_home"/>
+
+        <item
+            android:id="@+id/nav_profile"
+            android:title="הפרופיל שלי"
+            android:icon="@drawable/ic_profile_small"/>
+
+        <item
+            android:id="@+id/nav_notifications"
+            android:title="התראות"
+            android:icon="@drawable/notification_bell"/>
+
+        <item
+            android:id="@+id/nav_my_car"
+            android:title="הרכב שלי"
+            android:icon="@drawable/car4"/>
+
+        <item
+            android:id="@+id/nav_diy"
+            android:title="DIY"
+            android:icon="@drawable/diy1"/>
+
+        <item
+            android:id="@+id/nav_garage"
+            android:title="מוסך קרוב"
+            android:icon="@drawable/garage"/>
+
+        <item
+            android:id="@+id/nav_insurance"
+            android:title="ביטוח רכב"
+            android:icon="@drawable/insurencepic"/>
+    </group>
+
+    <!-- קבוצה נפרדת למטה - בלי "סימון" -->
+    <group android:checkableBehavior="none">
+        <item
+            android:id="@+id/nav_logout"
+            android:title="התנתקות"
+            android:icon="@drawable/ic_logout"/>
+    </group>
+
+</menu>

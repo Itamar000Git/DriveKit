@@ -1,128 +1,15 @@
-//package com.example.drive_kit.View;
-//
-//import android.content.Intent;
-//import android.os.Bundle;
-//import android.widget.ImageView;
-//import android.widget.TextView;
-//
-//import androidx.appcompat.app.AppCompatActivity;
-//import androidx.lifecycle.ViewModelProvider;
-//import androidx.work.OneTimeWorkRequest;
-//import androidx.work.WorkManager;
-//
-//import com.example.drive_kit.Data.Workers.NotyWorker;
-//import com.example.drive_kit.R;
-//import com.example.drive_kit.ViewModel.HomeViewModel;
-//import com.google.firebase.auth.FirebaseAuth;
-//import com.google.firebase.auth.FirebaseUser;
-//import android.view.View;
-//import androidx.work.WorkInfo;
-//import com.example.drive_kit.ViewModel.NotificationsViewModel;
-//
-//
-///**
-// * HomeActivity is the main screen shown after a successful login.
-// *
-// * This screen:
-// * - Displays a welcome message to the user
-// * - Allows navigation to notifications and profile screens
-// * - Requests notification permission (Android 13+)
-// * - Triggers a notification worker
-// */
-//public class HomeActivity extends AppCompatActivity {
-//
-//    // TextView used to display the welcome message
-//    private TextView welcomeText;
-//    private TextView badgeTv;
-//    private NotificationsViewModel notyVm;
-//    private String uid;
-//
-//
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        // Standard Activity initialization
-//        super.onCreate(savedInstanceState);
-//
-//        // Attach the home_activity.xml layout to this Activity
-//        // After this line, all views inside the layout exist in memory
-//        setContentView(R.layout.home_activity);
-//
-//
-//        // Find and connect the TextView for the welcome message
-//        welcomeText = findViewById(R.id.welcomeText);
-//
-//        // Find and connect the notification icon (bell icon)
-//        ImageView notyIcon = findViewById(R.id.noty_icon);
-//
-//        // Find and connect the profile icon
-//        ImageView profileIcon = findViewById(R.id.profile_icon);
-//
-//
-//        /// ///////////////////////////
-//        // Request notification permission for Android 13 (API 33) and above
-//        // Without this permission, notifications will not be shown
-//        if (android.os.Build.VERSION.SDK_INT >= 33) {
-//
-//            if (checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)
-//                    != android.content.pm.PackageManager.PERMISSION_GRANTED) {
-//                // Ask the user for notification permission
-//                requestPermissions(new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, 1001);
-//            }
-//        }
-//
-//
-//
-//        // When the notification icon is clicked, open NotificationsActivity
-//        notyIcon.setOnClickListener(v -> {
-//            Intent intent = new Intent(HomeActivity.this, NotificationsActivity.class);
-//            startActivity(intent);
-//        });
-//
-//        // When the profile icon is clicked, open ProfileActivity
-//        profileIcon.setOnClickListener(v -> {
-//            startActivity(new Intent(HomeActivity.this, ProfileActivity.class));
-//        });
-//
-//
-//        // Schedule a one-time execution of the notification worker
-//        // This is usually used for immediate background checks
-//        WorkManager.getInstance(getApplicationContext())
-//                .enqueue(new OneTimeWorkRequest.Builder(NotyWorker.class).build());
-//
-//
-//        // Create (or retrieve) the ViewModel associated with this Activity
-//        HomeViewModel viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
-//
-//
-//        // Observe the welcome text LiveData
-//        // Whenever the value changes, the TextView will update automatically
-//        viewModel.getWelcomeText().observe(this, newText -> {
-//            welcomeText.setText(newText);
-//        });
-//
-//
-//
-//        // Get the currently logged-in Firebase user
-//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//
-//
-//        // Extract the user ID (UID) if the user exists
-//        String uid = (user == null) ? null : user.getUid();
-//
-//        // Ask the ViewModel to load the welcome text for this user
-//        viewModel.loadWelcomeText(uid);
-//    }
-//}
 package com.example.drive_kit.View;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
@@ -131,6 +18,7 @@ import com.example.drive_kit.Data.Workers.NotyWorker;
 import com.example.drive_kit.R;
 import com.example.drive_kit.ViewModel.HomeViewModel;
 import com.example.drive_kit.ViewModel.NotificationsViewModel;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -143,47 +31,65 @@ import com.google.firebase.auth.FirebaseUser;
  * - Requests notification permission (Android 13+)
  * - Triggers a notification worker
  * - Shows a badge count above the bell icon
+ * - Opens a hamburger drawer menu for navigation between screens
+ * - Prevents back button from returning to previous screen (from Home)
  */
 public class HomeActivity extends AppCompatActivity {
 
     // Welcome message
     private TextView welcomeText;
 
-    // Badge text on top of the bell
+    // Bottom bar badge
     private TextView badgeTv;
 
-    // Notifications ViewModel for badge count
+    // ViewModels
+    private HomeViewModel homeVm;
     private NotificationsViewModel notyVm;
 
-    // Cached uid for reloads
+    // Firebase uid
     private String uid;
+
+    // Drawer
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+
+    // Bottom bar buttons (IDs from bottom_bar.xml)
+    private View bottomMenuBtn;     // hamburger
+    private View bottomProfileBtn;  // profile
+    private View bottomNotyBtn;     // notifications
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
 
-        // Welcome text
+        // -----------------------------------
+        // Prevent back navigation from Home
+        // -----------------------------------
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override public void handleOnBackPressed() {
+                moveTaskToBack(true);
+            }
+        });
+
+        // -----------------------------------
+        // Find Views
+        // -----------------------------------
         welcomeText = findViewById(R.id.welcomeText);
 
-        // Profile icon
-        ImageView profileIcon = findViewById(R.id.profile_icon);
+        // Drawer
+        drawerLayout = findViewById(R.id.drawerLayout);
+        navigationView = findViewById(R.id.navigationView);
 
-//        findViewById(R.id.circleMyCar).setOnClickListener(v ->
-//                startActivity(new Intent(HomeActivity.this, MyCarsActivity.class))
-//        );
-        findViewById(R.id.circleMyCar).setOnClickListener(v -> {
-            startActivity(new Intent(HomeActivity.this, CarDetailsActivity.class));
-        });
-        findViewById(R.id.circleDIY).setOnClickListener(v -> {
-            startActivity(new Intent(HomeActivity.this, DIYFilterActivity.class));
-        });
+        // Bottom bar (from include)
+        bottomMenuBtn = findViewById(R.id.bottomMenuBtn);
+        bottomProfileBtn = findViewById(R.id.bottomProfileBtn);
+        bottomNotyBtn = findViewById(R.id.bottomNotyBtn);
+        badgeTv = findViewById(R.id.bottomNotyBadge);
 
-        // Bell container + badge (requires XML change: FrameLayout id notyContainer + TextView id noty_badge)
-        View notyContainer = findViewById(R.id.notyContainer);
-        badgeTv = findViewById(R.id.noty_badge);
-
-        // Request notification permission for Android 13+ (API 33+)
+        // -----------------------------------
+        // Request notification permission (Android 13+)
+        // -----------------------------------
         if (android.os.Build.VERSION.SDK_INT >= 33) {
             if (checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)
                     != android.content.pm.PackageManager.PERMISSION_GRANTED) {
@@ -191,35 +97,78 @@ public class HomeActivity extends AppCompatActivity {
             }
         }
 
-        // Open NotificationsActivity when bell is clicked
-        notyContainer.setOnClickListener(v -> {
-            Intent intent = new Intent(HomeActivity.this, NotificationsActivity.class);
-            startActivity(intent);
-        });
+        // -----------------------------------
+        // Bottom bar click listeners
+        // -----------------------------------
+        if (bottomNotyBtn != null) {
+            bottomNotyBtn.setOnClickListener(v ->
+                    startActivity(new Intent(HomeActivity.this, NotificationsActivity.class))
+            );
+        }
 
+        if (bottomProfileBtn != null) {
+            bottomProfileBtn.setOnClickListener(v ->
+                    startActivity(new Intent(HomeActivity.this, ProfileActivity.class))
+            );
+        }
 
+        if (bottomMenuBtn != null) {
+            bottomMenuBtn.setOnClickListener(v -> toggleDrawer());
+        }
 
-        // Open ProfileActivity when profile icon is clicked
-        profileIcon.setOnClickListener(v -> {
-            startActivity(new Intent(HomeActivity.this, ProfileActivity.class));
-        });
+        // -----------------------------------
+        // Circles (home main buttons)
+        // -----------------------------------
+        View circleMyCar = findViewById(R.id.circleMyCar);
+        if (circleMyCar != null) {
+            circleMyCar.setOnClickListener(v ->
+                    startActivity(new Intent(HomeActivity.this, CarDetailsActivity.class))
+            );
+        }
 
-        // Trigger a one-time background check
+        View circleDIY = findViewById(R.id.circleDIY);
+        if (circleDIY != null) {
+            circleDIY.setOnClickListener(v ->
+                    startActivity(new Intent(HomeActivity.this, DIYFilterActivity.class))
+            );
+        }
+
+        View circleGarage = findViewById(R.id.circleGarage);
+        if (circleGarage != null) {
+            circleGarage.setOnClickListener(v ->
+                    Toast.makeText(this, "מסך מוסך קרוב עדיין לא ממומש", Toast.LENGTH_SHORT).show()
+            );
+        }
+
+        View circleInsurance = findViewById(R.id.circleInsurance);
+        if (circleInsurance != null) {
+            circleInsurance.setOnClickListener(v ->
+                    Toast.makeText(this, "מסך ביטוח עדיין לא ממומש", Toast.LENGTH_SHORT).show()
+            );
+        }
+
+        // -----------------------------------
+        // Trigger one-time background check (NotyWorker)
+        // -----------------------------------
         WorkManager.getInstance(getApplicationContext())
                 .enqueue(new OneTimeWorkRequest.Builder(NotyWorker.class).build());
 
-        // Home ViewModel (welcome text)
-        HomeViewModel homeVm = new ViewModelProvider(this).get(HomeViewModel.class);
-        homeVm.getWelcomeText().observe(this, welcomeText::setText);
-
+        // -----------------------------------
         // Get Firebase user + uid
+        // -----------------------------------
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         uid = (user == null) ? null : user.getUid();
 
-        // Load welcome text
+        // -----------------------------------
+        // Home ViewModel (welcome text)
+        // -----------------------------------
+        homeVm = new ViewModelProvider(this).get(HomeViewModel.class);
+        homeVm.getWelcomeText().observe(this, welcomeText::setText);
         homeVm.loadWelcomeText(uid);
 
+        // -----------------------------------
         // Notifications ViewModel (badge count)
+        // -----------------------------------
         notyVm = new ViewModelProvider(this).get(NotificationsViewModel.class);
         notyVm.getNoty().observe(this, list -> {
             int count = (list == null) ? 0 : list.size();
@@ -232,14 +181,74 @@ public class HomeActivity extends AppCompatActivity {
         } else {
             updateBadge(0);
         }
+
+        // -----------------------------------
+        // Drawer menu behavior
+        // -----------------------------------
+        if (navigationView != null) {
+            navigationView.setNavigationItemSelectedListener(item -> {
+                int id = item.getItemId();
+
+                if (id == R.id.nav_home) {
+                    // already here
+
+                } else if (id == R.id.nav_profile) {
+                    startActivity(new Intent(HomeActivity.this, ProfileActivity.class));
+
+                } else if (id == R.id.nav_notifications) {
+                    startActivity(new Intent(HomeActivity.this, NotificationsActivity.class));
+
+                } else if (id == R.id.nav_my_car) {
+                    startActivity(new Intent(HomeActivity.this, CarDetailsActivity.class));
+
+                } else if (id == R.id.nav_diy) {
+                    startActivity(new Intent(HomeActivity.this, DIYFilterActivity.class));
+
+                } else if (id == R.id.nav_garage) {
+                    // TODO when ready
+                    Toast.makeText(this, "מסך מוסך קרוב עדיין לא ממומש", Toast.LENGTH_SHORT).show();
+
+                } else if (id == R.id.nav_insurance) {
+                    // TODO when ready
+                    Toast.makeText(this, "מסך ביטוח עדיין לא ממומש", Toast.LENGTH_SHORT).show();
+
+                } else if (id == R.id.nav_logout) {
+                    FirebaseAuth.getInstance().signOut();
+
+                    // Back to login and clear back stack
+                    Intent i = new Intent(HomeActivity.this, MainActivity.class); // change if your login is different
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(i);
+                    finish();
+                }
+
+                closeDrawer();
+                return true;
+            });
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        // Refresh badge each time we return to Home (e.g., after dismissing notifications)
+        // Refresh badge each time we return to Home
         if (uid != null && notyVm != null) {
             notyVm.loadNoty(uid);
+        }
+    }
+
+    private void toggleDrawer() {
+        if (drawerLayout == null) return;
+        if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
+            drawerLayout.closeDrawer(GravityCompat.END);
+        } else {
+            drawerLayout.openDrawer(GravityCompat.END);
+        }
+    }
+
+    private void closeDrawer() {
+        if (drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.END)) {
+            drawerLayout.closeDrawer(GravityCompat.END);
         }
     }
 
@@ -254,4 +263,3 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 }
-

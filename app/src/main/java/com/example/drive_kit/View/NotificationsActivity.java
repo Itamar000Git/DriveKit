@@ -27,7 +27,7 @@ import java.util.ArrayList;
  * If the list is empty, it removes all views from the container.
  * Otherwise, it creates a new TextView for each notification and adds it to the container.
  */
-public class NotificationsActivity extends AppCompatActivity {
+public class NotificationsActivity extends BaseLoggedInActivity {
 
     private LinearLayout notificationsContainer;
     private NotificationsViewModel viewModel;
@@ -75,7 +75,8 @@ public class NotificationsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.notifications);
+        //setContentView(R.layout.notifications);
+        getContentLayoutId();
 
         // UI refs
         notificationsContainer = findViewById(R.id.notificationsContainer);
@@ -108,6 +109,11 @@ public class NotificationsActivity extends AppCompatActivity {
                 viewModel.loadNoty(user.getUid());
             }
         }
+    }
+
+    @Override
+    protected int getContentLayoutId() {
+        return R.layout.notifications;
     }
 
 

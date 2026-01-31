@@ -1,148 +1,309 @@
-    package com.example.drive_kit.View;
+package com.example.drive_kit.View;
 
-    import android.os.Bundle;
-    import android.widget.Button;
-    import android.widget.Toast;
+import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Toast;
 
-    import androidx.appcompat.app.AppCompatActivity;
-    import androidx.lifecycle.ViewModelProvider;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
-    import com.example.drive_kit.R;
-    import com.example.drive_kit.Model.Driver;
-    import com.example.drive_kit.ViewModel.EditProfileViewModel;
-    import com.google.android.material.datepicker.MaterialDatePicker;
-    import com.google.android.material.textfield.TextInputEditText;
-    import com.google.firebase.auth.FirebaseAuth;
-    import com.google.firebase.auth.FirebaseUser;
+import com.example.drive_kit.Model.Car;
+import com.example.drive_kit.Model.CarModel;
+import com.example.drive_kit.R;
+import com.example.drive_kit.ViewModel.EditProfileViewModel;
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
-    public class EditProfileActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
-        private TextInputEditText firstNameEditText;
-        private TextInputEditText lastNameEditText;
-        private TextInputEditText emailEditText;
-        private TextInputEditText phoneEditText;
-        private TextInputEditText carNumberEditText;
-        private TextInputEditText insuranceDateEditText;
-        private TextInputEditText testDateEditText;
-        private TextInputEditText treatmentDateEditText;
+public class EditProfileActivity extends BaseLoggedInActivity {
 
-        private Button saveButton;
-        private Button cancelButton;
+    private TextInputEditText firstNameEditText;
+    private TextInputEditText lastNameEditText;
+    private TextInputEditText emailEditText;          // NEW (exists in updated XML)
+    private TextInputEditText phoneEditText;
+    private TextInputEditText carNumberEditText;
 
-        private EditProfileViewModel viewModel;
+    private MaterialAutoCompleteTextView manufacturerDropdown; // NEW (dropdown)
+    private MaterialAutoCompleteTextView modelDropdown;        // NEW (dropdown)
+    private MaterialAutoCompleteTextView yearDropdown;         // NEW (dropdown)
 
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.edit_profile_activity);
+    private TextInputEditText insuranceDateEditText;
+    private TextInputEditText testDateEditText;
+    private TextInputEditText treatmentDateEditText;
 
-            firstNameEditText = findViewById(R.id.firstNameEditText);
-            lastNameEditText = findViewById(R.id.lastNameEditText);
-            phoneEditText = findViewById(R.id.phoneEditText);
-            carNumberEditText = findViewById(R.id.carNumberEditText);
-            insuranceDateEditText = findViewById(R.id.insuranceDateEditText);
-            testDateEditText = findViewById(R.id.testDateEditText);
-            treatmentDateEditText = findViewById(R.id.treatmentDateEditText);
+    private Button saveButton;
+    private Button cancelButton;
 
-            saveButton = findViewById(R.id.saveButton);
-            cancelButton = findViewById(R.id.cancelButton);
+    private EditProfileViewModel viewModel;
 
-            viewModel = new ViewModelProvider(this).get(EditProfileViewModel.class);
+    // Selected values
+    private CarModel selectedManufacturer = CarModel.UNKNOWN;
+    private String selectedModelName = null;
+    private int selectedYear = 0;
 
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            if (user == null) {
-                Toast.makeText(this, "משתמש לא מחובר", Toast.LENGTH_SHORT).show();
-                finish();
-                return;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //setContentView(R.layout.edit_profile_activity);
+        getContentLayoutId();
+
+        // ---- Find views ----
+        firstNameEditText = findViewById(R.id.firstNameEditText);
+        lastNameEditText = findViewById(R.id.lastNameEditText);
+        emailEditText = findViewById(R.id.emailEditText); // NEW
+        phoneEditText = findViewById(R.id.phoneEditText);
+        carNumberEditText = findViewById(R.id.carNumberEditText);
+
+        manufacturerDropdown = findViewById(R.id.manufacturerDropdown); // NEW
+        modelDropdown = findViewById(R.id.modelDropdown);               // NEW
+        yearDropdown = findViewById(R.id.yearDropdown);                 // NEW
+
+        insuranceDateEditText = findViewById(R.id.insuranceDateEditText);
+        testDateEditText = findViewById(R.id.testDateEditText);
+        treatmentDateEditText = findViewById(R.id.treatmentDateEditText);
+
+        saveButton = findViewById(R.id.saveButton);
+        cancelButton = findViewById(R.id.cancelButton);
+
+        // Email should be display-only (as in XML)
+        if (emailEditText != null) {
+            emailEditText.setEnabled(false);
+        }
+
+        viewModel = new ViewModelProvider(this).get(EditProfileViewModel.class);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            Toast.makeText(this, "משתמש לא מחובר", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+        String uid = user.getUid();
+
+        // ---- Setup dropdowns ----
+        setupManufacturerDropdown();
+        setupYearDropdown();
+
+        // Disable typing (dropdown only)
+        disableTyping(manufacturerDropdown);
+        disableTyping(modelDropdown);
+        disableTyping(yearDropdown);
+
+        manufacturerDropdown.setOnClickListener(v -> manufacturerDropdown.showDropDown());
+        modelDropdown.setOnClickListener(v -> modelDropdown.showDropDown());
+        yearDropdown.setOnClickListener(v -> yearDropdown.showDropDown());
+
+        manufacturerDropdown.setOnItemClickListener((parent, view, position, id) -> {
+            String chosen = (String) parent.getItemAtPosition(position);
+            try {
+                selectedManufacturer = CarModel.valueOf(chosen);
+            } catch (Exception e) {
+                selectedManufacturer = CarModel.UNKNOWN;
             }
-            String uid = user.getUid();
 
-            // When driver loads -> fill UI
-            viewModel.getDriver().observe(this, d -> {
-                if (d == null) return;
+            // refresh models list for this manufacturer
+            setupModelDropdownFor(selectedManufacturer);
 
-                firstNameEditText.setText(nullToEmpty(d.getFirstName()));
-                lastNameEditText.setText(nullToEmpty(d.getLastName()));
-                phoneEditText.setText(nullToEmpty(d.getPhone()));
-                carNumberEditText.setText(nullToEmpty(d.getCar().getCarNum()));
+            // reset model selection when manufacturer changes
+            selectedModelName = null;
+            modelDropdown.setText("", false);
+        });
 
-                // show formatted text
-                insuranceDateEditText.setText(nullToEmpty(d.getFormattedInsuranceDate()));
-                testDateEditText.setText(nullToEmpty(d.getFormattedTestDate()));
-                treatmentDateEditText.setText(nullToEmpty(d.getFormattedTreatDate()));
+        modelDropdown.setOnItemClickListener((parent, view, position, id) -> {
+            selectedModelName = (String) parent.getItemAtPosition(position);
+        });
 
-                // keep millis in ViewModel
-                viewModel.setSelectedInsuranceDateMillis(d.getCar().getInsuranceDateMillis());
-                viewModel.setSelectedTestDateMillis(d.getCar().getTestDateMillis());
-                viewModel.setSelectedTreatDateMillis(d.getCar().getTreatmentDateMillis());
-            });
+        yearDropdown.setOnItemClickListener((parent, view, position, id) -> {
+            String chosen = (String) parent.getItemAtPosition(position);
+            try {
+                selectedYear = Integer.parseInt(chosen);
+            } catch (Exception ignored) {
+                selectedYear = 0;
+            }
+        });
 
-            viewModel.getToastMessage().observe(this, msg -> {
-                if (msg != null) Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-            });
+        // ---- Observe driver -> fill UI ----
+        viewModel.getDriver().observe(this, d -> {
+            if (d == null) return;
 
-            viewModel.getFinishScreen().observe(this, finish -> {
-                if (Boolean.TRUE.equals(finish)) {
-                    finish();
-                }
-            });
+            firstNameEditText.setText(nullToEmpty(d.getFirstName()));
+            lastNameEditText.setText(nullToEmpty(d.getLastName()));
+            if (emailEditText != null) emailEditText.setText(nullToEmpty(d.getEmail()));
+            phoneEditText.setText(nullToEmpty(d.getPhone()));
 
-            // Load data
-            viewModel.loadProfile(uid);
+            Car car = d.getCar(); // Driver.ensureCar() returns non-null in your Driver
+            carNumberEditText.setText(nullToEmpty(car.getCarNum()));
 
-            // Date pickers
-            insuranceDateEditText.setOnClickListener(v -> openDatePicker("בחר תאריך ביטוח", selection -> {
-                viewModel.setSelectedInsuranceDateMillis(selection);
-                insuranceDateEditText.setText(viewModel.formatDate(selection));
-            }));
+            // Dates (formatted)
+            insuranceDateEditText.setText(nullToEmpty(d.getFormattedInsuranceDate()));
+            testDateEditText.setText(nullToEmpty(d.getFormattedTestDate()));
+            treatmentDateEditText.setText(nullToEmpty(d.getFormattedTreatDate()));
 
-            testDateEditText.setOnClickListener(v -> openDatePicker("בחר תאריך טסט", selection -> {
-                viewModel.setSelectedTestDateMillis(selection);
-                testDateEditText.setText(viewModel.formatDate(selection));
-            }));
+            // Keep millis in ViewModel
+            viewModel.setSelectedInsuranceDateMillis(car.getInsuranceDateMillis());
+            viewModel.setSelectedTestDateMillis(car.getTestDateMillis());
+            viewModel.setSelectedTreatDateMillis(car.getTreatmentDateMillis());
 
-            treatmentDateEditText.setOnClickListener(v -> openDatePicker("בחר תאריך טיפול 10K", selection -> {
-                viewModel.setSelectedTreatDateMillis(selection);
-                treatmentDateEditText.setText(viewModel.formatDate(selection));
-            }));
+            // ---- NEW: prefill manufacturer/model/year ----
+            CarModel cm = car.getCarModel() == null ? CarModel.UNKNOWN : car.getCarModel();
+            selectedManufacturer = cm;
+            manufacturerDropdown.setText(selectedManufacturer.name(), false);
 
-            cancelButton.setOnClickListener(v -> finish());
+            // models list depends on manufacturer
+            setupModelDropdownFor(selectedManufacturer);
 
-            saveButton.setOnClickListener(v -> {
-                String firstName = text(firstNameEditText);
-                String lastName = text(lastNameEditText);
-                String phone = text(phoneEditText);
-                String carNumber = text(carNumberEditText);
+            selectedModelName = isBlank(car.getCarSpecificModel()) ? null : car.getCarSpecificModel();
+            modelDropdown.setText(selectedModelName == null ? "" : selectedModelName, false);
 
-                viewModel.saveProfile(
-                        uid,
-                        firstName,
-                        lastName,
-                        phone,
-                        carNumber
-                );
-            });
-        }
+            selectedYear = car.getYear();
+            if (selectedYear > 0) {
+                yearDropdown.setText(String.valueOf(selectedYear), false);
+            } else {
+                yearDropdown.setText("", false);
+            }
+        });
 
-        private interface DatePicked {
-            void onPicked(long millis);
-        }
+        viewModel.getToastMessage().observe(this, msg -> {
+            if (msg != null) Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        });
 
-        private void openDatePicker(String title, DatePicked cb) {
-            MaterialDatePicker<Long> picker =
-                    MaterialDatePicker.Builder.datePicker()
-                            .setTitleText(title)
-                            .build();
+        viewModel.getFinishScreen().observe(this, finish -> {
+            if (Boolean.TRUE.equals(finish)) finish();
+        });
 
-            picker.show(getSupportFragmentManager(), "DATE_PICKER_EDIT_PROFILE");
-            picker.addOnPositiveButtonClickListener(cb::onPicked);
-        }
+        // Load data
+        viewModel.loadProfile(uid);
 
-        private String text(TextInputEditText et) {
-            return et.getText() == null ? "" : et.getText().toString().trim();
-        }
+        // ---- Date pickers ----
+        insuranceDateEditText.setOnClickListener(v -> openDatePicker("בחר תאריך ביטוח", selection -> {
+            viewModel.setSelectedInsuranceDateMillis(selection);
+            insuranceDateEditText.setText(viewModel.formatDate(selection));
+        }));
 
-        private String nullToEmpty(String s) {
-            return s == null ? "" : s;
-        }
+        testDateEditText.setOnClickListener(v -> openDatePicker("בחר תאריך טסט", selection -> {
+            viewModel.setSelectedTestDateMillis(selection);
+            testDateEditText.setText(viewModel.formatDate(selection));
+        }));
+
+        treatmentDateEditText.setOnClickListener(v -> openDatePicker("בחר תאריך טיפול 10K", selection -> {
+            viewModel.setSelectedTreatDateMillis(selection);
+            treatmentDateEditText.setText(viewModel.formatDate(selection));
+        }));
+
+        cancelButton.setOnClickListener(v -> finish());
+
+        saveButton.setOnClickListener(v -> {
+            String firstName = text(firstNameEditText);
+            String lastName = text(lastNameEditText);
+            String phone = text(phoneEditText);
+            String carNumber = text(carNumberEditText);
+
+            // ---- NEW: also save manufacturer/model/year ----
+            // NOTE: you’ll need EditProfileViewModel.saveProfile(...) to accept these fields
+            viewModel.saveProfile(
+                    uid,
+                    firstName,
+                    lastName,
+                    phone,
+                    carNumber,
+                    selectedManufacturer,
+                    selectedModelName,
+                    selectedYear
+            );
+        });
     }
+
+    @Override
+    protected int getContentLayoutId() {
+        return R.layout.edit_profile_activity;
+    }
+
+    // =========================
+    // Dropdown setup
+    // =========================
+
+    private void setupManufacturerDropdown() {
+        List<String> list = new ArrayList<>();
+        for (CarModel m : CarModel.values()) {
+            if (m == CarModel.UNKNOWN) continue;
+            list.add(m.name());
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
+        manufacturerDropdown.setAdapter(adapter);
+    }
+
+    private void setupModelDropdownFor(CarModel manufacturer) {
+        if (manufacturer == null) manufacturer = CarModel.UNKNOWN;
+
+        Enum<?>[] models = CarModel.getModelsFor(manufacturer);
+        ArrayList<String> names = new ArrayList<>();
+
+        if (models != null) {
+            for (Enum<?> e : models) {
+                if (e == null) continue;
+                if ("UNKNOWN".equalsIgnoreCase(e.name())) continue;
+                names.add(e.name());
+            }
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, names);
+        modelDropdown.setAdapter(adapter);
+    }
+
+    private void setupYearDropdown() {
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        ArrayList<String> years = new ArrayList<>();
+        for (int y = currentYear; y >= 1980; y--) years.add(String.valueOf(y));
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, years);
+        yearDropdown.setAdapter(adapter);
+    }
+
+    private void disableTyping(MaterialAutoCompleteTextView v) {
+        if (v == null) return;
+        v.setInputType(android.text.InputType.TYPE_NULL);
+        v.setCursorVisible(false);
+        v.setKeyListener(null);
+    }
+
+    // =========================
+    // Date picker
+    // =========================
+
+    private interface DatePicked {
+        void onPicked(long millis);
+    }
+
+    private void openDatePicker(String title, DatePicked cb) {
+        MaterialDatePicker<Long> picker =
+                MaterialDatePicker.Builder.datePicker()
+                        .setTitleText(title)
+                        .build();
+
+        picker.show(getSupportFragmentManager(), "DATE_PICKER_EDIT_PROFILE");
+        picker.addOnPositiveButtonClickListener(cb::onPicked);
+    }
+
+    // =========================
+    // Utils
+    // =========================
+
+    private String text(TextInputEditText et) {
+        return et.getText() == null ? "" : et.getText().toString().trim();
+    }
+
+    private String nullToEmpty(String s) {
+        return s == null ? "" : s;
+    }
+
+    private boolean isBlank(String s) {
+        return s == null || s.trim().isEmpty();
+    }
+}

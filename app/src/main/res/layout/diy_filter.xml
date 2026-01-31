@@ -53,6 +53,22 @@
                 app:layout_constraintTop_toBottomOf="@id/diyGreenTitle"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
+            <!-- My Car button (green, smaller) -->
+            <Button
+                android:id="@+id/myCarButton"
+                android:layout_width="0dp"
+                android:layout_height="44dp"
+                android:layout_marginStart="60dp"
+                android:layout_marginEnd="60dp"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="#8BC34A"
+                android:text="הרכב שלי"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/diyFilterTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
 
             <!-- Manufacturer -->
             <com.google.android.material.textfield.TextInputLayout
@@ -68,7 +84,7 @@
                 app:endIconTint="#001F3F"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/diyFilterTitle">
+                app:layout_constraintTop_toBottomOf="@+id/myCarButton">
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/manufacturerDropdown"
