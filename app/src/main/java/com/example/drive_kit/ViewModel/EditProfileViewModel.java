@@ -5,7 +5,7 @@
 //import androidx.lifecycle.ViewModel;
 //
 //import com.example.drive_kit.Data.Repository.ProfileRepository;
-//import com.example.drive_kit.Model.CarModel;          // NEW
+//import com.example.drive_kit.Model.CarModel;
 //import com.example.drive_kit.Model.Driver;
 //
 //import java.text.SimpleDateFormat;
@@ -25,11 +25,6 @@
 //    private long selectedTestDateMillis = -1;
 //    private long selectedTreatDateMillis = -1;
 //
-//    // NEW: car extra fields
-//    private CarModel selectedManufacturer = CarModel.UNKNOWN; // NEW
-//    private String selectedCarSpecificModel = null;           // NEW
-//    private int selectedYear = 0;                             // NEW
-//
 //    public LiveData<Driver> getDriver() { return driver; }
 //    public LiveData<String> getToastMessage() { return toastMessage; }
 //    public LiveData<Boolean> getFinishScreen() { return finishScreen; }
@@ -39,13 +34,6 @@
 //            @Override
 //            public void onSuccess(Driver d) {
 //                driver.postValue(d);
-//
-//                // NEW: keep current car fields in VM too (so save works even if user doesn't touch dropdowns)
-//                if (d != null && d.getCar() != null) {
-//                    selectedManufacturer = d.getCar().getCarModel() == null ? CarModel.UNKNOWN : d.getCar().getCarModel();
-//                    selectedCarSpecificModel = d.getCar().getCarSpecificModel();
-//                    selectedYear = d.getCar().getYear();
-//                }
 //            }
 //
 //            @Override
@@ -55,18 +43,18 @@
 //        });
 //    }
 //
-//    // CHANGED: added manufacturer/model/year
+//    // UPDATED: includes manufacturer/model/year + imageUri
 //    public void saveProfile(
 //            String uid,
 //            String firstName,
 //            String lastName,
 //            String phone,
 //            String carNumber,
-//            CarModel manufacturer,          // NEW
-//            String carSpecificModel,        // NEW
-//            int year                        // NEW
+//            CarModel manufacturer,
+//            String carSpecificModel,
+//            int year,
+//            String carImageUriFromPicker // NEW
 //    ) {
-//        // basic validation
 //        if (isBlank(firstName) || isBlank(lastName) || isBlank(phone) || isBlank(carNumber)) {
 //            toastMessage.setValue("נא למלא את כל השדות");
 //            return;
@@ -77,7 +65,6 @@
 //            return;
 //        }
 //
-//        // NEW: validate car fields
 //        if (manufacturer == null || manufacturer == CarModel.UNKNOWN) {
 //            toastMessage.setValue("נא לבחור יצרן");
 //            return;
@@ -91,14 +78,7 @@
 //            return;
 //        }
 //
-//        // NEW: store into VM fields (optional, but keeps state consistent)
-//        selectedManufacturer = manufacturer;
-//        selectedCarSpecificModel = carSpecificModel;
-//        selectedYear = year;
-//
-//        // CHANGED: update repository call to include the new fields
-//        // NOTE: assume ProfileRepository has a matching function.
-//        repo.updateProfileFields(
+//        repo.updateProfileFieldsWithImage(
 //                uid,
 //                firstName,
 //                lastName,
@@ -107,9 +87,10 @@
 //                selectedInsuranceDateMillis,
 //                selectedTestDateMillis,
 //                selectedTreatDateMillis,
-//                selectedManufacturer.name(),     // NEW (store as string)
-//                selectedCarSpecificModel,        // NEW
-//                selectedYear,                    // NEW
+//                manufacturer.name(),
+//                carSpecificModel,
+//                year,
+//                carImageUriFromPicker, // can be ""/null/content://.../https://...
 //                new ProfileRepository.SimpleCallback() {
 //                    @Override
 //                    public void onSuccess() {
@@ -129,21 +110,18 @@
 //    public void setSelectedTestDateMillis(long millis) { selectedTestDateMillis = millis; }
 //    public void setSelectedTreatDateMillis(long millis) { selectedTreatDateMillis = millis; }
 //
-//    // NEW: optional setters if you want Activity to set them as user picks
-//    public void setSelectedManufacturer(CarModel m) { selectedManufacturer = (m == null ? CarModel.UNKNOWN : m); } // NEW
-//    public void setSelectedCarSpecificModel(String s) { selectedCarSpecificModel = s; } // NEW
-//    public void setSelectedYear(int y) { selectedYear = y; } // NEW
-//
 //    public String formatDate(long millis) {
 //        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 //        sdf.setTimeZone(TimeZone.getDefault());
 //        return sdf.format(new Date(millis));
 //    }
 //
-//    private boolean isBlank(String s) { // NEW
+//    private boolean isBlank(String s) {
 //        return s == null || s.trim().isEmpty();
 //    }
 //}
+
+
 package com.example.drive_kit.ViewModel;
 
 import androidx.lifecycle.LiveData;
@@ -159,6 +137,14 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
+/**
+ * EditProfileViewModel handles loading + saving the user's profile.
+ *
+ * IMPORTANT:
+ * - UI stays in Activity
+ * - This ViewModel validates input and delegates to ProfileRepository
+ * - Image can be: null/"" (no change), http(s) url, or local uri (content/file) to upload
+ */
 public class EditProfileViewModel extends ViewModel {
 
     private final ProfileRepository repo = new ProfileRepository();
@@ -180,6 +166,13 @@ public class EditProfileViewModel extends ViewModel {
             @Override
             public void onSuccess(Driver d) {
                 driver.postValue(d);
+
+                // keep millis locally for validation/save even if user didn't touch dates
+                if (d != null && d.getCar() != null) {
+                    selectedInsuranceDateMillis = d.getCar().getInsuranceDateMillis();
+                    selectedTestDateMillis = d.getCar().getTestDateMillis();
+                    selectedTreatDateMillis = d.getCar().getTreatmentDateMillis();
+                }
             }
 
             @Override
@@ -189,7 +182,13 @@ public class EditProfileViewModel extends ViewModel {
         });
     }
 
-    // UPDATED: includes manufacturer/model/year + imageUri
+    /**
+     * Save with image support:
+     * - imageUriOrUrl can be:
+     *   null/"" -> do not change image
+     *   https://... -> store directly
+     *   content://... or file://... -> upload to Storage and store downloadUrl
+     */
     public void saveProfile(
             String uid,
             String firstName,
@@ -199,7 +198,7 @@ public class EditProfileViewModel extends ViewModel {
             CarModel manufacturer,
             String carSpecificModel,
             int year,
-            String carImageUriFromPicker // NEW
+            String carImageBase64OrNull // NEW
     ) {
         if (isBlank(firstName) || isBlank(lastName) || isBlank(phone) || isBlank(carNumber)) {
             toastMessage.setValue("נא למלא את כל השדות");
@@ -224,7 +223,7 @@ public class EditProfileViewModel extends ViewModel {
             return;
         }
 
-        repo.updateProfileFieldsWithImage(
+        repo.updateProfileFieldsWithBase64(
                 uid,
                 firstName,
                 lastName,
@@ -236,21 +235,19 @@ public class EditProfileViewModel extends ViewModel {
                 manufacturer.name(),
                 carSpecificModel,
                 year,
-                carImageUriFromPicker, // can be ""/null/content://.../https://...
+                carImageBase64OrNull,
                 new ProfileRepository.SimpleCallback() {
-                    @Override
-                    public void onSuccess() {
+                    @Override public void onSuccess() {
                         toastMessage.postValue("עודכן בהצלחה");
                         finishScreen.postValue(true);
                     }
-
-                    @Override
-                    public void onError(Exception e) {
+                    @Override public void onError(Exception e) {
                         toastMessage.postValue("שגיאה בעדכון הנתונים");
                     }
                 }
         );
     }
+
 
     public void setSelectedInsuranceDateMillis(long millis) { selectedInsuranceDateMillis = millis; }
     public void setSelectedTestDateMillis(long millis) { selectedTestDateMillis = millis; }

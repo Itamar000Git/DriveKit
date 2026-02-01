@@ -1,173 +1,3 @@
-//package com.example.drive_kit.Model;
-//
-//public class Car {
-//
-//    private String carNumber;
-//    //private String id;
-//    //private String model;
-//    private CarModel carModel;
-//    //private String plate;
-//    private String Nickname;
-//    //private boolean manufacturer;
-//    private String carColor;
-//    //private long carLicenseTestDate;
-//    //private long insuranceDateMills;
-//    private int year;
-//    private String insuranceCompanyId;
-//    private String insuranceCompanyName;
-//    private String dismissedInsuranceStage;
-//    private String dismissedTestStage;
-//    private String dismissedTreatment10kStage;
-//    private long insuranceDateMillis; // in millis
-//    private long testDateMillis;
-//    private long treatmentDateMillis;
-//
-//    public Car(String carNumber,
-//               long insuranceDateMillis,
-//               long testDateMillis,
-//               long treatDateMillis) {
-//        this.carNumber = carNumber;
-//        this.carModel = CarModel.UNKNOWN;
-//        this.carColor = "";
-//        this.year = 2023;
-//        this.insuranceCompanyId = "";
-//        this.insuranceCompanyName = "";
-//        this.insuranceDateMillis = insuranceDateMillis;
-//        this.testDateMillis = testDateMillis;
-//        this.treatmentDateMillis = treatDateMillis;
-//        this.Nickname = "";
-//
-//    }
-//    public Car() {}
-//
-//    public String getCarNum() {
-//        return carNumber;
-//    }
-//
-//    public String getNickname() {
-//        return Nickname;
-//    }
-////    public String getPlate() {
-////        return plate;
-////    }
-//
-////    public void setPlate(String plate) {
-////        this.plate = plate;
-////    }
-//
-////    public void setNickname(String nickname) {
-////        Nickname = nickname;
-////    }
-//
-//
-////    public String getId() {
-////        return id;
-////    }
-////
-////    public void setId(String id) {
-////        this.id = id;
-////    }
-//
-//    public void setCarNum(String carNum) {
-//        this.carNumber = carNum;
-//    }
-//    public String getInsuranceCompanyId() {
-//        return insuranceCompanyId;
-//    }
-//
-//    public void setInsuranceCompanyId(String insuranceCompanyId) {
-//        this.insuranceCompanyId = insuranceCompanyId;
-//    }
-//
-//
-////    public String getModel() {
-////        return model;
-////    }
-////
-////    public void setModel(String model) {
-////        this.model = model;
-////    }
-//
-//    public CarModel getCarModel() {
-//        return carModel;
-//    }
-//
-//    public void setCarModel(CarModel carModel) {
-//        this.carModel = carModel;
-//    }
-//
-//    public String getCarColor() {
-//        return carColor;
-//    }
-//
-//    public void setCarColor(String carColor) {
-//        this.carColor = carColor;
-//    }
-//
-//    public long getTestDateMillis() {
-//        return testDateMillis;
-//    }
-//
-//    public void setTestDateMillis(long testDateMillis) {
-//        this.testDateMillis = testDateMillis;
-//    }
-//
-//    public long getInsuranceDateMillis() {
-//        return insuranceDateMillis;
-//    }
-//
-//    public void setInsuranceDateMillis(long insuranceDateMills) {
-//        this.insuranceDateMillis = insuranceDateMills;
-//    }
-//
-//    public long getTreatmentDateMillis() {
-//        return treatmentDateMillis;
-//    }
-//    public void setTreatDateMillis(long treatDateMillis) {
-//        this.treatmentDateMillis = treatDateMillis;
-//    }
-//
-//
-//    public String getDismissedInsuranceStage() {
-//        return dismissedInsuranceStage;
-//    }
-//    public void setDismissedInsuranceStage(String dismissedInsuranceStage) {
-//        this.dismissedInsuranceStage = dismissedInsuranceStage;
-//    }
-//
-//    public String getDismissedTestStage() {
-//        return dismissedTestStage;
-//    }
-//    public void setDismissedTestStage(String dismissedTestStage) {
-//        this.dismissedTestStage = dismissedTestStage;
-//    }
-//
-//    public String getDismissedTreatment10kStage() {
-//        return dismissedTreatment10kStage;
-//    }
-//
-//    public void setDismissedTreatment10kStage(String dismissedTreatment10kStage) {
-//        this.dismissedTreatment10kStage = dismissedTreatment10kStage;
-//    }
-//
-//
-//    public int getYear() {
-//        return year;
-//    }
-//
-//    public void setYear(int year) {
-//        this.year = year;
-//    }
-//
-////    public boolean getManufacturer() {
-////        return manufacturer;
-////    }
-//
-////    public void setManufacturer(boolean manufacturer) {
-////        this.manufacturer = manufacturer;
-////    }
-//}
-
 
 package com.example.drive_kit.Model;
 
@@ -213,6 +43,9 @@ public class Car {
     private String insuranceCompanyId;
     private String insuranceCompanyName;
     private String carImageUri;
+
+    private String carImageBase64; // NEW: Firestore-friendly image string
+
 
 
     // Empty constructor for Firestore
@@ -403,4 +236,13 @@ public class Car {
     public void setTreatDateMillis(long treatDateMillis) {
         this.treatmentDateMillis = treatDateMillis;
     }
+
+    public String getCarImageBase64() {
+        return carImageBase64;
+    }
+
+    public void setCarImageBase64(String carImageBase64) {
+        this.carImageBase64 = carImageBase64;
+    }
+
 }
