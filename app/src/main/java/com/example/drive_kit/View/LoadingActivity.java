@@ -22,6 +22,10 @@ import com.example.drive_kit.ViewModel.LoadingViewModel;
  * IMPORTANT:
  * - This Activity does NOT perform login logic itself.
  * - All authentication logic lives inside LoadingViewModel.
+ *
+ * NEW (Google):
+ * - This Activity can also receive googleIdToken from MainActivity
+ * - If googleIdToken exists -> it starts Google login via the ViewModel
  */
 public class LoadingActivity extends AppCompatActivity {
 
@@ -49,11 +53,12 @@ public class LoadingActivity extends AppCompatActivity {
         // Extract the password passed from the previous screen.
         String password = intent.getStringExtra("password");
 
+        // NEW: Extract googleIdToken passed from MainActivity (Google login flow)
+        String googleIdToken = intent.getStringExtra("googleIdToken");
+
         // Create (or retrieve) the ViewModel associated with this Activity.
         // The ViewModel contains all login-related logic and LiveData.
         LoadingViewModel viewModel = new ViewModelProvider(this).get(LoadingViewModel.class);
-
-
 
         // Observe the login success LiveData.
         // This observer is triggered when the ViewModel updates the login result to "true".
@@ -72,6 +77,7 @@ public class LoadingActivity extends AppCompatActivity {
 
                 // Navigate to the HomeActivity (main screen of the app).
                 startActivity(new Intent(this, HomeActivity.class));
+
                 // Close LoadingActivity so the user cannot return to it using the Back button.
                 finish();
             }
@@ -94,9 +100,18 @@ public class LoadingActivity extends AppCompatActivity {
                 finish();
             }
         });
+
         // Start the login process.
         // This triggers authentication logic inside the ViewModel.
         // The result (success or error) will be delivered via LiveData observers above.
-        viewModel.login(email, password);
+        //
+        // NEW (Google):
+        // If googleIdToken exists -> login with Google
+        // Else -> login with email/password (old flow)
+        if (googleIdToken != null && !googleIdToken.trim().isEmpty()) {
+            viewModel.loginWithGoogle(googleIdToken);
+        } else {
+            viewModel.login(email, password);
+        }
     }
 }

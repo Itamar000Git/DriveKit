@@ -76,4 +76,26 @@ public class MainViewModel extends ViewModel {
         errorMessage.setValue(null);
         return true;
     }
+
+    public void postError(String msg) {
+        errorMessage.setValue(msg);
+    }
+
+    public void clearError() {
+        errorMessage.setValue(null);
+    }
+    /** Called when user cancels Google sign-in */
+    public void onGoogleSignInCanceled() {
+        errorMessage.setValue("התחברות עם Google בוטלה");
+    }
+
+    /** Called when Google sign-in fails */
+    public void onGoogleSignInFailed(String msg) {
+        if (msg == null || msg.trim().isEmpty()) {
+            errorMessage.setValue("שגיאה בהתחברות עם Google");
+        } else {
+            errorMessage.setValue(msg);
+        }
+    }
+
 }

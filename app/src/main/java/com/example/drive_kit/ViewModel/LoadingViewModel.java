@@ -3,10 +3,10 @@ package com.example.drive_kit.ViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
 import android.content.Context;
+
 import com.example.drive_kit.Data.Repository.NotificationSchedulerRepository;
-
-
 import com.example.drive_kit.Data.Repository.LoadingRepository;
 
 /**
@@ -22,6 +22,9 @@ import com.example.drive_kit.Data.Repository.LoadingRepository;
  * IMPORTANT:
  * This ViewModel does NOT navigate between screens.
  * It only publishes results, and the Activity decides what to do with them.
+ *
+ * NEW (Google):
+ * - Added loginWithGoogle(idToken) which logs in using FirebaseAuth Google credential.
  */
 public class LoadingViewModel extends ViewModel {
 
@@ -70,6 +73,13 @@ public class LoadingViewModel extends ViewModel {
      * @param password user password input
      */
     public void login(String email, String password) {
+
+        // Basic defensive checks (optional but safer)
+        if (email == null || password == null) {
+            loginError.postValue("חסרים פרטי התחברות");
+            return;
+        }
+
         // Ask the repository to sign in (asynchronous call).
         // When it finishes, one of the callback methods will be triggered.
         repo.signIn(email, password, new LoadingRepository.LoadingCallback() {
@@ -80,6 +90,7 @@ public class LoadingViewModel extends ViewModel {
             public void onSuccess() {
                 loginSuccess.postValue(true);
             }
+
             // Publish an error message to observers (LoadingActivity will show a Toast).
             // We ignore the specific exception and show a simple message to the user.
             @Override
@@ -88,10 +99,47 @@ public class LoadingViewModel extends ViewModel {
             }
         });
     }
+
+    /**
+     * NEW: Starts the login process with Google idToken.
+     *
+     * Flow:
+     * 1) Call repo.signInWithGoogle(idToken, ...)
+     * 2) onSuccess -> publish loginSuccess = true
+     * 3) onError   -> publish loginError
+     *
+     * IMPORTANT:
+     * This method does NOT start Activities.
+     * It only updates LiveData so the Activity can react.
+     *
+     * @param idToken Google idToken from GoogleSignInAccount
+     */
+    public void loginWithGoogle(String idToken) {
+
+        // Basic validation
+        if (idToken == null || idToken.trim().isEmpty()) {
+            loginError.postValue("חסר idToken (בדוק default_web_client_id)");
+            return;
+        }
+
+        repo.signInWithGoogle(idToken, new LoadingRepository.LoadingCallback() {
+            @Override
+            public void onSuccess() {
+                loginSuccess.postValue(true);
+            }
+
+            @Override
+            public void onError(Exception e) {
+                loginError.postValue("שגיאה בהתחברות עם Google");
+            }
+        });
+    }
+
     ///////////////
     // Repository responsible for scheduling notifications via WorkManager.
     // This is separated from login logic and used after login success.
     private final NotificationSchedulerRepository schedulerRepo = new NotificationSchedulerRepository();
+
     /**
      * Starts daily notifications scheduling.
      *
@@ -103,5 +151,4 @@ public class LoadingViewModel extends ViewModel {
     public void startNotifications(Context appContext) {
         schedulerRepo.scheduleDaily(appContext);
     }
-
 }
