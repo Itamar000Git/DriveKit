@@ -6,6 +6,12 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
+
 
 
     <application
@@ -16,7 +22,9 @@
         android:label="DriveKit"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Drive_Kit">
+        android:theme="@style/Theme.Drive_Kit"
+        >
+
         <activity
             android:name="com.example.drive_kit.View.MainActivity"
             android:exported="true">
@@ -36,6 +44,9 @@
         <activity android:name=".View.CarDetailsActivity" />
         <activity android:name=".View.DIYFilterActivity" />
         <activity android:name=".View.DIYIssuesActivity" />
+        <activity android:name=".View.activity_nearby_garages" />
+
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
@@ -45,6 +56,12 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+
 
 
 

@@ -136,7 +136,7 @@ public class HomeActivity extends AppCompatActivity {
         View circleGarage = findViewById(R.id.circleGarage);
         if (circleGarage != null) {
             circleGarage.setOnClickListener(v ->
-                    Toast.makeText(this, "מסך מוסך קרוב עדיין לא ממומש", Toast.LENGTH_SHORT).show()
+                    startActivity(new Intent(HomeActivity.this, activity_nearby_garages.class))
             );
         }
 
@@ -205,8 +205,7 @@ public class HomeActivity extends AppCompatActivity {
                     startActivity(new Intent(HomeActivity.this, DIYFilterActivity.class));
 
                 } else if (id == R.id.nav_garage) {
-                    // TODO when ready
-                    Toast.makeText(this, "מסך מוסך קרוב עדיין לא ממומש", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(HomeActivity.this, activity_nearby_garages.class));
 
                 } else if (id == R.id.nav_insurance) {
                     // TODO when ready

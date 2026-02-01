@@ -295,6 +295,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast; // ✅ ADDED
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -309,6 +310,8 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 
 /**
  * DIYFilterActivity lets the user filter DIY videos by:
@@ -358,6 +361,11 @@ public class DIYFilterActivity extends BaseLoggedInActivity {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.diy_filter);
         getContentLayoutId();
+
+        TextView credit = findViewById(R.id.creditCarCareKiosk);
+        credit.setText(Html.fromHtml(getString(R.string.credit_carcarekiosk_link), Html.FROM_HTML_MODE_LEGACY));
+        credit.setMovementMethod(LinkMovementMethod.getInstance());
+        credit.setLinksClickable(true);
 
         // --- Find views ---
         manufacturerLayout = findViewById(R.id.manufacturerLayout);
