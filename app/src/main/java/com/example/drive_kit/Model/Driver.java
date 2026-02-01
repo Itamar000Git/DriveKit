@@ -254,6 +254,7 @@
 
 package com.example.drive_kit.Model;
 
+import android.net.Uri;
 import android.os.Build;
 
 import java.time.Instant;
@@ -283,6 +284,9 @@ public class Driver {
     // רכב יחיד
     private Car car;
 
+    //private String carImageUri; // Firestore friendly
+
+
     //private String carNumber;
 
     //private ArrayList<Car> cars = new ArrayList<>();
@@ -308,15 +312,18 @@ public class Driver {
                   int year,
                   long insuranceDateMillis,
                   long testDateMillis,
-                  long treatDateMillis) {
+                  long treatDateMillis
+                  ,String carImageUri // Firestore friendly
+) {
 
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
 
+
         // Create a new instance of Car (רכב יחיד)
-        this.car = new Car(carNumber,carModel,year, insuranceDateMillis, testDateMillis, treatDateMillis);
+        this.car = new Car(carNumber,carModel,year, insuranceDateMillis, testDateMillis, treatDateMillis,carImageUri);
     }
 
     // ====== Helpers ======
@@ -373,6 +380,15 @@ public class Driver {
     public void setCar(Car car) {
         this.car = car;
     }
+
+    public String getCarImageUri() {
+        return car.getCarImageUri();
+    }
+
+    public void setCarImageUri(String carImageUri) {
+        this.car.setCarImageUri(carImageUri);
+    }
+
 //
 //    // ====== Convenience methods (נוחים לשימוש במסכים/ריפוזיטורי) ======
 //    // אם אתה לא רוצה אותם – אפשר למחוק, אבל הם מקלים מאוד כשעובדים עם רכב יחיד.
