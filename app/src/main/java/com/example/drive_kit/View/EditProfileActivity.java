@@ -1,18 +1,23 @@
 package com.example.drive_kit.View;
 
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.bumptech.glide.Glide;
 import com.example.drive_kit.Model.Car;
 import com.example.drive_kit.Model.CarModel;
 import com.example.drive_kit.R;
 import com.example.drive_kit.ViewModel.EditProfileViewModel;
 import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,13 +31,13 @@ public class EditProfileActivity extends BaseLoggedInActivity {
 
     private TextInputEditText firstNameEditText;
     private TextInputEditText lastNameEditText;
-    private TextInputEditText emailEditText;          // NEW (exists in updated XML)
+    private TextInputEditText emailEditText;
     private TextInputEditText phoneEditText;
     private TextInputEditText carNumberEditText;
 
-    private MaterialAutoCompleteTextView manufacturerDropdown; // NEW (dropdown)
-    private MaterialAutoCompleteTextView modelDropdown;        // NEW (dropdown)
-    private MaterialAutoCompleteTextView yearDropdown;         // NEW (dropdown)
+    private MaterialAutoCompleteTextView manufacturerDropdown;
+    private MaterialAutoCompleteTextView modelDropdown;
+    private MaterialAutoCompleteTextView yearDropdown;
 
     private TextInputEditText insuranceDateEditText;
     private TextInputEditText testDateEditText;
@@ -41,6 +46,10 @@ public class EditProfileActivity extends BaseLoggedInActivity {
     private Button saveButton;
     private Button cancelButton;
 
+    // NEW: avatar + change image
+    private ShapeableImageView editProfileAvatar;
+    private Button changeImageButton;
+
     private EditProfileViewModel viewModel;
 
     // Selected values
@@ -48,22 +57,27 @@ public class EditProfileActivity extends BaseLoggedInActivity {
     private String selectedModelName = null;
     private int selectedYear = 0;
 
+    // NEW: holds chosen image (content://...) until save
+    private String selectedCarImageUriString = null;
+
+    // NEW: image picker launcher
+    private ActivityResultLauncher<String> pickImageLauncher;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.edit_profile_activity);
         getContentLayoutId();
 
         // ---- Find views ----
         firstNameEditText = findViewById(R.id.firstNameEditText);
         lastNameEditText = findViewById(R.id.lastNameEditText);
-        emailEditText = findViewById(R.id.emailEditText); // NEW
+        emailEditText = findViewById(R.id.emailEditText);
         phoneEditText = findViewById(R.id.phoneEditText);
         carNumberEditText = findViewById(R.id.carNumberEditText);
 
-        manufacturerDropdown = findViewById(R.id.manufacturerDropdown); // NEW
-        modelDropdown = findViewById(R.id.modelDropdown);               // NEW
-        yearDropdown = findViewById(R.id.yearDropdown);                 // NEW
+        manufacturerDropdown = findViewById(R.id.manufacturerDropdown);
+        modelDropdown = findViewById(R.id.modelDropdown);
+        yearDropdown = findViewById(R.id.yearDropdown);
 
         insuranceDateEditText = findViewById(R.id.insuranceDateEditText);
         testDateEditText = findViewById(R.id.testDateEditText);
@@ -72,13 +86,17 @@ public class EditProfileActivity extends BaseLoggedInActivity {
         saveButton = findViewById(R.id.saveButton);
         cancelButton = findViewById(R.id.cancelButton);
 
-        // Email should be display-only (as in XML)
-        if (emailEditText != null) {
-            emailEditText.setEnabled(false);
-        }
+        // NEW:
+        editProfileAvatar = findViewById(R.id.editProfileAvatar);
+        changeImageButton = findViewById(R.id.changeImageButton);
 
+        // Email should be display-only (as in XML)
+        if (emailEditText != null) emailEditText.setEnabled(false);
+
+        // ---- ViewModel ----
         viewModel = new ViewModelProvider(this).get(EditProfileViewModel.class);
 
+        // ---- User ----
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             Toast.makeText(this, "משתמש לא מחובר", Toast.LENGTH_SHORT).show();
@@ -87,11 +105,30 @@ public class EditProfileActivity extends BaseLoggedInActivity {
         }
         String uid = user.getUid();
 
+        // ---- Image picker (NEW) ----
+        pickImageLauncher = registerForActivityResult(
+                new ActivityResultContracts.GetContent(),
+                uri -> {
+                    if (uri == null) return;
+
+                    selectedCarImageUriString = uri.toString();
+
+                    // Preview immediately
+                    Glide.with(EditProfileActivity.this)
+                            .load(uri)
+                            .placeholder(R.drawable.ic_profile_placeholder)
+                            .error(R.drawable.ic_profile_placeholder)
+                            .centerCrop()
+                            .into(editProfileAvatar);
+                }
+        );
+
+        changeImageButton.setOnClickListener(v -> pickImageLauncher.launch("image/*"));
+
         // ---- Setup dropdowns ----
         setupManufacturerDropdown();
         setupYearDropdown();
 
-        // Disable typing (dropdown only)
         disableTyping(manufacturerDropdown);
         disableTyping(modelDropdown);
         disableTyping(yearDropdown);
@@ -108,10 +145,8 @@ public class EditProfileActivity extends BaseLoggedInActivity {
                 selectedManufacturer = CarModel.UNKNOWN;
             }
 
-            // refresh models list for this manufacturer
             setupModelDropdownFor(selectedManufacturer);
 
-            // reset model selection when manufacturer changes
             selectedModelName = null;
             modelDropdown.setText("", false);
         });
@@ -138,7 +173,7 @@ public class EditProfileActivity extends BaseLoggedInActivity {
             if (emailEditText != null) emailEditText.setText(nullToEmpty(d.getEmail()));
             phoneEditText.setText(nullToEmpty(d.getPhone()));
 
-            Car car = d.getCar(); // Driver.ensureCar() returns non-null in your Driver
+            Car car = d.getCar();
             carNumberEditText.setText(nullToEmpty(car.getCarNum()));
 
             // Dates (formatted)
@@ -151,22 +186,34 @@ public class EditProfileActivity extends BaseLoggedInActivity {
             viewModel.setSelectedTestDateMillis(car.getTestDateMillis());
             viewModel.setSelectedTreatDateMillis(car.getTreatmentDateMillis());
 
-            // ---- NEW: prefill manufacturer/model/year ----
+            // Prefill manufacturer/model/year
             CarModel cm = car.getCarModel() == null ? CarModel.UNKNOWN : car.getCarModel();
             selectedManufacturer = cm;
             manufacturerDropdown.setText(selectedManufacturer.name(), false);
 
-            // models list depends on manufacturer
             setupModelDropdownFor(selectedManufacturer);
 
             selectedModelName = isBlank(car.getCarSpecificModel()) ? null : car.getCarSpecificModel();
             modelDropdown.setText(selectedModelName == null ? "" : selectedModelName, false);
 
             selectedYear = car.getYear();
-            if (selectedYear > 0) {
-                yearDropdown.setText(String.valueOf(selectedYear), false);
-            } else {
-                yearDropdown.setText("", false);
+            yearDropdown.setText(selectedYear > 0 ? String.valueOf(selectedYear) : "", false);
+
+            // NEW: load existing image into avatar if no new selection yet
+            // >>> אם אצלך השם של getter שונה - עדכני רק את השורה הבאה:
+            String existing = nullToEmpty(car.getCarImageUri()); // <-- adjust if needed
+
+            if (isBlank(selectedCarImageUriString)) {
+                if (!isBlank(existing)) {
+                    Glide.with(EditProfileActivity.this)
+                            .load(existing)
+                            .placeholder(R.drawable.ic_profile_placeholder)
+                            .error(R.drawable.ic_profile_placeholder)
+                            .centerCrop()
+                            .into(editProfileAvatar);
+                } else {
+                    editProfileAvatar.setImageResource(R.drawable.ic_profile_placeholder);
+                }
             }
         });
 
@@ -205,8 +252,7 @@ public class EditProfileActivity extends BaseLoggedInActivity {
             String phone = text(phoneEditText);
             String carNumber = text(carNumberEditText);
 
-            // ---- NEW: also save manufacturer/model/year ----
-            // NOTE: you’ll need EditProfileViewModel.saveProfile(...) to accept these fields
+            // NEW: pass selectedCarImageUriString (can be null/empty if not changed)
             viewModel.saveProfile(
                     uid,
                     firstName,
@@ -215,7 +261,8 @@ public class EditProfileActivity extends BaseLoggedInActivity {
                     carNumber,
                     selectedManufacturer,
                     selectedModelName,
-                    selectedYear
+                    selectedYear,
+                    selectedCarImageUriString
             );
         });
     }
@@ -268,7 +315,7 @@ public class EditProfileActivity extends BaseLoggedInActivity {
 
     private void disableTyping(MaterialAutoCompleteTextView v) {
         if (v == null) return;
-        v.setInputType(android.text.InputType.TYPE_NULL);
+        v.setInputType(InputType.TYPE_NULL);
         v.setCursorVisible(false);
         v.setKeyListener(null);
     }

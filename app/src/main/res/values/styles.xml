@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- =========================
+         App Theme
+         ========================= -->
+    <style name="Theme.DriveKit" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Customize your theme colors if you want -->
+        <!-- <item name="colorPrimary">@color/...</item> -->
+        <!-- <item name="colorPrimaryVariant">@color/...</item> -->
+        <!-- <item name="colorSecondary">@color/...</item> -->
+    </style>
+
+    <!-- =========================
+         Circle Avatar Shape Overlay
+         Used by ShapeableImageView:
+         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.Circle"
+         ========================= -->
+    <style name="ShapeAppearanceOverlay.App.Circle">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+    <style name="ShapeAppearanceOverlay.App">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+    <style name="ShapeAppearanceOverlay">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+</resources>

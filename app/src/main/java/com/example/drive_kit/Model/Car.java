@@ -212,6 +212,8 @@ public class Car {
 
     private String insuranceCompanyId;
     private String insuranceCompanyName;
+    private String carImageUri;
+
 
     // Empty constructor for Firestore
     public Car() {
@@ -223,6 +225,7 @@ public class Car {
         this.year = 0;
         this.insuranceCompanyId = "";
         this.insuranceCompanyName = "";
+
     }
 
     public Car(String carNum,
@@ -230,7 +233,8 @@ public class Car {
                int year,
                long insuranceDateMillis,
                long testDateMillis,
-               long treatmentDateMillis) {
+               long treatmentDateMillis,
+               String carImageUri) {
 
         this.carNum = carNum;
         this.carModel = carModel;
@@ -245,6 +249,7 @@ public class Car {
         this.nickname = "";
         this.insuranceCompanyId = "";
         this.insuranceCompanyName = "";
+        this.carImageUri = carImageUri;
     }
 
     // ====== Getters / Setters (Bean-standard) ======
@@ -363,6 +368,13 @@ public class Car {
     public void setInsuranceCompanyName(String insuranceCompanyName) {
         this.insuranceCompanyName = insuranceCompanyName;
     }
+    public void setCarImageUri(String carImageUri){
+        this.carImageUri = carImageUri;
+    }
+    public String getCarImageUri(){
+        return carImageUri;
+    }
+
 
     // ====== Backward compatibility aliases (do NOT remove yet) ======
     // אם יש לך כבר מסמכים ב-Firestore עם השמות האלה, או קוד ישן שקורא להם,

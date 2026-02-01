@@ -1,20 +1,18 @@
 package com.example.drive_kit.Data.Repository;
 
-import com.example.drive_kit.Model.CarModel;
-import com.example.drive_kit.Model.Driver;
-import com.google.firebase.firestore.FirebaseFirestore;
+import android.net.Uri;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
-import java.util.TimeZone;
 
 public class ProfileRepository {
 
     public interface DriverCallback {
-        void onSuccess(Driver driver);
+        void onSuccess(com.example.drive_kit.Model.Driver driver);
         void onError(Exception e);
     }
 
@@ -28,7 +26,7 @@ public class ProfileRepository {
                 .collection("drivers")
                 .document(uid)
                 .get()
-                .addOnSuccessListener(doc -> cb.onSuccess(doc.toObject(Driver.class)))
+                .addOnSuccessListener(doc -> cb.onSuccess(doc.toObject(com.example.drive_kit.Model.Driver.class)))
                 .addOnFailureListener(cb::onError);
     }
 
@@ -46,28 +44,21 @@ public class ProfileRepository {
             long treatmentDateMillis,
             SimpleCallback cb
     ) {
-        if (uid == null || uid.trim().isEmpty()) {
+        if (isBlank(uid)) {
             cb.onError(new IllegalArgumentException("uid is null/empty"));
             return;
         }
 
         Map<String, Object> updates = new HashMap<>();
 
-        // Driver root
         updates.put("firstName", firstName);
         updates.put("lastName", lastName);
         updates.put("phone", phone);
 
-        // CHANGED: Car nested fields MUST match Car.java field names
-        updates.put("car.carNum", carNumber); // CHANGED (was car.carNumber)
+        updates.put("car.carNum", carNumber);
         updates.put("car.insuranceDateMillis", insuranceDateMillis);
         updates.put("car.testDateMillis", testDateMillis);
         updates.put("car.treatmentDateMillis", treatmentDateMillis);
-
-        // OPTIONAL: keep if you really want them in Firestore (not required by your model)
-        // updates.put("formattedInsuranceDate", formatDate(insuranceDateMillis));
-        // updates.put("formattedTestDate", formatDate(testDateMillis));
-        // updates.put("formattedTreatDate", formatDate(treatmentDateMillis));
 
         FirebaseFirestore.getInstance()
                 .collection("drivers")
@@ -78,8 +69,7 @@ public class ProfileRepository {
     }
 
     // =========================
-    // NEW: update including manufacturer / specificModel / year
-    // (this matches the ViewModel change you asked for)
+    // Existing overload: manufacturer/model/year (kept)
     // =========================
     public void updateProfileFields(
             String uid,
@@ -90,38 +80,30 @@ public class ProfileRepository {
             long insuranceDateMillis,
             long testDateMillis,
             long treatmentDateMillis,
-            String manufacturer,         // NEW (store enum name string)
-            String carSpecificModel,     // NEW
-            int year,                    // NEW
+            String manufacturer,
+            String carSpecificModel,
+            int year,
             SimpleCallback cb
     ) {
-        if (uid == null || uid.trim().isEmpty()) {
+        if (isBlank(uid)) {
             cb.onError(new IllegalArgumentException("uid is null/empty"));
             return;
         }
 
         Map<String, Object> updates = new HashMap<>();
 
-        // Driver root
         updates.put("firstName", firstName);
         updates.put("lastName", lastName);
         updates.put("phone", phone);
 
-        // Car nested fields (match Car.java)
         updates.put("car.carNum", carNumber);
         updates.put("car.insuranceDateMillis", insuranceDateMillis);
         updates.put("car.testDateMillis", testDateMillis);
         updates.put("car.treatmentDateMillis", treatmentDateMillis);
 
-        // NEW: extra car data
-        updates.put("car.carModel", manufacturer);          // NEW  (e.g., "TOYOTA")
-        updates.put("car.carSpecificModel", carSpecificModel); // NEW (e.g., "COROLLA")
-        updates.put("car.year", year);                      // NEW
-
-        // OPTIONAL: keep if you want extra cached formatted fields in Firestore
-        // updates.put("formattedInsuranceDate", formatDate(insuranceDateMillis));
-        // updates.put("formattedTestDate", formatDate(testDateMillis));
-        // updates.put("formattedTreatDate", formatDate(treatmentDateMillis));
+        updates.put("car.carModel", manufacturer);
+        updates.put("car.carSpecificModel", carSpecificModel);
+        updates.put("car.year", year);
 
         FirebaseFirestore.getInstance()
                 .collection("drivers")
@@ -131,10 +113,147 @@ public class ProfileRepository {
                 .addOnFailureListener(cb::onError);
     }
 
-    private String formatDate(long millis) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        sdf.setTimeZone(TimeZone.getDefault());
-        return sdf.format(new Date(millis));
+    // =========================
+    // NEW: update profile + car + image
+    // imageUriOrUrl can be:
+    // - "" / null  -> do not update image field
+    // - "http..."  -> store as is
+    // - "content://..." or "file://..." -> upload to Storage, store downloadUrl
+    // =========================
+    public void updateProfileFieldsWithImage(
+            String uid,
+            String firstName,
+            String lastName,
+            String phone,
+            String carNumber,
+            long insuranceDateMillis,
+            long testDateMillis,
+            long treatmentDateMillis,
+            String manufacturer,
+            String carSpecificModel,
+            int year,
+            String imageUriOrUrl,
+            SimpleCallback cb
+    ) {
+        if (isBlank(uid)) {
+            cb.onError(new IllegalArgumentException("uid is null/empty"));
+            return;
+        }
+
+        // If no image provided -> just update fields (without touching carImageUri)
+        if (isBlank(imageUriOrUrl)) {
+            updateProfileFields(
+                    uid,
+                    firstName,
+                    lastName,
+                    phone,
+                    carNumber,
+                    insuranceDateMillis,
+                    testDateMillis,
+                    treatmentDateMillis,
+                    manufacturer,
+                    carSpecificModel,
+                    year,
+                    cb
+            );
+            return;
+        }
+
+        // If already a web URL -> update directly
+        if (isHttpUrl(imageUriOrUrl)) {
+            Map<String, Object> updates = baseUpdates(
+                    firstName, lastName, phone, carNumber,
+                    insuranceDateMillis, testDateMillis, treatmentDateMillis,
+                    manufacturer, carSpecificModel, year
+            );
+            updates.put("car.carImageUri", imageUriOrUrl);
+
+            FirebaseFirestore.getInstance()
+                    .collection("drivers")
+                    .document(uid)
+                    .update(updates)
+                    .addOnSuccessListener(v -> cb.onSuccess())
+                    .addOnFailureListener(cb::onError);
+            return;
+        }
+
+        // Otherwise assume it's local Uri (content:// or file://) -> upload to Storage first
+        Uri localUri = Uri.parse(imageUriOrUrl);
+
+        StorageReference ref = FirebaseStorage.getInstance()
+                .getReference()
+                .child("drivers")
+                .child(uid)
+                .child("car_profile_" + System.currentTimeMillis() + ".jpg");
+
+        ref.putFile(localUri)
+                .continueWithTask(task -> {
+                    if (!task.isSuccessful()) {
+                        throw task.getException() != null ? task.getException() : new Exception("Upload failed");
+                    }
+                    return ref.getDownloadUrl();
+                })
+                .addOnSuccessListener(downloadUri -> {
+                    String downloadUrl = downloadUri.toString();
+
+                    Map<String, Object> updates = baseUpdates(
+                            firstName, lastName, phone, carNumber,
+                            insuranceDateMillis, testDateMillis, treatmentDateMillis,
+                            manufacturer, carSpecificModel, year
+                    );
+                    updates.put("car.carImageUri", downloadUrl);
+
+                    FirebaseFirestore.getInstance()
+                            .collection("drivers")
+                            .document(uid)
+                            .update(updates)
+                            .addOnSuccessListener(v -> cb.onSuccess())
+                            .addOnFailureListener(cb::onError);
+                })
+                .addOnFailureListener(cb::onError);
+    }
+
+    // =========================
+    // Helpers
+    // =========================
+
+    private Map<String, Object> baseUpdates(
+            String firstName,
+            String lastName,
+            String phone,
+            String carNumber,
+            long insuranceDateMillis,
+            long testDateMillis,
+            long treatmentDateMillis,
+            String manufacturer,
+            String carSpecificModel,
+            int year
+    ) {
+        Map<String, Object> updates = new HashMap<>();
+
+        updates.put("firstName", firstName);
+        updates.put("lastName", lastName);
+        updates.put("phone", phone);
+
+        updates.put("car.carNum", carNumber);
+        updates.put("car.insuranceDateMillis", insuranceDateMillis);
+        updates.put("car.testDateMillis", testDateMillis);
+        updates.put("car.treatmentDateMillis", treatmentDateMillis);
+
+        updates.put("car.carModel", manufacturer);
+        updates.put("car.carSpecificModel", carSpecificModel);
+        updates.put("car.year", year);
+
+        return updates;
+    }
+
+    private boolean isBlank(String s) {
+        return s == null || s.trim().isEmpty();
+    }
+
+    private boolean isHttpUrl(String s) {
+        if (s == null) return false;
+        String t = s.trim().toLowerCase();
+        return t.startsWith("http://") || t.startsWith("https://");
     }
 }
-

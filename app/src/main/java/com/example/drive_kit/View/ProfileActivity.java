@@ -6,11 +6,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.bumptech.glide.Glide;
 import com.example.drive_kit.R;
 import com.example.drive_kit.ViewModel.ProfileViewModel;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -28,6 +29,9 @@ import com.google.firebase.auth.FirebaseUser;
  */
 public class ProfileActivity extends BaseLoggedInActivity {
 
+    // Header avatar
+    private ShapeableImageView profileAvatar;
+
     // TextViews for displaying profile information
     private TextView firstNameText;
     private TextView lastNameText;
@@ -36,8 +40,6 @@ public class ProfileActivity extends BaseLoggedInActivity {
 
     // Car details
     private TextView carNumberValue;
-
-    // ADDED (XML new fields)
     private TextView manufacturerValue;
     private TextView modelValue;
     private TextView yearValue;
@@ -56,54 +58,66 @@ public class ProfileActivity extends BaseLoggedInActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.profile_activity);
-        getContentLayoutId();
 
-        // --- Find views ---
+        // NOTE:
+        // If BaseLoggedInActivity doesn't set the content view by itself,
+        // uncomment the following line:
+        // setContentView(getContentLayoutId());
+
+        bindViews();
+        setupViewModel();
+        setupEditButton();
+        loadProfileOrExit();
+    }
+
+    private void bindViews() {
+        // Header
+        profileAvatar = findViewById(R.id.profileAvatar);
+
+        // Personal
         firstNameText = findViewById(R.id.firstNameText);
         lastNameText = findViewById(R.id.lastNameText);
         emailValue = findViewById(R.id.emailValue);
         phoneValue = findViewById(R.id.phoneValue);
 
+        // Car
         carNumberValue = findViewById(R.id.carNumberValue);
-
-        // ADDED: new TextViews from updated XML
         manufacturerValue = findViewById(R.id.manufacturerValue);
         modelValue = findViewById(R.id.modelValue);
         yearValue = findViewById(R.id.yearValue);
 
+        // Dates
         insuranceDateValue = findViewById(R.id.insuranceDateValue);
         testDateValue = findViewById(R.id.testDateValue);
         treatmentDateValue = findViewById(R.id.treatmentDateValue);
 
+        // Action
         editProfileButton = findViewById(R.id.editProfileButton);
+    }
 
-        // --- ViewModel ---
+    private void setupViewModel() {
         viewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
 
         // Observe the Driver LiveData
         viewModel.getDriver().observe(this, d -> {
             if (d == null) return;
 
+            // Personal details
             firstNameText.setText(safe(d.getFirstName()));
             lastNameText.setText(safe(d.getLastName()));
             emailValue.setText(safe(d.getEmail()));
             phoneValue.setText(safe(d.getPhone()));
 
-            // Car might be null from Firestore -> use Driver.getCar() which ensures non-null
+            // Car (getCar() should be non-null in your model)
             carNumberValue.setText(safe(d.getCar().getCarNum()));
 
-            // ADDED: manufacturer, model, year
-            // Manufacturer = carModel enum name (TOYOTA / HYUNDAI / ...)
             String manufacturerText = (d.getCar().getCarModel() == null)
                     ? "-"
                     : d.getCar().getCarModel().name();
             manufacturerValue.setText(safe(manufacturerText));
 
-            // Specific model = carSpecificModel (I10 / TUCSON / ...)
             modelValue.setText(safe(d.getCar().getCarSpecificModel()));
 
-            // Year = int -> show "-" if 0
             int y = d.getCar().getYear();
             yearValue.setText(y > 0 ? String.valueOf(y) : "-");
 
@@ -111,29 +125,49 @@ public class ProfileActivity extends BaseLoggedInActivity {
             insuranceDateValue.setText(safe(d.getFormattedInsuranceDate()));
             testDateValue.setText(safe(d.getFormattedTestDate()));
             treatmentDateValue.setText(safe(d.getFormattedTreatDate()));
+
+            // Avatar: load from Firestore field "carImageUri"
+            loadAvatar(d.getCarImageUri());
         });
 
         // Observe error messages from the ViewModel
         viewModel.getErrorMessage().observe(this, msg -> {
-            if (msg != null) Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+            if (msg != null && !msg.trim().isEmpty()) {
+                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+            }
         });
+    }
 
-        // Check logged-in user
+    private void setupEditButton() {
+        editProfileButton.setOnClickListener(v -> {
+            Intent i = new Intent(ProfileActivity.this, EditProfileActivity.class);
+            startActivity(i);
+        });
+    }
+
+    private void loadProfileOrExit() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             Toast.makeText(this, "משתמש לא מחובר", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
-
-        // Load profile
         viewModel.loadProfile(user.getUid());
+    }
 
-        // Edit profile button
-        editProfileButton.setOnClickListener(v -> {
-            Intent i = new Intent(ProfileActivity.this, EditProfileActivity.class);
-            startActivity(i);
-        });
+    private void loadAvatar(String carImageUri) {
+        // If empty -> show placeholder
+        if (carImageUri == null || carImageUri.trim().isEmpty()) {
+            profileAvatar.setImageResource(R.drawable.ic_profile_placeholder);
+            return;
+        }
+
+        Glide.with(this)
+                .load(carImageUri)
+                .placeholder(R.drawable.ic_profile_placeholder)
+                .error(R.drawable.ic_profile_placeholder)
+                .centerCrop()
+                .into(profileAvatar);
     }
 
     @Override

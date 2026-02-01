@@ -286,6 +286,7 @@
 package com.example.drive_kit.View;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -338,6 +339,12 @@ public class SetUsernamePasswordActivity extends AppCompatActivity {
             Log.e("SetUsernamePassword", "Dates not received");
             Toast.makeText(this, "שגיאה בטעינת נתונים", Toast.LENGTH_SHORT).show();
         }
+        String carPhotoUriStr = intent.getStringExtra("carPhotoUri");
+        String carPhotoUriToSave = (carPhotoUriStr != null && !carPhotoUriStr.trim().isEmpty())
+                ? carPhotoUriStr.trim()
+                : null;
+
+
 
         Driver driver = new Driver(
                 firstName,
@@ -350,6 +357,7 @@ public class SetUsernamePasswordActivity extends AppCompatActivity {
                 insuranceDateMillis,
                 testDateMillis,
                 treatmentDateMillis
+                ,carPhotoUriToSave
         );
 
         // FIX: Driver לא מכיל setCarSpecificModel. זה שייך ל-Car.
