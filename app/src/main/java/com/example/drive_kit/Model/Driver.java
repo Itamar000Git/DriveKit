@@ -382,12 +382,13 @@ public class Driver {
     }
 
     public String getCarImageUri() {
-        return car.getCarImageUri();
+        return ensureCar().getCarImageUri();
     }
 
     public void setCarImageUri(String carImageUri) {
-        this.car.setCarImageUri(carImageUri);
+        ensureCar().setCarImageUri(carImageUri);
     }
+
 
 //
 //    // ====== Convenience methods (נוחים לשימוש במסכים/ריפוזיטורי) ======

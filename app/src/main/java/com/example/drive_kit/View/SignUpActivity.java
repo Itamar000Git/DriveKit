@@ -1,12 +1,18 @@
+//
+//
 //package com.example.drive_kit.View;
 //
 //import android.content.Intent;
+//import android.net.Uri;
 //import android.os.Bundle;
 //import android.util.Log;
 //import android.widget.ArrayAdapter;
 //import android.widget.Button;
 //import android.widget.EditText;
+//import android.widget.ImageView;
 //
+//import androidx.activity.result.ActivityResultLauncher;
+//import androidx.activity.result.contract.ActivityResultContracts;
 //import androidx.appcompat.app.AppCompatActivity;
 //import androidx.lifecycle.ViewModelProvider;
 //
@@ -16,6 +22,7 @@
 //import com.google.android.material.datepicker.MaterialDatePicker;
 //import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 //import com.google.android.material.textfield.TextInputEditText;
+//import com.google.android.material.textfield.TextInputLayout;
 //
 //import org.json.JSONArray;
 //import org.json.JSONObject;
@@ -30,27 +37,15 @@
 //import java.util.LinkedHashSet;
 //import java.util.Locale;
 //
-///**
-// * SignUpActivity is responsible for collecting user registration details.
-// *
-// * This screen allows the user to enter:
-// * - Personal information (name, email, phone)
-// * - Car information (car number)
-// * - Important dates (insurance, test, 10K treatment)
-// *
-// * This Activity:
-// * - Handles ONLY UI interactions and navigation
-// * - Delegates validation and data handling to SignUpViewModel
-// */
 //public class SignUpActivity extends AppCompatActivity {
 //
-//    // Button to move to the next registration step
+//    // Buttons
 //    private Button next;
 //    private Button canNotRemember2Month;
 //    private Button canNotRemember4Month;
 //    private Button canNotRemember6Month;
 //
-//    // Input fields for personal details
+//    // Input fields
 //    private EditText firstNameEditText;
 //    private EditText lastNameEditText;
 //    private EditText emailEditText;
@@ -59,17 +54,15 @@
 //
 //    private CarModel carModel;
 //
+//    // Dropdowns
 //    private MaterialAutoCompleteTextView yearDropdown;
 //    private int year;
 //
-//    // Dropdown for car manufacturer
 //    private MaterialAutoCompleteTextView manufacturerDropdown;
-//
-//    // Dropdown for specific model (depends on selected manufacturer)
 //    private MaterialAutoCompleteTextView modelDropdown;
 //    private String selectedModelName = null;
 //
-//    // Date input fields
+//    // Dates
 //    private TextInputEditText insuranceDateEditText;
 //    private TextInputEditText testDateEditText;
 //    private TextInputEditText treatmentDateEditText;
@@ -77,16 +70,32 @@
 //    private SignUpViewModel viewModel;
 //
 //    private boolean userChangedTestDate = false;
-//    private boolean userChangedModel = false; // manufacturer
+//    private boolean userChangedModel = false; // manufacturer changed
 //    private boolean userChangedYear = false;
-//    private boolean userChangedCarSpecificModel = false; // specific model dropdown
+//    private boolean userChangedCarSpecificModel = false;
+//
+//    // =========================
+//    // Car photo UI + data
+//    // =========================
+//    private TextInputLayout carPhotoLayout;
+//    private TextInputEditText carPhotoEditText;
+//    //private ImageView carPhotoPreview; // optional in XML
+//
+//    private Uri selectedCarPhotoUri = null;
+//
+//    // Gallery picker launcher
+//    private ActivityResultLauncher<String> pickCarPhotoLauncher;
 //
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);
 //        setContentView(R.layout.signup);
 //
+//        // =========================
+//        // findViewById
+//        // =========================
 //        next = findViewById(R.id.next);
+//
 //        firstNameEditText = findViewById(R.id.firstNameEditText);
 //        lastNameEditText = findViewById(R.id.lastNameEditText);
 //        emailEditText = findViewById(R.id.emailEditText);
@@ -103,11 +112,53 @@
 //
 //        manufacturerDropdown = findViewById(R.id.manufacturerDropdown);
 //        yearDropdown = findViewById(R.id.yearDropdown);
-//
-//        // IMPORTANT: this id must exist in your updated XML
 //        modelDropdown = findViewById(R.id.modelDropdown);
 //
-//        // ===== Year dropdown =====
+//        // Car photo (IMPORTANT: ids must exist in XML)
+//        carPhotoLayout = findViewById(R.id.carPhotoLayout);
+//        carPhotoEditText = findViewById(R.id.carPhotoEditText);
+////        // optional preview (אם לא קיים ב-XML זה יחזור null - זה בסדר)
+////        carPhotoPreview = findViewById(R.id.carPhotoPreview);
+//
+//        // =========================
+//        // Register Gallery Picker
+//        // =========================
+//        pickCarPhotoLauncher = registerForActivityResult(
+//                new ActivityResultContracts.GetContent(),
+//                uri -> {
+//                    if (uri == null) return;
+//
+//                    selectedCarPhotoUri = uri;
+//
+//                    if (carPhotoEditText != null) {
+//                        carPhotoEditText.setText("נבחרה תמונה");
+//                        carPhotoEditText.setError(null);
+//                    }
+//                    if (carPhotoLayout != null) {
+//                        carPhotoLayout.setError(null);
+//                    }
+//
+////                    // Show preview only if ImageView exists in XML
+////                    if (carPhotoPreview != null) {
+////                        carPhotoPreview.setImageURI(uri);
+////                        carPhotoPreview.setVisibility(android.view.View.VISIBLE);
+////                    }
+//                }
+//        );
+//
+//        // Open picker on click (field)
+//        if (carPhotoEditText != null) {
+//            carPhotoEditText.setOnClickListener(v -> openCarPhotoPicker());
+//        }
+//
+//        // Open picker on end icon click (camera icon)
+//        if (carPhotoLayout != null) {
+//            carPhotoLayout.setEndIconOnClickListener(v -> openCarPhotoPicker());
+//        }
+//
+//        // =========================
+//        // Year dropdown
+//        // =========================
 //        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
 //        ArrayList<String> years = new ArrayList<>();
 //        for (int y = currentYear; y >= 1980; y--) years.add(String.valueOf(y));
@@ -126,7 +177,9 @@
 //            userChangedYear = true;
 //        });
 //
-//        // ===== Manufacturer dropdown =====
+//        // =========================
+//        // Manufacturer dropdown
+//        // =========================
 //        LinkedHashSet<String> unique = new LinkedHashSet<>();
 //        for (CarModel c : CarModel.values()) unique.add(c.name());
 //
@@ -144,16 +197,16 @@
 //            carModel = CarModel.valueOf(selected);
 //            userChangedModel = true;
 //
-//            // update model dropdown list
 //            updateModelDropdownAdapter(carModel);
 //
-//            // reset specific model selection (manufacturer changed)
 //            selectedModelName = null;
 //            userChangedCarSpecificModel = false;
 //            if (modelDropdown != null) modelDropdown.setText("", false);
 //        });
 //
-//        // ===== Specific model dropdown =====
+//        // =========================
+//        // Specific model dropdown
+//        // =========================
 //        updateModelDropdownAdapter(carModel);
 //        if (modelDropdown != null) {
 //            modelDropdown.setOnClickListener(v -> modelDropdown.showDropDown());
@@ -164,28 +217,34 @@
 //            });
 //        }
 //
-//        // ===== Debug =====
+//        // =========================
+//        // Debug nulls
+//        // =========================
 //        if (insuranceDateEditText == null) Log.e("SignUp", "insuranceDateEditText is NULL (check XML id!)");
 //        if (testDateEditText == null) Log.e("SignUp", "testDateEditText is NULL (check XML id!)");
 //        if (treatmentDateEditText == null) Log.e("SignUp", "treatmentEditText is NULL (check XML id!)");
 //        if (modelDropdown == null) Log.e("SignUp", "modelDropdown is NULL (check XML id modelDropdown!)");
+//        if (carPhotoLayout == null) Log.e("SignUp", "carPhotoLayout is NULL (check XML id carPhotoLayout!)");
+//        if (carPhotoEditText == null) Log.e("SignUp", "carPhotoEditText is NULL (check XML id carPhotoEditText!)");
 //
-//        // ===== ViewModel =====
+//        // =========================
+//        // ViewModel
+//        // =========================
 //        viewModel = new ViewModelProvider(this).get(SignUpViewModel.class);
 //
 //        viewModel.getInsuranceDateError().observe(this, err -> {
 //            if (err != null) insuranceDateEditText.setError(err);
 //        });
-//
 //        viewModel.getTestDateError().observe(this, err -> {
 //            if (err != null) testDateEditText.setError(err);
 //        });
-//
 //        viewModel.getTreatDateError().observe(this, err -> {
 //            if (err != null) treatmentDateEditText.setError(err);
 //        });
 //
-//        // ===== Car number -> fetch gov data if needed =====
+//        // =========================
+//        // Car number focus -> fetch gov data if needed
+//        // =========================
 //        carNumberEditText.setOnFocusChangeListener((v, hasFocus) -> {
 //            if (!hasFocus) {
 //                String carNumber = carNumberEditText.getText().toString().trim();
@@ -197,7 +256,9 @@
 //            }
 //        });
 //
-//        // ===== Date pickers =====
+//        // =========================
+//        // Date pickers
+//        // =========================
 //        insuranceDateEditText.setOnClickListener(v -> {
 //            carNumberEditText.clearFocus();
 //            triggerCarLookupIfNeeded();
@@ -216,15 +277,19 @@
 //            openDatePickerTreat();
 //        });
 //
-//        // ===== "Can't remember" buttons =====
+//        // =========================
+//        // "Can't remember" buttons
+//        // =========================
 //        canNotRemember2Month.setOnClickListener(v -> setTreatByMonthsBack(2));
 //        canNotRemember4Month.setOnClickListener(v -> setTreatByMonthsBack(4));
 //        canNotRemember6Month.setOnClickListener(v -> setTreatByMonthsBack(6));
 //
-//        // ===== Next =====
+//        // =========================
+//        // Next
+//        // =========================
 //        next.setOnClickListener(v -> {
 //
-//            // 1) Validate dates first (your existing logic)
+//            // 1) Validate dates first
 //            if (!viewModel.validateDates()) return;
 //
 //            // 2) Read inputs
@@ -234,7 +299,7 @@
 //            String carNumber = carNumberEditText.getText().toString().trim();
 //            String phone     = phoneEditText.getText().toString().trim();
 //
-//            // 3) Validate all required fields
+//            // 3) Validate required fields
 //            boolean missingText =
 //                    firstName.isEmpty() ||
 //                            lastName.isEmpty()  ||
@@ -256,7 +321,15 @@
 //                return;
 //            }
 //
-//            // 4) Continue as usual
+//            // OPTIONAL: אם אתה רוצה להפוך תמונה לחובה - תבטל הערות:
+//            /*
+//            if (selectedCarPhotoUri == null) {
+//                if (carPhotoLayout != null) carPhotoLayout.setError("נא לבחור תמונת רכב");
+//                return;
+//            }
+//            */
+//
+//            // 4) Continue
 //            Intent intent = new Intent(SignUpActivity.this, SetUsernamePasswordActivity.class);
 //            intent.putExtra("firstName", firstName);
 //            intent.putExtra("lastName", lastName);
@@ -272,9 +345,21 @@
 //            intent.putExtra("year", year);
 //            intent.putExtra("carSpecificModel", selectedModelName);
 //
+//            // PASS PHOTO URI (if selected)
+//            if (selectedCarPhotoUri != null) {
+//                intent.putExtra("carPhotoUri", selectedCarPhotoUri.toString());
+//            }
+//
 //            startActivity(intent);
 //        });
+//    }
 //
+//    // =========================
+//    // Car photo picker
+//    // =========================
+//    private void openCarPhotoPicker() {
+//        // opens gallery
+//        pickCarPhotoLauncher.launch("image/*");
 //    }
 //
 //    private void setTreatByMonthsBack(int months) {
@@ -406,11 +491,11 @@
 //                    if (y > 0) yearFromApi = y;
 //                }
 //
-//                // 3) Manufacturer (tozeret_nm -> CarModel)
+//                // 3) Manufacturer
 //                String tozeretNm = rec0.optString("tozeret_nm", "");
 //                CarModel manufacturerFromApi = CarModel.fromGovValue(tozeretNm);
 //
-//                // 4) Specific model inference: kinuy_mishari / degem_nm
+//                // 4) Specific model inference
 //                String kinuyMishari = rec0.optString("kinuy_mishari", "");
 //                String degemNm = rec0.optString("degem_nm", "");
 //
@@ -444,15 +529,12 @@
 //                    if (!userChangedModel && finalManufacturerFromApi != null && finalManufacturerFromApi != CarModel.UNKNOWN) {
 //                        carModel = finalManufacturerFromApi;
 //                        manufacturerDropdown.setText(carModel.name(), false);
-//
-//                        // update models list based on manufacturer from API
 //                        updateModelDropdownAdapter(carModel);
 //                    }
 //
 //                    if (!userChangedCarSpecificModel && modelDropdown != null
 //                            && finalSpecificModelNameFromApi != null && !finalSpecificModelNameFromApi.isEmpty()) {
 //
-//                        // ensure model list matches the manufacturer context
 //                        CarModel effectiveManufacturer =
 //                                (!userChangedModel && finalManufacturerFromApi != null && finalManufacturerFromApi != CarModel.UNKNOWN)
 //                                        ? finalManufacturerFromApi
@@ -476,7 +558,6 @@
 //    // =========================
 //    // Model dropdown helpers
 //    // =========================
-//
 //    private void updateModelDropdownAdapter(CarModel manufacturer) {
 //        if (modelDropdown == null) return;
 //
@@ -522,8 +603,6 @@
 //        return s.trim().toUpperCase(Locale.ROOT).replaceAll("[^0-9A-Zא-ת]+", "");
 //    }
 //}
-
-
 package com.example.drive_kit.View;
 
 import android.content.Intent;
@@ -533,7 +612,6 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -563,13 +641,13 @@ import java.util.Locale;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    // Buttons
+    // Button to move to the next registration step
     private Button next;
     private Button canNotRemember2Month;
     private Button canNotRemember4Month;
     private Button canNotRemember6Month;
 
-    // Input fields
+    // Input fields for personal details
     private EditText firstNameEditText;
     private EditText lastNameEditText;
     private EditText emailEditText;
@@ -578,7 +656,6 @@ public class SignUpActivity extends AppCompatActivity {
 
     private CarModel carModel;
 
-    // Dropdowns
     private MaterialAutoCompleteTextView yearDropdown;
     private int year;
 
@@ -586,7 +663,7 @@ public class SignUpActivity extends AppCompatActivity {
     private MaterialAutoCompleteTextView modelDropdown;
     private String selectedModelName = null;
 
-    // Dates
+    // Date input fields
     private TextInputEditText insuranceDateEditText;
     private TextInputEditText testDateEditText;
     private TextInputEditText treatmentDateEditText;
@@ -594,20 +671,17 @@ public class SignUpActivity extends AppCompatActivity {
     private SignUpViewModel viewModel;
 
     private boolean userChangedTestDate = false;
-    private boolean userChangedModel = false; // manufacturer changed
+    private boolean userChangedModel = false; // manufacturer
     private boolean userChangedYear = false;
-    private boolean userChangedCarSpecificModel = false;
+    private boolean userChangedCarSpecificModel = false; // specific model dropdown
 
     // =========================
-    // Car photo UI + data
+    // Car photo (Uri בלבד)
     // =========================
     private TextInputLayout carPhotoLayout;
     private TextInputEditText carPhotoEditText;
-    //private ImageView carPhotoPreview; // optional in XML
 
-    private Uri selectedCarPhotoUri = null;
-
-    // Gallery picker launcher
+    private String selectedCarPhotoUriString = null;
     private ActivityResultLauncher<String> pickCarPhotoLauncher;
 
     @Override
@@ -615,11 +689,7 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup);
 
-        // =========================
-        // findViewById
-        // =========================
         next = findViewById(R.id.next);
-
         firstNameEditText = findViewById(R.id.firstNameEditText);
         lastNameEditText = findViewById(R.id.lastNameEditText);
         emailEditText = findViewById(R.id.emailEditText);
@@ -636,23 +706,23 @@ public class SignUpActivity extends AppCompatActivity {
 
         manufacturerDropdown = findViewById(R.id.manufacturerDropdown);
         yearDropdown = findViewById(R.id.yearDropdown);
+
+        // IMPORTANT: this id must exist in your updated XML
         modelDropdown = findViewById(R.id.modelDropdown);
 
-        // Car photo (IMPORTANT: ids must exist in XML)
+        // Car photo (ids must exist in XML)
         carPhotoLayout = findViewById(R.id.carPhotoLayout);
         carPhotoEditText = findViewById(R.id.carPhotoEditText);
-//        // optional preview (אם לא קיים ב-XML זה יחזור null - זה בסדר)
-//        carPhotoPreview = findViewById(R.id.carPhotoPreview);
 
         // =========================
-        // Register Gallery Picker
+        // Register Gallery Picker (Uri בלבד)
         // =========================
         pickCarPhotoLauncher = registerForActivityResult(
                 new ActivityResultContracts.GetContent(),
                 uri -> {
                     if (uri == null) return;
 
-                    selectedCarPhotoUri = uri;
+                    selectedCarPhotoUriString = uri.toString();
 
                     if (carPhotoEditText != null) {
                         carPhotoEditText.setText("נבחרה תמונה");
@@ -661,28 +731,17 @@ public class SignUpActivity extends AppCompatActivity {
                     if (carPhotoLayout != null) {
                         carPhotoLayout.setError(null);
                     }
-
-//                    // Show preview only if ImageView exists in XML
-//                    if (carPhotoPreview != null) {
-//                        carPhotoPreview.setImageURI(uri);
-//                        carPhotoPreview.setVisibility(android.view.View.VISIBLE);
-//                    }
                 }
         );
 
-        // Open picker on click (field)
         if (carPhotoEditText != null) {
-            carPhotoEditText.setOnClickListener(v -> openCarPhotoPicker());
+            carPhotoEditText.setOnClickListener(v -> pickCarPhotoLauncher.launch("image/*"));
         }
-
-        // Open picker on end icon click (camera icon)
         if (carPhotoLayout != null) {
-            carPhotoLayout.setEndIconOnClickListener(v -> openCarPhotoPicker());
+            carPhotoLayout.setEndIconOnClickListener(v -> pickCarPhotoLauncher.launch("image/*"));
         }
 
-        // =========================
-        // Year dropdown
-        // =========================
+        // ===== Year dropdown =====
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
         ArrayList<String> years = new ArrayList<>();
         for (int y = currentYear; y >= 1980; y--) years.add(String.valueOf(y));
@@ -701,9 +760,7 @@ public class SignUpActivity extends AppCompatActivity {
             userChangedYear = true;
         });
 
-        // =========================
-        // Manufacturer dropdown
-        // =========================
+        // ===== Manufacturer dropdown =====
         LinkedHashSet<String> unique = new LinkedHashSet<>();
         for (CarModel c : CarModel.values()) unique.add(c.name());
 
@@ -721,16 +778,16 @@ public class SignUpActivity extends AppCompatActivity {
             carModel = CarModel.valueOf(selected);
             userChangedModel = true;
 
+            // update model dropdown list
             updateModelDropdownAdapter(carModel);
 
+            // reset specific model selection (manufacturer changed)
             selectedModelName = null;
             userChangedCarSpecificModel = false;
             if (modelDropdown != null) modelDropdown.setText("", false);
         });
 
-        // =========================
-        // Specific model dropdown
-        // =========================
+        // ===== Specific model dropdown =====
         updateModelDropdownAdapter(carModel);
         if (modelDropdown != null) {
             modelDropdown.setOnClickListener(v -> modelDropdown.showDropDown());
@@ -741,34 +798,28 @@ public class SignUpActivity extends AppCompatActivity {
             });
         }
 
-        // =========================
-        // Debug nulls
-        // =========================
+        // ===== Debug =====
         if (insuranceDateEditText == null) Log.e("SignUp", "insuranceDateEditText is NULL (check XML id!)");
         if (testDateEditText == null) Log.e("SignUp", "testDateEditText is NULL (check XML id!)");
         if (treatmentDateEditText == null) Log.e("SignUp", "treatmentEditText is NULL (check XML id!)");
         if (modelDropdown == null) Log.e("SignUp", "modelDropdown is NULL (check XML id modelDropdown!)");
-        if (carPhotoLayout == null) Log.e("SignUp", "carPhotoLayout is NULL (check XML id carPhotoLayout!)");
-        if (carPhotoEditText == null) Log.e("SignUp", "carPhotoEditText is NULL (check XML id carPhotoEditText!)");
 
-        // =========================
-        // ViewModel
-        // =========================
+        // ===== ViewModel =====
         viewModel = new ViewModelProvider(this).get(SignUpViewModel.class);
 
         viewModel.getInsuranceDateError().observe(this, err -> {
             if (err != null) insuranceDateEditText.setError(err);
         });
+
         viewModel.getTestDateError().observe(this, err -> {
             if (err != null) testDateEditText.setError(err);
         });
+
         viewModel.getTreatDateError().observe(this, err -> {
             if (err != null) treatmentDateEditText.setError(err);
         });
 
-        // =========================
-        // Car number focus -> fetch gov data if needed
-        // =========================
+        // ===== Car number -> fetch gov data if needed =====
         carNumberEditText.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
                 String carNumber = carNumberEditText.getText().toString().trim();
@@ -780,9 +831,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
-        // =========================
-        // Date pickers
-        // =========================
+        // ===== Date pickers =====
         insuranceDateEditText.setOnClickListener(v -> {
             carNumberEditText.clearFocus();
             triggerCarLookupIfNeeded();
@@ -801,19 +850,15 @@ public class SignUpActivity extends AppCompatActivity {
             openDatePickerTreat();
         });
 
-        // =========================
-        // "Can't remember" buttons
-        // =========================
+        // ===== "Can't remember" buttons =====
         canNotRemember2Month.setOnClickListener(v -> setTreatByMonthsBack(2));
         canNotRemember4Month.setOnClickListener(v -> setTreatByMonthsBack(4));
         canNotRemember6Month.setOnClickListener(v -> setTreatByMonthsBack(6));
 
-        // =========================
-        // Next
-        // =========================
+        // ===== Next =====
         next.setOnClickListener(v -> {
 
-            // 1) Validate dates first
+            // 1) Validate dates first (your existing logic)
             if (!viewModel.validateDates()) return;
 
             // 2) Read inputs
@@ -823,7 +868,7 @@ public class SignUpActivity extends AppCompatActivity {
             String carNumber = carNumberEditText.getText().toString().trim();
             String phone     = phoneEditText.getText().toString().trim();
 
-            // 3) Validate required fields
+            // 3) Validate all required fields
             boolean missingText =
                     firstName.isEmpty() ||
                             lastName.isEmpty()  ||
@@ -845,15 +890,7 @@ public class SignUpActivity extends AppCompatActivity {
                 return;
             }
 
-            // OPTIONAL: אם אתה רוצה להפוך תמונה לחובה - תבטל הערות:
-            /*
-            if (selectedCarPhotoUri == null) {
-                if (carPhotoLayout != null) carPhotoLayout.setError("נא לבחור תמונת רכב");
-                return;
-            }
-            */
-
-            // 4) Continue
+            // 4) Continue as usual
             Intent intent = new Intent(SignUpActivity.this, SetUsernamePasswordActivity.class);
             intent.putExtra("firstName", firstName);
             intent.putExtra("lastName", lastName);
@@ -869,21 +906,13 @@ public class SignUpActivity extends AppCompatActivity {
             intent.putExtra("year", year);
             intent.putExtra("carSpecificModel", selectedModelName);
 
-            // PASS PHOTO URI (if selected)
-            if (selectedCarPhotoUri != null) {
-                intent.putExtra("carPhotoUri", selectedCarPhotoUri.toString());
+            // ✅ שינוי יחיד: מעבירים Uri string (לא Base64)
+            if (selectedCarPhotoUriString != null && !selectedCarPhotoUriString.trim().isEmpty()) {
+                intent.putExtra("carPhotoUri", selectedCarPhotoUriString.trim());
             }
 
             startActivity(intent);
         });
-    }
-
-    // =========================
-    // Car photo picker
-    // =========================
-    private void openCarPhotoPicker() {
-        // opens gallery
-        pickCarPhotoLauncher.launch("image/*");
     }
 
     private void setTreatByMonthsBack(int months) {
@@ -989,7 +1018,6 @@ public class SignUpActivity extends AppCompatActivity {
 
                 JSONObject rec0 = records.getJSONObject(0);
 
-                // 1) Test date from tokef_dt minus 1 year
                 Long testMillisFromApi = null;
                 String testDisplayFromApi = null;
 
@@ -1008,18 +1036,15 @@ public class SignUpActivity extends AppCompatActivity {
                     }
                 }
 
-                // 2) Production year
                 Integer yearFromApi = null;
                 if (rec0.has("shnat_yitzur")) {
                     int y = rec0.optInt("shnat_yitzur", -1);
                     if (y > 0) yearFromApi = y;
                 }
 
-                // 3) Manufacturer
                 String tozeretNm = rec0.optString("tozeret_nm", "");
                 CarModel manufacturerFromApi = CarModel.fromGovValue(tozeretNm);
 
-                // 4) Specific model inference
                 String kinuyMishari = rec0.optString("kinuy_mishari", "");
                 String degemNm = rec0.optString("degem_nm", "");
 
@@ -1053,6 +1078,7 @@ public class SignUpActivity extends AppCompatActivity {
                     if (!userChangedModel && finalManufacturerFromApi != null && finalManufacturerFromApi != CarModel.UNKNOWN) {
                         carModel = finalManufacturerFromApi;
                         manufacturerDropdown.setText(carModel.name(), false);
+
                         updateModelDropdownAdapter(carModel);
                     }
 
@@ -1079,9 +1105,6 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
-    // =========================
-    // Model dropdown helpers
-    // =========================
     private void updateModelDropdownAdapter(CarModel manufacturer) {
         if (modelDropdown == null) return;
 
