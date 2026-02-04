@@ -1,9 +1,12 @@
 package com.example.drive_kit.View;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -26,6 +29,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.slider.Slider;
@@ -40,10 +44,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
-public class activity_nearby_garages extends AppCompatActivity implements OnMapReadyCallback {
+public class activity_nearby_garages extends BaseLoggedInActivity implements OnMapReadyCallback {
 
     // UI
     private TextView tvRadiusValue, tvEmptyState;
@@ -63,14 +69,18 @@ public class activity_nearby_garages extends AppCompatActivity implements OnMapR
     private int radiusKm = 5;
     private final List<GarageItem> allGarages = new ArrayList<>();
     private final List<GarageItem> visibleGarages = new ArrayList<>();
-    private GaragesAdapter adapter;
 
+    // Map -> data
+    private final Map<Marker, GarageItem> markerToGarage = new HashMap<>();
+
+    private GaragesAdapter adapter;
     private ActivityResultLauncher<String[]> locationPermissionLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nearby_garages);
+        //setContentView(R.layout.activity_nearby_garages);
+        getContentLayoutId();
 
 
         tvRadiusValue = findViewById(R.id.tvRadiusValue);
@@ -81,20 +91,31 @@ public class activity_nearby_garages extends AppCompatActivity implements OnMapR
 
         adapter = new GaragesAdapter(visibleGarages, new GaragesAdapter.OnGarageAction() {
             @Override public void onNavigate(GarageItem item) { openNav(item); }
+
             @Override public void onItemClick(GarageItem item) {
                 if (googleMap != null) {
                     googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(item.latLng, 16f));
                 }
             }
+
+            @Override public void onCall(GarageItem item) {
+                if (item.phone == null || item.phone.trim().isEmpty()) return;
+                Intent i = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + item.phone));
+                startActivity(i);
+            }
+
+            @Override public void onWebsite(GarageItem item) {
+                if (item.website == null || item.website.trim().isEmpty()) return;
+                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(item.website));
+                startActivity(i);
+            }
         });
+
         rvGarages.setLayoutManager(new LinearLayoutManager(this));
         rvGarages.setAdapter(adapter);
 
         fusedClient = LocationServices.getFusedLocationProviderClient(this);
 
-        // Places init (New)
-        // אם אצלך קיימת המתודה initializeWithNewPlacesApiEnabled() – תעדיף אותה לפי הדוק׳.
-        // אחרת initialize() עדיין יעבוד בהתאם לגרסה.
         if (!Places.isInitialized()) {
             Places.initialize(this, getString(R.string.google_maps_key));
         }
@@ -112,6 +133,7 @@ public class activity_nearby_garages extends AppCompatActivity implements OnMapR
 
         radiusKm = (int) sliderRadiusKm.getValue();
         updateRadiusText(radiusKm);
+
         sliderRadiusKm.addOnChangeListener((slider, value, fromUser) -> {
             radiusKm = (int) value;
             updateRadiusText(radiusKm);
@@ -125,9 +147,25 @@ public class activity_nearby_garages extends AppCompatActivity implements OnMapR
     }
 
     @Override
+    protected int getContentLayoutId() {
+        return R.layout.activity_nearby_garages;
+    }
+
+    @Override
     public void onMapReady(@NonNull GoogleMap map) {
         googleMap = map;
         googleMap.getUiSettings().setZoomControlsEnabled(true);
+
+        googleMap.setOnMarkerClickListener(marker -> {
+            GarageItem item = markerToGarage.get(marker);
+            if (item != null) {
+                // קליק על נעץ -> זום למיקום + Toast קטן
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(item.latLng, 16f));
+                Toast.makeText(this, item.name, Toast.LENGTH_SHORT).show();
+                return true;
+            }
+            return false;
+        });
 
         if (hasLocationPermission()) fetchUserLocation();
         else requestLocationPermission();
@@ -184,8 +222,17 @@ public class activity_nearby_garages extends AppCompatActivity implements OnMapR
 
         if (googleMap != null) {
             try {
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-                        || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                if (hasLocationPermission()) {
+                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        // TODO: Consider calling
+                        //    ActivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                        return;
+                    }
                     googleMap.setMyLocationEnabled(true);
                 }
             } catch (Exception ignored) {}
@@ -193,16 +240,10 @@ public class activity_nearby_garages extends AppCompatActivity implements OnMapR
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 13.5f));
         }
 
-        // נטען עד 20 ק"מ ואז מסננים לפי הסליידר (כמו שעשית ב-OSM)
+        // טוענים עד 20 ק"מ ואז מסננים עם הסליידר
         fetchGaragesByText("מוסך", 20000);
-
-        progressLoading.setVisibility(View.GONE);
     }
 
-    /**
-     * Text Search (New): מחפש לפי טקסט ("מוסך") בתוך אזור מוגבל סביב המשתמש.
-     * Text Search מאפשר מחרוזת חופשית. :contentReference[oaicite:10]{index=10}
-     */
     private void fetchGaragesByText(String query, int fetchRadiusMeters) {
         if (userLatLng == null) return;
 
@@ -215,7 +256,9 @@ public class activity_nearby_garages extends AppCompatActivity implements OnMapR
                 Place.Field.ID,
                 Place.Field.DISPLAY_NAME,
                 Place.Field.FORMATTED_ADDRESS,
-                Place.Field.LOCATION
+                Place.Field.LOCATION,
+               // Place.Field.PHONE_NUMBER,   // יופיע אם זמין
+                Place.Field.WEBSITE_URI     // Uri אם זמין
         );
 
         SearchByTextRequest req = SearchByTextRequest.builder(query, fields)
@@ -232,35 +275,44 @@ public class activity_nearby_garages extends AppCompatActivity implements OnMapR
                         LatLng loc = p.getLocation();
                         if (loc == null) continue;
 
+                        String placeId = (p.getId() == null) ? "" : p.getId();
+
                         String name = p.getDisplayName();
                         if (name == null || name.trim().isEmpty()) name = "מוסך";
 
                         String addr = p.getFormattedAddress();
                         if (addr == null || addr.trim().isEmpty()) addr = "כתובת לא זמינה";
 
+                        String phone = "";
+                        if (phone == null) phone = "";
+
+                        Uri webUri = p.getWebsiteUri();
+                        String website = (webUri == null) ? "" : webUri.toString();
+
                         double dist = distanceMeters(userLatLng, loc);
-                        allGarages.add(new GarageItem(name, addr, loc, dist));
+
+                        allGarages.add(new GarageItem(placeId, name, addr, loc, dist, phone, website));
                     }
 
                     applyRadiusFilterAndRefreshUI();
                     progressLoading.setVisibility(View.GONE);
                 })
                 .addOnFailureListener(e -> {
-                progressLoading.setVisibility(View.GONE);
-                tvEmptyState.setVisibility(View.VISIBLE);
-                tvEmptyState.setText("שגיאה בחיפוש מוסכים. בדוק API Key/Billing/הרשאות.");
+                    progressLoading.setVisibility(View.GONE);
+                    tvEmptyState.setVisibility(View.VISIBLE);
+                    tvEmptyState.setText("שגיאה בחיפוש מוסכים. בדוק API Key/Billing/הרשאות.");
 
-                String msg = e.getMessage();
-                if (e instanceof ApiException) {
-                    ApiException ae = (ApiException) e;
-                    msg = "statusCode=" + ae.getStatusCode() + " , " + ae.getStatusMessage();
-                }
-                Toast.makeText(this, "Places error: " + msg, Toast.LENGTH_LONG).show();
-            });
+                    String msg = e.getMessage();
+                    if (e instanceof ApiException) {
+                        ApiException ae = (ApiException) e;
+                        msg = "statusCode=" + ae.getStatusCode() + " , " + ae.getStatusMessage();
+                    }
+                    Toast.makeText(this, "Places error: " + msg, Toast.LENGTH_LONG).show();
+                });
     }
 
     private void applyRadiusFilterAndRefreshUI() {
-        if (userLatLng == null || googleMap == null) return;
+        if (userLatLng == null) return;
 
         visibleGarages.clear();
         double maxMeters = radiusKm * 1000.0;
@@ -272,13 +324,17 @@ public class activity_nearby_garages extends AppCompatActivity implements OnMapR
         Collections.sort(visibleGarages, Comparator.comparingDouble(o -> o.distanceMeters));
         adapter.notifyDataSetChanged();
 
-        googleMap.clear();
+        if (googleMap != null) {
+            googleMap.clear();
+            markerToGarage.clear();
 
-        for (GarageItem g : visibleGarages) {
-            googleMap.addMarker(new MarkerOptions()
-                    .position(g.latLng)
-                    .title(g.name)
-                    .snippet(g.address));
+            for (GarageItem g : visibleGarages) {
+                Marker m = googleMap.addMarker(new MarkerOptions()
+                        .position(g.latLng)
+                        .title(g.name)
+                        .snippet(g.address));
+                if (m != null) markerToGarage.put(m, g);
+            }
         }
 
         tvEmptyState.setVisibility(visibleGarages.isEmpty() ? View.VISIBLE : View.GONE);
@@ -286,7 +342,6 @@ public class activity_nearby_garages extends AppCompatActivity implements OnMapR
     }
 
     private static RectangularBounds makeBounds(LatLng center, int radiusMeters) {
-        // קירוב פשוט: 1 deg lat ~= 111,320m
         double lat = center.latitude;
         double lon = center.longitude;
 
@@ -305,31 +360,35 @@ public class activity_nearby_garages extends AppCompatActivity implements OnMapR
         return res[0];
     }
 
-    // --- Data + Adapter ---
-
     static class GarageItem {
+        final String placeId;
         final String name;
         final String address;
         final LatLng latLng;
         final double distanceMeters;
+        final String phone;
+        final String website;
 
-        GarageItem(String name, String address, LatLng latLng, double distanceMeters) {
+        GarageItem(String placeId, String name, String address, LatLng latLng,
+                   double distanceMeters, String phone, String website) {
+            this.placeId = placeId;
             this.name = name;
             this.address = address;
             this.latLng = latLng;
             this.distanceMeters = distanceMeters;
+            this.phone = phone;
+            this.website = website;
         }
     }
 
     private void openNav(GarageItem item) {
-        // השארתך בכוונה כמו קודם – אם תרצה, נחבר גם ל-Intent הרשמי של Google Maps.
-        android.net.Uri uri = android.net.Uri.parse("google.navigation:q=" + item.latLng.latitude + "," + item.latLng.longitude + "&mode=d");
-        android.content.Intent intent = new android.content.Intent(android.content.Intent.ACTION_VIEW, uri);
+        Uri uri = Uri.parse("google.navigation:q=" + item.latLng.latitude + "," + item.latLng.longitude + "&mode=d");
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         intent.setPackage("com.google.android.apps.maps");
         if (intent.resolveActivity(getPackageManager()) != null) startActivity(intent);
         else {
-            android.net.Uri fallback = android.net.Uri.parse("geo:" + item.latLng.latitude + "," + item.latLng.longitude);
-            startActivity(new android.content.Intent(android.content.Intent.ACTION_VIEW, fallback));
+            Uri fallback = Uri.parse("geo:" + item.latLng.latitude + "," + item.latLng.longitude);
+            startActivity(new Intent(Intent.ACTION_VIEW, fallback));
         }
     }
 
@@ -338,6 +397,8 @@ public class activity_nearby_garages extends AppCompatActivity implements OnMapR
         interface OnGarageAction {
             void onNavigate(GarageItem item);
             void onItemClick(GarageItem item);
+            void onCall(GarageItem item);
+            void onWebsite(GarageItem item);
         }
 
         private final List<GarageItem> items;
@@ -351,7 +412,7 @@ public class activity_nearby_garages extends AppCompatActivity implements OnMapR
         @NonNull
         @Override
         public GarageViewHolder onCreateViewHolder(@NonNull android.view.ViewGroup parent, int viewType) {
-            android.view.View v = android.view.LayoutInflater.from(parent.getContext())
+            View v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.item_garage, parent, false);
             return new GarageViewHolder(v);
         }
@@ -368,6 +429,26 @@ public class activity_nearby_garages extends AppCompatActivity implements OnMapR
 
             holder.itemView.setOnClickListener(v -> action.onItemClick(item));
             holder.btnNavigate.setOnClickListener(v -> action.onNavigate(item));
+
+            // Call
+            if (item.phone == null || item.phone.trim().isEmpty()) {
+                holder.btnCall.setEnabled(false);
+                holder.btnCall.setAlpha(0.5f);
+            } else {
+                holder.btnCall.setEnabled(true);
+                holder.btnCall.setAlpha(1f);
+                holder.btnCall.setOnClickListener(v -> action.onCall(item));
+            }
+
+            // Website
+            if (item.website == null || item.website.trim().isEmpty()) {
+                holder.btnWebsite.setEnabled(false);
+                holder.btnWebsite.setAlpha(0.5f);
+            } else {
+                holder.btnWebsite.setEnabled(true);
+                holder.btnWebsite.setAlpha(1f);
+                holder.btnWebsite.setOnClickListener(v -> action.onWebsite(item));
+            }
         }
 
         @Override
@@ -378,14 +459,16 @@ public class activity_nearby_garages extends AppCompatActivity implements OnMapR
 
     static class GarageViewHolder extends RecyclerView.ViewHolder {
         final TextView tvName, tvAddress, tvDistance;
-        final MaterialButton btnNavigate;
+        final MaterialButton btnNavigate, btnCall, btnWebsite;
 
-        GarageViewHolder(@NonNull android.view.View itemView) {
+        GarageViewHolder(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvGarageName);
             tvAddress = itemView.findViewById(R.id.tvGarageAddress);
             tvDistance = itemView.findViewById(R.id.tvDistance);
             btnNavigate = itemView.findViewById(R.id.btnNavigate);
+            btnCall = itemView.findViewById(R.id.btnCall);
+            btnWebsite = itemView.findViewById(R.id.btnWebsite);
         }
     }
 }

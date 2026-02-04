@@ -605,6 +605,7 @@
 //}
 package com.example.drive_kit.View;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -684,6 +685,7 @@ public class SignUpActivity extends AppCompatActivity {
     private String selectedCarPhotoUriString = null;
     private ActivityResultLauncher<String> pickCarPhotoLauncher;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

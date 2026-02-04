@@ -63,7 +63,7 @@ public class CarDetailsActivity extends BaseLoggedInActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_car_details);
-        getContentLayoutId();
+        //getContentLayoutId();
 
         title = findViewById(R.id.carTitle);
         info  = findViewById(R.id.carInfo);

@@ -6,7 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="#E5E5E5"
     android:padding="24dp"
     tools:context=".View.MainActivity">
 
@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Drive"
-            android:textColor="#E0E0E0"
+            android:textColor="#001F3F"
             android:textSize="48sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -61,7 +61,7 @@
         android:layout_height="wrap_content"
         app:boxBackgroundColor="#99FFFFFF"
         app:boxStrokeColor="#8BC34A"
-        app:hintTextColor="#B0BEC5"
+        app:hintTextColor="#001F3F"
         app:layout_constraintTop_toBottomOf="@id/title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -73,8 +73,8 @@
             android:layout_height="wrap_content"
             android:hint="אימייל"
             android:inputType="textEmailAddress"
-            android:textColor="#E0E0E0"
-            android:textColorHint="#B0BEC5"
+            android:textColor="#001F3F"
+            android:textColorHint="#001F3F"
             android:padding="12dp"
             android:textSize="16sp" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -87,7 +87,7 @@
         android:layout_height="wrap_content"
         app:boxBackgroundColor="#99FFFFFF"
         app:boxStrokeColor="#8BC34A"
-        app:hintTextColor="#B0BEC5"
+        app:hintTextColor="#001F3F"
         app:layout_constraintTop_toBottomOf="@id/emailLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -99,8 +99,8 @@
             android:layout_height="wrap_content"
             android:hint="סיסמה"
             android:inputType="textPassword"
-            android:textColor="#E0E0E0"
-            android:textColorHint="#B0BEC5"
+            android:textColor="#001F3F"
+            android:textColorHint="#001F3F"
             android:padding="12dp"
             android:textSize="16sp" />
     </com.google.android.material.textfield.TextInputLayout>
