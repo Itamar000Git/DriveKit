@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="#E5E5E5"
     android:padding="24dp">
 
     <!-- לוגו DriveKit -->
@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Drive"
-            android:textColor="#E0E0E0"
+            android:textColor="#001F3F"
             android:textSize="48sp"
             android:textStyle="bold"/>
     </LinearLayout>
@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:text="טוען..."
         android:textSize="20sp"
-        android:textColor="#E0E0E0"
+        android:textColor="#8BC34A"
         app:layout_constraintTop_toBottomOf="@id/logoContainer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -2,66 +2,45 @@ package com.example.drive_kit.View;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
+import com.bumptech.glide.Glide;
 import com.example.drive_kit.Data.Workers.NotyWorker;
+import com.example.drive_kit.Model.Car;
+import com.example.drive_kit.Model.Driver;
 import com.example.drive_kit.R;
 import com.example.drive_kit.ViewModel.HomeViewModel;
-import com.example.drive_kit.ViewModel.NotificationsViewModel;
-import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
  * HomeActivity is the main screen shown after a successful login.
- *
- * This screen:
- * - Displays a welcome message to the user
- * - Allows navigation to notifications and profile screens
- * - Requests notification permission (Android 13+)
- * - Triggers a notification worker
- * - Shows a badge count above the bell icon
- * - Opens a hamburger drawer menu for navigation between screens
- * - Prevents back button from returning to previous screen (from Home)
+ * Uses BaseLoggedInActivity (drawer + bottom bar are handled in the base).
  */
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends BaseLoggedInActivity {
 
-    // Welcome message
     private TextView welcomeText;
+    private TextView helloUserText;
+    private ShapeableImageView homeAvatar;
 
-    // Bottom bar badge
-    private TextView badgeTv;
-
-    // ViewModels
+    // ViewModel
     private HomeViewModel homeVm;
-    private NotificationsViewModel notyVm;
 
     // Firebase uid
     private String uid;
 
-    // Drawer
-    private DrawerLayout drawerLayout;
-    private NavigationView navigationView;
-
-    // Bottom bar buttons (IDs from bottom_bar.xml)
-    private View bottomMenuBtn;     // hamburger
-    private View bottomProfileBtn;  // profile
-    private View bottomNotyBtn;     // notifications
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home_activity);
 
         // -----------------------------------
         // Prevent back navigation from Home
@@ -73,19 +52,11 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         // -----------------------------------
-        // Find Views
+        // Find Views (from home_activity_content.xml)
         // -----------------------------------
         welcomeText = findViewById(R.id.welcomeText);
-
-        // Drawer
-        drawerLayout = findViewById(R.id.drawerLayout);
-        navigationView = findViewById(R.id.navigationView);
-
-        // Bottom bar (from include)
-        bottomMenuBtn = findViewById(R.id.bottomMenuBtn);
-        bottomProfileBtn = findViewById(R.id.bottomProfileBtn);
-        bottomNotyBtn = findViewById(R.id.bottomNotyBtn);
-        badgeTv = findViewById(R.id.bottomNotyBadge);
+        helloUserText = findViewById(R.id.helloUserText);
+        homeAvatar = findViewById(R.id.homeAvatar);
 
         // -----------------------------------
         // Request notification permission (Android 13+)
@@ -95,25 +66,6 @@ public class HomeActivity extends AppCompatActivity {
                     != android.content.pm.PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, 1001);
             }
-        }
-
-        // -----------------------------------
-        // Bottom bar click listeners
-        // -----------------------------------
-        if (bottomNotyBtn != null) {
-            bottomNotyBtn.setOnClickListener(v ->
-                    startActivity(new Intent(HomeActivity.this, NotificationsActivity.class))
-            );
-        }
-
-        if (bottomProfileBtn != null) {
-            bottomProfileBtn.setOnClickListener(v ->
-                    startActivity(new Intent(HomeActivity.this, ProfileActivity.class))
-            );
-        }
-
-        if (bottomMenuBtn != null) {
-            bottomMenuBtn.setOnClickListener(v -> toggleDrawer());
         }
 
         // -----------------------------------
@@ -143,7 +95,7 @@ public class HomeActivity extends AppCompatActivity {
         View circleInsurance = findViewById(R.id.circleInsurance);
         if (circleInsurance != null) {
             circleInsurance.setOnClickListener(v ->
-                    Toast.makeText(this, "מסך ביטוח עדיין לא ממומש", Toast.LENGTH_SHORT).show()
+                    startActivity(new Intent(HomeActivity.this, InsuranceActivity.class))
             );
         }
 
@@ -158,107 +110,120 @@ public class HomeActivity extends AppCompatActivity {
         // -----------------------------------
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         uid = (user == null) ? null : user.getUid();
+        loadHomeAvatar(uid);
 
         // -----------------------------------
         // Home ViewModel (welcome text)
         // -----------------------------------
         homeVm = new ViewModelProvider(this).get(HomeViewModel.class);
-        homeVm.getWelcomeText().observe(this, welcomeText::setText);
-        homeVm.loadWelcomeText(uid);
 
-        // -----------------------------------
-        // Notifications ViewModel (badge count)
-        // -----------------------------------
-        notyVm = new ViewModelProvider(this).get(NotificationsViewModel.class);
-        notyVm.getNoty().observe(this, list -> {
-            int count = (list == null) ? 0 : list.size();
-            updateBadge(count);
+        homeVm.getWelcomeText().observe(this, vmText -> {
+            String t = (vmText == null) ? "" : vmText.trim();
+
+            String helloLine = "שלום";
+
+            if (t.startsWith("שלום")) {
+                String rest = t.substring("שלום".length()).trim();
+                rest = rest.replaceAll("^[,!?\\s]+", "");
+                rest = rest.replaceAll("[,!?\\s]+$", "");
+
+                if (!rest.isEmpty() && !t.startsWith("שגיאה")) {
+                    helloLine = "שלום " + rest;
+                }
+            }
+
+            if (helloUserText != null) {
+                helloUserText.setText(helloLine);
+            }
+
+            if (welcomeText != null) {
+                welcomeText.setText("ברוך הבא ל-DriveKit");
+            }
         });
 
-        // Initial badge load
-        if (uid != null) {
-            notyVm.loadNoty(uid);
-        } else {
-            updateBadge(0);
-        }
-
-        // -----------------------------------
-        // Drawer menu behavior
-        // -----------------------------------
-        if (navigationView != null) {
-            navigationView.setNavigationItemSelectedListener(item -> {
-                int id = item.getItemId();
-
-                if (id == R.id.nav_home) {
-                    // already here
-
-                } else if (id == R.id.nav_profile) {
-                    startActivity(new Intent(HomeActivity.this, ProfileActivity.class));
-
-                } else if (id == R.id.nav_notifications) {
-                    startActivity(new Intent(HomeActivity.this, NotificationsActivity.class));
-
-                } else if (id == R.id.nav_my_car) {
-                    startActivity(new Intent(HomeActivity.this, CarDetailsActivity.class));
-
-                } else if (id == R.id.nav_diy) {
-                    startActivity(new Intent(HomeActivity.this, DIYFilterActivity.class));
-
-                } else if (id == R.id.nav_garage) {
-                    startActivity(new Intent(HomeActivity.this, activity_nearby_garages.class));
-
-                } else if (id == R.id.nav_insurance) {
-                    // TODO when ready
-                    Toast.makeText(this, "מסך ביטוח עדיין לא ממומש", Toast.LENGTH_SHORT).show();
-
-                } else if (id == R.id.nav_logout) {
-                    FirebaseAuth.getInstance().signOut();
-
-                    // Back to login and clear back stack
-                    Intent i = new Intent(HomeActivity.this, MainActivity.class); // change if your login is different
-                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(i);
-                    finish();
-                }
-
-                closeDrawer();
-                return true;
-            });
-        }
+        homeVm.loadWelcomeText(uid);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        // Refresh badge each time we return to Home
-        if (uid != null && notyVm != null) {
-            notyVm.loadNoty(uid);
-        }
+        loadHomeAvatar(uid);
+        // הבייס כבר מרענן באדג׳ התראות ב-onResume שלו
     }
 
-    private void toggleDrawer() {
-        if (drawerLayout == null) return;
-        if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
-            drawerLayout.closeDrawer(GravityCompat.END);
-        } else {
-            drawerLayout.openDrawer(GravityCompat.END);
-        }
+    @Override
+    protected int getContentLayoutId() {
+        return R.layout.home_activity;
     }
 
-    private void closeDrawer() {
-        if (drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.END)) {
-            drawerLayout.closeDrawer(GravityCompat.END);
+    private void loadHomeAvatar(String uid) {
+        if (uid == null || uid.trim().isEmpty()) {
+            if (homeAvatar != null) homeAvatar.setImageResource(R.drawable.ic_profile_placeholder);
+            return;
         }
+
+        FirebaseFirestore.getInstance()
+                .collection("drivers")
+                .document(uid)
+                .get()
+                .addOnSuccessListener(doc -> {
+                    Driver d = doc.toObject(Driver.class);
+                    loadAvatarIntoHome(d);
+                })
+                .addOnFailureListener(e -> {
+                    if (homeAvatar != null) homeAvatar.setImageResource(R.drawable.ic_profile_placeholder);
+                });
     }
 
-    private void updateBadge(int count) {
-        if (badgeTv == null) return;
+    private void loadAvatarIntoHome(Driver d) {
+        if (homeAvatar == null) return;
 
-        if (count <= 0) {
-            badgeTv.setVisibility(View.GONE);
-        } else {
-            badgeTv.setVisibility(View.VISIBLE);
-            badgeTv.setText(count > 99 ? "99+" : String.valueOf(count));
+        if (d == null || d.getCar() == null) {
+            homeAvatar.setImageResource(R.drawable.ic_profile_placeholder);
+            return;
         }
+
+        Car car = d.getCar();
+
+        // 1) Base64 (new)
+        String base64 = null;
+        try { base64 = car.getCarImageBase64(); } catch (Exception ignored) {}
+
+        if (base64 != null && !base64.trim().isEmpty()) {
+            try {
+                String clean = base64;
+                int comma = clean.indexOf(',');
+                if (comma >= 0) clean = clean.substring(comma + 1);
+
+                byte[] bytes = Base64.decode(clean, Base64.DEFAULT);
+
+                Glide.with(this)
+                        .load(bytes)
+                        .placeholder(R.drawable.ic_profile_placeholder)
+                        .error(R.drawable.ic_profile_placeholder)
+                        .centerCrop()
+                        .into(homeAvatar);
+
+                return;
+            } catch (Exception ignored) {
+                // fall back to URI
+            }
+        }
+
+        // 2) Uri (old)
+        String uri = null;
+        try { uri = car.getCarImageUri(); } catch (Exception ignored) {}
+
+        if (uri == null || uri.trim().isEmpty()) {
+            homeAvatar.setImageResource(R.drawable.ic_profile_placeholder);
+            return;
+        }
+
+        Glide.with(this)
+                .load(uri)
+                .placeholder(R.drawable.ic_profile_placeholder)
+                .error(R.drawable.ic_profile_placeholder)
+                .centerCrop()
+                .into(homeAvatar);
     }
 }

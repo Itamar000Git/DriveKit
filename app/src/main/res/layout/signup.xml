@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="#E5E5E5"
     tools:context=".View.SignUpActivity">
 
     <androidx.core.widget.NestedScrollView
@@ -49,7 +49,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Drive"
-                    android:textColor="#E0E0E0"
+                    android:textColor="#001F3F"
                     android:textSize="48sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -60,21 +60,23 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="משתמש חדש"
-                android:textColor="#E0E0E0"
+                android:textColor="#001F3F"
                 android:textSize="20sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/logoContainer" />
 
+            <!-- First Name -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/firstNameLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                app:boxBackgroundColor="#99FFFFFF"
+                app:boxBackgroundColor="#FFFFFFFF"
                 app:boxStrokeColor="#8BC34A"
-                app:hintTextColor="#B0BEC5"
+                app:hintTextColor="#8E9AA6"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/signupTitle">
@@ -85,19 +87,20 @@
                     android:layout_height="wrap_content"
                     android:hint="שם פרטי"
                     android:inputType="textPersonName"
-                    android:textColor="#E0E0E0"
-                    android:textColorHint="#B0BEC5" />
+                    android:textColor="#001F3F"
+                    android:textColorHint="#8E9AA6" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- Last Name -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/lastNameLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                app:boxBackgroundColor="#99FFFFFF"
+                app:boxBackgroundColor="#FFFFFFFF"
                 app:boxStrokeColor="#8BC34A"
-                app:hintTextColor="#B0BEC5"
+                app:hintTextColor="#8E9AA6"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/firstNameLayout">
@@ -108,19 +111,20 @@
                     android:layout_height="wrap_content"
                     android:hint="שם משפחה"
                     android:inputType="textPersonName"
-                    android:textColor="#E0E0E0"
-                    android:textColorHint="#B0BEC5" />
+                    android:textColor="#001F3F"
+                    android:textColorHint="#8E9AA6" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- Email -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/emailLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                app:boxBackgroundColor="#99FFFFFF"
+                app:boxBackgroundColor="#FFFFFFFF"
                 app:boxStrokeColor="#8BC34A"
-                app:hintTextColor="#B0BEC5"
+                app:hintTextColor="#607D8B"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lastNameLayout">
@@ -131,19 +135,20 @@
                     android:layout_height="wrap_content"
                     android:hint="אימייל"
                     android:inputType="textEmailAddress"
-                    android:textColor="#E0E0E0"
-                    android:textColorHint="#B0BEC5" />
+                    android:textColor="#001F3F"
+                    android:textColorHint="#8E9AA6" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- Car Number -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/carNumberLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                app:boxBackgroundColor="#99FFFFFF"
+                app:boxBackgroundColor="#FFFFFFFF"
                 app:boxStrokeColor="#8BC34A"
-                app:hintTextColor="#B0BEC5"
+                app:hintTextColor="#8E9AA6"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/emailLayout">
@@ -154,19 +159,20 @@
                     android:layout_height="wrap_content"
                     android:hint="מספר רכב"
                     android:inputType="number"
-                    android:textColor="#E0E0E0"
-                    android:textColorHint="#B0BEC5" />
+                    android:textColor="#001F3F"
+                    android:textColorHint="#8E9AA6" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- Phone -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/phoneLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                app:boxBackgroundColor="#99FFFFFF"
+                app:boxBackgroundColor="#FFFFFFFF"
                 app:boxStrokeColor="#8BC34A"
-                app:hintTextColor="#B0BEC5"
+                app:hintTextColor="#8E9AA6"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/carNumberLayout">
@@ -177,19 +183,20 @@
                     android:layout_height="wrap_content"
                     android:hint="מספר טלפון"
                     android:inputType="phone"
-                    android:textColor="#E0E0E0"
-                    android:textColorHint="#B0BEC5" />
+                    android:textColor="#001F3F"
+                    android:textColorHint="#8E9AA6" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- Dropdowns -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/manufacturerLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                app:boxBackgroundColor="#99FFFFFF"
+                app:boxBackgroundColor="#FFFFFFFF"
                 app:boxStrokeColor="#8BC34A"
-                app:hintTextColor="#B0BEC5"
+                app:hintTextColor="#8E9AA6"
                 app:endIconMode="dropdown_menu"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -204,8 +211,8 @@
                     android:focusable="false"
                     android:cursorVisible="false"
                     android:clickable="true"
-                    android:textColor="#E0E0E0"
-                    android:textColorHint="#B0BEC5"
+                    android:textColor="#001F3F"
+                    android:textColorHint="#8E9AA6"
                     android:paddingEnd="16dp"
                     android:paddingRight="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -216,9 +223,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                app:boxBackgroundColor="#99FFFFFF"
+                app:boxBackgroundColor="#FFFFFFFF"
                 app:boxStrokeColor="#8BC34A"
-                app:hintTextColor="#B0BEC5"
+                app:hintTextColor="#8E9AA6"
                 app:endIconMode="dropdown_menu"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -233,8 +240,8 @@
                     android:focusable="false"
                     android:cursorVisible="false"
                     android:clickable="true"
-                    android:textColor="#E0E0E0"
-                    android:textColorHint="#B0BEC5"
+                    android:textColor="#001F3F"
+                    android:textColorHint="#8E9AA6"
                     android:paddingEnd="16dp"
                     android:paddingRight="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -245,9 +252,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                app:boxBackgroundColor="#99FFFFFF"
+                app:boxBackgroundColor="#FFFFFFFF"
                 app:boxStrokeColor="#8BC34A"
-                app:hintTextColor="#B0BEC5"
+                app:hintTextColor="#8E9AA6"
                 app:endIconMode="dropdown_menu"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -262,25 +269,25 @@
                     android:focusable="false"
                     android:cursorVisible="false"
                     android:clickable="true"
-                    android:textColor="#E0E0E0"
-                    android:textColorHint="#B0BEC5"
+                    android:textColor="#001F3F"
+                    android:textColorHint="#8E9AA6"
                     android:paddingEnd="16dp"
                     android:paddingRight="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Car photo - single line with small camera icon -->
+            <!-- Car photo -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/carPhotoLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                app:boxBackgroundColor="#99FFFFFF"
+                app:boxBackgroundColor="#FFFFFFFF"
                 app:boxStrokeColor="#8BC34A"
-                app:hintTextColor="#B0BEC5"
+                app:hintTextColor="#8E9AA6"
                 app:endIconMode="custom"
                 app:endIconDrawable="@drawable/ic_camera_small"
-                app:endIconTint="#B0BEC5"
+                app:endIconTint="#607D8B"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/yearLayout">
@@ -294,19 +301,20 @@
                     android:clickable="true"
                     android:cursorVisible="false"
                     android:inputType="none"
-                    android:textColor="#E0E0E0"
-                    android:textColorHint="#B0BEC5" />
+                    android:textColor="#001F3F"
+                    android:textColorHint="#8E9AA6" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- Dates -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/insuranceDateLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                app:boxBackgroundColor="#99FFFFFF"
+                app:boxBackgroundColor="#FFFFFFFF"
                 app:boxStrokeColor="#8BC34A"
-                app:hintTextColor="#B0BEC5"
+                app:hintTextColor="#8E9AA6"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/carPhotoLayout">
@@ -318,8 +326,8 @@
                     android:clickable="true"
                     android:focusable="false"
                     android:hint="תאריך ביטוח"
-                    android:textColor="#E0E0E0"
-                    android:textColorHint="#B0BEC5" />
+                    android:textColor="#001F3F"
+                    android:textColorHint="#8E9AA6" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -328,9 +336,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                app:boxBackgroundColor="#99FFFFFF"
+                app:boxBackgroundColor="#FFFFFFFF"
                 app:boxStrokeColor="#8BC34A"
-                app:hintTextColor="#B0BEC5"
+                app:hintTextColor="#8E9AA6"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/insuranceDateLayout">
@@ -342,8 +350,8 @@
                     android:clickable="true"
                     android:focusable="false"
                     android:hint="תאריך טסט"
-                    android:textColor="#E0E0E0"
-                    android:textColorHint="#B0BEC5" />
+                    android:textColor="#001F3F"
+                    android:textColorHint="#8E9AA6" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -352,9 +360,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                app:boxBackgroundColor="#99FFFFFF"
+                app:boxBackgroundColor="#FFFFFFFF"
                 app:boxStrokeColor="#8BC34A"
-                app:hintTextColor="#B0BEC5"
+                app:hintTextColor="#8E9AA6"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/testDateLayout">
@@ -366,8 +374,8 @@
                     android:clickable="true"
                     android:focusable="false"
                     android:hint=" תאריך טיפול 10,000 אחרון"
-                    android:textColor="#E0E0E0"
-                    android:textColorHint="#B0BEC5" />
+                    android:textColor="#001F3F"
+                    android:textColorHint="#8E9AA6" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -377,8 +385,9 @@
                 android:layout_marginTop="16dp"
                 android:gravity="end"
                 android:text="לא זוכר? בחר מהאפשרויות הבאות"
-                android:textColor="#E0E0E0"
-                android:textSize="20sp"
+                android:textColor="#001F3F"
+                android:textSize="16sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/service10kDateLayout" />
@@ -411,14 +420,9 @@
                         android:layout_height="44dp"
                         android:layout_marginEnd="10dp"
                         android:backgroundTint="#D6D6D6"
-                        android:ellipsize="end"
                         android:minWidth="120dp"
-                        android:paddingStart="14dp"
-                        android:paddingEnd="14dp"
-                        android:singleLine="true"
                         android:text="עד חודשיים"
-                        android:textColor="#000000"
-                        android:textSize="14sp"
+                        android:textColor="#001F3F"
                         android:textStyle="bold" />
 
                     <Button
@@ -427,14 +431,9 @@
                         android:layout_height="44dp"
                         android:layout_marginEnd="10dp"
                         android:backgroundTint="#D6D6D6"
-                        android:ellipsize="end"
                         android:minWidth="120dp"
-                        android:paddingStart="14dp"
-                        android:paddingEnd="14dp"
-                        android:singleLine="true"
                         android:text="עד 4 חודשים"
-                        android:textColor="#000000"
-                        android:textSize="14sp"
+                        android:textColor="#001F3F"
                         android:textStyle="bold" />
 
                     <Button
@@ -444,12 +443,8 @@
                         android:backgroundTint="#D6D6D6"
                         android:gravity="center"
                         android:minWidth="170dp"
-                        android:paddingStart="14dp"
-                        android:paddingEnd="14dp"
-                        android:singleLine="false"
                         android:text="עד חצי שנה \n והלאה"
-                        android:textColor="#000000"
-                        android:textSize="14sp"
+                        android:textColor="#001F3F"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -463,9 +458,9 @@
                 android:layout_marginTop="28dp"
                 android:layout_marginEnd="32dp"
                 android:layout_marginBottom="24dp"
-                android:backgroundTint="#D6D6D6"
+                android:backgroundTint="#8BC34A"
                 android:text="הבא"
-                android:textColor="#000000"
+                android:textColor="#001F3F"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -477,4 +472,3 @@
     </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-

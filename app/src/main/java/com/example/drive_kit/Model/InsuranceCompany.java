@@ -1,55 +1,26 @@
-package com.example.drive_kit.Model;
-
-import java.util.ArrayList;
+package com.example.drive_kit.View;
 
 public class InsuranceCompany {
-    private String name;
-    private Double licenseNumber;
-    private String mail;
-    //private ArrayList<Driver>contents;
-    public InsuranceCompany() {
-       // contents = new ArrayList<>();
-    }
-    public InsuranceCompany(String name,
-                            Double licenseNumber,
-                            String mail,
-                            ArrayList<Driver> contents) {
+    private final String id;
+    private final String name;
+    private final String phone;
+    private final String email;
+    private final String website;
+    private final boolean isPartner;
+
+    public InsuranceCompany(String id, String name, String phone, String email, String website, boolean isPartner) {
+        this.id = id;
         this.name = name;
-        this.licenseNumber = licenseNumber;
-        this.mail = mail;
-        //this.contents = contents;
-    }
-    public String getName() {
-        return name;
+        this.phone = phone;
+        this.email = email;
+        this.website = website;
+        this.isPartner = isPartner;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Double getLicenseNumber() {
-        return licenseNumber;
-    }
-
-    public void setLicenseNumber(Double licenseNumber) {
-        this.licenseNumber = licenseNumber;
-    }
-
-    public String getMail() {
-        return mail;
-    }
-
-    public void setMail(String mail) {
-        this.mail = mail;
-    }
-
-    //public ArrayList<Driver> getContents() {
-      //  return contents;
-    //}
-
-    //public void setContents(ArrayList<Driver> contents) {
-        //this.contents = contents;
-    //}
-
+    public String getId() { return id; }
+    public String getName() { return name; }
+    public String getPhone() { return phone; }
+    public String getEmail() { return email; }
+    public String getWebsite() { return website; }
+    public boolean isPartner() { return isPartner; }
 }
-

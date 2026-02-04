@@ -45,6 +45,13 @@
         <activity android:name=".View.DIYFilterActivity" />
         <activity android:name=".View.DIYIssuesActivity" />
         <activity android:name=".View.activity_nearby_garages" />
+        <activity android:name=".View.InsuranceActivity" />
+
+
+
+
+
+
 
 
         <provider

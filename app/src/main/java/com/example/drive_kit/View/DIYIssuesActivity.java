@@ -41,7 +41,7 @@ public class DIYIssuesActivity extends BaseLoggedInActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.diy_issues);
-        getContentLayoutId();
+        //getContentLayoutId();
 
 
         // --- 1) Read filter from Intent ---

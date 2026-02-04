@@ -89,43 +89,48 @@ public abstract class BaseLoggedInActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(item -> {
             int id = item.getItemId();
 
-            // לסגור את ה-Drawer מיד (מרגיש יותר חלק)
             drawerLayout.closeDrawer(GravityCompat.END);
 
             if (id == R.id.nav_home) {
-                startActivity(new Intent(this, HomeActivity.class));
+//                if (!(this instanceof HomeActivity)) {
+//                    startActivity(new Intent(this, HomeActivity.class));
+//                }
 
             } else if (id == R.id.nav_profile) {
-                startActivity(new Intent(this, ProfileActivity.class));
+                if (!(this instanceof ProfileActivity)) {
+                    startActivity(new Intent(this, ProfileActivity.class));
+                }
 
             } else if (id == R.id.nav_notifications) {
-                startActivity(new Intent(this, NotificationsActivity.class));
+                if (!(this instanceof NotificationsActivity)) {
+                    startActivity(new Intent(this, NotificationsActivity.class));
+                }
 
             } else if (id == R.id.nav_my_car) {
-                // לפי מה שיש לך כרגע בפרויקט
-                startActivity(new Intent(this, CarDetailsActivity.class));
-                // אם בעתיד תחזור ל-MyCarsActivity:
-                // startActivity(new Intent(this, MyCarsActivity.class));
+                if (!(this instanceof CarDetailsActivity)) {
+                    startActivity(new Intent(this, CarDetailsActivity.class));
+                }
 
             } else if (id == R.id.nav_diy) {
-                startActivity(new Intent(this, DIYFilterActivity.class));
+                if (!(this instanceof DIYFilterActivity)) {
+                    startActivity(new Intent(this, DIYFilterActivity.class));
+                }
 
             } else if (id == R.id.nav_garage) {
-                // אם עדיין לא קיים מסך - תראה הודעה
-                //Toast.makeText(this, "מסך מוסך קרוב עדיין לא ממומש", Toast.LENGTH_SHORT).show();
-                // כשתממש:
-                // startActivity(new Intent(this, GarageActivity.class));
+
+                if (!(this instanceof activity_nearby_garages)) {
+                    startActivity(new Intent(this, activity_nearby_garages.class));
+                }
 
             } else if (id == R.id.nav_insurance) {
-                //Toast.makeText(this, "מסך ביטוח עדיין לא ממומש", Toast.LENGTH_SHORT).show();
-                // כשתממש:
-                // startActivity(new Intent(this, InsuranceActivity.class));
+
+                if (!(this instanceof InsuranceActivity)) {
+                    startActivity(new Intent(this, InsuranceActivity.class));
+                }
 
             } else if (id == R.id.nav_logout) {
                 FirebaseAuth.getInstance().signOut();
-
-                // לחזור למסך התחברות ולמחוק BackStack
-                Intent i = new Intent(this, MainActivity.class); // MainActivity = מסך התחברות אצלך
+                Intent i = new Intent(this, MainActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);
                 finish();
@@ -134,6 +139,7 @@ public abstract class BaseLoggedInActivity extends AppCompatActivity {
             return true;
         });
     }
+
 
 
     private void setupNotificationsBadge() {

@@ -1,274 +1,246 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawerLayout"
+    android:id="@+id/homeContentRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:background="#FAFAFA"
+    android:padding="24dp"
+    android:layoutDirection="rtl"
+    android:textDirection="rtl"
+    tools:context=".View.HomeActivity">
 
-    <!-- ============ MAIN CONTENT ============ -->
+    <!-- Avatar (image) -->
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/homeAvatar"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_marginTop="24dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_profile_placeholder"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.Circle"
+        app:strokeWidth="2dp"
+        app:strokeColor="#8BC34A"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- ============ DRAWER MENU ============ -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/homeContentRoot"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/background2"
-        android:padding="24dp">
+    <!-- Hello line -->
+    <TextView
+        android:id="@+id/helloUserText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="שלום אור"
+        android:textColor="#8BC34A"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/homeAvatar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Logo -->
+    <!-- Welcome line -->
+    <TextView
+        android:id="@+id/welcomeText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="ברוך הבא ל-DriveKit"
+        android:textColor="#001F3F"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/helloUserText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Circles grid -->
+    <androidx.gridlayout.widget.GridLayout
+        android:id="@+id/circlesGrid"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="16dp"
+        app:alignmentMode="alignMargins"
+        app:columnCount="2"
+        app:rowCount="2"
+        app:useDefaultMargins="true"
+        app:layout_constraintTop_toBottomOf="@id/welcomeText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <!-- Circle 1 – My Car -->
         <LinearLayout
-            android:id="@+id/logoContainer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <!-- Welcome text -->
-        <TextView
-            android:id="@+id/welcomeText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text=" "
-            android:textColor="#001F3F"
-            android:textSize="35sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.921"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/logoContainer" />
-
-        <!-- Circles grid -->
-        <androidx.gridlayout.widget.GridLayout
-            android:id="@+id/circlesGrid"
+            android:id="@+id/circleMyCar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
-            android:layout_marginBottom="16dp"
-            app:alignmentMode="alignMargins"
-            app:columnCount="2"
-            app:layout_constraintBottom_toTopOf="@id/includeBottomBar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/welcomeText"
-            app:rowCount="2"
-            app:useDefaultMargins="true">
-
-            <!-- Circle 1 – My Car -->
-            <LinearLayout
-                android:id="@+id/circleMyCar"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="true"
-                android:gravity="center"
-                android:orientation="vertical"
-                app:layout_columnWeight="1">
-
-                <FrameLayout
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:background="@drawable/circle_button"
-                    android:clickable="false"
-                    android:focusable="false">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center">
-
-                        <ImageView
-                            android:id="@+id/myCarIcon"
-                            android:layout_width="150dp"
-                            android:layout_height="150dp"
-                            android:scaleType="centerInside"
-                            android:src="@drawable/car4" />
-                    </LinearLayout>
-                </FrameLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="-35dp"
-                    android:text="הרכב שלי"
-                    android:textColor="#001F3F"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <!-- Circle 2 – DIY -->
-            <LinearLayout
-                android:id="@+id/circleDIY"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="true"
-                android:gravity="center"
-                android:orientation="vertical"
-                app:layout_columnWeight="1">
-
-                <FrameLayout
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:background="@drawable/circle_button"
-                    android:clickable="false"
-                    android:focusable="false">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center">
-
-                        <ImageView
-                            android:id="@+id/diyIcon"
-                            android:layout_width="180dp"
-                            android:layout_height="120dp"
-                            android:scaleType="centerInside"
-                            android:src="@drawable/diy1" />
-                    </LinearLayout>
-                </FrameLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="-35dp"
-                    android:text="DIY"
-                    android:textColor="#001F3F"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <!-- Circle 3 – Garage -->
-            <LinearLayout
-                android:id="@+id/circleGarage"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="true"
-                android:gravity="center"
-                android:orientation="vertical"
-                app:layout_columnWeight="1">
-
-                <FrameLayout
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:background="@drawable/circle_button"
-                    android:clickable="false"
-                    android:focusable="false">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center">
-
-                        <ImageView
-                            android:id="@+id/garageIcon"
-                            android:layout_width="121dp"
-                            android:layout_height="105dp"
-                            android:scaleType="centerInside"
-                            android:src="@drawable/garage" />
-                    </LinearLayout>
-                </FrameLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="-35dp"
-                    android:text="מוסך קרוב"
-                    android:textColor="#001F3F"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <!-- Circle 4 – Insurance -->
-            <LinearLayout
-                android:id="@+id/circleInsurance"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="true"
-                android:gravity="center"
-                android:orientation="vertical"
-                app:layout_columnWeight="1">
-
-                <FrameLayout
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:background="@drawable/circle_button"
-                    android:clickable="false"
-                    android:focusable="false">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center">
-
-                        <ImageView
-                            android:id="@+id/insuranceIcon"
-                            android:layout_width="120dp"
-                            android:layout_height="100dp"
-                            android:scaleType="centerInside"
-                            android:src="@drawable/insurencepic" />
-                    </LinearLayout>
-                </FrameLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="-35dp"
-                    android:text="ביטוח רכב"
-                    android:textColor="#001F3F"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-        </androidx.gridlayout.widget.GridLayout>
-
-        <!-- Notification circle placeholder -->
-        <LinearLayout
-            android:id="@+id/circleNoty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
             android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@id/includeBottomBar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/circlesGrid" />
+            app:layout_columnWeight="1">
 
-        <!-- Bottom bar (shared layout) -->
-        <include
-            android:id="@+id/includeBottomBar"
-            layout="@layout/bottom_bar"
+            <FrameLayout
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:background="@drawable/circle_button"
+                android:clickable="false"
+                android:focusable="false">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/myCarIcon"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/car4" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-35dp"
+                android:text="הרכב שלי"
+                android:textColor="#001F3F"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Circle 2 – DIY -->
+        <LinearLayout
+            android:id="@+id/circleDIY"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_columnWeight="1">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <FrameLayout
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:background="@drawable/circle_button"
+                android:clickable="false"
+                android:focusable="false">
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navigationView"
-        android:layout_width="320dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="end"
-        android:background="@android:color/white"
-        android:layoutDirection="rtl"
-        android:textDirection="rtl"
-        app:menu="@menu/drawer_menu"
-        app:itemBackground="@drawable/drawer_item_bg"
-        app:itemTextColor="@color/drawer_item_text"
-        app:itemIconTint="@color/drawer_item_icon"
-        app:itemHorizontalPadding="16dp"
-        app:itemVerticalPadding="10dp"
-        app:itemIconSize="32dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
 
-</androidx.drawerlayout.widget.DrawerLayout>
+                    <ImageView
+                        android:id="@+id/diyIcon"
+                        android:layout_width="180dp"
+                        android:layout_height="120dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/diy1" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-35dp"
+                android:text="DIY"
+                android:textColor="#001F3F"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Circle 3 – Garage -->
+        <LinearLayout
+            android:id="@+id/circleGarage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_columnWeight="1">
+
+            <FrameLayout
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:background="@drawable/circle_button"
+                android:clickable="false"
+                android:focusable="false">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/garageIcon"
+                        android:layout_width="121dp"
+                        android:layout_height="105dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/garage" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-35dp"
+                android:text="מוסך קרוב"
+                android:textColor="#001F3F"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Circle 4 – Insurance -->
+        <LinearLayout
+            android:id="@+id/circleInsurance"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_columnWeight="1">
+
+            <FrameLayout
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:background="@drawable/circle_button"
+                android:clickable="false"
+                android:focusable="false">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/insuranceIcon"
+                        android:layout_width="120dp"
+                        android:layout_height="100dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/insurencepic" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-35dp"
+                android:text="ביטוח רכב"
+                android:textColor="#001F3F"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </androidx.gridlayout.widget.GridLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
