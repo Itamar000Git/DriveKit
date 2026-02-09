@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -15,7 +16,6 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,23 +31,23 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.slider.Slider;
-
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.model.RectangularBounds;
+import com.google.android.libraries.places.api.net.FetchPlaceRequest;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.api.net.SearchByTextRequest;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.slider.Slider;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.HashMap;
 
 public class activity_nearby_garages extends BaseLoggedInActivity implements OnMapReadyCallback {
 
@@ -79,9 +79,6 @@ public class activity_nearby_garages extends BaseLoggedInActivity implements OnM
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_nearby_garages);
-        getContentLayoutId();
-
 
         tvRadiusValue = findViewById(R.id.tvRadiusValue);
         tvEmptyState = findViewById(R.id.tvEmptyState);
@@ -90,21 +87,26 @@ public class activity_nearby_garages extends BaseLoggedInActivity implements OnM
         rvGarages = findViewById(R.id.rvGarages);
 
         adapter = new GaragesAdapter(visibleGarages, new GaragesAdapter.OnGarageAction() {
-            @Override public void onNavigate(GarageItem item) { openNav(item); }
+            @Override
+            public void onNavigate(GarageItem item) {
+                openNav(item);
+            }
 
-            @Override public void onItemClick(GarageItem item) {
+            @Override
+            public void onItemClick(GarageItem item) {
                 if (googleMap != null) {
                     googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(item.latLng, 16f));
                 }
             }
 
-            @Override public void onCall(GarageItem item) {
-                if (item.phone == null || item.phone.trim().isEmpty()) return;
-                Intent i = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + item.phone));
-                startActivity(i);
+            @Override
+            public void onCall(GarageItem item, MaterialButton callButton) {
+                if (item == null) return;
+                fetchPhoneAndDial(item, callButton);
             }
 
-            @Override public void onWebsite(GarageItem item) {
+            @Override
+            public void onWebsite(GarageItem item) {
                 if (item.website == null || item.website.trim().isEmpty()) return;
                 Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(item.website));
                 startActivity(i);
@@ -126,8 +128,11 @@ public class activity_nearby_garages extends BaseLoggedInActivity implements OnM
                 result -> {
                     boolean fine = Boolean.TRUE.equals(result.get(Manifest.permission.ACCESS_FINE_LOCATION));
                     boolean coarse = Boolean.TRUE.equals(result.get(Manifest.permission.ACCESS_COARSE_LOCATION));
-                    if (fine || coarse) fetchUserLocation();
-                    else Toast.makeText(this, "צריך הרשאת מיקום כדי להציג מוסכים קרובים", Toast.LENGTH_LONG).show();
+                    if (fine || coarse) {
+                        fetchUserLocation();
+                    } else {
+                        Toast.makeText(this, "צריך הרשאת מיקום כדי להציג מוסכים קרובים", Toast.LENGTH_LONG).show();
+                    }
                 }
         );
 
@@ -142,8 +147,11 @@ public class activity_nearby_garages extends BaseLoggedInActivity implements OnM
 
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapContainer);
-        if (mapFragment != null) mapFragment.getMapAsync(this);
-        else Toast.makeText(this, "שגיאה: mapContainer לא נמצא", Toast.LENGTH_LONG).show();
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(this);
+        } else {
+            Toast.makeText(this, "שגיאה: mapContainer לא נמצא", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -159,7 +167,6 @@ public class activity_nearby_garages extends BaseLoggedInActivity implements OnM
         googleMap.setOnMarkerClickListener(marker -> {
             GarageItem item = markerToGarage.get(marker);
             if (item != null) {
-                // קליק על נעץ -> זום למיקום + Toast קטן
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(item.latLng, 16f));
                 Toast.makeText(this, item.name, Toast.LENGTH_SHORT).show();
                 return true;
@@ -167,8 +174,86 @@ public class activity_nearby_garages extends BaseLoggedInActivity implements OnM
             return false;
         });
 
-        if (hasLocationPermission()) fetchUserLocation();
-        else requestLocationPermission();
+        if (hasLocationPermission()) {
+            fetchUserLocation();
+        } else {
+            requestLocationPermission();
+        }
+    }
+
+    private void fetchPhoneAndDial(@NonNull GarageItem item, MaterialButton callButton) {
+        Log.d("GARAGES_PHONE", "click call: placeId=" + item.placeId + ", cachedPhone=" + item.phone);
+
+        // כבר יש מספר בקאש -> חיוג מיידי
+        if (item.phone != null && !item.phone.trim().isEmpty()) {
+            Intent i = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + item.phone.trim()));
+            startActivity(i);
+            return;
+        }
+
+        // אין placeId -> אי אפשר להביא מספר
+        if (item.placeId == null || item.placeId.trim().isEmpty()) {
+            Toast.makeText(this, "אין מספר טלפון זמין לעסק הזה", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // מצב טעינה בכפתור
+        setCallButtonLoading(callButton, true);
+
+        List<Place.Field> fields = Arrays.asList(
+                Place.Field.ID,
+                Place.Field.DISPLAY_NAME,
+                Place.Field.INTERNATIONAL_PHONE_NUMBER
+        );
+
+        FetchPlaceRequest request = FetchPlaceRequest.newInstance(item.placeId, fields);
+
+        placesClient.fetchPlace(request)
+                .addOnSuccessListener(response -> {
+                    setCallButtonLoading(callButton, false);
+
+                    Place place = response.getPlace();
+                    String phone = place.getInternationalPhoneNumber();
+
+                    Log.d("GARAGES_PHONE",
+                            "fetch success: name=" + place.getDisplayName()
+                                    + ", placeId=" + place.getId()
+                                    + ", intlPhone=" + phone);
+
+                    if (phone == null || phone.trim().isEmpty()) {
+                        Toast.makeText(this, "לא נמצא מספר טלפון לעסק הזה", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    // שמירה בקאש לפעם הבאה
+                    item.phone = phone.trim();
+
+                    Intent dial = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + item.phone));
+                    startActivity(dial);
+                })
+                .addOnFailureListener(e -> {
+                    setCallButtonLoading(callButton, false);
+
+                    Log.e("GARAGES_PHONE", "fetchPlace failed: " + e.getMessage(), e);
+                    Toast.makeText(this, "שגיאה בשליפת מספר טלפון", Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void setCallButtonLoading(MaterialButton button, boolean isLoading) {
+        if (button == null) return;
+
+        if (isLoading) {
+            button.setTag(button.getText()); // שומר טקסט קודם
+            button.setEnabled(false);
+            button.setAlpha(0.8f);
+            button.setText("טוען...");
+        } else {
+            Object prev = button.getTag();
+            CharSequence original = (prev instanceof CharSequence) ? (CharSequence) prev : "התקשר";
+            button.setText(original);
+            button.setEnabled(true);
+            button.setAlpha(1f);
+        }
     }
 
     private void updateRadiusText(int km) {
@@ -181,7 +266,7 @@ public class activity_nearby_garages extends BaseLoggedInActivity implements OnM
     }
 
     private void requestLocationPermission() {
-        locationPermissionLauncher.launch(new String[] {
+        locationPermissionLauncher.launch(new String[]{
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION
         });
@@ -192,16 +277,12 @@ public class activity_nearby_garages extends BaseLoggedInActivity implements OnM
 
         progressLoading.setVisibility(View.VISIBLE);
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            progressLoading.setVisibility(View.GONE);
             return;
         }
+
         fusedClient.getLastLocation()
                 .addOnSuccessListener(location -> {
                     if (location == null) {
@@ -223,19 +304,13 @@ public class activity_nearby_garages extends BaseLoggedInActivity implements OnM
         if (googleMap != null) {
             try {
                 if (hasLocationPermission()) {
-                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                        // TODO: Consider calling
-                        //    ActivityCompat#requestPermissions
-                        // here to request the missing permissions, and then overriding
-                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                        //                                          int[] grantResults)
-                        // to handle the case where the user grants the permission. See the documentation
-                        // for ActivityCompat#requestPermissions for more details.
-                        return;
+                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                            || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                        googleMap.setMyLocationEnabled(true);
                     }
-                    googleMap.setMyLocationEnabled(true);
                 }
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
 
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 13.5f));
         }
@@ -257,8 +332,7 @@ public class activity_nearby_garages extends BaseLoggedInActivity implements OnM
                 Place.Field.DISPLAY_NAME,
                 Place.Field.FORMATTED_ADDRESS,
                 Place.Field.LOCATION,
-               // Place.Field.PHONE_NUMBER,   // יופיע אם זמין
-                Place.Field.WEBSITE_URI     // Uri אם זמין
+                Place.Field.WEBSITE_URI
         );
 
         SearchByTextRequest req = SearchByTextRequest.builder(query, fields)
@@ -283,15 +357,16 @@ public class activity_nearby_garages extends BaseLoggedInActivity implements OnM
                         String addr = p.getFormattedAddress();
                         if (addr == null || addr.trim().isEmpty()) addr = "כתובת לא זמינה";
 
-                        String phone = "";
-                        if (phone == null) phone = "";
-
                         Uri webUri = p.getWebsiteUri();
                         String website = (webUri == null) ? "" : webUri.toString();
 
                         double dist = distanceMeters(userLatLng, loc);
 
-                        allGarages.add(new GarageItem(placeId, name, addr, loc, dist, phone, website));
+                        Log.d("GARAGES_SEARCH",
+                                "name=" + name + ", placeId=" + placeId + ", website=" + website);
+
+                        // phone מתחיל ריק; יישלף בלחיצה על "התקשר"
+                        allGarages.add(new GarageItem(placeId, name, addr, loc, dist, "", website));
                     }
 
                     applyRadiusFilterAndRefreshUI();
@@ -366,7 +441,7 @@ public class activity_nearby_garages extends BaseLoggedInActivity implements OnM
         final String address;
         final LatLng latLng;
         final double distanceMeters;
-        final String phone;
+        String phone;
         final String website;
 
         GarageItem(String placeId, String name, String address, LatLng latLng,
@@ -385,8 +460,9 @@ public class activity_nearby_garages extends BaseLoggedInActivity implements OnM
         Uri uri = Uri.parse("google.navigation:q=" + item.latLng.latitude + "," + item.latLng.longitude + "&mode=d");
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         intent.setPackage("com.google.android.apps.maps");
-        if (intent.resolveActivity(getPackageManager()) != null) startActivity(intent);
-        else {
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        } else {
             Uri fallback = Uri.parse("geo:" + item.latLng.latitude + "," + item.latLng.longitude);
             startActivity(new Intent(Intent.ACTION_VIEW, fallback));
         }
@@ -396,8 +472,11 @@ public class activity_nearby_garages extends BaseLoggedInActivity implements OnM
 
         interface OnGarageAction {
             void onNavigate(GarageItem item);
+
             void onItemClick(GarageItem item);
-            void onCall(GarageItem item);
+
+            void onCall(GarageItem item, MaterialButton callButton);
+
             void onWebsite(GarageItem item);
         }
 
@@ -430,20 +509,16 @@ public class activity_nearby_garages extends BaseLoggedInActivity implements OnM
             holder.itemView.setOnClickListener(v -> action.onItemClick(item));
             holder.btnNavigate.setOnClickListener(v -> action.onNavigate(item));
 
-            // Call
-            if (item.phone == null || item.phone.trim().isEmpty()) {
-                holder.btnCall.setEnabled(false);
-                holder.btnCall.setAlpha(0.5f);
-            } else {
-                holder.btnCall.setEnabled(true);
-                holder.btnCall.setAlpha(1f);
-                holder.btnCall.setOnClickListener(v -> action.onCall(item));
-            }
+            // Call - תמיד פעיל, השליפה מתבצעת בלחיצה
+            holder.btnCall.setEnabled(true);
+            holder.btnCall.setAlpha(1f);
+            holder.btnCall.setOnClickListener(v -> action.onCall(item, holder.btnCall));
 
             // Website
             if (item.website == null || item.website.trim().isEmpty()) {
                 holder.btnWebsite.setEnabled(false);
                 holder.btnWebsite.setAlpha(0.5f);
+                holder.btnWebsite.setOnClickListener(null);
             } else {
                 holder.btnWebsite.setEnabled(true);
                 holder.btnWebsite.setAlpha(1f);

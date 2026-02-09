@@ -176,7 +176,7 @@ import androidx.lifecycle.ViewModel;
  * IMPORTANT:
  * This class does NOT know anything about UI elements (EditText, Buttons, etc.)
  */
-public class SignUpViewModel extends ViewModel {
+public class  SignUpViewModel extends ViewModel {
 
     // Stores the selected insurance date in milliseconds
     // -1 means: no date was selected yet

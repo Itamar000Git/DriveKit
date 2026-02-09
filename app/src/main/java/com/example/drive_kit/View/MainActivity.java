@@ -99,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, LoadingActivity.class);
             intent.putExtra("email", email);
             intent.putExtra("password", password);
+            Toast.makeText(this, "נלחץ הרשמה", Toast.LENGTH_SHORT).show();
             startActivity(intent);
         });
 

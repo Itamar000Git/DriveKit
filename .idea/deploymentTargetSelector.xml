@@ -7,7 +7,7 @@
       </SelectionState>
       <SelectionState runConfigName="DriveKit">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2026-02-04T14:01:03.822631600Z">
+        <DropdownSelection timestamp="2026-02-08T17:13:51.510258900Z">
           <Target type="DEFAULT_BOOT">
             <handle>
               <DeviceId pluginId="PhysicalDevice" identifier="serial=RF8NA07GQKE" />

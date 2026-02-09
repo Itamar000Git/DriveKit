@@ -1,403 +1,8 @@
-//////package com.example.drive_kit.View;
-//////
-//////import android.content.Intent;
-//////import android.os.Bundle;
-//////import android.util.Log;
-//////import android.widget.Button;
-//////import android.widget.EditText;
-//////import android.widget.Toast;
-//////
-//////import androidx.appcompat.app.AppCompatActivity;
-//////import androidx.lifecycle.ViewModelProvider;
-//////
-//////import com.example.drive_kit.Model.CarModel;
-//////import com.example.drive_kit.R;
-//////import com.example.drive_kit.Model.Driver;
-//////import com.example.drive_kit.ViewModel.SetUsernamePasswordViewModel;
-//////
-///////**
-////// * SetUsernamePasswordActivity is the final step of the signup process.
-////// *
-////// * In this screen, the user:
-////// * - Chooses a password
-////// * - Confirms the password
-////// *
-////// * This Activity:
-////// * - Receives all previously collected signup data using Intent
-////// * - Creates a Driver object
-////// * - Delegates registration logic to the ViewModel
-////// * - Observes LiveData to react to success or failure
-////// */
-//////public class SetUsernamePasswordActivity extends AppCompatActivity {
-//////
-//////
-//////    // Input field for the password
-//////    private EditText passwordEditText;
-//////
-//////    // Input field for confirming the password
-//////    private EditText confirmPasswordEditText;
-//////
-//////
-//////
-//////    // Button used to complete the signup process
-//////    private Button signupButton;
-//////
-//////
-//////    @Override
-//////    protected void onCreate(Bundle savedInstanceState) {
-//////        // Standard Activity initialization
-//////        super.onCreate(savedInstanceState);
-//////
-//////        // Attach the XML layout file to this Activity
-//////        // After this line, all views defined in set_username_password.xml exist in memory
-//////        setContentView(R.layout.set_username_password);
-//////
-//////        // Retrieve the Intent that started this Activity
-//////        // This Intent was sent from SignUpActivity
-//////        Intent intent = getIntent();
-//////
-//////        // Extract user personal and car data from the Intent
-//////        String firstName = intent.getStringExtra("firstName");
-//////        String lastName = intent.getStringExtra("lastName");
-//////        String email = intent.getStringExtra("email");
-//////        String phone = intent.getStringExtra("phone");
-//////        String carNumber = intent.getStringExtra("carNumber");
-//////        CarModel carModel = (CarModel) getIntent().getSerializableExtra("carModel");
-//////        int year = intent.getIntExtra("year", 0);
-//////
-//////
-//////        if (carModel == null) carModel = CarModel.UNKNOWN;
-//////
-//////        // Extract important dates (stored as milliseconds)
-//////        long insuranceDateMillis = intent.getLongExtra("insuranceDateMillis", -1);
-//////        long testDateMillis = intent.getLongExtra("testDateMillis", -1);
-//////        long treatmentDateMillis = intent.getLongExtra("treatmentDateMillis", -1);
-//////
-//////        // Create a Driver object using all collected registration data
-//////        // This object represents the user and will be saved in the database
-//////        if (insuranceDateMillis == -1 || testDateMillis == -1|| treatmentDateMillis==-1) {
-//////            Log.e("SetUsernamePassword", "Dates not received");
-//////            Toast.makeText(this, "שגיאה בטעינת נתונים", Toast.LENGTH_SHORT).show();
-//////        }
-//////
-//////        // Create a Driver object using all collected registration data
-//////        // This object represents the user and will be saved in the database
-//////        Driver driver = new Driver(
-//////                firstName,
-//////                lastName,
-//////                email,
-//////                phone,
-//////                carNumber,
-//////                carModel,
-//////                year,
-//////                insuranceDateMillis,
-//////                testDateMillis,
-//////                treatmentDateMillis
-//////        );
-//////
-//////        // Find and connect UI elements from the XML layout
-//////        passwordEditText = findViewById(R.id.passwordEditText);
-//////        confirmPasswordEditText = findViewById(R.id.confirmPasswordEditText);
-//////        signupButton = findViewById(R.id.registerButton);
-//////
-//////        // Create (or retrieve) the ViewModel associated with this Activity
-//////        // The ViewModel contains all signup-related logic
-//////        SetUsernamePasswordViewModel viewModel = new ViewModelProvider(this).get(SetUsernamePasswordViewModel.class);
-//////        Log.d("SetUsernamePassword", "carModel extra = " + driver.toString());
-//////        // Observe signup success LiveData
-//////        // If signup succeeds, show a success message and move to HomeActivity
-//////        viewModel.getSignUpSuccess().observe(this, success -> {
-//////            if (Boolean.TRUE.equals(success)) {
-//////                Toast.makeText(this, "הרשמה הושלמה בהצלחה", Toast.LENGTH_SHORT).show();
-//////                startActivity(new Intent(this, HomeActivity.class));
-//////                finish();
-//////            }
-//////        });
-//////
-//////
-//////        // Observe signup error LiveData
-//////        // If an error occurs, show the error message to the user
-//////        viewModel.getSignUpError().observe(this, error -> {
-//////            if (error != null) {
-//////                Toast.makeText(this, error, Toast.LENGTH_LONG).show();
-//////            }
-//////        });
-//////
-//////
-//////
-//////        // Handle click on the signup button
-//////        signupButton.setOnClickListener(v -> {
-//////
-//////            // Extract and trim the password inputs
-//////            String password = passwordEditText.getText().toString().trim();
-//////            String confirmPassword = confirmPasswordEditText.getText().toString().trim();
-//////
-//////            // Delegate the signup process to the ViewModel
-//////            // The ViewModel will validate the passwords and perform registration
-//////            viewModel.signUp(email, password, confirmPassword, driver);
-//////        });
-//////    }
-//////}
-////
-////
-////package com.example.drive_kit.View;
-////
-////import android.content.Intent;
-////import android.os.Bundle;
-////import android.util.Log;
-////import android.widget.Button;
-////import android.widget.EditText;
-////import android.widget.Toast;
-////
-////import androidx.appcompat.app.AppCompatActivity;
-////import androidx.lifecycle.ViewModelProvider;
-////
-////import com.example.drive_kit.Model.CarModel;
-////import com.example.drive_kit.R;
-////import com.example.drive_kit.Model.Driver;
-////import com.example.drive_kit.ViewModel.SetUsernamePasswordViewModel;
-////
-/////**
-//// * SetUsernamePasswordActivity is the final step of the signup process.
-//// *
-//// * In this screen, the user:
-//// * - Chooses a password
-//// * - Confirms the password
-//// *
-//// * This Activity:
-//// * - Receives all previously collected signup data using Intent
-//// * - Creates a Driver object
-//// * - Delegates registration logic to the ViewModel
-//// * - Observes LiveData to react to success or failure
-//// */
-////public class SetUsernamePasswordActivity extends AppCompatActivity {
-////
-////    // Input field for the password
-////    private EditText passwordEditText;
-////
-////    // Input field for confirming the password
-////    private EditText confirmPasswordEditText;
-////
-////    // Button used to complete the signup process
-////    private Button signupButton;
-////
-////    @Override
-////    protected void onCreate(Bundle savedInstanceState) {
-////        // Standard Activity initialization
-////        super.onCreate(savedInstanceState);
-////
-////        // Attach the XML layout file to this Activity
-////        // After this line, all views defined in set_username_password.xml exist in memory
-////        setContentView(R.layout.set_username_password);
-////
-////        // Retrieve the Intent that started this Activity
-////        // This Intent was sent from SignUpActivity
-////        Intent intent = getIntent();
-////
-////        // Extract user personal and car data from the Intent
-////        String firstName = intent.getStringExtra("firstName");
-////        String lastName = intent.getStringExtra("lastName");
-////        String email = intent.getStringExtra("email");
-////        String phone = intent.getStringExtra("phone");
-////        String carNumber = intent.getStringExtra("carNumber");
-////        CarModel carModel = (CarModel) intent.getSerializableExtra("carModel");
-////        int year = intent.getIntExtra("year", 0);
-////
-////        // ADDED: specific model name (I10 / TUCSON / ...)
-////        String carSpecificModel = intent.getStringExtra("carSpecificModel");
-////
-////        if (carModel == null) carModel = CarModel.UNKNOWN;
-////
-////        // Extract important dates (stored as milliseconds)
-////        long insuranceDateMillis = intent.getLongExtra("insuranceDateMillis", -1);
-////        long testDateMillis = intent.getLongExtra("testDateMillis", -1);
-////        long treatmentDateMillis = intent.getLongExtra("treatmentDateMillis", -1);
-////
-////        // Create a Driver object using all collected registration data
-////        // This object represents the user and will be saved in the database
-////        if (insuranceDateMillis == -1 || testDateMillis == -1 || treatmentDateMillis == -1) {
-////            Log.e("SetUsernamePassword", "Dates not received");
-////            Toast.makeText(this, "שגיאה בטעינת נתונים", Toast.LENGTH_SHORT).show();
-////        }
-////
-////        // Create a Driver object using all collected registration data
-////        // This object represents the user and will be saved in the database
-////        Driver driver = new Driver(
-////                firstName,
-////                lastName,
-////                email,
-////                phone,
-////                carNumber,
-////                carModel,
-////                year,
-////                insuranceDateMillis,
-////                testDateMillis,
-////                treatmentDateMillis
-////        );
-////
-////        // ADDED: keep the specific model as part of the driver's car details (if Driver supports it)
-////        // If Driver currently doesn't have a field for it, you'll add it (see notes below).
-////        if (carSpecificModel != null) {
-////            driver.setCarSpecificModel(carSpecificModel);
-////        }
-////
-////        // Find and connect UI elements from the XML layout
-////        passwordEditText = findViewById(R.id.passwordEditText);
-////        confirmPasswordEditText = findViewById(R.id.confirmPasswordEditText);
-////        signupButton = findViewById(R.id.registerButton);
-////
-////        // Create (or retrieve) the ViewModel associated with this Activity
-////        // The ViewModel contains all signup-related logic
-////        SetUsernamePasswordViewModel viewModel = new ViewModelProvider(this).get(SetUsernamePasswordViewModel.class);
-////        Log.d("SetUsernamePassword", "carModel extra = " + driver.toString());
-////
-////        // Observe signup success LiveData
-////        // If signup succeeds, show a success message and move to HomeActivity
-////        viewModel.getSignUpSuccess().observe(this, success -> {
-////            if (Boolean.TRUE.equals(success)) {
-////                Toast.makeText(this, "הרשמה הושלמה בהצלחה", Toast.LENGTH_SHORT).show();
-////                startActivity(new Intent(this, HomeActivity.class));
-////                finish();
-////            }
-////        });
-////
-////        // Observe signup error LiveData
-////        // If an error occurs, show the error message to the user
-////        viewModel.getSignUpError().observe(this, error -> {
-////            if (error != null) {
-////                Toast.makeText(this, error, Toast.LENGTH_LONG).show();
-////            }
-////        });
-////
-////        // Handle click on the signup button
-////        signupButton.setOnClickListener(v -> {
-////
-////            // Extract and trim the password inputs
-////            String password = passwordEditText.getText().toString().trim();
-////            String confirmPassword = confirmPasswordEditText.getText().toString().trim();
-////
-////            // Delegate the signup process to the ViewModel
-////            // The ViewModel will validate the passwords and perform registration
-////            viewModel.signUp(email, password, confirmPassword, driver);
-////        });
-////    }
-////}
-//
-//package com.example.drive_kit.View;
-//
-//import android.content.Intent;
-//import android.net.Uri;
-//import android.os.Bundle;
-//import android.util.Log;
-//import android.widget.Button;
-//import android.widget.EditText;
-//import android.widget.Toast;
-//
-//import androidx.appcompat.app.AppCompatActivity;
-//import androidx.lifecycle.ViewModelProvider;
-//
-//import com.example.drive_kit.Model.CarModel;
-//import com.example.drive_kit.Model.Driver;
-//import com.example.drive_kit.R;
-//import com.example.drive_kit.ViewModel.SetUsernamePasswordViewModel;
-//
-///**
-// * SetUsernamePasswordActivity is the final step of the signup process.
-// */
-//public class SetUsernamePasswordActivity extends AppCompatActivity {
-//
-//    private EditText passwordEditText;
-//    private EditText confirmPasswordEditText;
-//    private Button signupButton;
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.set_username_password);
-//
-//        Intent intent = getIntent();
-//
-//        String firstName = intent.getStringExtra("firstName");
-//        String lastName = intent.getStringExtra("lastName");
-//        String email = intent.getStringExtra("email");
-//        String phone = intent.getStringExtra("phone");
-//        String carNumber = intent.getStringExtra("carNumber");
-//
-//        CarModel carModel = (CarModel) intent.getSerializableExtra("carModel");
-//        if (carModel == null) carModel = CarModel.UNKNOWN;
-//
-//        int year = intent.getIntExtra("year", 0);
-//
-//        // ADDED: specific model name (I10 / TUCSON / ...)
-//        String carSpecificModel = intent.getStringExtra("carSpecificModel");
-//
-//        long insuranceDateMillis = intent.getLongExtra("insuranceDateMillis", -1);
-//        long testDateMillis = intent.getLongExtra("testDateMillis", -1);
-//        long treatmentDateMillis = intent.getLongExtra("treatmentDateMillis", -1);
-//
-//        if (insuranceDateMillis == -1 || testDateMillis == -1 || treatmentDateMillis == -1) {
-//            Log.e("SetUsernamePassword", "Dates not received");
-//            Toast.makeText(this, "שגיאה בטעינת נתונים", Toast.LENGTH_SHORT).show();
-//        }
-//        String carPhotoUriStr = intent.getStringExtra("carPhotoUri");
-//        String carPhotoUriToSave = (carPhotoUriStr != null && !carPhotoUriStr.trim().isEmpty())
-//                ? carPhotoUriStr.trim()
-//                : null;
-//
-//
-//
-//        Driver driver = new Driver(
-//                firstName,
-//                lastName,
-//                email,
-//                phone,
-//                carNumber,
-//                carModel,
-//                year,
-//                insuranceDateMillis,
-//                testDateMillis,
-//                treatmentDateMillis
-//                ,carPhotoUriToSave
-//        );
-//
-//        // FIX: Driver לא מכיל setCarSpecificModel. זה שייך ל-Car.
-//        if (carSpecificModel != null && !carSpecificModel.trim().isEmpty()) {
-//            driver.getCar().setCarSpecificModel(carSpecificModel.trim());
-//        }
-//
-//        passwordEditText = findViewById(R.id.passwordEditText);
-//        confirmPasswordEditText = findViewById(R.id.confirmPasswordEditText);
-//        signupButton = findViewById(R.id.registerButton);
-//
-//        SetUsernamePasswordViewModel viewModel =
-//                new ViewModelProvider(this).get(SetUsernamePasswordViewModel.class);
-//
-//        Log.d("SetUsernamePassword", "driver=" + driver.toString());
-//
-//        viewModel.getSignUpSuccess().observe(this, success -> {
-//            if (Boolean.TRUE.equals(success)) {
-//                Toast.makeText(this, "הרשמה הושלמה בהצלחה", Toast.LENGTH_SHORT).show();
-//                startActivity(new Intent(this, HomeActivity.class));
-//                finish();
-//            }
-//        });
-//
-//        viewModel.getSignUpError().observe(this, error -> {
-//            if (error != null) Toast.makeText(this, error, Toast.LENGTH_LONG).show();
-//        });
-//
-//        signupButton.setOnClickListener(v -> {
-//            String password = passwordEditText.getText().toString().trim();
-//            String confirmPassword = confirmPasswordEditText.getText().toString().trim();
-//            viewModel.signUp(email, password, confirmPassword, driver);
-//        });
-//    }
-//}
-
 package com.example.drive_kit.View;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
@@ -412,17 +17,29 @@ import com.example.drive_kit.R;
 import com.example.drive_kit.ViewModel.SetUsernamePasswordViewModel;
 
 /**
- * SetUsernamePasswordActivity is the final step of the signup process.
- *
- * IMPORTANT:
- * - Upload to Storage + Firestore save happens inside Repository via ViewModel.
- * - We receive local Uri string from SignUpActivity (carPhotoUri).
+ * Final signup step screen:
+ * - Receives payload from SignUpActivity.
+ * - Collects password + confirm password.
+ * - Triggers either driver registration or insurance registration.
+ * - Navigates to role-specific home screen on success:
+ *      driver    -> HomeActivity
+ *      insurance -> InsuranceHomeActivity
  */
 public class SetUsernamePasswordActivity extends AppCompatActivity {
 
+    // Password UI inputs
     private EditText passwordEditText;
     private EditText confirmPasswordEditText;
     private Button signupButton;
+
+    // Insurance company id passed from previous screen (insurance flow only)
+    private String insuranceCompanyId;
+
+    // Role string for debug/readability (default driver)
+    private String currentRole = "driver";
+
+    // Robust role flag used for navigation decision
+    private boolean isInsurance = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -431,51 +48,46 @@ public class SetUsernamePasswordActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        String firstName = intent.getStringExtra("firstName");
-        String lastName = intent.getStringExtra("lastName");
-        String email = intent.getStringExtra("email");
-        String phone = intent.getStringExtra("phone");
-        String carNumber = intent.getStringExtra("carNumber");
+        // ---------- Common payload ----------
+        // role is sent as "driver" / "insurance"
+        String role = safe(intent.getStringExtra("role"));
+        if (role.isEmpty()) role = "driver";
+        currentRole = role.toLowerCase().trim();
+
+        // Prefer explicit boolean role flag when available.
+        // Fallback to role string for backward compatibility.
+        isInsurance = intent.getBooleanExtra("isInsurance", "insurance".equals(currentRole));
+
+        String firstName = safe(intent.getStringExtra("firstName"));
+        String lastName  = safe(intent.getStringExtra("lastName"));
+        String email     = safe(intent.getStringExtra("email"));
+        String phone     = safe(intent.getStringExtra("phone"));
+
+        // ---------- Insurance-only payload ----------
+        insuranceCompanyId = safe(intent.getStringExtra("insuranceCompanyId"));
+
+        // ---------- Driver-only payload ----------
+        String carNumber = safe(intent.getStringExtra("carNumber"));
 
         CarModel carModel = (CarModel) intent.getSerializableExtra("carModel");
         if (carModel == null) carModel = CarModel.UNKNOWN;
 
         int year = intent.getIntExtra("year", 0);
-        String carSpecificModel = intent.getStringExtra("carSpecificModel");
+        String carSpecificModel = safe(intent.getStringExtra("carSpecificModel"));
 
         long insuranceDateMillis = intent.getLongExtra("insuranceDateMillis", -1);
-        long testDateMillis = intent.getLongExtra("testDateMillis", -1);
+        long testDateMillis      = intent.getLongExtra("testDateMillis", -1);
         long treatmentDateMillis = intent.getLongExtra("treatmentDateMillis", -1);
 
-        // ✅ שינוי יחיד: מקבלים Uri string (לא Base64)
-        String carPhotoUriStr = intent.getStringExtra("carPhotoUri");
-        String carPhotoUriLocal = (carPhotoUriStr != null && !carPhotoUriStr.trim().isEmpty())
-                ? carPhotoUriStr.trim()
-                : null;
+        String carPhotoUriStr = safe(intent.getStringExtra("carPhotoUri"));
+        String carPhotoUriLocal = carPhotoUriStr.isEmpty() ? null : carPhotoUriStr;
 
-        if (insuranceDateMillis == -1 || testDateMillis == -1 || treatmentDateMillis == -1) {
-            Log.e("SetUsernamePassword", "Dates not received");
-            Toast.makeText(this, "שגיאה בטעינת נתונים", Toast.LENGTH_SHORT).show();
-        }
+        // ---------- Debug role state ----------
+        Log.d("ROLE_DEBUG", "role extra = " + intent.getStringExtra("role"));
+        Log.d("ROLE_DEBUG", "currentRole = " + currentRole);
+        Log.d("ROLE_DEBUG", "isInsurance = " + isInsurance);
 
-        Driver driver = new Driver(
-                firstName,
-                lastName,
-                email,
-                phone,
-                carNumber,
-                carModel,
-                year,
-                insuranceDateMillis,
-                testDateMillis,
-                treatmentDateMillis,
-                carPhotoUriLocal
-        );
-
-        if (carSpecificModel != null && !carSpecificModel.trim().isEmpty()) {
-            driver.getCar().setCarSpecificModel(carSpecificModel.trim());
-        }
-
+        // ---------- UI bind ----------
         passwordEditText = findViewById(R.id.passwordEditText);
         confirmPasswordEditText = findViewById(R.id.confirmPasswordEditText);
         signupButton = findViewById(R.id.registerButton);
@@ -483,25 +95,111 @@ public class SetUsernamePasswordActivity extends AppCompatActivity {
         SetUsernamePasswordViewModel viewModel =
                 new ViewModelProvider(this).get(SetUsernamePasswordViewModel.class);
 
-        Log.d("SetUsernamePassword", "driver=" + driver.toString());
-
+        // Observe success state and navigate to role-specific destination.
         viewModel.getSignUpSuccess().observe(this, success -> {
             if (Boolean.TRUE.equals(success)) {
                 Toast.makeText(this, "הרשמה הושלמה בהצלחה", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(this, HomeActivity.class));
+
+                Log.d("ROLE_DEBUG", "onSuccess -> isInsurance=" + isInsurance + ", currentRole=" + currentRole);
+
+                Intent nextIntent;
+                if (isInsurance) {
+                    nextIntent = new Intent(this, InsuranceHomeActivity.class);
+                    // Optional: pass company id so insurance home can load company details/name
+                    nextIntent.putExtra("insuranceCompanyId", insuranceCompanyId);
+                } else {
+                    nextIntent = new Intent(this, HomeActivity.class);
+                }
+
+                // Clear back stack so user cannot return to signup by pressing Back.
+                nextIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                Log.d("ROLE_DEBUG", "Navigating to: " + (isInsurance ? "InsuranceHomeActivity" : "HomeActivity"));
+
+                startActivity(nextIntent);
                 finish();
             }
         });
 
+        // Observe error state for user feedback and duplicate-email redirect behavior.
         viewModel.getSignUpError().observe(this, error -> {
-            if (error != null) Toast.makeText(this, error, Toast.LENGTH_LONG).show();
+            if (error == null || error.trim().isEmpty()) return;
+
+            String err = error.trim();
+            Toast.makeText(this, err, Toast.LENGTH_LONG).show();
+
+            // If company email is already registered, redirect to login screen.
+            if ("EMAIL_ALREADY_EXISTS".equals(err) || err.contains("כבר רשומה")) {
+                Intent loginIntent = new Intent(this, MainActivity.class);
+                loginIntent.putExtra("prefill_email", email);
+                loginIntent.putExtra("insuranceCompanyId", insuranceCompanyId);
+                loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(loginIntent);
+                finish();
+            }
         });
+
+        // Final local constants for click flow
+        final String finalRole = currentRole;
+        final CarModel finalCarModel = carModel;
 
         signupButton.setOnClickListener(v -> {
-            String password = passwordEditText.getText().toString().trim();
-            String confirmPassword = confirmPasswordEditText.getText().toString().trim();
-            viewModel.signUp(email, password, confirmPassword, driver);
+            // Read password inputs safely
+            String password = safe(passwordEditText.getText() != null ? passwordEditText.getText().toString() : "");
+            String confirmPassword = safe(confirmPasswordEditText.getText() != null ? confirmPasswordEditText.getText().toString() : "");
+
+            Log.d("ROLE_DEBUG", "signup click -> finalRole=" + finalRole + ", isInsurance=" + isInsurance);
+
+            // ===== Insurance flow =====
+            if (isInsurance || "insurance".equals(finalRole)) {
+                viewModel.signUpInsurance(
+                        email,
+                        password,
+                        confirmPassword,
+                        firstName,
+                        "", // lastName intentionally empty in insurance flow (as per your current logic)
+                        phone,
+                        insuranceCompanyId
+                );
+                return; // Important: do not continue into driver flow
+            }
+
+            // ===== Driver flow =====
+            if (insuranceDateMillis == -1 || testDateMillis == -1 || treatmentDateMillis == -1) {
+                Log.e("SetUsernamePassword", "Driver dates not received");
+                Toast.makeText(this, "שגיאה בטעינת נתוני נהג", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            Driver driver = new Driver(
+                    firstName,
+                    lastName,
+                    email,
+                    phone,
+                    carNumber,
+                    finalCarModel,
+                    year,
+                    insuranceDateMillis,
+                    testDateMillis,
+                    treatmentDateMillis,
+                    carPhotoUriLocal
+            );
+
+            if (!TextUtils.isEmpty(carSpecificModel) && driver.getCar() != null) {
+                driver.getCar().setCarSpecificModel(carSpecificModel.trim());
+            }
+
+            Log.d("SetUsernamePassword", "driver=" + driver);
+
+            viewModel.signUp(email, password, confirmPassword, "driver", driver);
         });
     }
-}
 
+    /**
+     * Null-safe trim helper:
+     * - null -> ""
+     * - otherwise -> trimmed string
+     */
+    private String safe(String s) {
+        return s == null ? "" : s.trim();
+    }
+}
