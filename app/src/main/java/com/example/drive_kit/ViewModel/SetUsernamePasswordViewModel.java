@@ -1,72 +1,3 @@
-//package com.example.drive_kit.ViewModel;
-//
-//import androidx.lifecycle.LiveData;
-//import androidx.lifecycle.MutableLiveData;
-//import androidx.lifecycle.ViewModel;
-//
-//import com.example.drive_kit.Data.Repository.SetUsernamePasswordRepository;
-//import com.example.drive_kit.Model.Driver;
-//import android.util.Log;
-//
-///**
-// * ViewModel for the SetUsernamePasswordActivity.
-// * It uses the SetUsernamePasswordRepository to access the database.
-// * It observes the LiveData in the ViewModel and updates the UI accordingly.
-// * If the registration is successful, it starts the HomeActivity.
-// */
-//public class SetUsernamePasswordViewModel extends ViewModel {
-//
-//    private final SetUsernamePasswordRepository repo = new SetUsernamePasswordRepository(); //object for access to the database
-//
-//    private final MutableLiveData<Boolean> signUpSuccess = new MutableLiveData<>(); //for registration success
-//    private final MutableLiveData<String> signUpError = new MutableLiveData<>(); //for registration error
-//
-//
-//    public LiveData<Boolean> getSignUpSuccess() {
-//        return signUpSuccess;
-//    }
-//
-//    public LiveData<String> getSignUpError() {
-//        return signUpError;
-//    }
-//
-//    /**
-//     * registers the user with the given email and password and driver object
-//     * if the registration is successful, it starts the HomeActivity
-//     * if the registration fails, it shows an error message
-//     * @param email
-//     * @param password
-//     * @param confirmPassword
-//     * @param driver
-//     */
-//    public void signUp(String email, String password, String confirmPassword, Driver driver){
-//        //validate the input
-//        if (password.isEmpty() || confirmPassword.isEmpty()) {
-//            signUpError.postValue("נא למלא את כל השדות");
-//            return;
-//        }
-//
-//        if (!password.equals(confirmPassword)) {
-//            signUpError.postValue("הסיסמאות אינן תואמות");
-//            return;
-//        }
-//        System.out.println("drivercheck"+driver.toString());
-//        // using the signUp method from the SetUsernamePasswordRepository to register the user
-//        repo.register(email, password, driver, new SetUsernamePasswordRepository.SignUpCallback() {
-//            @Override
-//            public void onSuccess() {
-//                signUpSuccess.postValue(true);
-//            }
-//
-//            @Override
-//            public void onError(Exception e) {
-//                signUpError.postValue("שגיאה בהרשמה: " + e.getMessage());
-//            }
-//        });
-//    }
-//}
-
-
 package com.example.drive_kit.ViewModel;
 
 import androidx.lifecycle.LiveData;
@@ -77,95 +8,219 @@ import com.example.drive_kit.Data.Repository.SetUsernamePasswordRepository;
 import com.example.drive_kit.Model.Driver;
 
 /**
- * SetUsernamePasswordViewModel is responsible for:
- * 1) Validating password inputs
- * 2) Triggering sign-up via repository
- * 3) Exposing results to Activity via LiveData
+ * SetUsernamePasswordViewModel
  *
- * IMPORTANT:
- * - This class does NOT know anything about Views, Buttons, or Activities directly.
+ * Responsibilities:
+ * 1) Validate password-related inputs before making repository calls.
+ * 2) Trigger registration flows via SetUsernamePasswordRepository.
+ * 3) Expose registration state to the UI through LiveData:
+ *    - signUpSuccess: true when operation completed successfully.
+ *    - signUpError: user-facing error text when operation failed.
+ *
+ * Notes:
+ * - This ViewModel handles both driver and insurance registration paths.
+ * - Input validation is done here to keep Activities/UI thinner.
  */
 public class SetUsernamePasswordViewModel extends ViewModel {
 
-    // Repository that performs Firebase Auth + Storage upload + Firestore save
+    /** Repository layer that performs Firebase/Auth/Firestore operations. */
     private final SetUsernamePasswordRepository repo = new SetUsernamePasswordRepository();
 
-    // LiveData for signup success state
+    /** Emits true on successful registration flow completion. */
     private final MutableLiveData<Boolean> signUpSuccess = new MutableLiveData<>(false);
 
-    // LiveData for error messages
+    /** Emits user-facing error text when validation/repository fails. */
     private final MutableLiveData<String> signUpError = new MutableLiveData<>(null);
 
-    /**
-     * Exposes signup success LiveData to the UI.
-     *
-     * @return LiveData<Boolean> true when signup completed successfully
-     */
+    /** Read-only success state exposed to UI (Activity/Fragment). */
     public LiveData<Boolean> getSignUpSuccess() {
         return signUpSuccess;
     }
 
-    /**
-     * Exposes signup error LiveData to the UI.
-     *
-     * @return LiveData<String> error message or null
-     */
+    /** Read-only error state exposed to UI (Activity/Fragment). */
     public LiveData<String> getSignUpError() {
         return signUpError;
     }
 
     /**
-     * Starts the signup process:
-     * - Validates password fields
-     * - Calls repository to create Firebase Auth user
-     * - Uploads car photo to Firebase Storage if provided
-     * - Saves final Driver (with photo downloadUrl) in Firestore
+     * Driver registration flow (called from final password screen).
      *
-     * @param email user email
-     * @param password chosen password
-     * @param confirmPassword confirm password
-     * @param driver full driver object collected from previous steps
+     * Parameters:
+     * - email/password/confirmPassword: credentials entered by user.
+     * - role: "driver" / "insurance" (normalized here, default "driver").
+     * - driver: required when role is "driver".
      */
-    public void signUp(String email, String password, String confirmPassword, Driver driver) {
+    public void signUp(String email,
+                       String password,
+                       String confirmPassword,
+                       String role,
+                       Driver driver) {
 
-        // Basic validations
+        // Role normalization:
+        // If role is missing/blank, default to "driver".
+        String safeRole = (role == null || role.trim().isEmpty()) ? "driver" : role.trim().toLowerCase();
+
+        // Email validation
         if (email == null || email.trim().isEmpty()) {
             signUpError.setValue("נא להזין אימייל");
             return;
         }
 
+        // Password fields existence validation
         if (password == null || password.trim().isEmpty()
                 || confirmPassword == null || confirmPassword.trim().isEmpty()) {
             signUpError.setValue("נא להזין סיסמה ולאשר אותה");
             return;
         }
 
-        // Firebase requires at least 6 chars for password
-        if (password.trim().length() < 6) {
+        // Normalize password inputs
+        String p = password.trim();
+        String cp = confirmPassword.trim();
+
+        // Password length rule
+        if (p.length() < 6) {
             signUpError.setValue("הסיסמה חייבת להכיל לפחות 6 תווים");
             return;
         }
 
-        if (!password.trim().equals(confirmPassword.trim())) {
+        // Password confirmation match rule
+        if (!p.equals(cp)) {
             signUpError.setValue("הסיסמאות אינן תואמות");
             return;
         }
 
-        // Clear previous error
+        // Driver path requires non-null Driver payload
+        if ("driver".equals(safeRole) && driver == null) {
+            signUpError.setValue("שגיאה בנתוני הנהג");
+            return;
+        }
+
+        // Clear previous UI error before async call
         signUpError.setValue(null);
 
-        // Delegate real work to repository (async)
-        repo.register(email.trim(), password.trim(), driver, new SetUsernamePasswordRepository.SignUpCallback() {
+        // Trigger repository driver registration
+        repo.registerDriver(email.trim(), p, driver, new SetUsernamePasswordRepository.SignUpCallback() {
             @Override
             public void onSuccess() {
+                // Post value because callback may run off main thread
                 signUpSuccess.postValue(true);
             }
 
             @Override
             public void onError(Exception e) {
-                // Show friendly message (you can also log e.getMessage() if needed)
-                signUpError.postValue("שגיאה בהרשמה. נסה שוב");
+                // Defensive extraction of backend error message
+                String msg = (e != null && e.getMessage() != null && !e.getMessage().trim().isEmpty())
+                        ? e.getMessage()
+                        : "שגיאה בהרשמה. נסה שוב";
+                signUpError.postValue("שגיאה בהרשמה: " + msg);
             }
         });
+
     }
+
+    /**
+     * Resets transient UI state.
+     * Useful when re-entering screen or after navigation events.
+     */
+    public void resetState() {
+        signUpSuccess.setValue(false);
+        signUpError.setValue(null);
+    }
+
+    /**
+     * Insurance registration flow.
+     *
+     * Validates:
+     * - email presence
+     * - password presence/length/match
+     * - companyId presence
+     *
+     * Then builds a minimal Driver object used as insurance contact payload
+     * and sends request to repository registerInsurance(...).
+     */
+    public void signUpInsurance(String email,
+                                String password,
+                                String confirmPassword,
+                                String firstName,
+                                String lastName,
+                                String phone,
+                                String companyId) {
+
+        // Email validation
+        if (email == null || email.trim().isEmpty()) {
+            signUpError.setValue("נא להזין אימייל");
+            return;
+        }
+
+        // Password fields existence validation
+        if (password == null || password.trim().isEmpty()
+                || confirmPassword == null || confirmPassword.trim().isEmpty()) {
+            signUpError.setValue("נא להזין סיסמה ולאשר אותה");
+            return;
+        }
+
+        // Normalize password inputs
+        String p = password.trim();
+        String cp = confirmPassword.trim();
+
+        // Password length rule
+        if (p.length() < 6) {
+            signUpError.setValue("הסיסמה חייבת להכיל לפחות 6 תווים");
+            return;
+        }
+
+        // Password confirmation match rule
+        if (!p.equals(cp)) {
+            signUpError.setValue("הסיסמאות אינן תואמות");
+            return;
+        }
+
+
+        // Insurance company selection is mandatory
+        if (companyId == null || companyId.trim().isEmpty()) {
+            signUpError.setValue("נא לבחור חברת ביטוח");
+            return;
+        }
+
+        // Reuse Driver model as a contact DTO for insurance side
+        Driver insuranceContact = new Driver();
+        insuranceContact.setFirstName(firstName == null ? "" : firstName.trim());
+        insuranceContact.setLastName(lastName == null ? "" : lastName.trim());
+        insuranceContact.setEmail(email.trim());
+        insuranceContact.setPhone(phone == null ? "" : phone.trim());
+
+        // Clear previous UI error before async call
+        signUpError.setValue(null);
+
+        // Trigger repository insurance registration
+        repo.registerInsurance(email.trim(), p, insuranceContact, companyId.trim(),
+                new SetUsernamePasswordRepository.SignUpCallback() {
+                    @Override
+                    public void onSuccess() {
+                        // Post value because callback may run off main thread
+                        signUpSuccess.postValue(true);
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        // Read raw backend marker message if available
+                        String raw = (e != null && e.getMessage() != null) ? e.getMessage().trim() : "";
+
+                        // Special business case:
+                        // Email already exists -> instruct user to login instead of re-register.
+                        if ("EMAIL_ALREADY_EXISTS".equals(raw)) {
+                            signUpError.postValue("החברה כבר רשומה במערכת. נא להתחבר עם אימייל וסיסמה.");
+                            return;
+                        }
+
+                        // Generic fallback error
+                        String msg = !raw.isEmpty() ? raw : "שגיאה בהרשמה. נסה שוב";
+                        signUpError.postValue("שגיאה בהרשמה: " + msg);
+                    }
+
+
+                });
+
+    }
+
 }

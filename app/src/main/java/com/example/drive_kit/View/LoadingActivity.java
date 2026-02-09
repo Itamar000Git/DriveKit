@@ -9,109 +9,113 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.drive_kit.R;
 import com.example.drive_kit.ViewModel.LoadingViewModel;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
- * LoadingActivity is a temporary screen shown during the login process.
+ * LoadingActivity is a temporary screen shown during login.
  *
- * This Activity is responsible ONLY for:
- * 1) Receiving the email and password from MainActivity.
- * 2) Starting the login process via the ViewModel.
- * 3) Observing login results (success / error).
- * 4) Navigating to the next screen based on the result.
- *
- * IMPORTANT:
- * - This Activity does NOT perform login logic itself.
- * - All authentication logic lives inside LoadingViewModel.
- *
- * NEW (Google):
- * - This Activity can also receive googleIdToken from MainActivity
- * - If googleIdToken exists -> it starts Google login via the ViewModel
+ * Responsibilities:
+ * 1) Receive login payload from MainActivity (email/password or Google token).
+ * 2) Trigger login via LoadingViewModel.
+ * 3) Observe login result.
+ * 4) Route user to the correct home screen based on role:
+ *    - Insurance partner -> InsuranceHomeActivity
+ *    - Regular user      -> HomeActivity
  */
 public class LoadingActivity extends AppCompatActivity {
 
-    // Always call the parent implementation first.
-    // This is required for proper Activity initialization.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        // Always call the parent implementation first.
-        // This is required for proper Activity initialization.
         super.onCreate(savedInstanceState);
-
-        // Attach the XML layout file to this Activity.
-        // After this line, all views inside loading.xml exist in memory.
         setContentView(R.layout.loading);
 
-        // Retrieve the Intent that started this Activity.
-        // This Intent was sent from MainActivity.
         Intent intent = getIntent();
-
-        // Extract the email passed from the previous screen.
-        // If the key does not exist, this will return null.
         String email = intent.getStringExtra("email");
-
-        // Extract the password passed from the previous screen.
         String password = intent.getStringExtra("password");
-
-        // NEW: Extract googleIdToken passed from MainActivity (Google login flow)
         String googleIdToken = intent.getStringExtra("googleIdToken");
 
-        // Create (or retrieve) the ViewModel associated with this Activity.
-        // The ViewModel contains all login-related logic and LiveData.
         LoadingViewModel viewModel = new ViewModelProvider(this).get(LoadingViewModel.class);
 
-        // Observe the login success LiveData.
-        // This observer is triggered when the ViewModel updates the login result to "true".
+        // Observe successful login.
+        // Do NOT navigate directly to HomeActivity.
+        // First route by role from Firestore.
         viewModel.getLoginSuccess().observe(this, success -> {
-
-            // Start background notifications after a successful login.
-            // Application context is used because WorkManager must not use Activity context.
             if (Boolean.TRUE.equals(success)) {
-
-                // Start background notifications after a successful login.
-                // Application context is used because WorkManager must not use Activity context.
-                viewModel.startNotifications(getApplicationContext());////
-
-                // Show a success message to the user.
+                viewModel.startNotifications(getApplicationContext());
                 Toast.makeText(this, "התחברת בהצלחה", Toast.LENGTH_SHORT).show();
-
-                // Navigate to the HomeActivity (main screen of the app).
-                startActivity(new Intent(this, HomeActivity.class));
-
-                // Close LoadingActivity so the user cannot return to it using the Back button.
-                finish();
+                routeAfterLoginByRole();
             }
         });
 
-        // Observe login error messages from the ViewModel.
-        // This observer is triggered when login fails.
+        // Observe login failure.
         viewModel.getLoginError().observe(this, msg -> {
-
-            // If an error message exists, show it to the user.
             if (msg != null) {
-
-                // Display the error message using a Toast.
                 Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-
-                // Navigate back to the login screen (MainActivity).
                 startActivity(new Intent(this, MainActivity.class));
-
-                // Close LoadingActivity so it is removed from the back stack.
                 finish();
             }
         });
 
-        // Start the login process.
-        // This triggers authentication logic inside the ViewModel.
-        // The result (success or error) will be delivered via LiveData observers above.
-        //
-        // NEW (Google):
-        // If googleIdToken exists -> login with Google
-        // Else -> login with email/password (old flow)
+        // Start login flow.
         if (googleIdToken != null && !googleIdToken.trim().isEmpty()) {
             viewModel.loginWithGoogle(googleIdToken);
         } else {
             viewModel.login(email, password);
         }
+    }
+
+    /**
+     * Routes user to the correct home screen based on insurance partnership.
+     *
+     * Logic:
+     * - If current auth user is linked to an insurance company doc
+     *   where partnerUid == uid and isPartner == true:
+     *      -> InsuranceHomeActivity
+     * - Otherwise:
+     *      -> HomeActivity
+     */
+    private void routeAfterLoginByRole() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            // Safety fallback: return to login
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+            return;
+        }
+
+        String uid = user.getUid();
+
+        FirebaseFirestore.getInstance()
+                .collection("insurance_companies")
+                .whereEqualTo("partnerUid", uid)
+                .whereEqualTo("isPartner", true)
+                .limit(1)
+                .get()
+                .addOnSuccessListener(qs -> {
+                    Intent nextIntent;
+
+                    if (!qs.isEmpty()) {
+                        // Insurance partner user
+                        String companyId = qs.getDocuments().get(0).getId();
+                        nextIntent = new Intent(this, InsuranceHomeActivity.class);
+                        nextIntent.putExtra("insuranceCompanyId", companyId);
+                    } else {
+                        // Regular driver user
+                        nextIntent = new Intent(this, HomeActivity.class);
+                    }
+
+                    nextIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(nextIntent);
+                    finish();
+                })
+                .addOnFailureListener(e -> {
+                    // Conservative fallback to driver home if role query fails
+                    Intent nextIntent = new Intent(this, HomeActivity.class);
+                    nextIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(nextIntent);
+                    finish();
+                });
     }
 }

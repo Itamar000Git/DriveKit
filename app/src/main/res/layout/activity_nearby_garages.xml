@@ -78,9 +78,16 @@
                 android:valueTo="20"
                 android:stepSize="1"
                 android:value="5"
+                app:trackColorActive="#8BC34A"
+                app:trackColorInactive="#DDE5EA"
+                app:thumbColor="#8BC34A"
+                app:haloColor="#338BC34A"
+                app:tickColorInactive="#B0BEC5"
+                app:tickColorActive="#8BC34A"
                 app:layout_constraintTop_toBottomOf="@id/tvRadiusValue"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
+
 
             <TextView
                 android:id="@+id/tvHint"
