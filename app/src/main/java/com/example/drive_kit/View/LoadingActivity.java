@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.drive_kit.R;
+import com.example.drive_kit.View.Insurance_user.InsuranceHomeActivity;
 import com.example.drive_kit.ViewModel.LoadingViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

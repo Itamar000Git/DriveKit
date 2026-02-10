@@ -39,9 +39,13 @@
         <activity android:name=".View.DIYIssuesActivity" />
         <activity android:name=".View.activity_nearby_garages" />
         <activity android:name=".View.Driver_InsuranceActivity" />
-        <activity android:name=".View.InsuranceHomeActivity" />
+        <activity android:name=".View.Insurance_user.InsuranceHomeActivity" />
         <activity android:name=".View.DriverInsuranceInquiryActivity" />
-        <activity android:name=".View.InsuranceInquiriesActivity" />
+        <activity android:name=".View.Insurance_user.InsuranceInquiriesActivity" />
+        <activity android:name=".View.Insurance_user.InsuranceCompanyProfileActivity" />
+        <activity android:name=".View.Insurance_user.InsuranceCompanyEditProfileActivity" />
+
+
 
 
         <provider

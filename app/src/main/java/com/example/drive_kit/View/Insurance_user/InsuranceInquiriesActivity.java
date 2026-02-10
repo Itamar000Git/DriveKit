@@ -127,19 +127,18 @@
 //}
 
 
-package com.example.drive_kit.View;
+package com.example.drive_kit.View.Insurance_user;
 
 import android.os.Bundle;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.drive_kit.R;
 import com.example.drive_kit.View.Adapter.InsuranceInquiriesAdapter;
-import com.example.drive_kit.ViewModel.InsuranceInquiriesViewModel;
+import com.example.drive_kit.ViewModel.Insurance_user_ViewModel.InsuranceInquiriesViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -158,7 +157,7 @@ import java.util.Map;
  * - ViewModel = loads data + runs actions (mark contacted)
  * - Repository = Firestore calls
  */
-public class InsuranceInquiriesActivity extends AppCompatActivity {
+public class InsuranceInquiriesActivity extends BaseInsuranceActivity {
 
     private RecyclerView recyclerView;
     private InsuranceInquiriesAdapter adapter;
@@ -172,7 +171,9 @@ public class InsuranceInquiriesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_insurance_inquiries);
+        //setContentView(R.layout.activity_insurance_inquiries);
+        getContentLayoutId();
+
 
         recyclerView = findViewById(R.id.inquiriesRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -207,6 +208,11 @@ public class InsuranceInquiriesActivity extends AppCompatActivity {
 
         // Initial load through ViewModel
         vm.load(companyId);
+    }
+
+    @Override
+    protected int getContentLayoutId() {
+        return R.layout.activity_insurance_inquiries;
     }
 }
 

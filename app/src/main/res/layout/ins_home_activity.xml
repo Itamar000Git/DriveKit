@@ -10,7 +10,7 @@
     android:padding="24dp"
     android:layoutDirection="rtl"
     android:textDirection="rtl"
-    tools:context=".View.InsuranceHomeActivity">
+    tools:context=".View.Insurance_user.InsuranceHomeActivity">
 
     <!-- Brand / top title -->
     <TextView

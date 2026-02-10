@@ -1,4 +1,4 @@
-package com.example.drive_kit.ViewModel;
+package com.example.drive_kit.ViewModel.Insurance_user_ViewModel;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
