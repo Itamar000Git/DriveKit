@@ -18,8 +18,11 @@ import com.google.android.material.button.MaterialButton;
  * Profile screen for an insurance company.
  *
  * MVVM:
- * - Activity = UI only (bind views, observe LiveData).
+ * - Activity = UI only (bind views, observe LiveData, navigation).
  * - ViewModel = loads company data and exposes it as LiveData.
+ *
+ * Important:
+ * - companyDocId is stored in BaseInsuranceActivity (Intent extra "insuranceCompanyId").
  */
 public class InsuranceCompanyProfileActivity extends BaseInsuranceActivity {
 
@@ -39,8 +42,8 @@ public class InsuranceCompanyProfileActivity extends BaseInsuranceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getContentLayoutId();
-        // Bind views from insurance_company_profile_activity.xml
+
+        // Bind views from insurance_company_profile_activity.xml (already injected by BaseInsuranceActivity)
         tvCompanyName = findViewById(R.id.profileCompanyName);
         tvCompanyIdValue = findViewById(R.id.profileCompanyIdValue);
         tvPhoneValue = findViewById(R.id.profilePhoneValue);
@@ -54,8 +57,9 @@ public class InsuranceCompanyProfileActivity extends BaseInsuranceActivity {
         // Init ViewModel
         vm = new ViewModelProvider(this).get(InsuranceCompanyProfileViewModel.class);
 
-        // companyId is stored in BaseInsuranceActivity (read from Intent in base)
-        if (companyId == null || companyId.trim().isEmpty()) {
+        // companyDocId comes from BaseInsuranceActivity
+        String cid = safe(companyDocId);
+        if (cid.isEmpty()) {
             Toast.makeText(this, "Missing insuranceCompanyId", Toast.LENGTH_LONG).show();
             finish();
             return;
@@ -79,23 +83,29 @@ public class InsuranceCompanyProfileActivity extends BaseInsuranceActivity {
         vm.getCompany().observe(this, company -> {
             if (company == null) return;
 
-            tvCompanyName.setText(company.getName().isEmpty() ? "חברת ביטוח" : company.getName());
-            tvCompanyIdValue.setText(company.getId()); // shows companyId as requested
-            tvPhoneValue.setText(company.getPhone().isEmpty() ? "-" : company.getPhone());
-            tvEmailValue.setText(company.getEmail().isEmpty() ? "-" : company.getEmail());
-            tvWebsiteValue.setText(company.getWebsite().isEmpty() ? "-" : company.getWebsite());
+            tvCompanyName.setText(safe(company.getName()).isEmpty() ? "חברת ביטוח" : safe(company.getName()));
+
+            // IMPORTANT:
+            // company.getId() is your "internal id" field (if you mapped it that way in the repository).
+            tvCompanyIdValue.setText(safe(company.getId()));
+
+            tvPhoneValue.setText(safe(company.getPhone()).isEmpty() ? "-" : safe(company.getPhone()));
+            tvEmailValue.setText(safe(company.getEmail()).isEmpty() ? "-" : safe(company.getEmail()));
+            tvWebsiteValue.setText(safe(company.getWebsite()).isEmpty() ? "-" : safe(company.getWebsite()));
             tvPartnerValue.setText(company.isPartner() ? "כן" : "לא");
         });
 
-        btnEdit.setOnClickListener(v -> {
-            Intent i = new Intent(this, InsuranceCompanyEditProfileActivity.class);
-            i.putExtra("insuranceCompanyId", companyId);
-            startActivity(i);
-        });
-
+        // Edit button -> open edit screen and pass the SAME docId
+        if (btnEdit != null) {
+            btnEdit.setOnClickListener(v -> {
+                Intent i = new Intent(this, InsuranceCompanyEditProfileActivity.class);
+                i.putExtra("insuranceCompanyId", cid);
+                startActivity(i);
+            });
+        }
 
         // Initial load
-        vm.loadCompany(companyId);
+        vm.loadCompany(cid);
     }
 
     @Override
@@ -106,9 +116,15 @@ public class InsuranceCompanyProfileActivity extends BaseInsuranceActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         // Reload after returning from edit screen
-        if (companyId != null && !companyId.trim().isEmpty()) {
-            vm.loadCompany(companyId);
+        String cid = safe(companyDocId);
+        if (!cid.isEmpty()) {
+            vm.loadCompany(cid);
         }
+    }
+
+    private String safe(String s) {
+        return s == null ? "" : s.trim();
     }
 }
