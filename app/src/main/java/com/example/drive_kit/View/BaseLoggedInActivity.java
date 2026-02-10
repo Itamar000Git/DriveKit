@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.LayoutRes;
 import androidx.appcompat.app.AppCompatActivity;
@@ -124,8 +123,8 @@ public abstract class BaseLoggedInActivity extends AppCompatActivity {
 
             } else if (id == R.id.nav_insurance) {
 
-                if (!(this instanceof InsuranceActivity)) {
-                    startActivity(new Intent(this, InsuranceActivity.class));
+                if (!(this instanceof Driver_InsuranceActivity)) {
+                    startActivity(new Intent(this, Driver_InsuranceActivity.class));
                 }
 
             } else if (id == R.id.nav_logout) {

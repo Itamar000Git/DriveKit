@@ -1,5 +1,8 @@
 package com.example.drive_kit.Data.Repository;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.example.drive_kit.View.InsuranceCompany;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -11,6 +14,10 @@ public class InsuranceCompaniesRepository {
     public interface Callback {
         void onResult(List<InsuranceCompany> companies);
         void onError(Exception e);
+    }
+    public interface CompanyNameCallback {
+        void onSuccess(@Nullable String companyName);
+        void onError(@NonNull Exception e);
     }
 
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -48,5 +55,38 @@ public class InsuranceCompaniesRepository {
                 })
                 .addOnFailureListener(cb::onError);
 
+    }
+
+    /**
+     * Loads the company name field from Firestore.
+     * If the document doesn't exist or "name" is empty, returns null.
+     */
+    public void getCompanyName(@NonNull String companyId, @NonNull CompanyNameCallback cb) {
+        String id = safe(companyId);
+        if (id.isEmpty()) {
+            cb.onSuccess(null);
+            return;
+        }
+
+        db.collection("insurance_companies")
+                .document(id)
+                .get()
+                .addOnSuccessListener(doc -> {
+                    if (!doc.exists()) {
+                        cb.onSuccess(null);
+                        return;
+                    }
+                    String name = doc.getString("name");
+                    if (name == null || name.trim().isEmpty()) {
+                        cb.onSuccess(null);
+                    } else {
+                        cb.onSuccess(name.trim());
+                    }
+                })
+                .addOnFailureListener(cb::onError);
+    }
+
+    private String safe(String s) {
+        return s == null ? "" : s.trim();
     }
 }

@@ -95,7 +95,7 @@ public class HomeActivity extends BaseLoggedInActivity {
         View circleInsurance = findViewById(R.id.circleInsurance);
         if (circleInsurance != null) {
             circleInsurance.setOnClickListener(v ->
-                    startActivity(new Intent(HomeActivity.this, InsuranceActivity.class))
+                    startActivity(new Intent(HomeActivity.this, Driver_InsuranceActivity.class))
             );
         }
 
