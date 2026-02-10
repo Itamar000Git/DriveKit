@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_ins_inquiries"
+        android:title="פניות"
+        android:icon="@drawable/notification_bell" />
+
+    <item
+        android:id="@+id/nav_ins_profile"
+        android:title="פרופיל"
+        android:icon="@drawable/ic_profile" />
+
+    <item
+        android:id="@+id/nav_ins_edit_profile"
+        android:title="עריכת פרופיל"
+        android:icon="@drawable/ic_profile" />
+    <item
+        android:id="@+id/nav_ins_logout"
+        android:title="התנתק"
+        android:icon="@drawable/ic_logout" />
+
+
+</menu>
