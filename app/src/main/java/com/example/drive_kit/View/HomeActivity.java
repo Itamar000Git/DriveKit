@@ -1,6 +1,8 @@
 package com.example.drive_kit.View;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
@@ -20,7 +22,23 @@ import com.example.drive_kit.ViewModel.HomeViewModel;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.WriteBatch;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * HomeActivity is the main screen shown after a successful login.
@@ -38,6 +56,9 @@ public class HomeActivity extends BaseLoggedInActivity {
     // Firebase uid
     private String uid;
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +71,8 @@ public class HomeActivity extends BaseLoggedInActivity {
                 moveTaskToBack(true);
             }
         });
+        //init manual car pdf
+            ManualsSeeder.seedIfNeeded(this);
 
         // -----------------------------------
         // Find Views (from home_activity_content.xml)
@@ -226,4 +249,9 @@ public class HomeActivity extends BaseLoggedInActivity {
                 .centerCrop()
                 .into(homeAvatar);
     }
+
 }
+
+
+
+

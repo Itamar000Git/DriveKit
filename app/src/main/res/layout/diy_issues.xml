@@ -47,6 +47,27 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
+        <!-- ✅ FIRST: Download manual PDF button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDownloadManual"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="ספר רכב (PDF)"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:paddingVertical="12dp"
+            android:enabled="false"
+            android:alpha="0.5"
+            app:icon="@android:drawable/stat_sys_download_done"
+            app:iconGravity="textStart"
+            app:iconPadding="10dp"
+            app:cornerRadius="14dp"
+            app:backgroundTint="#8BC34A"
+            app:layout_constraintTop_toBottomOf="@id/subtitleFilter"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
         <!-- Recycler (NOT scrolling by itself) -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/issuesRecycler"
@@ -57,7 +78,7 @@
             android:clipToPadding="false"
             android:background="@android:color/white"
             android:nestedScrollingEnabled="false"
-            app:layout_constraintTop_toBottomOf="@id/subtitleFilter"
+            app:layout_constraintTop_toBottomOf="@id/btnDownloadManual"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             tools:listitem="@layout/item_issue_button"/>

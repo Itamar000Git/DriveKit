@@ -1,0 +1,77 @@
+[
+  {
+    "manufacturer": "TOYOTA",
+    "models": [
+      {
+        "model": "COROLLA",
+        "yearRanges": [
+          { "from": 2014, "to": 2018, "pdfPath": "manuals/toyota/corolla_2014_2018.pdf" },
+          { "from": 2019, "to": 2024, "pdfPath": "manuals/toyota/corolla_2019_2024.pdf" }
+        ]
+      },
+      {
+        "model": "CAMRY",
+        "yearRanges": [
+          { "from": 2015, "to": 2017, "pdfPath": "manuals/toyota/camry_2015_2017.pdf" },
+          { "from": 2018, "to": 2024, "pdfPath": "manuals/toyota/camry_2018_2024.pdf" }
+        ]
+      }
+    ]
+  },
+  {
+    "manufacturer": "MAZDA",
+    "models": [
+      {
+        "model": "MAZDA3",
+        "yearRanges": [
+          { "from": 2014, "to": 2018, "pdfPath": "manuals/mazda/mazda3_2014_2018.pdf" },
+          { "from": 2019, "to": 2024, "pdfPath": "manuals/mazda/mazda3_2019_2024.pdf" }
+        ]
+      },
+      {
+        "model": "CX5",
+        "yearRanges": [
+          { "from": 2013, "to": 2016, "pdfPath": "manuals/mazda/cx5_2013_2016.pdf" },
+          { "from": 2017, "to": 2024, "pdfPath": "manuals/mazda/cx5_2017_2024.pdf" }
+        ]
+      }
+    ]
+  },
+  {
+    "manufacturer": "HONDA",
+    "models": [
+      {
+        "model": "CIVIC",
+        "yearRanges": [
+          { "from": 2016, "to": 2021, "pdfPath": "manuals/honda/civic_2016_2021.pdf" },
+          { "from": 2022, "to": 2024, "pdfPath": "manuals/honda/civic_2022_2024.pdf" }
+        ]
+      },
+      {
+        "model": "CRV",
+        "yearRanges": [
+          { "from": 2017, "to": 2022, "pdfPath": "manuals/honda/crv_2017_2022.pdf" },
+          { "from": 2023, "to": 2024, "pdfPath": "manuals/honda/crv_2023_2024.pdf" }
+        ]
+      }
+    ]
+  },
+  {
+    "manufacturer": "HYUNDAI",
+    "models": [
+      {
+        "model": "I10",
+        "yearRanges": [
+          { "from": 2007, "to": 2017, "pdfPath": "manuals/hyundai/i10_2007_2017.pdf" }
+        ]
+      },
+      {
+        "model": "TUCSON",
+        "yearRanges": [
+          { "from": 2010, "to": 2015, "pdfPath": "manuals/hyundai/tucson_2010_2015.pdf" },
+          { "from": 2016, "to": 2021, "pdfPath": "manuals/hyundai/tucson_2016_2021.pdf" }
+        ]
+      }
+    ]
+  }
+]
