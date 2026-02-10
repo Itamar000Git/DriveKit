@@ -1,4 +1,4 @@
-package com.example.drive_kit.View;
-
-public class InsuranceDashboardActivity {
-}
+//package com.example.drive_kit.View;
+//
+//public class InsuranceDashboardActivity {
+//}

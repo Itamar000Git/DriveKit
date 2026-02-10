@@ -1,4 +1,4 @@
-package com.example.drive_kit.View;
+package com.example.drive_kit.View.Adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
