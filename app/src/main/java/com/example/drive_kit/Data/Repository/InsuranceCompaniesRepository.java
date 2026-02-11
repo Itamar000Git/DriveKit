@@ -201,6 +201,45 @@ public class InsuranceCompaniesRepository {
      * NEW
      * Loads full company data for profile/edit screens.
      */
+//    public void getCompanyById(@NonNull String companyId, @NonNull CompanyCallback cb) {
+//        String id = safe(companyId);
+//        if (id.isEmpty()) {
+//            cb.onError(new IllegalArgumentException("companyId is empty"));
+//            return;
+//        }
+//
+//        db.collection("insurance_companies")
+//                .document(id)
+//                .get()
+//                .addOnSuccessListener(doc -> {
+//                    if (!doc.exists()) {
+//                        cb.onError(new IllegalArgumentException("company not found"));
+//                        return;
+//                    }
+//
+//                    String name = doc.getString("name");
+//                    String phone = doc.getString("phone");
+//                    String email = doc.getString("email");
+//                    String website = doc.getString("website");
+//                    Boolean isPartner = doc.getBoolean("isPartner");
+//
+//                    String internalId = doc.getString("id");
+//                    if (internalId == null || internalId.trim().isEmpty()) internalId = doc.getId();
+//
+//                    InsuranceCompany company = new InsuranceCompany(
+//                            internalId,
+//                            name == null ? "" : name,
+//                            phone == null ? "" : phone,
+//                            email == null ? "" : email,
+//                            website == null ? "" : website,
+//                            isPartner != null && isPartner
+//                    );
+//
+//
+//                    cb.onSuccess(company);
+//                })
+//                .addOnFailureListener(cb::onError);
+//    }
     public void getCompanyById(@NonNull String companyId, @NonNull CompanyCallback cb) {
         String id = safe(companyId);
         if (id.isEmpty()) {
@@ -223,8 +262,16 @@ public class InsuranceCompaniesRepository {
                     String website = doc.getString("website");
                     Boolean isPartner = doc.getBoolean("isPartner");
 
-                    String internalId = doc.getString("id");
-                    if (internalId == null || internalId.trim().isEmpty()) internalId = doc.getId();
+                    // IMPORTANT: prefer h.p for display in "company id" field
+                    String hp = "";
+                    Object hpObj = doc.get("h_p"); // literal field name with dot
+                    if (hpObj != null) hp = hpObj.toString().trim();
+
+                    String internalId = hp;
+                    if (internalId.isEmpty()) {
+                        String idField = doc.getString("id");
+                        internalId = (idField == null || idField.trim().isEmpty()) ? doc.getId() : idField.trim();
+                    }
 
                     InsuranceCompany company = new InsuranceCompany(
                             internalId,
@@ -235,11 +282,11 @@ public class InsuranceCompaniesRepository {
                             isPartner != null && isPartner
                     );
 
-
                     cb.onSuccess(company);
                 })
                 .addOnFailureListener(cb::onError);
     }
+
 
     /**
      * NEW
