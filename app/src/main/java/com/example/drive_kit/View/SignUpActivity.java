@@ -141,11 +141,47 @@ public class SignUpActivity extends AppCompatActivity {
 
     private TextInputEditText insuranceCompanyIdEditText;
 
+    // Insurance logo picker UI
+    private TextInputLayout insuranceLogoLayout;
+    private TextInputEditText insuranceLogoEditText;
+
+    private String selectedInsuranceLogoUriString = null;
+    private ActivityResultLauncher<String> pickInsuranceLogoLauncher;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup);
+
+        insuranceLogoLayout = findViewById(R.id.insuranceLogoLayout);
+        insuranceLogoEditText = findViewById(R.id.insuranceLogoEditText);
+
+        pickInsuranceLogoLauncher = registerForActivityResult(
+                new ActivityResultContracts.GetContent(),
+                uri -> {
+                    if (uri == null) return;
+
+                    selectedInsuranceLogoUriString = uri.toString();
+
+                    if (insuranceLogoEditText != null) {
+                        insuranceLogoEditText.setText("נבחר לוגו");
+                        insuranceLogoEditText.setError(null);
+                    }
+                    if (insuranceLogoLayout != null) {
+                        insuranceLogoLayout.setError(null);
+                    }
+                }
+        );
+
+        // פתיחת גלריה בלחיצה
+        if (insuranceLogoEditText != null) {
+            insuranceLogoEditText.setOnClickListener(v -> pickInsuranceLogoLauncher.launch("image/*"));
+        }
+        if (insuranceLogoLayout != null) {
+            insuranceLogoLayout.setEndIconOnClickListener(v -> pickInsuranceLogoLauncher.launch("image/*"));
+        }
+
 
         // ---------- Views ----------
         // Main action button
@@ -418,6 +454,10 @@ public class SignUpActivity extends AppCompatActivity {
 
             if (!isDriver) {
                 intent.putExtra("insuranceCompanyId", selectedCompanyId);
+                if (selectedInsuranceLogoUriString != null && !selectedInsuranceLogoUriString.trim().isEmpty()) {
+                    intent.putExtra("insuranceLogoUri", selectedInsuranceLogoUriString.trim());
+                }
+                intent.putExtra("insuranceCompanyId", selectedCompanyId);
             }
 
             // 5) Driver extras
@@ -552,6 +592,9 @@ public class SignUpActivity extends AppCompatActivity {
             insuranceCompanyLayout.setVisibility(isDriver ? View.GONE : View.VISIBLE);
             insuranceCompanyDropdown.setVisibility(isDriver ? View.GONE : View.VISIBLE);
             insuranceCompanyIdEditText.setVisibility(isDriver ? View.GONE : View.VISIBLE);
+            insuranceLogoLayout.setVisibility(isDriver ? View.GONE : View.VISIBLE);
+            insuranceLogoEditText.setVisibility(isDriver ? View.GONE : View.VISIBLE);
+
         }
     }
 

@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.drive_kit.Data.Repository.InsuranceCompaniesRepository;
 import com.example.drive_kit.Data.Repository.InsuranceInquiryRepository;
-import com.example.drive_kit.View.InsuranceCompany;
+import com.example.drive_kit.Model.InsuranceCompany;
 
 import java.util.Collections;
 import java.util.List;

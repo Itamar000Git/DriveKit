@@ -291,6 +291,36 @@
                     android:textColorHint="#8E9AA6" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- Insurance logo (insurance only) -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/insuranceLogoLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:boxBackgroundColor="#FFFFFFFF"
+                app:boxStrokeColor="#8BC34A"
+                app:hintTextColor="#8E9AA6"
+                app:endIconMode="custom"
+                app:endIconDrawable="@drawable/ic_camera_small"
+                app:endIconTint="#607D8B"
+                app:layout_constraintTop_toBottomOf="@id/insuranceCompanyIdLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/insuranceLogoEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="לוגו חברה"
+                    android:focusable="false"
+                    android:clickable="true"
+                    android:cursorVisible="false"
+                    android:inputType="none"
+                    android:textColor="#001F3F"
+                    android:textColorHint="#8E9AA6" />
+            </com.google.android.material.textfield.TextInputLayout>
+
             <!-- Manufacturer (driver) -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/manufacturerLayout"
@@ -302,7 +332,7 @@
                 app:boxStrokeColor="#8BC34A"
                 app:hintTextColor="#8E9AA6"
                 app:endIconMode="dropdown_menu"
-                app:layout_constraintTop_toBottomOf="@id/insuranceCompanyIdLayout"
+                app:layout_constraintTop_toBottomOf="@id/insuranceLogoLayout"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
 
