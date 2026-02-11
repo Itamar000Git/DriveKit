@@ -52,13 +52,13 @@ public class InsuranceInquiriesViewModel extends ViewModel {
      */
     public void load(@NonNull String companyId) {
         currentCompanyId = safe(companyId);
+        android.util.Log.d("INS_INQ_DEBUG", "VM load() companyId normalized = [" + currentCompanyId + "]");
 
         if (currentCompanyId.isEmpty()) {
             toastMessage.setValue("חסר insuranceCompanyId");
             inquiries.setValue(new ArrayList<>());
             return;
         }
-
         repo.loadInquiriesForCompany(currentCompanyId, new InsuranceInquiryRepository.LoadInquiriesCallback() {
             @Override
             public void onSuccess(List<Map<String, Object>> result) {

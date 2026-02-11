@@ -5,7 +5,7 @@
       <SelectionState runConfigName="NotificationsFlowUiTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="app">
+      <SelectionState runConfigName="DriveKit">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

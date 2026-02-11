@@ -167,21 +167,43 @@
                             android:textColor="#001F3F" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <!-- Action: inquiries -->
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/openInquiriesButton"
+                    <!-- Action: inquiries + red badge -->
+                    <FrameLayout
+                        android:id="@+id/openInquiriesContainer"
                         android:layout_width="0dp"
-                        android:layout_height="52dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:text="צפייה בפניות"
-                        android:textAllCaps="false"
-                        android:textStyle="bold"
-                        android:textColor="@android:color/white"
-                        app:cornerRadius="12dp"
-                        app:backgroundTint="#8BC34A"
                         app:layout_constraintTop_toBottomOf="@id/companyIdLayout"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent" />
+                        app:layout_constraintEnd_toEndOf="parent">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/openInquiriesButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="52dp"
+                            android:text="צפייה בפניות"
+                            android:textAllCaps="false"
+                            android:textStyle="bold"
+                            android:textColor="@android:color/white"
+                            app:cornerRadius="12dp"
+                            app:backgroundTint="#8BC34A" />
+
+                        <!-- Red badge for NEW inquiries count -->
+                        <TextView
+                            android:id="@+id/newInquiriesBadge"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_gravity="end|top"
+                            android:layout_marginTop="-6dp"
+                            android:layout_marginEnd="-6dp"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="@android:color/white"
+                            android:textSize="11sp"
+                            android:textStyle="bold"
+                            android:background="@drawable/bg_badge_red_circle"
+                            android:visibility="gone" />
+                    </FrameLayout>
 
                     <!-- Action: profile/settings -->
                     <com.google.android.material.button.MaterialButton
@@ -195,7 +217,7 @@
                         android:textColor="#001F3F"
                         app:cornerRadius="12dp"
                         app:backgroundTint="#EEEEEE"
-                        app:layout_constraintTop_toBottomOf="@id/openInquiriesButton"
+                        app:layout_constraintTop_toBottomOf="@id/openInquiriesContainer"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent" />
 
