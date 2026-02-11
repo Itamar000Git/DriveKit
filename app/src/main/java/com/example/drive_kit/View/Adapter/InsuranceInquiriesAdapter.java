@@ -1,7 +1,5 @@
 package com.example.drive_kit.View.Adapter;
 
-
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,9 +23,17 @@ public class InsuranceInquiriesAdapter extends RecyclerView.Adapter<InsuranceInq
     private final List<Map<String, Object>> items;
     private final OnMarkContactedClick markCallback;
 
-    public InsuranceInquiriesAdapter(List<Map<String, Object>> items, OnMarkContactedClick markCallback) {
+    // NEW: האם להציג בכלל את כפתור "סומן כטופל"
+    private final boolean showMarkButton;
+
+    public InsuranceInquiriesAdapter(
+            List<Map<String, Object>> items,
+            OnMarkContactedClick markCallback,
+            boolean showMarkButton
+    ) {
         this.items = items;
         this.markCallback = markCallback;
+        this.showMarkButton = showMarkButton;
     }
 
     @NonNull
@@ -58,11 +64,21 @@ public class InsuranceInquiriesAdapter extends RecyclerView.Adapter<InsuranceInq
         h.messageText.setText("הודעה: " + message);
         h.statusText.setText("סטטוס: " + (status.isEmpty() ? "new" : status));
 
+        // אם זו רשימת "פניות שטופלו" -> מסתירים לגמרי את הכפתור
+        if (!showMarkButton) {
+            h.contactedButton.setVisibility(View.GONE);
+            h.contactedButton.setOnClickListener(null);
+            return;
+        }
+
+        // אחרת (פניות חדשות): הכפתור מוצג, ומנוטרל אם כבר contacted
+        h.contactedButton.setVisibility(View.VISIBLE);
+
         boolean alreadyContacted = "contacted".equalsIgnoreCase(status);
         h.contactedButton.setEnabled(!alreadyContacted);
 
         h.contactedButton.setOnClickListener(v -> {
-            if (!docId.isEmpty() && markCallback != null) {
+            if (!docId.isEmpty() && markCallback != null && !alreadyContacted) {
                 markCallback.onClick(docId);
             }
         });

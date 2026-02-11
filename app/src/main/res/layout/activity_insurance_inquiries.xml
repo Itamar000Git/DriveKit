@@ -13,7 +13,7 @@
         android:id="@+id/titleText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="פניות נהגים"
+        android:text="פניות חדשות"
         android:textStyle="bold"
         android:textSize="20sp"
         android:textColor="#001F3F"
@@ -23,14 +23,45 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnOldInquiries"
+        android:layout_width="0dp"
+        android:layout_height="52dp"
+        android:layout_marginBottom="6dp"
+        android:text="פניות ישנות"
+        android:textAllCaps="false"
+        android:textStyle="bold"
+        android:textColor="#001F3F"
+        app:cornerRadius="12dp"
+        app:backgroundTint="#EEEEEE"
+        app:strokeColor="#CFD8DC"
+        app:strokeWidth="1dp"
+        app:layout_constraintBottom_toTopOf="@id/oldInquiriesHint"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/oldInquiriesHint"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="לחץ לחיצה ארוכה על מנת לחזור לפניות חדשות"
+        android:textSize="12sp"
+        android:textColor="#607D8B"
+        android:gravity="center"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/inquiriesRecycler"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:overScrollMode="never"
         app:layout_constraintTop_toBottomOf="@id/titleText"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnOldInquiries"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 

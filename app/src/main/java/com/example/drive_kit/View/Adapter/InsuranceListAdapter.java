@@ -21,6 +21,7 @@ public class InsuranceListAdapter extends RecyclerView.Adapter<InsuranceListAdap
     private final List<com.example.drive_kit.View.InsuranceCompany> items;
     private final OnCompanyClick listener;
 
+
     public InsuranceListAdapter(List<com.example.drive_kit.View.InsuranceCompany> items, OnCompanyClick listener) {
         this.items = items;
         this.listener = listener;
@@ -41,6 +42,7 @@ public class InsuranceListAdapter extends RecyclerView.Adapter<InsuranceListAdap
         holder.phoneTv.setText(c.getPhone());
 
         holder.itemView.setOnClickListener(v -> listener.onClick(c));
+
     }
 
     @Override
