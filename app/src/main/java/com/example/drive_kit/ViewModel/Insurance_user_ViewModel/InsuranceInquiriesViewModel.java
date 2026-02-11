@@ -17,26 +17,21 @@ import java.util.Map;
  * ViewModel for the insurance inquiries list screen.
  *
  * Responsibilities:
- * - Load inquiries for a given companyId (via InsuranceInquiryRepository)
+ * - Load inquiries for a given companyId + status (via InsuranceInquiryRepository)
  * - Mark an inquiry as contacted (via InsuranceInquiryRepository)
  * - Expose UI state via LiveData: list + toast/error message
- *
- * UI stays in the Activity:
- * - RecyclerView / Adapter
- * - Toast rendering
- * - finish()
  */
 public class InsuranceInquiriesViewModel extends ViewModel {
 
     private final InsuranceInquiryRepository repo = new InsuranceInquiryRepository();
 
+    private String currentStatus = "new";
+    private String currentCompanyId = "";
+
     private final MutableLiveData<List<Map<String, Object>>> inquiries =
             new MutableLiveData<>(new ArrayList<>());
 
     private final MutableLiveData<String> toastMessage = new MutableLiveData<>(null);
-
-    // Keep last used companyId so we can refresh after updates
-    private String currentCompanyId = "";
 
     public LiveData<List<Map<String, Object>>> getInquiries() {
         return inquiries;
@@ -47,19 +42,19 @@ public class InsuranceInquiriesViewModel extends ViewModel {
     }
 
     /**
-     * Loads inquiries for this company.
-     * Activity should call this once after reading companyId from Intent.
+     * Loads inquiries for company + status.
      */
-    public void load(@NonNull String companyId) {
+    public void load(@NonNull String companyId, @NonNull String status) {
         currentCompanyId = safe(companyId);
-        android.util.Log.d("INS_INQ_DEBUG", "VM load() companyId normalized = [" + currentCompanyId + "]");
+        currentStatus = safe(status).isEmpty() ? "new" : safe(status).toLowerCase();
 
         if (currentCompanyId.isEmpty()) {
             toastMessage.setValue("חסר insuranceCompanyId");
             inquiries.setValue(new ArrayList<>());
             return;
         }
-        repo.loadInquiriesForCompany(currentCompanyId, new InsuranceInquiryRepository.LoadInquiriesCallback() {
+
+        repo.loadInquiriesForCompanyByStatus(currentCompanyId, currentStatus, new InsuranceInquiryRepository.LoadInquiriesCallback() {
             @Override
             public void onSuccess(List<Map<String, Object>> result) {
                 inquiries.setValue(result == null ? new ArrayList<>() : result);
@@ -74,9 +69,9 @@ public class InsuranceInquiriesViewModel extends ViewModel {
     }
 
     /**
-     * Marks a single inquiry as contacted, then refreshes the list.
-     * Keeps the same behavior as your Activity:
-     * - on success -> show toast and reload list
+     * Marks inquiry as contacted, then refreshes current list.
+     * - If we are on "new" list: item disappears after refresh.
+     * - If we are on "contacted" list: usually button disabled there anyway.
      */
     public void markContacted(@NonNull String docId) {
         String id = safe(docId);
@@ -84,13 +79,17 @@ public class InsuranceInquiriesViewModel extends ViewModel {
             toastMessage.setValue("שגיאה בעדכון");
             return;
         }
+        if (!currentCompanyId.isEmpty()) load(currentCompanyId, "new");
 
         repo.markAsContacted(id, new InsuranceInquiryRepository.InquiryCallback() {
             @Override
             public void onSuccess() {
                 toastMessage.setValue("עודכן ל- contacted");
-                // refresh list after update (same behavior)
-                if (!currentCompanyId.isEmpty()) load(currentCompanyId);
+
+
+                if (!currentCompanyId.isEmpty()) {
+                    load(currentCompanyId, "new");
+                }
             }
 
             @Override
@@ -98,6 +97,15 @@ public class InsuranceInquiriesViewModel extends ViewModel {
                 toastMessage.setValue("שגיאה בעדכון");
             }
         });
+    }
+
+
+    public String getCurrentStatus() {
+        return currentStatus;
+    }
+
+    public void setCurrentStatus(String status) {
+        this.currentStatus = safe(status).isEmpty() ? "new" : safe(status).toLowerCase();
     }
 
     private String safe(String s) {

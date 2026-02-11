@@ -167,6 +167,41 @@ public class InsuranceInquiryRepository {
                 null  // no callback needed in legacy flow
         );
     }
+    public void loadInquiriesForCompanyByStatus(String companyId, String status, LoadInquiriesCallback cb) {
+        if (companyId == null || companyId.trim().isEmpty()) {
+            cb.onError(new IllegalArgumentException("companyId is empty"));
+            return;
+        }
+
+        String normalizedCompanyId = companyId.trim().toLowerCase();
+        String normalizedStatus = status == null ? "" : status.trim().toLowerCase();
+
+        db.collection("insurance_inquiries")
+                .whereEqualTo("companyId", normalizedCompanyId)
+                .whereEqualTo("status", normalizedStatus)
+                .get()
+                .addOnSuccessListener(qs -> {
+                    java.util.List<java.util.Map<String, Object>> out = new java.util.ArrayList<>();
+                    for (com.google.firebase.firestore.DocumentSnapshot d : qs.getDocuments()) {
+                        java.util.Map<String, Object> m = new java.util.HashMap<>();
+                        m.put("docId", d.getId());
+                        m.put("driverName", d.getString("driverName"));
+                        m.put("driverPhone", d.getString("driverPhone"));
+                        m.put("driverEmail", d.getString("driverEmail"));
+                        m.put("carNumber", d.getString("carNumber"));
+                        m.put("carModel", d.getString("carModel"));
+                        m.put("message", d.getString("message"));
+                        m.put("status", d.getString("status"));
+                        m.put("companyId", d.getString("companyId"));
+                        m.put("companyName", d.getString("companyName"));
+                        m.put("createdAt", d.getTimestamp("createdAt"));
+                        out.add(m);
+                    }
+                    cb.onSuccess(out);
+                })
+                .addOnFailureListener(cb::onError);
+    }
+
 
     private String safe(String s) {
         return s == null ? "" : s.trim();

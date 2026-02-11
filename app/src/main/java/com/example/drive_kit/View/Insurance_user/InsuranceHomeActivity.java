@@ -172,6 +172,7 @@ public class InsuranceHomeActivity extends BaseInsuranceActivity {
         openInquiriesButton = findViewById(R.id.openInquiriesButton);
         newInquiriesBadge = findViewById(R.id.newInquiriesBadge);
 
+
         vm = new ViewModelProvider(this).get(InsuranceHomeViewModel.class);
 
         String companyDocId = getIntent().getStringExtra("insuranceCompanyId");
@@ -209,6 +210,7 @@ public class InsuranceHomeActivity extends BaseInsuranceActivity {
             startActivity(i);
         });
     }
+
 
     private void loadNewInquiriesCount(String companyId) {
         if (companyId == null || companyId.trim().isEmpty()) {
