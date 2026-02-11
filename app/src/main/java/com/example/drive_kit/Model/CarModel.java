@@ -1,5 +1,7 @@
 package com.example.drive_kit.Model;
 
+import static com.example.drive_kit.Model.CarModel.getYearRangesFor;
+
 import java.util.Locale;
 
 public enum CarModel {
@@ -96,6 +98,30 @@ public enum CarModel {
             return new YearRange[]{YearRange.UNKNOWN, YearRange.UNKNOWN};
         }
     }
+
+
+    public static int[][] getYearRangesIntFor(CarModel manufacturer, String selectedModelName) {
+        YearRange[] ranges = getYearRangesFor(manufacturer, selectedModelName);
+        int[][] out = new int[ranges.length][2];
+        for (int i = 0; i < ranges.length; i++) {
+            YearRange r = ranges[i];
+            out[i][0] = (r == null) ? -1 : r.fromYear;
+            out[i][1] = (r == null) ? -1 : r.toYear;
+        }
+        return out;
+    }
+
+    public static int[] pickRangeForYear(CarModel manufacturer, String selectedModelName, int year) {
+        int[][] ranges = getYearRangesIntFor(manufacturer, selectedModelName);
+        for (int[] r : ranges) {
+            if (r == null || r.length < 2) continue;
+            int from = r[0], to = r[1];
+            if (from <= 0 || to <= 0) continue;
+            if (year >= from && year <= to) return new int[]{from, to};
+        }
+        return new int[]{-1, -1};
+    }
+
 }
 
 /* =========================
@@ -225,3 +251,6 @@ enum GenericModel {
         return new YearRange[]{YearRange.UNKNOWN, YearRange.UNKNOWN};
     }
 }
+
+
+
