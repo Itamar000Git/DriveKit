@@ -7,4 +7,19 @@
     </style>
 
     <style name="Theme.Drive_Kit" parent="Base.Theme.Drive_Kit" />
+    <style name="Theme.DriveKit.Splash" parent="Theme.SplashScreen">
+        <!-- רקע הספלש -->
+        <item name="windowSplashScreenBackground">@drawable/splash_logo</item>
+        <!-- אייקון שקוף במקום הלוגו של האפליקציה -->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_transparent</item>
+        <!-- בלי אנימציה -->
+        <item name="windowSplashScreenAnimationDuration">0</item>
+        <!-- מעבר ל-theme הרגיל -->
+        <item name="postSplashScreenTheme">@style/Theme.Drive_Kit</item>
+    </style>
+
+
+
+
+
 </resources>
