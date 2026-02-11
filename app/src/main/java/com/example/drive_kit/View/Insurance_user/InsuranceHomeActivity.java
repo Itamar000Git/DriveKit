@@ -25,12 +25,10 @@
 //
 //    private TextView companyNameText;
 //    private TextView companyIdValue;
-//    private TextView companyId;
 //    private Button openInquiriesButton;
 //
-//    //for the red badge
+//    // for the red badge
 //    private TextView newInquiriesBadge;
-//
 //
 //    private InsuranceHomeViewModel vm;
 //
@@ -44,7 +42,6 @@
 //        companyNameText = findViewById(R.id.companyNameText);
 //        companyIdValue = findViewById(R.id.companyIdValue);
 //        openInquiriesButton = findViewById(R.id.openInquiriesButton);
-//
 //        newInquiriesBadge = findViewById(R.id.newInquiriesBadge);
 //
 //
@@ -62,7 +59,7 @@
 //            if (text != null) companyNameText.setText(text);
 //        });
 //
-//        // Internal id label (field "id" from Firestore, fallback to doc id)
+//        // Company display id label (now comes from repo logic: h.p -> id -> docId)
 //        vm.getInternalCompanyId().observe(this, id -> {
 //            if (id != null) companyIdValue.setText(id);
 //        });
@@ -75,10 +72,9 @@
 //        });
 //
 //        loadNewInquiriesCount(companyDocId);
+//
 //        // Load company data for home screen
 //        vm.loadCompanyForHome(companyDocId);
-//
-//
 //
 //        openInquiriesButton.setOnClickListener(v -> {
 //            Intent i = new Intent(InsuranceHomeActivity.this, InsuranceInquiriesActivity.class);
@@ -86,6 +82,8 @@
 //            startActivity(i);
 //        });
 //    }
+//
+//
 //    private void loadNewInquiriesCount(String companyId) {
 //        if (companyId == null || companyId.trim().isEmpty()) {
 //            if (newInquiriesBadge != null) newInquiriesBadge.setVisibility(View.GONE);
@@ -112,6 +110,7 @@
 //                    if (newInquiriesBadge != null) newInquiriesBadge.setVisibility(View.GONE);
 //                });
 //    }
+//
 //    @Override
 //    protected void onResume() {
 //        super.onResume();
@@ -137,26 +136,21 @@ import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProvider;
 
+import com.bumptech.glide.Glide;
 import com.example.drive_kit.R;
 import com.example.drive_kit.ViewModel.Insurance_user_ViewModel.InsuranceHomeViewModel;
+import com.google.android.material.imageview.ShapeableImageView;
 
-/**
- * InsuranceHomeActivity
- *
- * Home screen for insurance company.
- * UI only:
- * - bind views
- * - observe LiveData
- * - navigation
- */
 public class InsuranceHomeActivity extends BaseInsuranceActivity {
 
     private TextView companyNameText;
     private TextView companyIdValue;
     private Button openInquiriesButton;
 
-    // for the red badge
     private TextView newInquiriesBadge;
+
+    // ✅ NEW: logo view
+    private ShapeableImageView companyLogoImage;
 
     private InsuranceHomeViewModel vm;
 
@@ -164,14 +158,13 @@ public class InsuranceHomeActivity extends BaseInsuranceActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // BaseInsuranceActivity already inflates the content layout into contentContainer.
-        // Do NOT call setContentView here and do NOT call getContentLayoutId() manually.
-
         companyNameText = findViewById(R.id.companyNameText);
         companyIdValue = findViewById(R.id.companyIdValue);
         openInquiriesButton = findViewById(R.id.openInquiriesButton);
         newInquiriesBadge = findViewById(R.id.newInquiriesBadge);
 
+        // ✅ NEW
+        companyLogoImage = findViewById(R.id.companyLogoImage);
 
         vm = new ViewModelProvider(this).get(InsuranceHomeViewModel.class);
 
@@ -182,26 +175,40 @@ public class InsuranceHomeActivity extends BaseInsuranceActivity {
             return;
         }
 
-        // Welcome label
         vm.getWelcomeText().observe(this, text -> {
             if (text != null) companyNameText.setText(text);
         });
 
-        // Company display id label (now comes from repo logic: h.p -> id -> docId)
         vm.getInternalCompanyId().observe(this, id -> {
             if (id != null) companyIdValue.setText(id);
         });
 
-        // Optional error toast (doesn't break UI)
         vm.getErrorMessage().observe(this, msg -> {
             if (msg != null && !msg.trim().isEmpty()) {
                 Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
             }
         });
 
+        // ✅ NEW: observe logo url + load into ImageView
+        vm.getCompanyLogoUrl().observe(this, url -> {
+            if (companyLogoImage == null) return;
+
+            if (url == null || url.trim().isEmpty()) {
+                // fallback placeholder
+                companyLogoImage.setImageResource(R.drawable.ic_profile_placeholder);
+                return;
+            }
+
+            Glide.with(this)
+                    .load(url.trim())
+                    .placeholder(R.drawable.ic_profile_placeholder)
+                    .error(R.drawable.ic_profile_placeholder)
+                    .into(companyLogoImage);
+        });
+
         loadNewInquiriesCount(companyDocId);
 
-        // Load company data for home screen
+        // Load company data for home screen (will also load logo url)
         vm.loadCompanyForHome(companyDocId);
 
         openInquiriesButton.setOnClickListener(v -> {
@@ -210,7 +217,6 @@ public class InsuranceHomeActivity extends BaseInsuranceActivity {
             startActivity(i);
         });
     }
-
 
     private void loadNewInquiriesCount(String companyId) {
         if (companyId == null || companyId.trim().isEmpty()) {

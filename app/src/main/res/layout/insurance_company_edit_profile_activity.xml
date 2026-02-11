@@ -51,6 +51,8 @@
                 android:layout_marginBottom="16dp"
                 app:cardUseCompatPadding="true">
 
+
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -58,6 +60,31 @@
                     android:padding="16dp"
                     android:layoutDirection="rtl"
                     android:textDirection="rtl">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/editCompanyLogo"
+                        android:layout_width="96dp"
+                        android:layout_height="96dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="10dp"
+                        android:src="@drawable/ic_profile_placeholder"
+                        android:scaleType="centerCrop"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.Circle"
+                        app:strokeWidth="1dp"
+                        app:strokeColor="#E0E0E0" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnChangeLogo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="44dp"
+                        android:layout_gravity="center_horizontal"
+                        android:text="החלפת תמונה"
+                        android:textAllCaps="false"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/white"
+                        app:cornerRadius="12dp"
+                        app:backgroundTint="#607D8B"
+                        android:layout_marginBottom="12dp"/>
 
                     <!-- Company ID (read-only) -->
                     <com.google.android.material.textfield.TextInputLayout

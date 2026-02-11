@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.drive_kit.R;
 import com.example.drive_kit.ViewModel.Insurance_user_ViewModel.InsuranceCompanyProfileViewModel;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.imageview.ShapeableImageView;
 
 /**
  * InsuranceCompanyProfileActivity
@@ -36,6 +37,8 @@ public class InsuranceCompanyProfileActivity extends BaseInsuranceActivity {
 
     private View loadingView;
     private MaterialButton btnEdit;
+    private ShapeableImageView profileAvatar;
+
 
     private InsuranceCompanyProfileViewModel vm;
 
@@ -53,6 +56,9 @@ public class InsuranceCompanyProfileActivity extends BaseInsuranceActivity {
 
         loadingView = findViewById(R.id.profileLoading);
         btnEdit = findViewById(R.id.profileEditButton);
+
+        profileAvatar = findViewById(R.id.profileAvatar);
+
 
         // Init ViewModel
         vm = new ViewModelProvider(this).get(InsuranceCompanyProfileViewModel.class);
@@ -93,6 +99,23 @@ public class InsuranceCompanyProfileActivity extends BaseInsuranceActivity {
             tvEmailValue.setText(safe(company.getEmail()).isEmpty() ? "-" : safe(company.getEmail()));
             tvWebsiteValue.setText(safe(company.getWebsite()).isEmpty() ? "-" : safe(company.getWebsite()));
             tvPartnerValue.setText(company.isPartner() ? "כן" : "לא");
+
+            // ✅ Logo (avatar)
+            String logoUrl = safe(company.getLogoUrl());
+            if (profileAvatar != null) {
+                if (logoUrl.isEmpty()) {
+                    profileAvatar.setImageResource(R.drawable.ic_profile_placeholder);
+                } else {
+                    com.bumptech.glide.Glide.with(this)
+                            .load(logoUrl)
+                            .placeholder(R.drawable.ic_profile_placeholder)
+                            .error(R.drawable.ic_profile_placeholder)
+                            .into(profileAvatar);
+                }
+            }
+            android.util.Log.d("PROFILE_LOGO", "logoUrl=" + safe(company.getLogoUrl()));
+
+
         });
 
         // Edit button -> open edit screen and pass the SAME docId

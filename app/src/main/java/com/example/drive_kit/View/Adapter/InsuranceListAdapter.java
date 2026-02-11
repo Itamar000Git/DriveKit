@@ -15,14 +15,14 @@ import java.util.List;
 public class InsuranceListAdapter extends RecyclerView.Adapter<InsuranceListAdapter.VH> {
 
     public interface OnCompanyClick {
-        void onClick(com.example.drive_kit.View.InsuranceCompany company);
+        void onClick(com.example.drive_kit.Model.InsuranceCompany company);
     }
 
-    private final List<com.example.drive_kit.View.InsuranceCompany> items;
+    private final List<com.example.drive_kit.Model.InsuranceCompany> items;
     private final OnCompanyClick listener;
 
 
-    public InsuranceListAdapter(List<com.example.drive_kit.View.InsuranceCompany> items, OnCompanyClick listener) {
+    public InsuranceListAdapter(List<com.example.drive_kit.Model.InsuranceCompany> items, OnCompanyClick listener) {
         this.items = items;
         this.listener = listener;
     }
@@ -37,7 +37,7 @@ public class InsuranceListAdapter extends RecyclerView.Adapter<InsuranceListAdap
 
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
-        com.example.drive_kit.View.InsuranceCompany c = items.get(position);
+        com.example.drive_kit.Model.InsuranceCompany c = items.get(position);
         holder.nameTv.setText(c.getName());
         holder.phoneTv.setText(c.getPhone());
 

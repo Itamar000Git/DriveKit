@@ -2,7 +2,7 @@ package com.example.drive_kit.Data.Repository;
 
 import androidx.annotation.NonNull;
 
-import com.example.drive_kit.View.InsuranceCompany;
+import com.example.drive_kit.Model.InsuranceCompany;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
