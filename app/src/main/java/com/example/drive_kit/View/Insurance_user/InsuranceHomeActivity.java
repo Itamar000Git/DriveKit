@@ -76,6 +76,7 @@ package com.example.drive_kit.View.Insurance_user;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -98,7 +99,12 @@ public class InsuranceHomeActivity extends BaseInsuranceActivity {
 
     private TextView companyNameText;
     private TextView companyIdValue;
+    private TextView companyId;
     private Button openInquiriesButton;
+
+    //for the red badge
+    private TextView newInquiriesBadge;
+
 
     private InsuranceHomeViewModel vm;
 
@@ -112,6 +118,9 @@ public class InsuranceHomeActivity extends BaseInsuranceActivity {
         companyNameText = findViewById(R.id.companyNameText);
         companyIdValue = findViewById(R.id.companyIdValue);
         openInquiriesButton = findViewById(R.id.openInquiriesButton);
+
+        newInquiriesBadge = findViewById(R.id.newInquiriesBadge);
+
 
         vm = new ViewModelProvider(this).get(InsuranceHomeViewModel.class);
 
@@ -139,14 +148,49 @@ public class InsuranceHomeActivity extends BaseInsuranceActivity {
             }
         });
 
+        loadNewInquiriesCount(companyDocId);
         // Load company data for home screen
         vm.loadCompanyForHome(companyDocId);
+
+
 
         openInquiriesButton.setOnClickListener(v -> {
             Intent i = new Intent(InsuranceHomeActivity.this, InsuranceInquiriesActivity.class);
             i.putExtra("insuranceCompanyId", companyDocId);
             startActivity(i);
         });
+    }
+    private void loadNewInquiriesCount(String companyId) {
+        if (companyId == null || companyId.trim().isEmpty()) {
+            if (newInquiriesBadge != null) newInquiriesBadge.setVisibility(View.GONE);
+            return;
+        }
+
+        com.google.firebase.firestore.FirebaseFirestore.getInstance()
+                .collection("insurance_inquiries")
+                .whereEqualTo("companyId", companyId.trim().toLowerCase())
+                .whereEqualTo("status", "new")
+                .get()
+                .addOnSuccessListener(qs -> {
+                    int count = qs.size();
+                    if (newInquiriesBadge == null) return;
+
+                    if (count <= 0) {
+                        newInquiriesBadge.setVisibility(View.GONE);
+                    } else {
+                        newInquiriesBadge.setText(count > 99 ? "99+" : String.valueOf(count));
+                        newInquiriesBadge.setVisibility(View.VISIBLE);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    if (newInquiriesBadge != null) newInquiriesBadge.setVisibility(View.GONE);
+                });
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String companyId = getIntent().getStringExtra("insuranceCompanyId");
+        loadNewInquiriesCount(companyId);
     }
 
     @Override

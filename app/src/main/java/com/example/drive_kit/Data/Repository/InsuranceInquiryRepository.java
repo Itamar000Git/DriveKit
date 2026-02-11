@@ -111,6 +111,10 @@ public class InsuranceInquiryRepository {
      */
     public void loadInquiriesForCompany(@NonNull String companyId, @NonNull LoadInquiriesCallback cb) {
         String safeCompanyId = normalizeCompanyId(companyId);
+    /// ///////////////////////////
+        final String normalizedCompanyId = companyId.trim().toLowerCase();
+        android.util.Log.d("INS_INQ_DEBUG", "Repo query companyId = [" + normalizedCompanyId + "]");
+
         if (safeCompanyId.isEmpty()) {
             cb.onError(new IllegalArgumentException("companyId is empty"));
             return;
@@ -121,6 +125,9 @@ public class InsuranceInquiryRepository {
                 .get()
 
                 .addOnSuccessListener(qs -> {
+                    /// ////////////
+                    android.util.Log.d("INS_INQ_DEBUG", "Repo query size = " + qs.size());
+
                     List<Map<String, Object>> out = new ArrayList<>();
                     for (com.google.firebase.firestore.DocumentSnapshot d : qs.getDocuments()) {
                         Map<String, Object> m = new HashMap<>();

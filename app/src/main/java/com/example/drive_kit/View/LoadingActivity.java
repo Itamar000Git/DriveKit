@@ -44,7 +44,7 @@ public class LoadingActivity extends AppCompatActivity {
         // First route by role from Firestore.
         viewModel.getLoginSuccess().observe(this, success -> {
             if (Boolean.TRUE.equals(success)) {
-                viewModel.startNotifications(getApplicationContext());
+                //viewModel.startNotifications(getApplicationContext());
                 Toast.makeText(this, "התחברת בהצלחה", Toast.LENGTH_SHORT).show();
                 routeAfterLoginByRole();
             }
@@ -96,14 +96,26 @@ public class LoadingActivity extends AppCompatActivity {
                 .get()
                 .addOnSuccessListener(qs -> {
                     Intent nextIntent;
+                    com.example.drive_kit.Data.Repository.NotificationSchedulerRepository scheduler =
+                            new com.example.drive_kit.Data.Repository.NotificationSchedulerRepository();
 
                     if (!qs.isEmpty()) {
                         // Insurance partner user
                         String companyId = qs.getDocuments().get(0).getId();
+
+                        // schedule insurance worker only
+                        scheduler.cancelDriver(getApplicationContext());
+                        scheduler.scheduleInsuranceDaily(getApplicationContext());
+
                         nextIntent = new Intent(this, InsuranceHomeActivity.class);
                         nextIntent.putExtra("insuranceCompanyId", companyId);
                     } else {
                         // Regular driver user
+
+                        // schedule driver worker only
+                        scheduler.cancelInsurance(getApplicationContext());
+                        scheduler.scheduleDriverDaily(getApplicationContext());
+
                         nextIntent = new Intent(this, HomeActivity.class);
                     }
 
@@ -112,7 +124,11 @@ public class LoadingActivity extends AppCompatActivity {
                     finish();
                 })
                 .addOnFailureListener(e -> {
-                    // Conservative fallback to driver home if role query fails
+                    com.example.drive_kit.Data.Repository.NotificationSchedulerRepository scheduler =
+                            new com.example.drive_kit.Data.Repository.NotificationSchedulerRepository();
+                    scheduler.cancelInsurance(getApplicationContext());
+                    scheduler.scheduleDriverDaily(getApplicationContext());
+
                     Intent nextIntent = new Intent(this, HomeActivity.class);
                     nextIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(nextIntent);

@@ -125,8 +125,6 @@
 //        });
 //    }
 //}
-
-
 package com.example.drive_kit.View.Insurance_user;
 
 import android.os.Bundle;
@@ -142,6 +140,8 @@ import com.example.drive_kit.ViewModel.Insurance_user_ViewModel.InsuranceInquiri
 
 import java.util.ArrayList;
 import java.util.List;
+
+
 import java.util.Map;
 
 /**
@@ -199,6 +199,9 @@ public class InsuranceInquiriesActivity extends BaseInsuranceActivity {
         });
 
         String companyId = getIntent().getStringExtra("insuranceCompanyId");
+
+        android.util.Log.d("INS_INQ_DEBUG", "InsuranceInquiriesActivity companyId from intent = [" + companyId + "]");
+
 
         if (companyId == null || companyId.trim().isEmpty()) {
             Toast.makeText(this, "חסר insuranceCompanyId", Toast.LENGTH_LONG).show();

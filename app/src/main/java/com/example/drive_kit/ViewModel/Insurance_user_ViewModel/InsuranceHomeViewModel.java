@@ -1,5 +1,6 @@
 package com.example.drive_kit.ViewModel.Insurance_user_ViewModel;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -48,7 +49,7 @@ public class InsuranceHomeViewModel extends ViewModel {
 
         repo.getCompanyById(docId, new InsuranceCompaniesRepository.CompanyCallback() {
             @Override
-            public void onSuccess(InsuranceCompany company) {
+            public void onSuccess(@NonNull InsuranceCompany company) {
                 // Company.getId() in your repo is the INTERNAL id (field "id") or docId fallback
                 String name = company.getName() == null ? "" : company.getName().trim();
                 String id = company.getId() == null ? "" : company.getId().trim();
