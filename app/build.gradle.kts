@@ -95,6 +95,7 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("com.google.android.gms:play-services-maps:20.0.0")
     implementation("com.google.android.libraries.places:places:5.1.1")
+    implementation("androidx.core:core-splashscreen:1.0.1")
 
 
 
