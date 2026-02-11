@@ -4,20 +4,25 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView; // ✅ NEW
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.drive_kit.Model.CarModel;
 import com.example.drive_kit.R;
 import com.example.drive_kit.ViewModel.SignUpViewModel;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder; // ✅ NEW
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -57,16 +62,20 @@ import java.util.Locale;
  * - insuranceCompanyLayout
  * - insuranceCompanyDropdown
  * - carPhotoLayout / carPhotoEditText
+ * - tvService10kDontRemember  ✅ NEW
  */
 public class SignUpActivity extends AppCompatActivity {
 
     // Next button (navigates to password step)
     private Button next;
 
-    // "Can't remember" quick-fill buttons for 10K service date
-    private Button canNotRemember2Month;
-    private Button canNotRemember4Month;
-    private Button canNotRemember6Month;
+    // ❌ REMOVED: "Can't remember" quick-fill buttons for 10K service date
+    // private Button canNotRemember2Month;
+    // private Button canNotRemember4Month;
+    // private Button canNotRemember6Month;
+
+    // ✅ NEW: clickable text under the datepicker
+    private TextView tvService10kDontRemember;
 
     // Role controls
     private android.widget.RadioGroup roleGroup;
@@ -99,7 +108,9 @@ public class SignUpActivity extends AppCompatActivity {
     // Driver-only layout wrappers (shown/hidden by role)
     private View carNumberLayout, manufacturerLayout, modelLayout, yearLayout;
     private View insuranceDateLayout, testDateLayout, service10kDateLayout;
-    private View notrememberView, service10kRangeButtonsScrollView;
+
+    // ❌ REMOVED: old "not remember" label + horizontal buttons row
+    // private View notrememberView, service10kRangeButtonsScrollView;
 
     // Optional car photo picker UI
     private TextInputLayout carPhotoLayout;
@@ -127,19 +138,14 @@ public class SignUpActivity extends AppCompatActivity {
     private boolean userChangedModel = false;          // manufacturer
     private boolean userChangedYear = false;
     private boolean userChangedCarSpecificModel = false;
-    private TextInputEditText insuranceCompanyIdEditText;
 
+    private TextInputEditText insuranceCompanyIdEditText;
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup);
-        //Log.e("SIGNUP_ENTER", "=== SignUpActivity onCreate ENTERED ===");
-
-
-
-
 
         // ---------- Views ----------
         // Main action button
@@ -152,9 +158,9 @@ public class SignUpActivity extends AppCompatActivity {
         phoneEditText     = findViewById(R.id.phoneEditText);
 
         // Role toggle
-        roleGroup     = findViewById(R.id.roleGroup);
-        radioDriver   = findViewById(R.id.radioDriver);
-        radioInsurance= findViewById(R.id.radioInsurance);
+        roleGroup      = findViewById(R.id.roleGroup);
+        radioDriver    = findViewById(R.id.radioDriver);
+        radioInsurance = findViewById(R.id.radioInsurance);
 
         // Driver fields
         carNumberEditText     = findViewById(R.id.carNumberEditText);
@@ -162,12 +168,13 @@ public class SignUpActivity extends AppCompatActivity {
         testDateEditText      = findViewById(R.id.testDateEditText);
         treatmentDateEditText = findViewById(R.id.service10kDateEditText);
 
-        // Quick buttons for unknown 10K date
-        canNotRemember2Month = findViewById(R.id.btnService10kUpTo2Months);
-        canNotRemember4Month = findViewById(R.id.btnService10kUpTo4Months);
-        canNotRemember6Month = findViewById(R.id.btnService10kUpTo6MonthsPlus);
-        insuranceCompanyIdEditText = findViewById(R.id.insuranceCompanyIdEditText);
+        // ✅ NEW: clickable text (must exist in XML)
+        tvService10kDontRemember = findViewById(R.id.tvService10kDontRemember);
 
+        insuranceCompanyIdEditText = findViewById(R.id.insuranceCompanyIdEditText);
+        if (tvService10kDontRemember != null) {
+            tvService10kDontRemember.setOnClickListener(v -> showTreatRangePopup());
+        }
 
         // Driver dropdowns
         manufacturerDropdown = findViewById(R.id.manufacturerDropdown);
@@ -175,15 +182,13 @@ public class SignUpActivity extends AppCompatActivity {
         modelDropdown        = findViewById(R.id.modelDropdown);
 
         // Driver wrappers for show/hide by role
-        carNumberLayout = findViewById(R.id.carNumberLayout);
-        manufacturerLayout = findViewById(R.id.manufacturerLayout);
-        modelLayout = findViewById(R.id.modelLayout);
-        yearLayout = findViewById(R.id.yearLayout);
-        insuranceDateLayout = findViewById(R.id.insuranceDateLayout);
-        testDateLayout = findViewById(R.id.testDateLayout);
+        carNumberLayout      = findViewById(R.id.carNumberLayout);
+        manufacturerLayout   = findViewById(R.id.manufacturerLayout);
+        modelLayout          = findViewById(R.id.modelLayout);
+        yearLayout           = findViewById(R.id.yearLayout);
+        insuranceDateLayout  = findViewById(R.id.insuranceDateLayout);
+        testDateLayout       = findViewById(R.id.testDateLayout);
         service10kDateLayout = findViewById(R.id.service10kDateLayout);
-        notrememberView = findViewById(R.id.notremember);
-        service10kRangeButtonsScrollView = findViewById(R.id.service10kRangeButtonsScroll);
 
         // Car photo inputs
         carPhotoLayout = findViewById(R.id.carPhotoLayout);
@@ -193,15 +198,17 @@ public class SignUpActivity extends AppCompatActivity {
         insuranceCompanyLayout = findViewById(R.id.insuranceCompanyLayout);
         insuranceCompanyDropdown = findViewById(R.id.insuranceCompanyDropdown);
 
-        // Sanity logs for null-checking key views
-        Log.d("SIGNUP", "manufacturerDropdown=" + (manufacturerDropdown != null));
-        Log.d("SIGNUP", "modelDropdown=" + (modelDropdown != null));
-        Log.d("SIGNUP", "yearDropdown=" + (yearDropdown != null));
-        Log.d("SIGNUP", "insuranceCompanyDropdown=" + (insuranceCompanyDropdown != null));
+        // ✅ NEW: open popup on click
+        if (tvService10kDontRemember != null) {
+            tvService10kDontRemember.setOnClickListener(v -> {
+                if (!isDriverSelected()) return;
+                showTreatRangePopup();
+            });
+        }
+
 
 
         // ---------- Gallery picker ----------
-        // Registers content picker for image selection ("image/*")
         pickCarPhotoLauncher = registerForActivityResult(
                 new ActivityResultContracts.GetContent(),
                 uri -> {
@@ -366,23 +373,6 @@ public class SignUpActivity extends AppCompatActivity {
             openDatePickerTreat();
         });
 
-        // ---------- Can't remember buttons ----------
-        // Quick-set treatment date relative to today
-        canNotRemember2Month.setOnClickListener(v -> {
-            if (!isDriverSelected()) return;
-            setTreatByMonthsBack(2);
-        });
-
-        canNotRemember4Month.setOnClickListener(v -> {
-            if (!isDriverSelected()) return;
-            setTreatByMonthsBack(4);
-        });
-
-        canNotRemember6Month.setOnClickListener(v -> {
-            if (!isDriverSelected()) return;
-            setTreatByMonthsBack(6);
-        });
-
         // ---------- Next ----------
         next.setOnClickListener(v -> {
             boolean isDriver = isDriverSelected();
@@ -394,7 +384,7 @@ public class SignUpActivity extends AppCompatActivity {
             String phone     = safeText(phoneEditText);
 
             // 2) Validate common
-            if (  email.isEmpty() || phone.isEmpty()) {
+            if (email.isEmpty() || phone.isEmpty()) {
                 android.widget.Toast.makeText(
                         SignUpActivity.this,
                         "נא למלא את כל השדות הבסיסיים",
@@ -404,7 +394,6 @@ public class SignUpActivity extends AppCompatActivity {
             }
 
             // 3) Insurance extra validation
-            // Resolve selectedCompanyId from displayed dropdown text if needed
             if (!isDriver) {
                 String chosen = (insuranceCompanyDropdown == null) ? "" :
                         insuranceCompanyDropdown.getText().toString().trim();
@@ -417,9 +406,7 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             }
 
-
             // 4) Build intent
-            // Navigate to password step and pass collected payload
             Intent intent = new Intent(SignUpActivity.this, SetUsernamePasswordActivity.class);
             intent.putExtra("role", isDriver ? "driver" : "insurance");
             intent.putExtra("isInsurance", !isDriver);
@@ -476,6 +463,22 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
+    // ✅ NEW: popup with 3 choices ("same logic" -> setTreatByMonthsBack)
+    private void showTreatRangePopup() {
+        if (!isDriverSelected()) return;
+
+        new MaterialAlertDialogBuilder(this)
+                .setTitle("לא זוכר תאריך טיפול?")
+                .setMessage("בחר טווח זמן, ואנו נציב תאריך משוער בתיבה")
+                // סדר הכפתורים: 1) חודשיים  2) 4 חודשים  3) חצי שנה
+                .setPositiveButton("עד חודשיים", (dialog, which) -> setTreatByMonthsBack(2))
+                .setNegativeButton("עד 4 חודשים", (dialog, which) -> setTreatByMonthsBack(4))
+                .setNeutralButton("עד חצי שנה", (dialog, which) -> setTreatByMonthsBack(6))
+                .show();
+    }
+
+
+
     // =========================
     // Insurance companies dropdown from Firestore
     // =========================
@@ -498,7 +501,6 @@ public class SignUpActivity extends AppCompatActivity {
                         String name = doc.getString("name");
 
                         if (name == null || name.trim().isEmpty()) name = docId;
-
 
                         String display = name + " (" + docId + ")";
 
@@ -542,12 +544,15 @@ public class SignUpActivity extends AppCompatActivity {
         if (insuranceDateLayout != null) insuranceDateLayout.setVisibility(vis);
         if (testDateLayout != null) testDateLayout.setVisibility(vis);
         if (service10kDateLayout != null) service10kDateLayout.setVisibility(vis);
-        if (notrememberView != null) notrememberView.setVisibility(vis);
-        if (service10kRangeButtonsScrollView != null) service10kRangeButtonsScrollView.setVisibility(vis);
 
+        // ✅ NEW: clickable text shown/hidden for driver
+        if (tvService10kDontRemember != null) tvService10kDontRemember.setVisibility(vis);
 
-        if (insuranceCompanyLayout != null)
+        if (insuranceCompanyLayout != null){
             insuranceCompanyLayout.setVisibility(isDriver ? View.GONE : View.VISIBLE);
+            insuranceCompanyDropdown.setVisibility(isDriver ? View.GONE : View.VISIBLE);
+            insuranceCompanyIdEditText.setVisibility(isDriver ? View.GONE : View.VISIBLE);
+        }
     }
 
     // Helper: sets treatment date to "today - N months"
@@ -771,21 +776,17 @@ public class SignUpActivity extends AppCompatActivity {
                     String phone = doc.getString("phone");
                     String name  = doc.getString("name");
 
-
                     if (email != null && !email.trim().isEmpty()) emailEditText.setText(email.trim());
                     else emailEditText.setText("");
 
-
                     if (phone != null && !phone.trim().isEmpty()) phoneEditText.setText(phone.trim());
                     else phoneEditText.setText("");
-
 
                     if (name != null && !name.trim().isEmpty()) firstNameEditText.setText(name.trim());
                     else firstNameEditText.setText("");
                 })
                 .addOnFailureListener(e -> Log.e("SignUp", "Failed to load company details", e));
     }
-
 
     // Refreshes model dropdown according to selected manufacturer enum
     private void updateModelDropdownAdapter(CarModel manufacturer) {
