@@ -1,6 +1,7 @@
 package com.example.drive_kit.View;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,25 +31,25 @@ public abstract class BaseLoggedInActivity extends AppCompatActivity {
     private View bottomMenuBtn;
     private TextView bottomNotyBadge;
 
-    // Badge VM (אם תרצה לספור התראות)
+    // Badge VM
     protected NotificationsViewModel notyVm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // 1) עוטפים הכל ב-layout בסיסי שיש בו Drawer + container + bottom bar
+        // 1) Base layout with Drawer + container + bottom bar
         setContentView(R.layout.activity_base_logged_in);
 
-        // 2) מזריקים את ה-layout של המסך הספציפי לתוך container
+        // 2) Inject screen-specific content
         FrameLayout container = findViewById(R.id.contentContainer);
         LayoutInflater.from(this).inflate(getContentLayoutId(), container, true);
 
-        // 3) find drawer views
+        // 3) Drawer views
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navigationView);
 
-        // 4) find bottom bar views (מה-include)
+        // 4) Bottom bar views
         bottomNotyBtn = findViewById(R.id.bottomNotyBtn);
         bottomProfileBtn = findViewById(R.id.bottomProfileBtn);
         bottomMenuBtn = findViewById(R.id.bottomMenuBtn);
@@ -57,11 +58,14 @@ public abstract class BaseLoggedInActivity extends AppCompatActivity {
         setupBottomBar();
         setupDrawerMenu();
 
-        // אופציונלי: באדג' התראות
+        // צבעי התפריט שנפתח מההמבורגר
+        applyDrawerColors();
+
+        // Badge notifications
         setupNotificationsBadge();
     }
 
-    /** כל Activity יורש חייב להחזיר כאן את ה-layout שלו (למשל R.layout.home_activity_content) */
+    /** Each inheriting Activity must return its own content layout id */
     @LayoutRes
     protected abstract int getContentLayoutId();
 
@@ -76,7 +80,7 @@ public abstract class BaseLoggedInActivity extends AppCompatActivity {
 
         bottomMenuBtn.setOnClickListener(v -> {
             if (drawerLayout != null) {
-                // RTL -> תפריט מהצד הימני
+                // RTL -> open drawer from right side
                 drawerLayout.openDrawer(GravityCompat.END);
             }
         });
@@ -85,15 +89,35 @@ public abstract class BaseLoggedInActivity extends AppCompatActivity {
     private void setupDrawerMenu() {
         if (navigationView == null || drawerLayout == null) return;
 
+        // סימון הפריט הפעיל לפי המסך הנוכחי
+        if (this instanceof HomeActivity) {
+            navigationView.setCheckedItem(R.id.nav_home);
+        } else if (this instanceof ProfileActivity) {
+            navigationView.setCheckedItem(R.id.nav_profile);
+        } else if (this instanceof NotificationsActivity) {
+            navigationView.setCheckedItem(R.id.nav_notifications);
+        } else if (this instanceof CarDetailsActivity) {
+            navigationView.setCheckedItem(R.id.nav_my_car);
+        } else if (this instanceof DIYFilterActivity) {
+            navigationView.setCheckedItem(R.id.nav_diy);
+        } else if (this instanceof activity_nearby_garages) {
+            navigationView.setCheckedItem(R.id.nav_garage);
+        } else if (this instanceof Driver_InsuranceActivity) {
+            navigationView.setCheckedItem(R.id.nav_insurance);
+        }
+
         navigationView.setNavigationItemSelectedListener(item -> {
             int id = item.getItemId();
+
+            // סמן מיד את הפריט שנבחר (חוויית UI טובה יותר)
+            navigationView.setCheckedItem(id);
 
             drawerLayout.closeDrawer(GravityCompat.END);
 
             if (id == R.id.nav_home) {
-//                if (!(this instanceof HomeActivity)) {
-//                    startActivity(new Intent(this, HomeActivity.class));
-//                }
+                if (!(this instanceof HomeActivity)) {
+                    startActivity(new Intent(this, HomeActivity.class));
+                }
 
             } else if (id == R.id.nav_profile) {
                 if (!(this instanceof ProfileActivity)) {
@@ -116,13 +140,11 @@ public abstract class BaseLoggedInActivity extends AppCompatActivity {
                 }
 
             } else if (id == R.id.nav_garage) {
-
                 if (!(this instanceof activity_nearby_garages)) {
                     startActivity(new Intent(this, activity_nearby_garages.class));
                 }
 
             } else if (id == R.id.nav_insurance) {
-
                 if (!(this instanceof Driver_InsuranceActivity)) {
                     startActivity(new Intent(this, Driver_InsuranceActivity.class));
                 }
@@ -139,7 +161,29 @@ public abstract class BaseLoggedInActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Drawer menu colors:
+     * - checked item: Royal Blue
+     * - default item: DriveKit dark blue
+     */
+    private void applyDrawerColors() {
+        if (navigationView == null) return;
 
+        int[][] states = new int[][]{
+                new int[]{android.R.attr.state_checked}, // selected
+                new int[]{}                              // default
+        };
+
+        int[] colors = new int[]{
+                0xFF8BC34A, // selected (הסימון)
+                0xFF001F3F  // default
+        };
+
+        ColorStateList csl = new ColorStateList(states, colors);
+        navigationView.setItemTextColor(csl);
+        navigationView.setItemIconTintList(csl);
+        navigationView.setItemBackgroundResource(R.color.nav_item_bg);
+    }
 
     private void setupNotificationsBadge() {
         notyVm = new ViewModelProvider(this).get(NotificationsViewModel.class);
@@ -153,7 +197,7 @@ public abstract class BaseLoggedInActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // רענון באדג׳
+
         if (notyVm != null && FirebaseAuth.getInstance().getCurrentUser() != null) {
             String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
             notyVm.loadNoty(uid);

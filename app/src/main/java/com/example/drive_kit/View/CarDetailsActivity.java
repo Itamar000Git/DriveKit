@@ -210,9 +210,9 @@ public class CarDetailsActivity extends BaseLoggedInActivity {
 
     private void bindViews() {
         // Header
-        title = findViewById(R.id.carTitle);
-        tvCarSubtitle = findViewById(R.id.tvCarSubtitle);
-        ivCarImage = findViewById(R.id.ivCarImage);
+        //title = findViewById(R.id.carTitle);
+//        tvCarSubtitle = findViewById(R.id.tvCarSubtitle);
+//        ivCarImage = findViewById(R.id.ivCarImage);
 
         // Details
         tvCarNumberValue = findViewById(R.id.tvCarNumberValue);

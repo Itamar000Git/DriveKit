@@ -293,12 +293,21 @@ public class InsuranceCompaniesRepository {
 
                         InsuranceCompany company = new InsuranceCompany(
                                 internalId,
-                                name,
-                                phone,
-                                email,
-                                website,
+                                name == null ? "" : name,
+                                phone == null ? "" : phone,
+                                email == null ? "" : email,
+                                website == null ? "" : website,
                                 isPartner != null && isPartner
                         );
+
+                        company.setDocId(doc.getId());
+
+
+                        Object hpObj = doc.get("h_p");
+                        company.setHp(hpObj == null ? "" : hpObj.toString().trim());
+
+
+                        company.setDocId(doc.getId());
 
                         company.setLogoUrl(safe(doc.getString("logoUrl")));
                         list.add(company);

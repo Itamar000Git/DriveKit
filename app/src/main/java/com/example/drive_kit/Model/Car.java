@@ -1,29 +1,11 @@
 
 package com.example.drive_kit.Model;
 
-/**
- * Car model for Firestore.
- *
- * החלטות/שינויים (נשמרו + עודכנו):
- * 1) תיקון Naming ל-Bean תקני כדי ש-Firestore ימפה אוטומטית:
- *    - Nickname (N גדולה) -> nickname
- *    - carNumber -> carNum (כשם שדה פנימי עקבי עם getter/setter)
- *    - setCarNum היה עם באג (השמה לעצמו) -> תוקן
- *
- * 2) שמרתי על תאימות אחורה:
- *    - הוספתי "גשרים" (aliases) לשמות ישנים עם הערות @Deprecated
- *      כדי שגם אם במסד עדיין יש שדות ישנים/קריאות ישנות בקוד – זה לא ישבור.
- *
- * 3) לא הורדתי שום שדה רלוונטי.
- *    שדות שלא בשימוש כרגע נשארו (insuranceCompanyName וכו').
- *
- * הערה חשובה:
- * - כרגע זה רכב יחיד בתוך Driver (שדה: car). עדיין טוב להשאיר את המודל נקי וממופה נכון.
- */
+
 public class Car {
 
     // ====== Core fields ======
-    private String carNum;                // היה אצלך carNumber
+    private String carNumber;                // היה אצלך carNumber
     private long insuranceDateMillis;     // millis
     private long testDateMillis;          // millis
     private long treatmentDateMillis;     // millis
@@ -69,7 +51,7 @@ public class Car {
                long treatmentDateMillis,
                String carImageUri) {
 
-        this.carNum = carNum;
+        this.carNumber = carNum;
         this.carModel = carModel;
         this.insuranceDateMillis = insuranceDateMillis;
         this.testDateMillis = testDateMillis;
@@ -88,14 +70,14 @@ public class Car {
     // ====== Getters / Setters (Bean-standard) ======
 
     public String getCarNum() {
-        return carNum;
+        return carNumber;
     }
 
     /**
      * FIX: היה אצלך באג - השמה ל-carNumber במקום לפרמטר.
      */
     public void setCarNum(String carNum) {
-        this.carNum = carNum;
+        this.carNumber = carNum;
     }
 
     public long getInsuranceDateMillis() {
@@ -219,19 +201,16 @@ public class Car {
      */
     @Deprecated
     public String getCarNumber() {
-        return carNum;
+        return carNumber;
     }
 
     @Deprecated
     public void setCarNumber(String carNumber) {
-        this.carNum = carNumber;
+        this.carNumber = carNumber;
     }
 
 
-    /**
-     * שם ישן שהיה אצלך עבור טיפול (Treat).
-     * מומלץ לעבור ל-setTreatmentDateMillis.
-     */
+
     @Deprecated
     public void setTreatDateMillis(long treatDateMillis) {
         this.treatmentDateMillis = treatDateMillis;

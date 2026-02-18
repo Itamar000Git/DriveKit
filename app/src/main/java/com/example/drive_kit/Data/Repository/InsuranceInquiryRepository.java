@@ -173,17 +173,23 @@ public class InsuranceInquiryRepository {
             return;
         }
 
-        String normalizedCompanyId = companyId.trim().toLowerCase();
+        String normalizedCompanyDocId = companyId.trim().toLowerCase();
         String normalizedStatus = status == null ? "" : status.trim().toLowerCase();
 
+        android.util.Log.d("INS_INQ_DEBUG",
+                "Query companyDocId=[" + normalizedCompanyDocId + "], status=[" + normalizedStatus + "]");
+
         db.collection("insurance_inquiries")
-                .whereEqualTo("companyId", normalizedCompanyId)
+                .whereEqualTo("companyDocId", normalizedCompanyDocId)
                 .whereEqualTo("status", normalizedStatus)
+
                 .get()
                 .addOnSuccessListener(qs -> {
-                    java.util.List<java.util.Map<String, Object>> out = new java.util.ArrayList<>();
+                    android.util.Log.d("INS_INQ_DEBUG", "Query size=" + qs.size());
+
+                    List<Map<String, Object>> out = new ArrayList<>();
                     for (com.google.firebase.firestore.DocumentSnapshot d : qs.getDocuments()) {
-                        java.util.Map<String, Object> m = new java.util.HashMap<>();
+                        Map<String, Object> m = new HashMap<>();
                         m.put("docId", d.getId());
                         m.put("driverName", d.getString("driverName"));
                         m.put("driverPhone", d.getString("driverPhone"));
@@ -192,15 +198,81 @@ public class InsuranceInquiryRepository {
                         m.put("carModel", d.getString("carModel"));
                         m.put("message", d.getString("message"));
                         m.put("status", d.getString("status"));
-                        m.put("companyId", d.getString("companyId"));
+                        m.put("companyId", d.getString("companyId"));       // h_p לתצוגה
+                        m.put("companyDocId", d.getString("companyDocId")); // docId
                         m.put("companyName", d.getString("companyName"));
                         m.put("createdAt", d.getTimestamp("createdAt"));
+                        m.put("updatedAt", d.getTimestamp("updatedAt"));
                         out.add(m);
                     }
                     cb.onSuccess(out);
                 })
-                .addOnFailureListener(cb::onError);
+                .addOnFailureListener(e -> {
+                    android.util.Log.e("INS_INQ_DEBUG", "Query failed", e);
+                    cb.onError(e);
+                });
     }
+
+
+
+    public void logInquiry(@NonNull String userId,
+                           @NonNull String companyId,          // h_p
+                           @NonNull String companyDocId,       // ✅ docId
+                           @Nullable String companyName,
+                           @Nullable String driverName,
+                           @Nullable String driverPhone,
+                           @Nullable String driverEmail,
+                           @Nullable String carNumber,
+                           @Nullable String carModel,
+                           @Nullable String message,
+                           @Nullable InquiryCallback cb) {
+
+        String safeUserId = safe(userId);
+        String safeCompanyId = normalizeCompanyId(companyId);
+        String safeCompanyDocId = safe(companyDocId).toLowerCase(Locale.ROOT);
+
+        android.util.Log.d("INS_INQ_SEND",
+                "create uid=" + safeUserId +
+                        " companyId=" + safeCompanyId +
+                        " companyDocId=" + safeCompanyDocId);
+
+        if (safeUserId.isEmpty() || safeCompanyId.isEmpty() || safeCompanyDocId.isEmpty()) {
+            if (cb != null) cb.onError(new IllegalArgumentException("userId/companyId/companyDocId is empty"));
+            return;
+        }
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("userId", safeUserId);
+        data.put("companyId", safeCompanyId);          // h_p
+        data.put("companyDocId", safeCompanyDocId);    // ✅ MUST for rules
+        data.put("companyName", safe(companyName));
+
+        data.put("type", "OPEN_DETAILS");
+        data.put("source", "DriveKit");
+
+        data.put("driverName", safe(driverName));
+        data.put("driverPhone", safe(driverPhone));
+        data.put("driverEmail", safe(driverEmail));
+        data.put("carNumber", safe(carNumber));
+        data.put("carModel", safe(carModel));
+        data.put("message", safe(message));
+
+        data.put("status", "new");
+        data.put("createdAt", FieldValue.serverTimestamp());
+        data.put("updatedAt", FieldValue.serverTimestamp());
+
+        db.collection("insurance_inquiries")
+                .add(data)
+                .addOnSuccessListener(r -> {
+                    android.util.Log.d("INS_INQ_SEND", "create success id=" + r.getId());
+                    if (cb != null) cb.onSuccess();
+                })
+                .addOnFailureListener(e -> {
+                    android.util.Log.e("INS_INQ_SEND", "create failed", e);
+                    if (cb != null) cb.onError(e);
+                });
+    }
+
 
 
     private String safe(String s) {

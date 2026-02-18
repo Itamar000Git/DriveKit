@@ -21,7 +21,7 @@ import com.google.firebase.auth.FirebaseUser;
 /**
  * ProfileActivity displays the user's profile information.
  * Shows personal details + car info + car image.
- *
+ * <p>
  * Image priority:
  * 1) car.carImageBase64 (new)
  * 2) car.carImageUri (old - backward compatibility)
@@ -166,7 +166,8 @@ public class ProfileActivity extends BaseLoggedInActivity {
         try {
             // IMPORTANT: this method must exist in your Car model
             base64 = car.getCarImageBase64();
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
 
         if (base64 != null && !base64.trim().isEmpty()) {
             try {
@@ -194,7 +195,8 @@ public class ProfileActivity extends BaseLoggedInActivity {
         String uri = null;
         try {
             uri = car.getCarImageUri();
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
 
         if (uri == null || uri.trim().isEmpty()) {
             profileAvatar.setImageResource(R.drawable.ic_profile_placeholder);

@@ -50,7 +50,8 @@ public class InsuranceInquiriesActivity extends BaseInsuranceActivity {
 
         vm = new ViewModelProvider(this).get(InsuranceInquiriesViewModel.class);
 
-        companyId = getIntent().getStringExtra("insuranceCompanyId");
+        companyId = safe(companyDocId); // זה ה-docId האמיתי (aig/clal/...)
+
         if (companyId == null || companyId.trim().isEmpty()) {
             Toast.makeText(this, "חסר insuranceCompanyId", Toast.LENGTH_LONG).show();
             finish();
@@ -95,6 +96,7 @@ public class InsuranceInquiriesActivity extends BaseInsuranceActivity {
         }
     }
 
+    private String safe(String s) { return s == null ? "" : s.trim(); }
     private void switchList(String status) {
         listStatus = (status == null || status.trim().isEmpty()) ? "new" : status.trim().toLowerCase();
 

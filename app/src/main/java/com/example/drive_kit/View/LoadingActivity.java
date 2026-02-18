@@ -21,16 +21,21 @@ import com.google.firebase.firestore.FirebaseFirestore;
  * 1) Receive login payload from MainActivity (email/password or Google token).
  * 2) Trigger login via LoadingViewModel.
  * 3) Observe login result.
- * 4) Route user to the correct home screen based on role:
+ * 4) Route user:
  *    - Insurance partner -> InsuranceHomeActivity
- *    - Regular user      -> HomeActivity
+ *    - Driver with profile doc -> HomeActivity
+ *    - Driver without profile doc -> Complete/Edit profile screen
  */
 public class LoadingActivity extends AppCompatActivity {
+
+    private com.example.drive_kit.Data.Repository.NotificationSchedulerRepository scheduler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.loading);
+
+        scheduler = new com.example.drive_kit.Data.Repository.NotificationSchedulerRepository();
 
         Intent intent = getIntent();
         String email = intent.getStringExtra("email");
@@ -39,18 +44,13 @@ public class LoadingActivity extends AppCompatActivity {
 
         LoadingViewModel viewModel = new ViewModelProvider(this).get(LoadingViewModel.class);
 
-        // Observe successful login.
-        // Do NOT navigate directly to HomeActivity.
-        // First route by role from Firestore.
         viewModel.getLoginSuccess().observe(this, success -> {
             if (Boolean.TRUE.equals(success)) {
-                //viewModel.startNotifications(getApplicationContext());
                 Toast.makeText(this, "התחברת בהצלחה", Toast.LENGTH_SHORT).show();
-                routeAfterLoginByRole();
+                routeAfterLogin();
             }
         });
 
-        // Observe login failure.
         viewModel.getLoginError().observe(this, msg -> {
             if (msg != null) {
                 Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
@@ -59,7 +59,6 @@ public class LoadingActivity extends AppCompatActivity {
             }
         });
 
-        // Start login flow.
         if (googleIdToken != null && !googleIdToken.trim().isEmpty()) {
             viewModel.loginWithGoogle(googleIdToken);
         } else {
@@ -68,19 +67,15 @@ public class LoadingActivity extends AppCompatActivity {
     }
 
     /**
-     * Routes user to the correct home screen based on insurance partnership.
-     *
-     * Logic:
-     * - If current auth user is linked to an insurance company doc
-     *   where partnerUid == uid and isPartner == true:
-     *      -> InsuranceHomeActivity
-     * - Otherwise:
-     *      -> HomeActivity
+     * Route order:
+     * 1) Insurance partner?
+     * 2) If not insurance -> check drivers/{uid} exists?
+     *    - yes -> HomeActivity
+     *    - no  -> Complete/Edit profile
      */
-    private void routeAfterLoginByRole() {
+    private void routeAfterLogin() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
-            // Safety fallback: return to login
             startActivity(new Intent(this, MainActivity.class));
             finish();
             return;
@@ -88,6 +83,7 @@ public class LoadingActivity extends AppCompatActivity {
 
         String uid = user.getUid();
 
+        // 1) Check insurance role first
         FirebaseFirestore.getInstance()
                 .collection("insurance_companies")
                 .whereEqualTo("partnerUid", uid)
@@ -95,43 +91,73 @@ public class LoadingActivity extends AppCompatActivity {
                 .limit(1)
                 .get()
                 .addOnSuccessListener(qs -> {
-                    Intent nextIntent;
-                    com.example.drive_kit.Data.Repository.NotificationSchedulerRepository scheduler =
-                            new com.example.drive_kit.Data.Repository.NotificationSchedulerRepository();
-
                     if (!qs.isEmpty()) {
-                        // Insurance partner user
+                        // Insurance partner
                         String companyId = qs.getDocuments().get(0).getId();
 
-                        // schedule insurance worker only
                         scheduler.cancelDriver(getApplicationContext());
                         scheduler.scheduleInsuranceDaily(getApplicationContext());
 
-                        nextIntent = new Intent(this, InsuranceHomeActivity.class);
+                        Intent nextIntent = new Intent(this, InsuranceHomeActivity.class);
                         nextIntent.putExtra("insuranceCompanyId", companyId);
-                    } else {
-                        // Regular driver user
+                        nextIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(nextIntent);
+                        finish();
+                        return;
+                    }
 
-                        // schedule driver worker only
+                    // 2) Not insurance -> check drivers doc by UID
+                    checkDriverProfileAndRoute(user);
+                })
+                .addOnFailureListener(e -> {
+                    // אם נכשלת בדיקת insurance, עדיין מנסים מסלול driver
+                    checkDriverProfileAndRoute(user);
+                });
+    }
+
+    /**
+     * Check if drivers/{uid} exists.
+     * exists -> Home
+     * not exists -> Complete/Edit profile
+     */
+    private void checkDriverProfileAndRoute(FirebaseUser user) {
+        String uid = user.getUid();
+
+        FirebaseFirestore.getInstance()
+                .collection("drivers")
+                .document(uid)
+                .get()
+                .addOnSuccessListener(doc -> {
+                    if (doc.exists()) {
+                        // Driver with profile
                         scheduler.cancelInsurance(getApplicationContext());
                         scheduler.scheduleDriverDaily(getApplicationContext());
 
-                        nextIntent = new Intent(this, HomeActivity.class);
+                        Intent nextIntent = new Intent(this, HomeActivity.class);
+                        nextIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(nextIntent);
+                        finish();
+                    } else {
+                        // Auth קיים אבל אין פרופיל נהג ב-Firestore -> מעבר להרשמה
+                        scheduler.cancelInsurance(getApplicationContext());
+                        scheduler.cancelDriver(getApplicationContext());
+
+                        Intent nextIntent = new Intent(this, SignUpActivity.class);
+                        nextIntent.putExtra("fromAuthNoDriverDoc", true);
+                        nextIntent.putExtra("prefillEmail", user.getEmail()); // אופציונלי
+                        nextIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(nextIntent);
+                        finish();
                     }
 
-                    nextIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(nextIntent);
-                    finish();
                 })
                 .addOnFailureListener(e -> {
-                    com.example.drive_kit.Data.Repository.NotificationSchedulerRepository scheduler =
-                            new com.example.drive_kit.Data.Repository.NotificationSchedulerRepository();
-                    scheduler.cancelInsurance(getApplicationContext());
-                    scheduler.scheduleDriverDaily(getApplicationContext());
+                    Toast.makeText(this, "שגיאה בבדיקת פרופיל נהג", Toast.LENGTH_SHORT).show();
 
-                    Intent nextIntent = new Intent(this, HomeActivity.class);
-                    nextIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(nextIntent);
+                    // fallback בטוח: חזרה למסך כניסה
+                    Intent back = new Intent(this, MainActivity.class);
+                    back.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(back);
                     finish();
                 });
     }

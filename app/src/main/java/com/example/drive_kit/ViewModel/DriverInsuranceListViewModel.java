@@ -11,6 +11,7 @@ import com.example.drive_kit.Model.InsuranceCompany;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * DriverInsuranceListViewModel
@@ -82,6 +83,22 @@ public class DriverInsuranceListViewModel extends ViewModel {
         if (!company.isPartner()) return;
         if (uid == null || uid.trim().isEmpty()) return;
 
-        inquiryRepo.logInquiry(uid, company.getId(), company.getName());
+        String companyDocId = safe(company.getDocId()).toLowerCase(Locale.ROOT); // ✅
+        String hp = safe(company.getId()).toLowerCase(Locale.ROOT);             // זה ה-h_p/תצוגה
+
+        inquiryRepo.logInquiry(
+                uid,
+                hp,
+                companyDocId,
+                company.getName(),
+                "", "", "", "", "", "הנהג ביקש שיחזרו אליו דרך DriveKit",
+                new InsuranceInquiryRepository.InquiryCallback() {
+                    @Override public void onSuccess() { /* toast */ }
+                    @Override public void onError(Exception e) { /* toast */ }
+                }
+        );
     }
+
+    private String safe(String s){ return s==null? "" : s.trim(); }
+
 }

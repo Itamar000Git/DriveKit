@@ -40,9 +40,17 @@ public class InsuranceCompany {
     private final String email;
     private final String website;
     private final boolean isPartner;
+    private String hp = "";   // maps Firestore field: h_p
+    public String getHp() { return hp; }
+    public void setHp(String hp) { this.hp = hp == null ? "" : hp.trim(); }
 
-    // ✅ NEW
+
+
     private String logoUrl;
+    private String docId;
+
+    public String getDocId() { return docId; }
+    public void setDocId(String docId) { this.docId = docId; }
 
     public InsuranceCompany(String id,
                             String name,
@@ -73,4 +81,6 @@ public class InsuranceCompany {
     public void setLogoUrl(String logoUrl) {
         this.logoUrl = (logoUrl == null) ? "" : logoUrl.trim();
     }
+
+
 }
