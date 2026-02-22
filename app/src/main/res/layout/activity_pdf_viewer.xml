@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Header -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        app:cardCornerRadius="18dp"
+        app:cardUseCompatPadding="true"
+        app:cardElevation="2dp"
+        app:cardBackgroundColor="@color/white"
+        app:strokeWidth="1dp"
+        app:strokeColor="@color/gray">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="12dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="חזרה"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                app:cornerRadius="14dp"
+                app:backgroundTint="@color/green" />
+
+            <TextView
+                android:id="@+id/pdfTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:text="ספר רכב"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/black" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- PDF card -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:cardCornerRadius="18dp"
+        app:cardUseCompatPadding="true"
+        app:cardElevation="2dp"
+        app:cardBackgroundColor="@color/white"
+        app:strokeWidth="1dp"
+        app:strokeColor="@color/gray">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.github.barteksc.pdfviewer.PDFView
+                android:id="@+id/pdfView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <!-- Loading overlay -->
+            <FrameLayout
+                android:id="@+id/pdfLoading"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#1A000000"
+                android:visibility="gone">
+
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" />
+            </FrameLayout>
+
+        </FrameLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- QA Card -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardManualQa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        app:cardCornerRadius="18dp"
+        app:cardUseCompatPadding="true"
+        app:cardElevation="2dp"
+        app:cardBackgroundColor="@color/white"
+        app:strokeWidth="1dp"
+        app:strokeColor="@color/gray">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="שאל/י על הספר"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/black" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etQuestion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Search in English (e.g., engine oil, tire pressure)"
+                    android:inputType="text"
+                    android:maxLines="2" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAsk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="חפש בספר"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                app:cornerRadius="14dp"
+                app:backgroundTint="@color/green" />
+
+            <!-- ✅ Scrollable answer area -->
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/answerScroll"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:layout_marginTop="10dp"
+                android:fillViewport="true"
+                android:scrollbars="vertical">
+
+                <TextView
+                    android:id="@+id/tvAnswer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:alpha="0.9"
+                    android:textSize="14sp"
+                    android:ellipsize="none"
+                    android:textIsSelectable="true"
+                    android:text="פתח/י ספר כדי לאפשר חיפוש…" />
+            </androidx.core.widget.NestedScrollView>
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

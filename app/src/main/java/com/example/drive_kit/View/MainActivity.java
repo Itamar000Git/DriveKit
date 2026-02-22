@@ -1,5 +1,26 @@
 package com.example.drive_kit.View;
 
+/**
+ * MainActivity
+ *
+ * Entry point of the authentication flow of the DriveKit application.
+ *
+ * Responsibilities:
+ * - Handle Email/Password login.
+ * - Handle Google Sign-In authentication.
+ * - Navigate to SignUpActivity for new users.
+ * - Display Forgot Password dialog.
+ *
+ * Architecture:
+ * - MVVM pattern.
+ * - This Activity is responsible for UI only.
+ * - Authentication logic is delegated to LoadingActivity.
+ *
+ * Notes:
+ * - Google authentication returns an ID token which is passed
+ *   to LoadingActivity for Firebase authentication.
+ * - Email/Password credentials are also forwarded to LoadingActivity.
+ */
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -30,25 +51,48 @@ import androidx.core.splashscreen.SplashScreen;
 
 public class MainActivity extends AppCompatActivity {
 
+    /** Email input field. */
     private EditText emailEditText;
+
+    /** Password input field. */
     private EditText passwordEditText;
+
+    /** Button for email/password login. */
     private Button signinButton;
+
+    /** Button that navigates to SignUpActivity. */
     private Button signupButton;
+
+    /** Button for Google Sign-In. */
     private Button googleLoginButton;
 
+    /** ViewModel responsible for login validation logic. */
     private MainViewModel viewModel;
+
+    /** Google authentication client used to initiate sign-in flow. */
     private GoogleSignInClient googleSignInClient;
 
+    /**
+     * ActivityResultLauncher used to handle Google Sign-In results.
+     *
+     * This modern API replaces the deprecated onActivityResult().
+     * It extracts the Google account and retrieves the ID token.
+     * The ID token is forwarded to LoadingActivity for Firebase authentication.
+     */
     private final ActivityResultLauncher<Intent> googleLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+
                 Intent data = result.getData();
+
+                // User canceled Google sign-in
                 if (data == null) {
                     Toast.makeText(this, "התחברות עם Google בוטלה", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 try {
-                    GoogleSignInAccount account = GoogleSignIn.getSignedInAccountFromIntent(data)
+                    GoogleSignInAccount account = GoogleSignIn
+                            .getSignedInAccountFromIntent(data)
                             .getResult(ApiException.class);
 
                     if (account == null) {
@@ -57,15 +101,15 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     String idToken = account.getIdToken();
+
                     if (idToken == null || idToken.trim().isEmpty()) {
                         Toast.makeText(this, "חסר idToken (בדוק default_web_client_id)", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
-                    // ממשיכים ל-LoadingActivity לביצוע Firebase login + routing
                     Intent intent = new Intent(MainActivity.this, LoadingActivity.class);
                     intent.putExtra("googleIdToken", idToken);
-                    intent.putExtra("authFlow", true); // NEW
+                    intent.putExtra("authFlow", true);
                     startActivity(intent);
 
                 } catch (ApiException e) {
@@ -73,8 +117,21 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
+    /**
+     * Called when the Activity is first created.
+     *
+     * Initializes:
+     * - Splash screen
+     * - UI components
+     * - ViewModels
+     * - Observers
+     * - Google Sign-In configuration
+     *
+     * @param savedInstanceState previously saved state, if any.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         SplashScreen.installSplashScreen(this);
 
         super.onCreate(savedInstanceState);
@@ -100,14 +157,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // GoogleSignInClient
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .build();
+
         googleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        // Email/Password -> LoadingActivity
         signinButton.setOnClickListener(v -> {
             String email = emailEditText.getText().toString().trim();
             String password = passwordEditText.getText().toString().trim();
@@ -117,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, LoadingActivity.class);
             intent.putExtra("email", email);
             intent.putExtra("password", password);
-            intent.putExtra("authFlow", true); // NEW
+            intent.putExtra("authFlow", true);
             startActivity(intent);
         });
 
@@ -125,7 +181,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, SignUpActivity.class))
         );
 
-        // Google button -> chooser
         googleLoginButton.setOnClickListener(v -> {
             googleSignInClient.signOut().addOnCompleteListener(task -> {
                 Intent signInIntent = googleSignInClient.getSignInIntent();
@@ -134,7 +189,18 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Displays the Forgot Password dialog.
+     *
+     * This dialog:
+     * - Allows the user to enter an email address.
+     * - Triggers password reset via ForgotPasswordViewModel.
+     * - Observes loading state and result messages.
+     *
+     * @param vm ForgotPasswordViewModel responsible for handling reset logic.
+     */
     private void showForgotDialog(ForgotPasswordViewModel vm) {
+
         View view = getLayoutInflater().inflate(R.layout.dialog_forgot_password, null);
         TextInputEditText etEmail = view.findViewById(R.id.etEmail);
         ProgressBar pb = view.findViewById(R.id.pbLoading);
@@ -154,9 +220,11 @@ public class MainActivity extends AppCompatActivity {
 
         vm.getState().observe(this, s -> {
             pb.setVisibility(s.loading ? View.VISIBLE : View.GONE);
+
             if (dialog.isShowing()) {
                 dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(!s.loading);
             }
+
             if (s.message != null) {
                 Toast.makeText(this, s.message, Toast.LENGTH_LONG).show();
                 if (!s.loading) dialog.dismiss();

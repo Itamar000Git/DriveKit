@@ -391,7 +391,7 @@ public class CarDetailsViewModel extends ViewModel {
         manufacturer.setValue("");
         model.setValue("");
         year.setValue("");
-        color.setValue("");
+
         nickname.setValue("");
         insuranceCompanyName.setValue("");
         insuranceCompanyId.setValue("");

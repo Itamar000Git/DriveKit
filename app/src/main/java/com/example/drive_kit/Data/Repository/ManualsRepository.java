@@ -50,7 +50,11 @@ public class ManualsRepository {
 
                     StorageReference ref = storage.getReference().child(pdfPath);
                     ref.getDownloadUrl()
-                            .addOnSuccessListener(uri -> cb.onSuccess(uri.toString()))
+                            .addOnSuccessListener(uri -> {
+                                String url = uri.toString();
+                                android.util.Log.d("MANUAL_URL", "downloadUrl=" + url); // ✅ הוספה
+                                cb.onSuccess(url);
+                            })
                             .addOnFailureListener(cb::onError);
                 })
                 .addOnFailureListener(cb::onError);

@@ -123,6 +123,58 @@ public class SignUpActivity extends AppCompatActivity {
     private String selectedInsuranceLogoUriString = null;
     private ActivityResultLauncher<String> pickInsuranceLogoLauncher;
 
+    /**
+     * Initializes the SignUp screen.
+     *
+     * Responsibilities of this method:
+     *
+     * 1) Inflate and bind all UI components from the signup layout.
+     *
+     * 2) Handle flow state passed from previous Activity:
+     *    - Detect if this is a profile-completion flow
+     *      (authenticated user without driver document).
+     *    - Pre-fill and lock email field if needed.
+     *
+     * 3) Initialize image pickers:
+     *    - Insurance logo picker (for insurance role).
+     *    - Car photo picker (for driver role).
+     *    Uses Activity Result API for modern, lifecycle-aware handling.
+     *
+     * 4) Initialize and observe SignUpViewModel:
+     *    - Observe date validation errors.
+     *    - Reflect validation messages directly in UI fields.
+     *
+     * 5) Setup dynamic role-based UI:
+     *    - Default role = Driver.
+     *    - Toggle visibility of driver/insurance sections
+     *      when role changes.
+     *
+     * 6) Populate dropdown fields:
+     *    - Load insurance companies from Firestore.
+     *    - Populate manufacturer list from CarModel enum.
+     *    - Generate dynamic year list (current year → 1980).
+     *
+     * 7) Setup driver-specific behavior:
+     *    - Auto-fetch car data from Government API when car number loses focus.
+     *    - Prevent overwriting user-modified fields.
+     *    - Open MaterialDatePickers for insurance, test, and 10K treatment dates.
+     *
+     * 8) Handle "Next" button click:
+     *    - Validate required fields.
+     *    - Validate driver-specific data.
+     *    - Handle existing-auth profile completion flow.
+     *    - Otherwise, navigate to SetUsernamePasswordActivity
+     *      with collected form data.
+     *
+     * Architectural Notes:
+     * - This Activity handles UI logic only.
+     * - Date validation and business logic are delegated to SignUpViewModel.
+     * - Firestore access is delegated to repository classes.
+     * - Government API fetch runs on background thread.
+     *
+     * @param savedInstanceState Standard Android lifecycle bundle.
+     */
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -506,6 +558,43 @@ public class SignUpActivity extends AppCompatActivity {
                 .show();
     }
 
+    /**
+     * Initializes and configures the Insurance Companies dropdown.
+     *
+     * Responsibilities:
+     *
+     * 1) Fetch all insurance companies from Firestore
+     *    (collection: "insurance_companies").
+     *
+     * 2) Build two synchronized lists:
+     *    - insuranceCompanyIds   → stores the document IDs (internal identifiers).
+     *    - insuranceCompanyNames → stores display strings shown to the user.
+     *
+     *    Each index in both lists represents the same company.
+     *    Example:
+     *      index 0:
+     *          insuranceCompanyNames → "Libra Insurance (libra)"
+     *          insuranceCompanyIds   → "libra"
+     *
+     * 3) Create and attach an ArrayAdapter to the dropdown
+     *    using the display names list.
+     *
+     * 4) Handle item selection:
+     *    - Store the selected company ID (document ID).
+     *    - Optionally populate the insuranceCompanyIdEditText field.
+     *    - Trigger loading of additional company details from Firestore.
+     *
+     * Defensive Behavior:
+     * - If the dropdown view is null, the method exits immediately.
+     * - Firestore failures are logged but do not crash the app.
+     *
+     * Notes:
+     * - The document ID (doc.getId()) is used as the internal company identifier.
+     * - The displayed string is a combination of the company name and its document ID.
+     * - This method does NOT create or modify Firestore data —
+     *   it only reads and binds it to the UI.
+     */
+
     private void setupInsuranceCompaniesDropdown() {
         if (insuranceCompanyDropdown == null) return;
 
@@ -519,7 +608,10 @@ public class SignUpActivity extends AppCompatActivity {
                     insuranceCompanyNames.clear();
 
                     for (QueryDocumentSnapshot doc : querySnapshot) {
+                        //"libra"
                         String docId = doc.getId();
+                        //System.out.println("//////////////////////////////////////////////////////////////////////////////////////////////////////////////////docId: " + docId);
+
                         String name = doc.getString("name");
 
                         if (name == null || name.trim().isEmpty()) name = docId;
@@ -643,6 +735,36 @@ public class SignUpActivity extends AppCompatActivity {
             fetchCarInfoFromGov(carNumber);
         }
     }
+
+    /**
+     * Fetches car information from the Israeli Government Open Data API
+     * using the provided car number.
+     *
+     * This method performs the following steps:
+     *
+     * 1) Builds a GET request to the official vehicle registry dataset.
+     * 2) Executes the network call on a background thread (to avoid blocking the UI).
+     * 3) Parses the returned JSON response.
+     * 4) Extracts:
+     *    - Test validity date (tokef_dt)
+     *    - Manufacturing year (shnat_yitzur)
+     *    - Manufacturer (tozeret_nm)
+     *    - Model names (kinuy_mishari / degem_nm)
+     * 5) Converts raw API values into internal CarModel enum values.
+     * 6) Attempts to infer a specific model using fuzzy matching.
+     * 7) Safely updates UI fields on the main thread using runOnUiThread().
+     *
+     * IMPORTANT:
+     * - Fields are only auto-filled if the user has NOT manually changed them.
+     * - This prevents overriding user-entered values.
+     * - All network failures are handled silently (logged but not crashing).
+     *
+     * Threading:
+     * - Network call runs on a single background executor thread.
+     * - UI updates are executed on the main thread.
+     *
+     * @param carNumber The vehicle registration number entered by the user.
+     */
 
     private void fetchCarInfoFromGov(String carNumber) {
         final String urlStr =
@@ -770,8 +892,42 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
     }
-
-    private void loadInsuranceCompanyDetails(String companyId) {
+    /**
+     * Loads insurance company details from Firestore
+     * and auto-fills relevant form fields.
+     *
+     * Behavior:
+     * 1) Validates input:
+     *    - If companyId is null or empty → exit immediately.
+     *    - If the currently selected role is Driver → exit (only relevant for insurance role).
+     *
+     * 2) Fetches the insurance company document from:
+     *      collection: "insurance_companies"
+     *      documentId: companyId
+     *
+     * 3) On success:
+     *    - If the document exists:
+     *        - Reads:
+     *            • email
+     *            • phone
+     *            • name
+     *        - Populates the corresponding UI fields:
+     *            • emailEditText
+     *            • phoneEditText
+     *            • firstNameEditText
+     *    - If a value is null or empty → clears the field.
+     *
+     * 4) On failure:
+     *    - Logs the error.
+     *    - Does NOT crash the app.
+     *
+     * Notes:
+     * - This method does NOT modify Firestore.
+     * - It only reads company data and reflects it in the UI.
+     * - Used when an insurance company is selected from the dropdown.
+     *
+     * @param companyId Firestore document ID of the selected insurance company.
+     */    private void loadInsuranceCompanyDetails(String companyId) {
         if (companyId == null || companyId.trim().isEmpty()) return;
         if (isDriverSelected()) return;
 

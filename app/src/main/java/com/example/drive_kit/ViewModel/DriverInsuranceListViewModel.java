@@ -71,33 +71,33 @@ public class DriverInsuranceListViewModel extends ViewModel {
         });
     }
 
-    /**
-     * Called when the user clicks a company.
-     * Business logic only (no UI here):
-     * - If the company is a partner -> log inquiry.
-     *
-     * @param uid     Firebase user uid (can be null; then we do nothing)
-     * @param company clicked company (must not be null)
-     */
-    public void onCompanyClicked(String uid, @NonNull InsuranceCompany company) {
-        if (!company.isPartner()) return;
-        if (uid == null || uid.trim().isEmpty()) return;
-
-        String companyDocId = safe(company.getDocId()).toLowerCase(Locale.ROOT); // ✅
-        String hp = safe(company.getId()).toLowerCase(Locale.ROOT);             // זה ה-h_p/תצוגה
-
-        inquiryRepo.logInquiry(
-                uid,
-                hp,
-                companyDocId,
-                company.getName(),
-                "", "", "", "", "", "הנהג ביקש שיחזרו אליו דרך DriveKit",
-                new InsuranceInquiryRepository.InquiryCallback() {
-                    @Override public void onSuccess() { /* toast */ }
-                    @Override public void onError(Exception e) { /* toast */ }
-                }
-        );
-    }
+//    /**
+//     * Called when the user clicks a company.
+//     * Business logic only (no UI here):
+//     * - If the company is a partner -> log inquiry.
+//     *
+//     * @param uid     Firebase user uid (can be null; then we do nothing)
+//     * @param company clicked company (must not be null)
+//     */
+//    public void onCompanyClicked(String uid, @NonNull InsuranceCompany company) {
+//        if (!company.isPartner()) return;
+//        if (uid == null || uid.trim().isEmpty()) return;
+//
+//        String companyDocId = safe(company.getDocId()).toLowerCase(Locale.ROOT); // ✅
+//        String hp = safe(company.getId()).toLowerCase(Locale.ROOT);             // זה ה-h_p/תצוגה
+//
+//        inquiryRepo.logInquiry(
+//                uid,
+//                hp,
+//                companyDocId,
+//                company.getName(),
+//                "", "", "", "", "", "הנהג ביקש שיחזרו אליו דרך DriveKit",
+//                new InsuranceInquiryRepository.InquiryCallback() {
+//                    @Override public void onSuccess() { /* toast */ }
+//                    @Override public void onError(Exception e) { /* toast */ }
+//                }
+//        );
+//    }
 
     private String safe(String s){ return s==null? "" : s.trim(); }
 
