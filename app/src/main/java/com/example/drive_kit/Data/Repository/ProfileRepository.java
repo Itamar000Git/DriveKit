@@ -464,7 +464,7 @@ public class ProfileRepository {
             String manufacturer,
             String carSpecificModel,
             int year,
-            String imageBase64OrNull,   // NEW
+            String imageBase64OrNull,
             SimpleCallback cb
     ) {
         if (uid == null || uid.trim().isEmpty()) {
@@ -478,7 +478,10 @@ public class ProfileRepository {
         updates.put("lastName", lastName);
         updates.put("phone", phone);
 
+        // ✅ אחידות: רק carNum
         updates.put("car.carNum", carNumber);
+        updates.put("car.carNumber", com.google.firebase.firestore.FieldValue.delete());
+
         updates.put("car.insuranceDateMillis", insuranceDateMillis);
         updates.put("car.testDateMillis", testDateMillis);
         updates.put("car.treatmentDateMillis", treatmentDateMillis);
@@ -487,11 +490,8 @@ public class ProfileRepository {
         updates.put("car.carSpecificModel", carSpecificModel);
         updates.put("car.year", year);
 
-        // ONLY if user changed image
         if (imageBase64OrNull != null && !imageBase64OrNull.trim().isEmpty()) {
             updates.put("car.carImageBase64", imageBase64OrNull);
-            // לא חובה למחוק carImageUri כדי לא לשבור תאימות
-            // updates.put("car.carImageUri", FieldValue.delete());
         }
 
         FirebaseFirestore.getInstance()
@@ -501,6 +501,7 @@ public class ProfileRepository {
                 .addOnSuccessListener(v -> cb.onSuccess())
                 .addOnFailureListener(cb::onError);
     }
+
 
 
 

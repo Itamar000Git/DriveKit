@@ -171,7 +171,29 @@ public class HomeActivity extends BaseLoggedInActivity {
     protected void onResume() {
         super.onResume();
         loadHomeAvatar(uid);
-        // הבייס כבר מרענן באדג׳ התראות ב-onResume שלו
+        homeVm.getWelcomeText().observe(this, vmText -> {
+            String t = (vmText == null) ? "" : vmText.trim();
+
+            String helloLine = "שלום";
+
+            if (t.startsWith("שלום")) {
+                String rest = t.substring("שלום".length()).trim();
+                rest = rest.replaceAll("^[,!?\\s]+", "");
+                rest = rest.replaceAll("[,!?\\s]+$", "");
+
+                if (!rest.isEmpty() && !t.startsWith("שגיאה")) {
+                    helloLine = "שלום " + rest;
+                }
+            }
+
+            if (helloUserText != null) {
+                helloUserText.setText(helloLine);
+            }
+
+            if (welcomeText != null) {
+                welcomeText.setText("ברוך הבא ל-DriveKit");
+            }
+        });
     }
 
     @Override

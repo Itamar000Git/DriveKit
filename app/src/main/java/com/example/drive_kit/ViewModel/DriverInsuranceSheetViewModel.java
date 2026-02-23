@@ -12,21 +12,6 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Locale;
 
-/**
- * DriverInsuranceSheetViewModel
- *
- * ViewModel for the driver's insurance company BottomSheet.
- *
- * Responsibilities:
- * - Validate inputs (userId/companyId)
- * - Fetch latest Driver from Firestore (via DriverRepository)
- * - Log inquiry with full driver details (via InsuranceInquiryRepository)
- *
- * UI stays in the BottomSheet:
- * - Intents (dial/mail/web)
- * - Toast rendering
- * - dismiss()
- */
 public class DriverInsuranceSheetViewModel extends ViewModel {
 
     private final DriverRepository driverRepo = new DriverRepository();
@@ -36,27 +21,20 @@ public class DriverInsuranceSheetViewModel extends ViewModel {
     private final MutableLiveData<Boolean> sendSuccess = new MutableLiveData<>(false);
     private final MutableLiveData<Boolean> sending = new MutableLiveData<>(false);
 
-    public LiveData<String> getToastMessage() {
-        return toastMessage;
-    }
-
-    public LiveData<Boolean> getSendSuccess() {
-        return sendSuccess;
-    }
-
-    public LiveData<Boolean> getSending() {
-        return sending;
-    }
+    public LiveData<String> getToastMessage() { return toastMessage; }
+    public LiveData<Boolean> getSendSuccess() { return sendSuccess; }
+    public LiveData<Boolean> getSending() { return sending; }
 
     /**
-     * Called when the user clicks "Send my details".
-     * This keeps the exact same behavior as your original BottomSheet:
-     * - Reads FirebaseAuth uid
-     * - Loads driver from Firestore
-     * - Builds driver fields (name/phone/email/carNumber/carModel)
-     * - Calls inquiryRepo.logInquiry(...) with callback
+     * ✅ UPDATED:
+     * companyIdHp  = h_p / מספר (לשדה companyId במסמך inquiry)
+     * companyDocId = docId של המסמך ב-insurance_companies (aig/clal/...)
      */
-    public void sendMyDetails(@NonNull String companyId, @NonNull String companyName) {
+    public void sendMyDetails(
+            @NonNull String companyIdHp,
+            @NonNull String companyDocId,
+            @NonNull String companyName
+    ) {
 
         String userId = FirebaseAuth.getInstance().getUid();
         if (userId == null || userId.trim().isEmpty()) {
@@ -64,19 +42,24 @@ public class DriverInsuranceSheetViewModel extends ViewModel {
             return;
         }
 
-        String cid = safe(companyId);
-        if (cid.isEmpty()) {
-            toastMessage.setValue("לא נמצא מזהה חברה");
+        String hp = safe(companyIdHp).toLowerCase(Locale.ROOT);
+        String docId = safe(companyDocId).toLowerCase(Locale.ROOT);
+        String cname = safe(companyName);
+
+        if (docId.isEmpty()) {
+            toastMessage.setValue("חסר companyDocId (docId של החברה)");
             return;
         }
+        // hp הוא אופציונלי (אבל נוח). אם אין h_p ניפול חזרה ל-docId
+        if (hp.isEmpty()) hp = docId;
 
         sending.setValue(true);
         sendSuccess.setValue(false);
 
+        String finalHp = hp;
         driverRepo.getDriverById(userId, new DriverRepository.DriverCallback() {
             @Override
             public void onSuccess(Driver d) {
-                // Build the same fields as before (no logic change)
                 String driverName = "";
                 String driverPhone = "";
                 String driverEmail = "";
@@ -85,7 +68,7 @@ public class DriverInsuranceSheetViewModel extends ViewModel {
 
                 if (d != null) {
                     String first = d.getFirstName() == null ? "" : d.getFirstName().trim();
-                    String last = d.getLastName() == null ? "" : d.getLastName().trim();
+                    String last  = d.getLastName() == null ? "" : d.getLastName().trim();
                     driverName = (first + " " + last).trim();
 
                     driverPhone = d.getPhone() == null ? "" : d.getPhone().trim();
@@ -98,10 +81,12 @@ public class DriverInsuranceSheetViewModel extends ViewModel {
                             ? d.getCar().getCarModel().name() : "";
                 }
 
+                // ✅ IMPORTANT: call the NEW overload that includes companyDocId
                 inquiryRepo.logInquiry(
                         userId,
-                        cid,
-                        companyName,
+                        finalHp,                 // companyId (h_p) - מידע/תצוגה
+                        docId,              // ✅ companyDocId (docId אמיתי) - חובה ל-rules
+                        cname,
                         driverName,
                         driverPhone,
                         driverEmail,

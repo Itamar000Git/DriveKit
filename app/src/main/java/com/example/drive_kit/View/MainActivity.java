@@ -2,24 +2,31 @@ package com.example.drive_kit.View;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.drive_kit.R;
+import com.example.drive_kit.ViewModel.ForgotPasswordViewModel;
 import com.example.drive_kit.ViewModel.MainViewModel;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
-import androidx.core.splashscreen.SplashScreen;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.textfield.TextInputEditText;
 
+import androidx.core.splashscreen.SplashScreen;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -55,9 +62,10 @@ public class MainActivity extends AppCompatActivity {
                         return;
                     }
 
-                    // מעבירים את הטוקן ל-LoadingActivity כדי ששם ה-VM יעשה Firebase login
+                    // ממשיכים ל-LoadingActivity לביצוע Firebase login + routing
                     Intent intent = new Intent(MainActivity.this, LoadingActivity.class);
                     intent.putExtra("googleIdToken", idToken);
+                    intent.putExtra("authFlow", true); // NEW
                     startActivity(intent);
 
                 } catch (ApiException e) {
@@ -78,6 +86,12 @@ public class MainActivity extends AppCompatActivity {
         signupButton = findViewById(R.id.signupButton);
         googleLoginButton = findViewById(R.id.googleLoginButton);
 
+        ForgotPasswordViewModel forgotVm =
+                new ViewModelProvider(this).get(ForgotPasswordViewModel.class);
+
+        TextView tvForgot = findViewById(R.id.tvForgotPassword);
+        tvForgot.setOnClickListener(v -> showForgotDialog(forgotVm));
+
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
         viewModel.getErrorMessage().observe(this, msg -> {
@@ -89,11 +103,11 @@ public class MainActivity extends AppCompatActivity {
         // GoogleSignInClient
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
-                .requestIdToken(getString(R.string.default_web_client_id)) // חובה כדי לקבל idToken
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .build();
-        googleSignInClient = GoogleSignIn.getClient(this, gso); // :contentReference[oaicite:1]{index=1}
+        googleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        // Email/Password -> LoadingActivity (כמו שהיה אצלך)
+        // Email/Password -> LoadingActivity
         signinButton.setOnClickListener(v -> {
             String email = emailEditText.getText().toString().trim();
             String password = passwordEditText.getText().toString().trim();
@@ -103,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, LoadingActivity.class);
             intent.putExtra("email", email);
             intent.putExtra("password", password);
+            intent.putExtra("authFlow", true); // NEW
             startActivity(intent);
         });
 
@@ -117,5 +132,37 @@ public class MainActivity extends AppCompatActivity {
                 googleLauncher.launch(signInIntent);
             });
         });
+    }
+
+    private void showForgotDialog(ForgotPasswordViewModel vm) {
+        View view = getLayoutInflater().inflate(R.layout.dialog_forgot_password, null);
+        TextInputEditText etEmail = view.findViewById(R.id.etEmail);
+        ProgressBar pb = view.findViewById(R.id.pbLoading);
+
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this)
+                .setTitle("איפוס סיסמה")
+                .setView(view)
+                .setNegativeButton("ביטול", (d, w) -> d.dismiss())
+                .setPositiveButton("שלח", null);
+
+        AlertDialog dialog = builder.create();
+
+        dialog.setOnShowListener(d -> {
+            Button btnSend = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            btnSend.setOnClickListener(x -> vm.sendReset(String.valueOf(etEmail.getText())));
+        });
+
+        vm.getState().observe(this, s -> {
+            pb.setVisibility(s.loading ? View.VISIBLE : View.GONE);
+            if (dialog.isShowing()) {
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(!s.loading);
+            }
+            if (s.message != null) {
+                Toast.makeText(this, s.message, Toast.LENGTH_LONG).show();
+                if (!s.loading) dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 }

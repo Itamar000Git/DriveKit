@@ -4,6 +4,8 @@
     <string name="username">username</string>
     <string name="password">password</string>
     <string name="credit_carcarekiosk_link">
+        <string name="alert_icon_desc">אייקון התראה</string>
+
     &lt;a href="https://www.carcarekiosk.com/"&gt;קרדיט: CarCareKiosk&lt;/a&gt;
     </string>
     <string name="google_maps_key">AIzaSyDdYBXd4kB5NIUhTCN_76D48_gYRgdRI-M</string>

@@ -97,11 +97,4 @@ dependencies {
     implementation("com.google.android.libraries.places:places:5.1.1")
     implementation("androidx.core:core-splashscreen:1.0.1")
 
-
-
-
-
-
-
-
 }

@@ -200,7 +200,7 @@ public class EditProfileViewModel extends ViewModel {
             int year,
             String carImageBase64OrNull // NEW
     ) {
-        if (isBlank(firstName) || isBlank(lastName) || isBlank(phone) || isBlank(carNumber)) {
+        if (isBlank(firstName)  || isBlank(phone) || isBlank(carNumber)) {
             toastMessage.setValue("נא למלא את כל השדות");
             return;
         }

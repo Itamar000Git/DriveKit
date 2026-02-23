@@ -4,28 +4,30 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView; // ✅ NEW
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.drive_kit.Data.Repository.CompleteProfileRepository;
 import com.example.drive_kit.Model.CarModel;
+import com.example.drive_kit.Model.Driver;
 import com.example.drive_kit.R;
 import com.example.drive_kit.ViewModel.SignUpViewModel;
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.datepicker.MaterialDatePicker;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder; // ✅ NEW
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -46,102 +48,75 @@ import java.util.Locale;
  * SignUpActivity
  *
  * Responsibilities:
- * 1) Collect shared signup fields for both roles (driver / insurance).
- * 2) Show role-specific UI sections:
- *    - Driver: car details, dates, optional car photo.
- *    - Insurance: insurance company selection from Firestore.
- * 3) Auto-fill driver fields from Israeli gov vehicle API using car number.
- * 4) Validate required inputs and navigate to SetUsernamePasswordActivity.
+ * 1) Collect common signup fields (name, email, phone) for both roles.
+ * 2) Show/hide role-specific sections:
+ *    - Driver: car details, maintenance/test/insurance dates, optional car photo.
+ *    - Insurance: insurance company selection and optional company logo.
+ * 3) Auto-fill car data from gov API based on car number (best effort).
+ * 4) Validate mandatory inputs.
+ * 5) Support "existing-auth user missing profile" completion flow (driver-only).
  *
- * Data flow:
- * - This screen gathers profile/base data.
- * - Password is collected in SetUsernamePasswordActivity.
- *
- * IMPORTANT:
- * Requires these IDs in signup.xml:
- * - insuranceCompanyLayout
- * - insuranceCompanyDropdown
- * - carPhotoLayout / carPhotoEditText
- * - tvService10kDontRemember  ✅ NEW
+ * NOTE:
+ * - No email pre-check is performed here.
+ * - Email existence is handled during actual sign-up in the password screen.
  */
 public class SignUpActivity extends AppCompatActivity {
 
-    // Next button (navigates to password step)
     private Button next;
 
-    // ❌ REMOVED: "Can't remember" quick-fill buttons for 10K service date
-    // private Button canNotRemember2Month;
-    // private Button canNotRemember4Month;
-    // private Button canNotRemember6Month;
-
-    // ✅ NEW: clickable text under the datepicker
     private TextView tvService10kDontRemember;
 
-    // Role controls
     private android.widget.RadioGroup roleGroup;
     private android.widget.RadioButton radioDriver, radioInsurance;
 
-    // Shared/common inputs
+    // Flow flags: existing Auth user but missing drivers doc
+    private boolean fromAuthNoDriverDoc = false;
+    private String prefillEmail = "";
+
     private EditText firstNameEditText;
     private EditText lastNameEditText;
     private EditText emailEditText;
     private EditText phoneEditText;
 
-    // Driver-specific fields
     private EditText carNumberEditText;
     private CarModel carModel;
 
-    // Driver car year
     private MaterialAutoCompleteTextView yearDropdown;
     private int year;
 
-    // Driver manufacturer + specific model
     private MaterialAutoCompleteTextView manufacturerDropdown;
     private MaterialAutoCompleteTextView modelDropdown;
     private String selectedModelName = null;
 
-    // Driver date fields
     private TextInputEditText insuranceDateEditText;
     private TextInputEditText testDateEditText;
     private TextInputEditText treatmentDateEditText;
 
-    // Driver-only layout wrappers (shown/hidden by role)
     private View carNumberLayout, manufacturerLayout, modelLayout, yearLayout;
     private View insuranceDateLayout, testDateLayout, service10kDateLayout;
 
-    // ❌ REMOVED: old "not remember" label + horizontal buttons row
-    // private View notrememberView, service10kRangeButtonsScrollView;
-
-    // Optional car photo picker UI
     private TextInputLayout carPhotoLayout;
     private TextInputEditText carPhotoEditText;
 
-    // Stores selected local URI as String (passed to next screen)
     private String selectedCarPhotoUriString = null;
     private ActivityResultLauncher<String> pickCarPhotoLauncher;
 
-    // Insurance-only company selector
     private View insuranceCompanyLayout;
     private MaterialAutoCompleteTextView insuranceCompanyDropdown;
     private String selectedCompanyId = null;
 
-    // Dropdown mapping arrays:
-    // display name list + parallel company doc IDs
     private final ArrayList<String> insuranceCompanyIds = new ArrayList<>();
     private final ArrayList<String> insuranceCompanyNames = new ArrayList<>();
 
-    // ViewModel for date validation/state
     private SignUpViewModel viewModel;
 
-    // Flags that track whether user manually changed auto-fillable fields
     private boolean userChangedTestDate = false;
-    private boolean userChangedModel = false;          // manufacturer
+    private boolean userChangedModel = false;
     private boolean userChangedYear = false;
     private boolean userChangedCarSpecificModel = false;
 
     private TextInputEditText insuranceCompanyIdEditText;
 
-    // Insurance logo picker UI
     private TextInputLayout insuranceLogoLayout;
     private TextInputEditText insuranceLogoEditText;
 
@@ -153,6 +128,11 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup);
+
+        // Read flow extras from LoadingActivity
+        fromAuthNoDriverDoc = getIntent().getBooleanExtra("fromAuthNoDriverDoc", false);
+        prefillEmail = getIntent().getStringExtra("prefillEmail");
+        if (prefillEmail == null) prefillEmail = "";
 
         insuranceLogoLayout = findViewById(R.id.insuranceLogoLayout);
         insuranceLogoEditText = findViewById(R.id.insuranceLogoEditText);
@@ -174,7 +154,6 @@ public class SignUpActivity extends AppCompatActivity {
                 }
         );
 
-        // פתיחת גלריה בלחיצה
         if (insuranceLogoEditText != null) {
             insuranceLogoEditText.setOnClickListener(v -> pickInsuranceLogoLauncher.launch("image/*"));
         }
@@ -182,29 +161,22 @@ public class SignUpActivity extends AppCompatActivity {
             insuranceLogoLayout.setEndIconOnClickListener(v -> pickInsuranceLogoLauncher.launch("image/*"));
         }
 
-
-        // ---------- Views ----------
-        // Main action button
         next = findViewById(R.id.next);
 
-        // Shared/common fields
         firstNameEditText = findViewById(R.id.firstNameEditText);
-        lastNameEditText  = findViewById(R.id.lastNameEditText);
-        emailEditText     = findViewById(R.id.emailEditText);
-        phoneEditText     = findViewById(R.id.phoneEditText);
+        lastNameEditText = findViewById(R.id.lastNameEditText);
+        emailEditText = findViewById(R.id.emailEditText);
+        phoneEditText = findViewById(R.id.phoneEditText);
 
-        // Role toggle
-        roleGroup      = findViewById(R.id.roleGroup);
-        radioDriver    = findViewById(R.id.radioDriver);
+        roleGroup = findViewById(R.id.roleGroup);
+        radioDriver = findViewById(R.id.radioDriver);
         radioInsurance = findViewById(R.id.radioInsurance);
 
-        // Driver fields
-        carNumberEditText     = findViewById(R.id.carNumberEditText);
+        carNumberEditText = findViewById(R.id.carNumberEditText);
         insuranceDateEditText = findViewById(R.id.insuranceDateEditText);
-        testDateEditText      = findViewById(R.id.testDateEditText);
+        testDateEditText = findViewById(R.id.testDateEditText);
         treatmentDateEditText = findViewById(R.id.service10kDateEditText);
 
-        // ✅ NEW: clickable text (must exist in XML)
         tvService10kDontRemember = findViewById(R.id.tvService10kDontRemember);
 
         insuranceCompanyIdEditText = findViewById(R.id.insuranceCompanyIdEditText);
@@ -212,29 +184,34 @@ public class SignUpActivity extends AppCompatActivity {
             tvService10kDontRemember.setOnClickListener(v -> showTreatRangePopup());
         }
 
-        // Driver dropdowns
         manufacturerDropdown = findViewById(R.id.manufacturerDropdown);
-        yearDropdown         = findViewById(R.id.yearDropdown);
-        modelDropdown        = findViewById(R.id.modelDropdown);
+        yearDropdown = findViewById(R.id.yearDropdown);
+        modelDropdown = findViewById(R.id.modelDropdown);
 
-        // Driver wrappers for show/hide by role
-        carNumberLayout      = findViewById(R.id.carNumberLayout);
-        manufacturerLayout   = findViewById(R.id.manufacturerLayout);
-        modelLayout          = findViewById(R.id.modelLayout);
-        yearLayout           = findViewById(R.id.yearLayout);
-        insuranceDateLayout  = findViewById(R.id.insuranceDateLayout);
-        testDateLayout       = findViewById(R.id.testDateLayout);
+        carNumberLayout = findViewById(R.id.carNumberLayout);
+        manufacturerLayout = findViewById(R.id.manufacturerLayout);
+        modelLayout = findViewById(R.id.modelLayout);
+        yearLayout = findViewById(R.id.yearLayout);
+        insuranceDateLayout = findViewById(R.id.insuranceDateLayout);
+        testDateLayout = findViewById(R.id.testDateLayout);
         service10kDateLayout = findViewById(R.id.service10kDateLayout);
 
-        // Car photo inputs
         carPhotoLayout = findViewById(R.id.carPhotoLayout);
         carPhotoEditText = findViewById(R.id.carPhotoEditText);
 
-        // Insurance dropdown (must exist in XML)
         insuranceCompanyLayout = findViewById(R.id.insuranceCompanyLayout);
         insuranceCompanyDropdown = findViewById(R.id.insuranceCompanyDropdown);
 
-        // ✅ NEW: open popup on click
+        if (fromAuthNoDriverDoc) {
+            if (!prefillEmail.trim().isEmpty()) {
+                emailEditText.setText(prefillEmail.trim());
+            }
+            // Prevent changing email when user already authenticated
+            emailEditText.setEnabled(false);
+            emailEditText.setFocusable(false);
+            emailEditText.setClickable(false);
+        }
+
         if (tvService10kDontRemember != null) {
             tvService10kDontRemember.setOnClickListener(v -> {
                 if (!isDriverSelected()) return;
@@ -242,9 +219,6 @@ public class SignUpActivity extends AppCompatActivity {
             });
         }
 
-
-
-        // ---------- Gallery picker ----------
         pickCarPhotoLauncher = registerForActivityResult(
                 new ActivityResultContracts.GetContent(),
                 uri -> {
@@ -252,7 +226,6 @@ public class SignUpActivity extends AppCompatActivity {
 
                     selectedCarPhotoUriString = uri.toString();
 
-                    // Update UI state after image selection
                     if (carPhotoEditText != null) {
                         carPhotoEditText.setText("נבחרה תמונה");
                         carPhotoEditText.setError(null);
@@ -263,20 +236,15 @@ public class SignUpActivity extends AppCompatActivity {
                 }
         );
 
-        // Open gallery when user clicks text field
         if (carPhotoEditText != null) {
             carPhotoEditText.setOnClickListener(v -> pickCarPhotoLauncher.launch("image/*"));
         }
         if (carPhotoLayout != null) {
-            // Open gallery when end icon is clicked
             carPhotoLayout.setEndIconOnClickListener(v -> pickCarPhotoLauncher.launch("image/*"));
         }
 
-        // ---------- ViewModel ----------
-        // ViewModel manages date validation and selected date millis
         viewModel = new ViewModelProvider(this).get(SignUpViewModel.class);
 
-        // Observe date validation errors and show them inline
         viewModel.getInsuranceDateError().observe(this, err -> {
             if (err != null && insuranceDateEditText != null) insuranceDateEditText.setError(err);
         });
@@ -287,12 +255,9 @@ public class SignUpActivity extends AppCompatActivity {
             if (err != null && treatmentDateEditText != null) treatmentDateEditText.setError(err);
         });
 
-        // ---------- Role behavior ----------
-        // Default role = driver
         if (radioDriver != null) radioDriver.setChecked(true);
         applyRoleUi(true);
 
-        // Toggle visible sections when role changes
         if (roleGroup != null) {
             roleGroup.setOnCheckedChangeListener((group, checkedId) -> {
                 boolean isDriver = (checkedId == R.id.radioDriver);
@@ -300,12 +265,8 @@ public class SignUpActivity extends AppCompatActivity {
             });
         }
 
-        // ---------- Insurance companies dropdown ----------
-        // Load insurance company list from Firestore
         setupInsuranceCompaniesDropdown();
 
-        // ---------- Year dropdown ----------
-        // Initialize year dropdown from current year back to 1980
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
         ArrayList<String> years = new ArrayList<>();
         for (int y = currentYear; y >= 1980; y--) years.add(String.valueOf(y));
@@ -314,7 +275,6 @@ public class SignUpActivity extends AppCompatActivity {
                 new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, years);
         yearDropdown.setAdapter(yearAdapter);
 
-        // Default selected year = current year
         year = currentYear;
         yearDropdown.setText(String.valueOf(currentYear), false);
         yearDropdown.setOnClickListener(v -> yearDropdown.showDropDown());
@@ -324,8 +284,6 @@ public class SignUpActivity extends AppCompatActivity {
             userChangedYear = true;
         });
 
-        // ---------- Manufacturer dropdown ----------
-        // Build manufacturer list from CarModel enum values
         LinkedHashSet<String> unique = new LinkedHashSet<>();
         for (CarModel c : CarModel.values()) unique.add(c.name());
 
@@ -334,7 +292,6 @@ public class SignUpActivity extends AppCompatActivity {
                 new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, manufacturerItems);
         manufacturerDropdown.setAdapter(manufacturerAdapter);
 
-        // Default manufacturer
         carModel = CarModel.UNKNOWN;
 
         manufacturerDropdown.setOnClickListener(v -> manufacturerDropdown.showDropDown());
@@ -343,17 +300,13 @@ public class SignUpActivity extends AppCompatActivity {
             carModel = CarModel.valueOf(selected);
             userChangedModel = true;
 
-            // Refresh specific-model dropdown when manufacturer changes
             updateModelDropdownAdapter(carModel);
 
-            // Reset specific model selection after manufacturer change
             selectedModelName = null;
             userChangedCarSpecificModel = false;
             if (modelDropdown != null) modelDropdown.setText("", false);
         });
 
-        // ---------- Specific model dropdown ----------
-        // Initialize model dropdown for default manufacturer
         updateModelDropdownAdapter(carModel);
         if (modelDropdown != null) {
             modelDropdown.setOnClickListener(v -> modelDropdown.showDropDown());
@@ -364,12 +317,10 @@ public class SignUpActivity extends AppCompatActivity {
             });
         }
 
-        // ---------- Debug ----------
-        // Helpful null check log for XML binding issues
-        if (insuranceCompanyDropdown == null) Log.e("SignUp", "insuranceCompanyDropdown is NULL (check XML ids!)");
+        if (insuranceCompanyDropdown == null) {
+            Log.e("SignUp", "insuranceCompanyDropdown is NULL (check XML ids!)");
+        }
 
-        // ---------- Car number focus (driver only) ----------
-        // When car number loses focus, optionally trigger API lookup for auto-fill
         carNumberEditText.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
                 if (!isDriverSelected()) return;
@@ -377,15 +328,12 @@ public class SignUpActivity extends AppCompatActivity {
                 String carNumber = safeText(carNumberEditText);
                 if (carNumber.isEmpty()) return;
 
-                // Only auto-fill fields that user didn't manually override
                 if (!userChangedTestDate || !userChangedModel || !userChangedYear || !userChangedCarSpecificModel) {
                     fetchCarInfoFromGov(carNumber);
                 }
             }
         });
 
-        // ---------- Date pickers (driver only) ----------
-        // Insurance date picker
         insuranceDateEditText.setOnClickListener(v -> {
             if (!isDriverSelected()) return;
             carNumberEditText.clearFocus();
@@ -393,7 +341,6 @@ public class SignUpActivity extends AppCompatActivity {
             openDatePickerInsurance();
         });
 
-        // Test date picker
         testDateEditText.setOnClickListener(v -> {
             if (!isDriverSelected()) return;
             carNumberEditText.clearFocus();
@@ -401,7 +348,6 @@ public class SignUpActivity extends AppCompatActivity {
             openDatePickerTest();
         });
 
-        // 10K treatment date picker
         treatmentDateEditText.setOnClickListener(v -> {
             if (!isDriverSelected()) return;
             carNumberEditText.clearFocus();
@@ -409,27 +355,23 @@ public class SignUpActivity extends AppCompatActivity {
             openDatePickerTreat();
         });
 
-        // ---------- Next ----------
         next.setOnClickListener(v -> {
             boolean isDriver = isDriverSelected();
 
-            // 1) Common inputs
             String firstName = safeText(firstNameEditText);
-            String lastName  = safeText(lastNameEditText);
-            String email     = safeText(emailEditText);
-            String phone     = safeText(phoneEditText);
+            String lastName = safeText(lastNameEditText);
+            String email = safeText(emailEditText);
+            String phone = safeText(phoneEditText);
 
-            // 2) Validate common
             if (email.isEmpty() || phone.isEmpty()) {
-                android.widget.Toast.makeText(
+                Toast.makeText(
                         SignUpActivity.this,
                         "נא למלא את כל השדות הבסיסיים",
-                        android.widget.Toast.LENGTH_SHORT
+                        Toast.LENGTH_SHORT
                 ).show();
                 return;
             }
 
-            // 3) Insurance extra validation
             if (!isDriver) {
                 String chosen = (insuranceCompanyDropdown == null) ? "" :
                         insuranceCompanyDropdown.getText().toString().trim();
@@ -442,7 +384,82 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             }
 
-            // 4) Build intent
+            String carNumber = safeText(carNumberEditText);
+
+            if (isDriver) {
+                if (!viewModel.validateDates()) return;
+
+                boolean missingDriverText = carNumber.isEmpty();
+                boolean missingDriverDropdowns =
+                        carModel == null || carModel == CarModel.UNKNOWN ||
+                                year <= 0 ||
+                                selectedModelName == null || selectedModelName.trim().isEmpty();
+
+                if (missingDriverText || missingDriverDropdowns) {
+                    Toast.makeText(
+                            SignUpActivity.this,
+                            "לנהג חובה למלא פרטי רכב",
+                            Toast.LENGTH_SHORT
+                    ).show();
+                    return;
+                }
+            }
+
+            // Existing-auth completion flow (driver only)
+            if (fromAuthNoDriverDoc && isDriver) {
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                if (currentUser == null) {
+                    Toast.makeText(this, "שגיאה: המשתמש לא מחובר", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(this, MainActivity.class));
+                    finish();
+                    return;
+                }
+
+                String uid = currentUser.getUid();
+                CompleteProfileRepository repo = new CompleteProfileRepository();
+
+                Driver driver = new Driver(
+                        firstName,
+                        lastName,
+                        email,
+                        phone,
+                        carNumber,
+                        carModel,
+                        year,
+                        viewModel.getSelectedInsuranceDateMillis(),
+                        viewModel.getSelectedTestDateMillis(),
+                        viewModel.getSelectedTreatDateMillis(),
+                        selectedCarPhotoUriString
+                );
+
+                if (selectedModelName != null && !selectedModelName.trim().isEmpty() && driver.getCar() != null) {
+                    driver.getCar().setCarSpecificModel(selectedModelName.trim());
+                }
+
+                repo.completeDriverProfile(uid, driver, new CompleteProfileRepository.CompleteCallback() {
+                    @Override
+                    public void onSuccess() {
+                        Toast.makeText(SignUpActivity.this, "השלמת פרופיל הושלמה", Toast.LENGTH_SHORT).show();
+
+                        Intent nextIntent = new Intent(SignUpActivity.this, HomeActivity.class);
+                        nextIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(nextIntent);
+                        finish();
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        Toast.makeText(
+                                SignUpActivity.this,
+                                "שגיאה בהשלמת פרופיל נהג: " + (e != null ? e.getMessage() : ""),
+                                Toast.LENGTH_LONG
+                        ).show();
+                    }
+                });
+                return;
+            }
+
+            // Build intent for password screen (no email pre-check here)
             Intent intent = new Intent(SignUpActivity.this, SetUsernamePasswordActivity.class);
             intent.putExtra("role", isDriver ? "driver" : "insurance");
             intent.putExtra("isInsurance", !isDriver);
@@ -457,33 +474,9 @@ public class SignUpActivity extends AppCompatActivity {
                 if (selectedInsuranceLogoUriString != null && !selectedInsuranceLogoUriString.trim().isEmpty()) {
                     intent.putExtra("insuranceLogoUri", selectedInsuranceLogoUriString.trim());
                 }
-                intent.putExtra("insuranceCompanyId", selectedCompanyId);
             }
 
-            // 5) Driver extras
             if (isDriver) {
-                // Validate date fields in ViewModel
-                if (!viewModel.validateDates()) return;
-
-                String carNumber = safeText(carNumberEditText);
-
-                // Validate required driver fields
-                boolean missingDriverText = carNumber.isEmpty();
-                boolean missingDriverDropdowns =
-                        carModel == null || carModel == CarModel.UNKNOWN ||
-                                year <= 0 ||
-                                selectedModelName == null || selectedModelName.trim().isEmpty();
-
-                if (missingDriverText || missingDriverDropdowns) {
-                    android.widget.Toast.makeText(
-                            SignUpActivity.this,
-                            "לנהג חובה למלא פרטי רכב",
-                            android.widget.Toast.LENGTH_SHORT
-                    ).show();
-                    return;
-                }
-
-                // Attach driver payload
                 intent.putExtra("carNumber", carNumber);
                 intent.putExtra("insuranceDateMillis", viewModel.getSelectedInsuranceDateMillis());
                 intent.putExtra("testDateMillis", viewModel.getSelectedTestDateMillis());
@@ -492,40 +485,30 @@ public class SignUpActivity extends AppCompatActivity {
                 intent.putExtra("year", year);
                 intent.putExtra("carSpecificModel", selectedModelName);
 
-                // Attach optional local photo URI
                 if (selectedCarPhotoUriString != null && !selectedCarPhotoUriString.trim().isEmpty()) {
                     intent.putExtra("carPhotoUri", selectedCarPhotoUriString.trim());
                 }
             }
 
-            // Continue to next step
             startActivity(intent);
         });
     }
 
-    // ✅ NEW: popup with 3 choices ("same logic" -> setTreatByMonthsBack)
     private void showTreatRangePopup() {
         if (!isDriverSelected()) return;
 
         new MaterialAlertDialogBuilder(this)
                 .setTitle("לא זוכר תאריך טיפול?")
                 .setMessage("בחר טווח זמן, ואנו נציב תאריך משוער בתיבה")
-                // סדר הכפתורים: 1) חודשיים  2) 4 חודשים  3) חצי שנה
                 .setPositiveButton("עד חודשיים", (dialog, which) -> setTreatByMonthsBack(2))
                 .setNegativeButton("עד 4 חודשים", (dialog, which) -> setTreatByMonthsBack(4))
                 .setNeutralButton("עד חצי שנה", (dialog, which) -> setTreatByMonthsBack(6))
                 .show();
     }
 
-
-
-    // =========================
-    // Insurance companies dropdown from Firestore
-    // =========================
     private void setupInsuranceCompaniesDropdown() {
         if (insuranceCompanyDropdown == null) return;
 
-        // Open dropdown on click
         insuranceCompanyDropdown.setOnClickListener(v -> insuranceCompanyDropdown.showDropDown());
 
         FirebaseFirestore.getInstance()
@@ -535,7 +518,6 @@ public class SignUpActivity extends AppCompatActivity {
                     insuranceCompanyIds.clear();
                     insuranceCompanyNames.clear();
 
-                    // Build display list and id mapping
                     for (QueryDocumentSnapshot doc : querySnapshot) {
                         String docId = doc.getId();
                         String name = doc.getString("name");
@@ -552,14 +534,12 @@ public class SignUpActivity extends AppCompatActivity {
                             new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, insuranceCompanyNames);
                     insuranceCompanyDropdown.setAdapter(adapter);
 
-                    // Save selected company doc ID
                     insuranceCompanyDropdown.setOnItemClickListener((parent, view, position, id) -> {
                         if (position >= 0 && position < insuranceCompanyIds.size()) {
                             selectedCompanyId = insuranceCompanyIds.get(position);
                             if (insuranceCompanyIdEditText != null) {
-                                insuranceCompanyIdEditText.setText(selectedCompanyId); // docId מהדאטה בייס
+                                insuranceCompanyIdEditText.setText(selectedCompanyId);
                             }
-                            // Auto-load company profile fields into common inputs
                             loadInsuranceCompanyDetails(selectedCompanyId);
                         }
                     });
@@ -567,12 +547,10 @@ public class SignUpActivity extends AppCompatActivity {
                 .addOnFailureListener(e -> Log.e("SignUp", "Failed to load insurance_companies", e));
     }
 
-    // Returns true if current selected role is driver
     private boolean isDriverSelected() {
         return radioDriver != null && radioDriver.isChecked();
     }
 
-    // Shows/hides role-specific UI groups
     private void applyRoleUi(boolean isDriver) {
         int vis = isDriver ? View.VISIBLE : View.GONE;
 
@@ -585,20 +563,25 @@ public class SignUpActivity extends AppCompatActivity {
         if (testDateLayout != null) testDateLayout.setVisibility(vis);
         if (service10kDateLayout != null) service10kDateLayout.setVisibility(vis);
 
-        // ✅ NEW: clickable text shown/hidden for driver
         if (tvService10kDontRemember != null) tvService10kDontRemember.setVisibility(vis);
 
-        if (insuranceCompanyLayout != null){
+        if (insuranceCompanyLayout != null) {
             insuranceCompanyLayout.setVisibility(isDriver ? View.GONE : View.VISIBLE);
+        }
+        if (insuranceCompanyDropdown != null) {
             insuranceCompanyDropdown.setVisibility(isDriver ? View.GONE : View.VISIBLE);
+        }
+        if (insuranceCompanyIdEditText != null) {
             insuranceCompanyIdEditText.setVisibility(isDriver ? View.GONE : View.VISIBLE);
+        }
+        if (insuranceLogoLayout != null) {
             insuranceLogoLayout.setVisibility(isDriver ? View.GONE : View.VISIBLE);
+        }
+        if (insuranceLogoEditText != null) {
             insuranceLogoEditText.setVisibility(isDriver ? View.GONE : View.VISIBLE);
-
         }
     }
 
-    // Helper: sets treatment date to "today - N months"
     private void setTreatByMonthsBack(int months) {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MONTH, -months);
@@ -610,7 +593,6 @@ public class SignUpActivity extends AppCompatActivity {
         treatmentDateEditText.setText(sdf.format(cal.getTime()));
     }
 
-    // Opens insurance date picker dialog
     private void openDatePickerInsurance() {
         MaterialDatePicker<Long> datePicker =
                 MaterialDatePicker.Builder.datePicker()
@@ -624,7 +606,6 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
-    // Opens test date picker dialog
     private void openDatePickerTest() {
         MaterialDatePicker<Long> datePicker =
                 MaterialDatePicker.Builder.datePicker()
@@ -639,7 +620,6 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
-    // Opens 10K treatment date picker dialog
     private void openDatePickerTreat() {
         MaterialDatePicker<Long> datePicker =
                 MaterialDatePicker.Builder.datePicker()
@@ -653,7 +633,6 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
-    // Triggers gov API lookup if user has not manually overridden all relevant fields
     private void triggerCarLookupIfNeeded() {
         if (!isDriverSelected()) return;
 
@@ -665,11 +644,6 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
-    // Calls data.gov.il API and attempts to auto-fill:
-    // - test date (derived from tokef_dt - 1 year)
-    // - year
-    // - manufacturer
-    // - specific model
     private void fetchCarInfoFromGov(String carNumber) {
         final String urlStr =
                 "https://data.gov.il/api/3/action/datastore_search" +
@@ -713,8 +687,6 @@ public class SignUpActivity extends AppCompatActivity {
                 Long testMillisFromApi = null;
                 String testDisplayFromApi = null;
 
-                // Government field tokef_dt seems to represent validity date.
-                // App logic sets test date to one year before tokef_dt.
                 String tokefDt = rec0.optString("tokef_dt", "");
                 if (!tokefDt.isEmpty()) {
                     SimpleDateFormat apiFmt = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
@@ -736,7 +708,6 @@ public class SignUpActivity extends AppCompatActivity {
                     if (y > 0) yearFromApi = y;
                 }
 
-                // Manufacturer + specific model inference candidates from API fields
                 String tozeretNm = rec0.optString("tozeret_nm", "");
                 CarModel manufacturerFromApi = CarModel.fromGovValue(tozeretNm);
 
@@ -751,7 +722,6 @@ public class SignUpActivity extends AppCompatActivity {
                 String specificModelNameFromApi =
                         inferSpecificModelName(manufacturerContext, kinuyMishari, degemNm);
 
-                // Capture final values for UI thread
                 Long finalTestMillisFromApi = testMillisFromApi;
                 String finalTestDisplayFromApi = testDisplayFromApi;
                 Integer finalYearFromApi = yearFromApi;
@@ -759,7 +729,6 @@ public class SignUpActivity extends AppCompatActivity {
                 String finalSpecificModelNameFromApi = specificModelNameFromApi;
                 CarModel finalManufacturerContext = manufacturerContext;
 
-                // Apply updates on main thread (and only for fields user didn't manually change)
                 runOnUiThread(() -> {
                     if (!isDriverSelected()) return;
 
@@ -802,11 +771,9 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
-    // Loads selected insurance company details and pre-fills common fields
-    // (email, phone, name) for insurance role.
     private void loadInsuranceCompanyDetails(String companyId) {
         if (companyId == null || companyId.trim().isEmpty()) return;
-        if (isDriverSelected()) return; // רק לחברת ביטוח
+        if (isDriverSelected()) return;
 
         FirebaseFirestore.getInstance()
                 .collection("insurance_companies")
@@ -815,9 +782,9 @@ public class SignUpActivity extends AppCompatActivity {
                 .addOnSuccessListener(doc -> {
                     if (!doc.exists()) return;
 
-                    String email = doc.getString("email"); // בדיוק כמו בתמונה
+                    String email = doc.getString("email");
                     String phone = doc.getString("phone");
-                    String name  = doc.getString("name");
+                    String name = doc.getString("name");
 
                     if (email != null && !email.trim().isEmpty()) emailEditText.setText(email.trim());
                     else emailEditText.setText("");
@@ -831,7 +798,6 @@ public class SignUpActivity extends AppCompatActivity {
                 .addOnFailureListener(e -> Log.e("SignUp", "Failed to load company details", e));
     }
 
-    // Refreshes model dropdown according to selected manufacturer enum
     private void updateModelDropdownAdapter(CarModel manufacturer) {
         if (modelDropdown == null) return;
 
@@ -851,8 +817,6 @@ public class SignUpActivity extends AppCompatActivity {
         modelDropdown.setAdapter(modelAdapter);
     }
 
-    // Best-effort mapping from free-text API model strings to enum model names
-    // using normalized string equality / contains matching.
     private String inferSpecificModelName(CarModel manufacturer, String... candidates) {
         Enum<?>[] models = CarModel.getModelsFor(manufacturer);
         if (models == null || models.length == 0) return null;
@@ -875,15 +839,10 @@ public class SignUpActivity extends AppCompatActivity {
         return null;
     }
 
-    // Normalizes strings for model matching:
-    // - trim
-    // - uppercase
-    // - keep only digits/latin/hebrew letters
     private String normalize(String s) {
         return s.trim().toUpperCase(Locale.ROOT).replaceAll("[^0-9A-Zא-ת]+", "");
     }
 
-    // Null-safe text extraction from EditText
     private String safeText(EditText et) {
         if (et == null || et.getText() == null) return "";
         return et.getText().toString().trim();
