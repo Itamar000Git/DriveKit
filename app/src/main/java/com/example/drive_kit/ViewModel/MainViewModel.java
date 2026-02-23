@@ -12,6 +12,9 @@ import com.example.drive_kit.Data.Repository.NotificationSchedulerRepository;
  * ViewModel for the MainActivity.
  * This class holds UI-related logic and data.
  * It does NOT know about Views, Buttons, or Activities directly.
+ * The NotificationSchedulerRepository knows nothing about notifications.
+ * It just runs the Worker at a fixed time.
+ * The Worker is the one who decides which notifications to send.
  */
 public class MainViewModel extends ViewModel {
     // LiveData that holds an error message for the UI.

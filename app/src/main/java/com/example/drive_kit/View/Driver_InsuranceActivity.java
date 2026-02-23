@@ -35,7 +35,7 @@ public class Driver_InsuranceActivity extends BaseLoggedInActivity {
         vm.getCompanies().observe(this, companies -> {
             recycler.setAdapter(new InsuranceListAdapter(companies, company -> {
 
-                // ✅ הכי חשוב: hp + docId
+
                 Driver_InsuranceBottomSheet sheet = Driver_InsuranceBottomSheet.newInstance(
                         company.getHp(),       // h_p (515761625)
                         company.getDocId(),    // docId (libra)
@@ -48,7 +48,7 @@ public class Driver_InsuranceActivity extends BaseLoggedInActivity {
                 sheet.show(getSupportFragmentManager(), "insurance_sheet");
 
                 // business logic
-                vm.onCompanyClicked(uid, company);
+                // vm.onCompanyClicked(uid, company);
             }));
         });
 

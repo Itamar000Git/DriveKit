@@ -17,68 +17,141 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Completes profile for users that ALREADY exist in FirebaseAuth
- * but are missing profile docs in Firestore.
+ * CompleteProfileRepository
+ *
+ * Responsible for completing a Firestore profile document
+ * for users that already exist in FirebaseAuth but are missing
+ * their corresponding Firestore profile document.
+ *
+ * This repository handles:
+ * - Validation of required parameters
+ * - Optional upload of car photo to Firebase Storage
+ * - Saving driver profile document into Firestore
+ *
+ * Note:
+ * This class does NOT handle authentication.
+ * It assumes the user is already authenticated.
  */
 public class CompleteProfileRepository {
 
+    /**
+     * Callback interface for completion result.
+     * Used to notify caller (Activity/ViewModel) about success or failure.
+     */
     public interface CompleteCallback {
         void onSuccess();
         void onError(Exception e);
     }
 
+    /**
+     * Internal callback used after successful upload
+     * to return the generated download URL.
+     */
     private interface UrlSuccess {
         void onSuccess(String downloadUrl);
     }
 
+    /**
+     * Internal error callback used for Storage failures.
+     */
     private interface ErrorCb {
         void onError(Exception e);
     }
 
     // =========================================================
-    // DRIVER COMPLETE FLOW (existing auth user)
+    // DRIVER COMPLETE FLOW (existing authenticated user)
     // =========================================================
+
+    /**
+     * Completes the driver profile in Firestore.
+     *
+     * Flow:
+     * 1. Validate UID and driver object.
+     * 2. Check if car photo exists.
+     * 3. If local image → upload to Firebase Storage.
+     * 4. Replace local URI with download URL.
+     * 5. Save final Driver object into Firestore.
+     *
+     * @param uid FirebaseAuth UID of the user
+     * @param driver Driver object containing profile data
+     * @param cb Completion callback
+     */
     public void completeDriverProfile(@NonNull String uid,
                                       Driver driver,
                                       CompleteCallback cb) {
 
+        // Trim UID to avoid accidental whitespace errors
         String safeUid = uid.trim();
+
+        // Validate UID
         if (safeUid.isEmpty()) {
             cb.onError(new IllegalArgumentException("UID חסר"));
             return;
         }
+
+        // Validate driver object
         if (driver == null) {
             cb.onError(new IllegalArgumentException("נתוני נהג חסרים"));
             return;
         }
 
+        // Extract car image URI if exists
         String carPhotoUriStr = null;
         if (driver.getCar() != null) {
             carPhotoUriStr = driver.getCar().getCarImageUri();
         }
 
-        // אם אין תמונה או שכבר URL מרוחק -> שמירה ישירה
+        /*
+         * If:
+         * - No photo provided
+         * - Photo is empty
+         * - Photo is already a remote HTTP URL
+         *
+         * Then we skip upload and save directly.
+         */
         if (carPhotoUriStr == null || carPhotoUriStr.trim().isEmpty()
                 || carPhotoUriStr.startsWith("http://")
                 || carPhotoUriStr.startsWith("https://")) {
+
             saveDriverDoc(safeUid, driver, cb);
             return;
         }
 
-        // URI מקומי -> להעלות קודם ל-Storage
+        /*
+         * Otherwise:
+         * The URI is local (content:// or file://)
+         * → Upload it to Firebase Storage first.
+         */
         Uri localUri = Uri.parse(carPhotoUriStr);
+
         uploadCarPhotoToStorage(safeUid, localUri,
                 downloadUrl -> {
+
+                    // Replace local URI with download URL
                     if (driver.getCar() != null) {
                         driver.getCar().setCarImageUri(downloadUrl);
                     }
+
+                    // Save updated driver document
                     saveDriverDoc(safeUid, driver, cb);
                 },
                 cb::onError
         );
     }
 
+    /**
+     * Saves the Driver document into Firestore.
+     *
+     * Uses SetOptions.merge() to:
+     * - Create document if not exists
+     * - Merge fields if document already exists
+     *
+     * @param uid Document ID (same as FirebaseAuth UID)
+     * @param driver Driver object to save
+     * @param cb Completion callback
+     */
     private void saveDriverDoc(String uid, Driver driver, CompleteCallback cb) {
+
         FirebaseFirestore.getInstance()
                 .collection("drivers")
                 .document(uid)
@@ -87,112 +160,40 @@ public class CompleteProfileRepository {
                 .addOnFailureListener(cb::onError);
     }
 
-//    // =========================================================
-//    // INSURANCE COMPLETE FLOW (existing auth user)
-//    // =========================================================
-//    public void completeInsuranceProfile(@NonNull String uid,
-//                                         String email,
-//                                         String firstName,
-//                                         String lastName,
-//                                         String phone,
-//                                         @NonNull String companyId,
-//                                         String insuranceLogoUriLocal,
-//                                         CompleteCallback cb) {
-//
-//        String safeUid = uid.trim();
-//        String safeCompanyId = companyId.trim().toLowerCase();
-//
-//        if (safeUid.isEmpty()) {
-//            cb.onError(new IllegalArgumentException("UID חסר"));
-//            return;
-//        }
-//
-//        if (safeCompanyId.isEmpty()) {
-//            cb.onError(new IllegalArgumentException("נא לבחור חברת ביטוח"));
-//            return;
-//        }
-//
-//        DocumentReference ref = FirebaseFirestore.getInstance()
-//                .collection("insurance_companies")
-//                .document(safeCompanyId);
-//
-//        ref.get()
-//                .addOnSuccessListener(doc -> {
-//                    if (!doc.exists()) {
-//                        cb.onError(new IllegalStateException("Company not found: " + safeCompanyId));
-//                        return;
-//                    }
-//
-//                    Map<String, Object> updates = new HashMap<>();
-//                    updates.put("isPartner", true);
-//                    updates.put("partnerUid", safeUid);
-//                    updates.put("updatedAt", Timestamp.now());
-//
-//                    if (email != null) updates.put("email", email.trim());
-//                    if (phone != null) updates.put("phone", phone.trim());
-//                    if (firstName != null) updates.put("contactFirstName", firstName.trim());
-//                    if (lastName != null) updates.put("contactLastName", lastName.trim());
-//
-//                    ref.set(updates, SetOptions.merge())
-//                            .addOnSuccessListener(v -> {
-//                                // אופציונלי: העלאת לוגו
-//                                maybeUploadInsuranceLogo(safeCompanyId, insuranceLogoUriLocal);
-//                                cb.onSuccess();
-//                            })
-//                            .addOnFailureListener(cb::onError);
-//                })
-//                .addOnFailureListener(cb::onError);
-//    }
+    /**
+     * Uploads a local car image file to Firebase Storage.
+     *
+     * Storage path:
+     * car_photos/{uid}/car.jpg
+     *
+     * After successful upload:
+     * - Retrieves the public download URL
+     * - Returns it via UrlSuccess callback
+     *
+     * @param uid User UID
+     * @param uri Local file URI
+     * @param ok Success callback with download URL
+     * @param fail Error callback
+     */
+    private void uploadCarPhotoToStorage(String uid,
+                                         Uri uri,
+                                         UrlSuccess ok,
+                                         ErrorCb fail) {
 
-//    private void maybeUploadInsuranceLogo(String companyId, String logoUriLocal) {
-//        if (companyId == null || companyId.trim().isEmpty()) return;
-//        if (logoUriLocal == null || logoUriLocal.trim().isEmpty()) return;
-//
-//        String s = logoUriLocal.trim();
-//        if (s.startsWith("http://") || s.startsWith("https://")) {
-//            FirebaseFirestore.getInstance()
-//                    .collection("insurance_companies")
-//                    .document(companyId)
-//                    .update("logoUrl", s);
-//            return;
-//        }
-//
-//        Uri uri = Uri.parse(s);
-//
-//        StorageReference ref = FirebaseStorage.getInstance()
-//                .getReference()
-//                .child("insurance_logos")
-//                .child(companyId)
-//                .child("logo.jpg");
-//
-//        ref.putFile(uri)
-//                .addOnSuccessListener(task ->
-//                        ref.getDownloadUrl()
-//                                .addOnSuccessListener(downloadUri ->
-//                                        FirebaseFirestore.getInstance()
-//                                                .collection("insurance_companies")
-//                                                .document(companyId)
-//                                                .update("logoUrl", downloadUri.toString()))
-//                                .addOnFailureListener(e ->
-//                                        Log.e("CompleteProfile", "getDownloadUrl failed", e)))
-//                .addOnFailureListener(e ->
-//                        Log.e("CompleteProfile", "logo upload failed", e));
-//    }
-
-    private void uploadCarPhotoToStorage(String uid, Uri uri, UrlSuccess ok, ErrorCb fail) {
         StorageReference ref = FirebaseStorage.getInstance()
                 .getReference()
                 .child("car_photos")
                 .child(uid)
                 .child("car.jpg");
 
+        // Upload file to Firebase Storage
         ref.putFile(uri)
                 .addOnSuccessListener(taskSnapshot ->
                         ref.getDownloadUrl()
-                                .addOnSuccessListener(downloadUri -> ok.onSuccess(downloadUri.toString()))
+                                .addOnSuccessListener(downloadUri ->
+                                        ok.onSuccess(downloadUri.toString()))
                                 .addOnFailureListener(fail::onError))
                 .addOnFailureListener(fail::onError);
     }
-
 
 }
