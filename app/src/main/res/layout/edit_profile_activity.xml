@@ -115,7 +115,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:hint="שם פרטי"
+                        android:hint="שם מלא"
                         app:boxBackgroundColor="@android:color/white"
                         app:boxStrokeColor="#8BC34A"
                         app:hintTextColor="@android:color/black">
@@ -133,9 +133,9 @@
                         android:id="@+id/lastNameLayout"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:hint="שם משפחה"
+                        android:layout_height="2dp"
+                        android:layout_marginTop="1dp"
+                        android:hint=""
                         app:boxBackgroundColor="@android:color/white"
                         app:boxStrokeColor="#8BC34A"
                         app:hintTextColor="@android:color/black">
@@ -146,7 +146,7 @@
                             android:layout_height="wrap_content"
                             android:inputType="textPersonName"
                             android:textColor="#212121"
-                            android:textColorHint="#212121"/>
+                            android:textColorHint="#212121" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout

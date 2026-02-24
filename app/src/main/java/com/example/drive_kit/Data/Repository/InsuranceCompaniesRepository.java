@@ -486,8 +486,8 @@ public class InsuranceCompaniesRepository {
                             });
                 })
                 .addOnFailureListener(e -> {
-                    Log.e(TAG_UPLOAD, "putFile failed", e);
-                    cb.onError(e); // ✅ critical
+                    Log.e(TAG_UPLOAD, "putFile failed: " + e.getMessage(), e);
+                    cb.onError(e);
                 });
     }
 

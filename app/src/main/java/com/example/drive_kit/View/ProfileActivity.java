@@ -72,7 +72,7 @@ public class ProfileActivity extends BaseLoggedInActivity {
         profileAvatar = findViewById(R.id.profileAvatar);
 
         firstNameText = findViewById(R.id.firstNameText);
-        lastNameText = findViewById(R.id.lastNameText);
+        //lastNameText = findViewById(R.id.lastNameText);
         emailValue = findViewById(R.id.emailValue);
         phoneValue = findViewById(R.id.phoneValue);
 
@@ -95,7 +95,7 @@ public class ProfileActivity extends BaseLoggedInActivity {
             if (d == null) return;
 
             firstNameText.setText(safe(d.getFirstName()));
-            lastNameText.setText(safe(d.getLastName()));
+            //lastNameText.setText(safe(d.getLastName()));
             emailValue.setText(safe(d.getEmail()));
             phoneValue.setText(safe(d.getPhone()));
 

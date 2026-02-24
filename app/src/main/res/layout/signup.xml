@@ -312,10 +312,10 @@
                     android:id="@+id/insuranceLogoEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="לוגו חברה"
-                    android:focusable="false"
                     android:clickable="true"
                     android:cursorVisible="false"
+                    android:focusable="false"
+                    android:hint="לוגו חברה"
                     android:inputType="none"
                     android:textColor="#001F3F"
                     android:textColorHint="#8E9AA6" />

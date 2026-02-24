@@ -73,7 +73,7 @@
                 android:layout_weight="1"
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="4dp"
-                android:text="התקשר"
+                android:text="חייג"
                 android:textAllCaps="false"
                 android:textColor="#001F3F"
                 app:backgroundTint="#D6D6D6"
