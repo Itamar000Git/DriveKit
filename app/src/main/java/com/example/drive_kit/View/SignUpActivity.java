@@ -21,6 +21,8 @@ import com.example.drive_kit.Model.CarModel;
 import com.example.drive_kit.Model.Driver;
 import com.example.drive_kit.R;
 import com.example.drive_kit.ViewModel.SignUpViewModel;
+import com.google.android.material.datepicker.CalendarConstraints;
+import com.google.android.material.datepicker.DateValidatorPointBackward;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
@@ -629,9 +631,9 @@ public class SignUpActivity extends AppCompatActivity {
                     insuranceCompanyDropdown.setOnItemClickListener((parent, view, position, id) -> {
                         if (position >= 0 && position < insuranceCompanyIds.size()) {
                             selectedCompanyId = insuranceCompanyIds.get(position);
-                            if (insuranceCompanyIdEditText != null) {
-                                insuranceCompanyIdEditText.setText(selectedCompanyId);
-                            }
+//                            if (insuranceCompanyIdEditText != null) {
+//                                insuranceCompanyIdEditText.setText(selectedCompanyId);
+//                            }
                             loadInsuranceCompanyDetails(selectedCompanyId);
                         }
                     });
@@ -686,9 +688,14 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void openDatePickerInsurance() {
+        CalendarConstraints constraints = new CalendarConstraints.Builder()
+                .setValidator(DateValidatorPointBackward.now())
+                .build();
+
         MaterialDatePicker<Long> datePicker =
                 MaterialDatePicker.Builder.datePicker()
                         .setTitleText("בחר תאריך ביטוח")
+                        .setCalendarConstraints(constraints)
                         .build();
 
         datePicker.show(getSupportFragmentManager(), "DATE_PICKER_INSURANCE");
@@ -699,9 +706,13 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void openDatePickerTest() {
+        CalendarConstraints constraints = new CalendarConstraints.Builder()
+                .setValidator(DateValidatorPointBackward.now())
+                .build();
         MaterialDatePicker<Long> datePicker =
                 MaterialDatePicker.Builder.datePicker()
                         .setTitleText("בחר תאריך טסט")
+                        .setCalendarConstraints(constraints)
                         .build();
 
         datePicker.show(getSupportFragmentManager(), "DATE_PICKER_TEST");
@@ -713,9 +724,13 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void openDatePickerTreat() {
+        CalendarConstraints constraints = new CalendarConstraints.Builder()
+                .setValidator(DateValidatorPointBackward.now())
+                .build();
         MaterialDatePicker<Long> datePicker =
                 MaterialDatePicker.Builder.datePicker()
                         .setTitleText("בחר תאריך טיפול 10K")
+                        .setCalendarConstraints(constraints)
                         .build();
 
         datePicker.show(getSupportFragmentManager(), "DATE_PICKER_TREATMENT");
@@ -927,6 +942,7 @@ public class SignUpActivity extends AppCompatActivity {
      * - Used when an insurance company is selected from the dropdown.
      *
      * @param companyId Firestore document ID of the selected insurance company.
+     *
      */    private void loadInsuranceCompanyDetails(String companyId) {
         if (companyId == null || companyId.trim().isEmpty()) return;
         if (isDriverSelected()) return;
@@ -941,6 +957,7 @@ public class SignUpActivity extends AppCompatActivity {
                     String email = doc.getString("email");
                     String phone = doc.getString("phone");
                     String name = doc.getString("name");
+                    String h_p = doc.getString("h_p");
 
                     if (email != null && !email.trim().isEmpty()) emailEditText.setText(email.trim());
                     else emailEditText.setText("");
@@ -950,6 +967,9 @@ public class SignUpActivity extends AppCompatActivity {
 
                     if (name != null && !name.trim().isEmpty()) firstNameEditText.setText(name.trim());
                     else firstNameEditText.setText("");
+
+                    if (h_p != null && !h_p.trim().isEmpty()) insuranceCompanyIdEditText.setText(h_p.trim());
+                    else insuranceCompanyIdEditText.setText("");
                 })
                 .addOnFailureListener(e -> Log.e("SignUp", "Failed to load company details", e));
     }

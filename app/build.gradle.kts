@@ -18,6 +18,12 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -70,6 +76,9 @@ dependencies {
     // Glide
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation(libs.firebase.crashlytics.buildtools)
+    implementation(libs.espresso.core)
+    implementation(libs.uiautomator)
+    implementation(libs.espresso.intents)
     annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
 
     // osmdroid
@@ -95,4 +104,8 @@ dependencies {
         exclude(group = "com.google.protobuf", module = "protobuf-lite")
     }
     implementation("com.tom-roush:pdfbox-android:2.0.27.0")
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
+    testImplementation("org.robolectric:robolectric:4.13")
+    testImplementation("androidx.test:core:1.5.0")
+    androidTestImplementation("androidx.test.uiautomator:uiautomator:2.2.0")
 }

@@ -16,6 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.drive_kit.Model.NotificationItem;
 import com.example.drive_kit.R;
 import com.example.drive_kit.ViewModel.NotificationsViewModel;
+import com.google.android.material.datepicker.CalendarConstraints;
+import com.google.android.material.datepicker.DateValidatorPointBackward;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -175,10 +177,13 @@ public class NotificationsActivity extends BaseLoggedInActivity {
      * @param uid
      */
     private void openDoneDatePicker(NotificationItem item, String uid) {
+        CalendarConstraints constraints = new CalendarConstraints.Builder()
+                .setValidator(DateValidatorPointBackward.now())
+                .build();
         String title = (item.getType() == NotificationItem.Type.INSURANCE)
                 ? "בחר תאריך ביטוח חדש"
                 : "בחר תאריך טסט חדש";
-        MaterialDatePicker<Long> picker =MaterialDatePicker.Builder.datePicker().setTitleText(title).build();
+        MaterialDatePicker<Long> picker =MaterialDatePicker.Builder.datePicker().setTitleText(title).setCalendarConstraints(constraints).build();
 
         picker.show(getSupportFragmentManager(), "DONE_DATE_PICKER");
 
