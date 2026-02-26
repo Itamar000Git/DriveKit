@@ -1,3 +1,4 @@
+//
 //package com.example.drive_kit.ViewModel;
 //
 //import androidx.lifecycle.LiveData;
@@ -13,6 +14,14 @@
 //import java.util.Locale;
 //import java.util.TimeZone;
 //
+///**
+// * EditProfileViewModel handles loading + saving the user's profile.
+// *
+// * IMPORTANT:
+// * - UI stays in Activity
+// * - This ViewModel validates input and delegates to ProfileRepository
+// * - Image can be: null/"" (no change), http(s) url, or local uri (content/file) to upload
+// */
 //public class EditProfileViewModel extends ViewModel {
 //
 //    private final ProfileRepository repo = new ProfileRepository();
@@ -34,6 +43,13 @@
 //            @Override
 //            public void onSuccess(Driver d) {
 //                driver.postValue(d);
+//
+//                // keep millis locally for validation/save even if user didn't touch dates
+//                if (d != null && d.getCar() != null) {
+//                    selectedInsuranceDateMillis = d.getCar().getInsuranceDateMillis();
+//                    selectedTestDateMillis = d.getCar().getTestDateMillis();
+//                    selectedTreatDateMillis = d.getCar().getTreatmentDateMillis();
+//                }
 //            }
 //
 //            @Override
@@ -43,7 +59,13 @@
 //        });
 //    }
 //
-//    // UPDATED: includes manufacturer/model/year + imageUri
+//    /**
+//     * Save with image support:
+//     * - imageUriOrUrl can be:
+//     *   null/"" -> do not change image
+//     *   https://... -> store directly
+//     *   content://... or file://... -> upload to Storage and store downloadUrl
+//     */
 //    public void saveProfile(
 //            String uid,
 //            String firstName,
@@ -53,9 +75,9 @@
 //            CarModel manufacturer,
 //            String carSpecificModel,
 //            int year,
-//            String carImageUriFromPicker // NEW
+//            String carImageBase64OrNull // NEW
 //    ) {
-//        if (isBlank(firstName) || isBlank(lastName) || isBlank(phone) || isBlank(carNumber)) {
+//        if (isBlank(firstName)  || isBlank(phone) || isBlank(carNumber)) {
 //            toastMessage.setValue("נא למלא את כל השדות");
 //            return;
 //        }
@@ -78,7 +100,7 @@
 //            return;
 //        }
 //
-//        repo.updateProfileFieldsWithImage(
+//        repo.updateProfileFieldsWithBase64(
 //                uid,
 //                firstName,
 //                lastName,
@@ -90,21 +112,19 @@
 //                manufacturer.name(),
 //                carSpecificModel,
 //                year,
-//                carImageUriFromPicker, // can be ""/null/content://.../https://...
+//                carImageBase64OrNull,
 //                new ProfileRepository.SimpleCallback() {
-//                    @Override
-//                    public void onSuccess() {
+//                    @Override public void onSuccess() {
 //                        toastMessage.postValue("עודכן בהצלחה");
 //                        finishScreen.postValue(true);
 //                    }
-//
-//                    @Override
-//                    public void onError(Exception e) {
+//                    @Override public void onError(Exception e) {
 //                        toastMessage.postValue("שגיאה בעדכון הנתונים");
 //                    }
 //                }
 //        );
 //    }
+//
 //
 //    public void setSelectedInsuranceDateMillis(long millis) { selectedInsuranceDateMillis = millis; }
 //    public void setSelectedTestDateMillis(long millis) { selectedTestDateMillis = millis; }
@@ -120,7 +140,6 @@
 //        return s == null || s.trim().isEmpty();
 //    }
 //}
-
 
 package com.example.drive_kit.ViewModel;
 
@@ -247,7 +266,6 @@ public class EditProfileViewModel extends ViewModel {
                 }
         );
     }
-
 
     public void setSelectedInsuranceDateMillis(long millis) { selectedInsuranceDateMillis = millis; }
     public void setSelectedTestDateMillis(long millis) { selectedTestDateMillis = millis; }
