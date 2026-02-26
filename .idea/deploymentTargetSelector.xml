@@ -13,19 +13,19 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="openYad2_opensExpectedUrl()">
+      <SelectionState runConfigName="diyFlow_myCar_search_thenDownloadManual_opensWebPage()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="downloadManual_click_showsToast_downloadStarted()">
+      <SelectionState runConfigName="diyFlow_clickFirstVideo_opensWebPage()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="carBook_search_manual_answerContainsManual()">
+      <SelectionState runConfigName="signUp_chooseInsurance_showsInsuranceFields_hidesDriverFields()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="nearbyGarages_defaultRadius5_allGaragesWithin5km()">
+      <SelectionState runConfigName="login_insuranceCompanyHome_showsCorrectCompanyId()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="nearbyGarages_radius20_hasAtLeastOneGarageOver5km()">
+      <SelectionState runConfigName="partnerLogin_openInsuranceHomeWithExtra_showsCorrectCompanyId()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
