@@ -11,30 +11,14 @@ package com.example.drive_kit.Model;
  * - Some fields are mutable (e.g., logoUrl, docId, hp) for Firestore updates.
  */
 public class InsuranceCompany {
-
-    /** Unique company ID (business identifier) */
-    private final String id;
-
-    /** Company display name */
-    private final String name;
-
-    /** Contact phone number */
-    private final String phone;
-
-    /** Contact email address */
-    private final String email;
-
-    /** Company website URL */
-    private final String website;
-
-    /** Indicates if this company is a partner in the system */
-    private final boolean isPartner;
-
-    /** URL for the company logo (stored in Firebase Storage or web) */
-    private String logoUrl;
-
-    /** Firestore document ID (not part of business data, used for DB reference) */
-    private String docId;
+    private final String id; //Unique company ID (business identifier)
+    private final String name; //Company display name
+    private final String phone; //Contact phone number
+    private final String email; // Contact email address
+    private final String website; // Company website URL
+    private final boolean isPartner; //Indicates if this company is a partner in the system
+    private String logoUrl; // URL for the company logo (stored in Firebase Storage or web)
+    private String docId; // Firestore document ID (not part of business data, used for DB reference)
 
     /**
      * Company registration number (maps to Firestore field "h_p").
