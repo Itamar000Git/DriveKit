@@ -3,7 +3,12 @@ package com.example.drive_kit.Model;
 import static com.example.drive_kit.Model.CarModel.getYearRangesFor;
 
 import java.util.Locale;
-
+/**
+ * Enum representing supported car manufacturers.
+ *
+ * Each enum value contains multiple aliases (Hebrew/English)
+ * to allow flexible matching from external sources such as Gov APIs.
+ */
 public enum CarModel {
     TOYOTA("טויוטה", "Toyota"),
     MAZDA("מאזדה", "Mazda"),
@@ -11,14 +16,22 @@ public enum CarModel {
     HYUNDAI("יונדאי", "HYUNDAI", "Hyundai"),
     UNKNOWN();
 
-    private final String[] aliases;
+    private final String[] aliases; // Possible aliases for matching (Hebrew/English variations)
 
+    /**
+     * Constructor for enum values.
+     *
+     * @param aliases list of alternative names
+     */
     CarModel(String... aliases) {
         this.aliases = aliases;
     }
 
     /**
-     * Converts a raw value from the Gov API (often Hebrew) to our enum.
+     * Converts a raw string (usually from Gov API) into a CarModel enum.
+     *
+     * @param raw raw manufacturer string
+     * @return matching CarModel or UNKNOWN if not found
      */
     public static CarModel fromGovValue(String raw) {
         if (raw == null) return UNKNOWN;
@@ -47,7 +60,15 @@ public enum CarModel {
         }
         return UNKNOWN;
     }
-
+    /**
+     * Normalizes a string:
+     * - trims spaces
+     * - converts to uppercase
+     * - removes punctuation and spaces
+     *
+     * @param s input string
+     * @return normalized string
+     */
     private static String normalize(String s) {
         return s.trim()
                 .toUpperCase(Locale.ROOT)
@@ -99,7 +120,13 @@ public enum CarModel {
         }
     }
 
-
+    /**
+     * Converts YearRange objects into primitive int arrays.
+     *
+     * @param manufacturer manufacturer
+     * @param selectedModelName model name
+     * @return array of ranges [from, to]
+     */
     public static int[][] getYearRangesIntFor(CarModel manufacturer, String selectedModelName) {
         YearRange[] ranges = getYearRangesFor(manufacturer, selectedModelName);
         int[][] out = new int[ranges.length][2];
@@ -110,7 +137,14 @@ public enum CarModel {
         }
         return out;
     }
-
+    /**
+     * Finds the correct year range for a given year.
+     *
+     * @param manufacturer manufacturer
+     * @param selectedModelName model name
+     * @param year car year
+     * @return matching range [from, to] or {-1,-1} if not found
+     */
     public static int[] pickRangeForYear(CarModel manufacturer, String selectedModelName, int year) {
         int[][] ranges = getYearRangesIntFor(manufacturer, selectedModelName);
         for (int[] r : ranges) {
@@ -148,16 +182,25 @@ enum YearRange {
 
     UNKNOWN("לא ידוע", -1, -1);
 
-    public final String label;
-    public final int fromYear;
-    public final int toYear;
+    public final String label; // Display label
+    public final int fromYear; // Start year
+    public final int toYear; // End year
 
+    /**
+     * Constructor.
+     *
+     * @param label display text
+     * @param fromYear start year
+     * @param toYear end year
+     */
     YearRange(String label, int fromYear, int toYear) {
         this.label = label;
         this.fromYear = fromYear;
         this.toYear = toYear;
     }
-
+    /**
+     * @return label shown in UI
+     */
     @Override
     public String toString() {
         return label; // what the dropdown shows
@@ -169,6 +212,9 @@ enum YearRange {
    2 popular models each
    ========================= */
 
+/**
+ * Toyota models enum.
+ */
 enum ToyotaModel {
     COROLLA(YearRange.RANGE_2014_2018, YearRange.RANGE_2019_2024),
     CAMRY(YearRange.RANGE_2015_2017, YearRange.RANGE_2018_2024),
@@ -177,16 +223,25 @@ enum ToyotaModel {
     private final YearRange r1;
     private final YearRange r2;
 
+    /**
+     * Constructor.
+     */
     ToyotaModel(YearRange r1, YearRange r2) {
         this.r1 = r1;
         this.r2 = r2;
     }
 
+    /**
+     * @return year ranges for model
+     */
     public YearRange[] getYearRanges() {
         return new YearRange[]{r1, r2};
     }
 }
 
+/**
+ * Mazda models enum.
+ */
 enum MazdaModel {
     MAZDA3(YearRange.RANGE_2014_2018, YearRange.RANGE_2019_2024),
     CX5(YearRange.RANGE_2013_2016, YearRange.RANGE_2017_2024),
@@ -195,16 +250,25 @@ enum MazdaModel {
     private final YearRange r1;
     private final YearRange r2;
 
+    /**
+     * Constructor.
+     */
     MazdaModel(YearRange r1, YearRange r2) {
         this.r1 = r1;
         this.r2 = r2;
     }
 
+    /**
+     * @return year ranges for model
+     */
     public YearRange[] getYearRanges() {
         return new YearRange[]{r1, r2};
     }
 }
 
+/**
+ * Honda models enum.
+ */
 enum HondaModel {
     CIVIC(YearRange.RANGE_2016_2021, YearRange.RANGE_2022_2024),
     CRV(YearRange.RANGE_2017_2022, YearRange.RANGE_2023_2024),
@@ -213,16 +277,25 @@ enum HondaModel {
     private final YearRange r1;
     private final YearRange r2;
 
+    /**
+     * Constructor.
+     */
     HondaModel(YearRange r1, YearRange r2) {
         this.r1 = r1;
         this.r2 = r2;
     }
 
+    /**
+     * @return year ranges for model
+     */
     public YearRange[] getYearRanges() {
         return new YearRange[]{r1, r2};
     }
 }
 
+/**
+ * Hyundai models enum.
+ */
 enum HyundaiModel {
     I10(YearRange.RANGE_2007_2017 ,YearRange.UNKNOWN),
     TUCSON(YearRange.RANGE_2010_2015, YearRange.RANGE_2016_2021),
@@ -231,11 +304,17 @@ enum HyundaiModel {
     private final YearRange r1;
     private final YearRange r2;
 
+    /**
+     * Constructor.
+     */
     HyundaiModel(YearRange r1, YearRange r2) {
         this.r1 = r1;
         this.r2 = r2;
     }
 
+    /**
+     * @return year ranges for model
+     */
     public YearRange[] getYearRanges() {
         return new YearRange[]{r1, r2};
     }
@@ -247,6 +326,9 @@ enum HyundaiModel {
 enum GenericModel {
     UNKNOWN;
 
+    /**
+     * @return default unknown range
+     */
     public YearRange[] getYearRanges() {
         return new YearRange[]{YearRange.UNKNOWN, YearRange.UNKNOWN};
     }
