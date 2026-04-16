@@ -263,46 +263,50 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Driver model for Firestore (נהג יחיד + רכב יחיד).
+ * Represents a Driver entity in the system.
  *
- * החלטות/שינויים (בהתאם למה שביקשת):
- * 1) רכב יחיד: לנהג יש שדה אחד בשם car מסוג Car (לא רשימה).
- * 2) שמרתי על פונקציות formatted כי "נוח לראות".
- * 3) מניעת קריסות: Firestore יכול להחזיר Driver בלי car -> משתמשים ב-ensureCar().
+ * This model is designed for Firestore usage and represents:
+ * - A single driver
+ * - A single associated car (1:1 relationship)
  *
- * הערות:
- * - השדות הישנים (cars / תאריכים top-level / dismissed top-level) נשארו בהערות כמו אצלך,
- *   כדי שאם תחליטו לחזור/להשוות גרסאות יהיה קל.
+ * Key design decisions:
+ * 1. Driver contains exactly one Car object (not a list).
+ * 2. Includes formatted date helpers for UI convenience.
+ * 3. Safe access to Car via ensureCar() to prevent null crashes from Firestore.
+ *
+ * Notes:
+ * - Firestore may return partial objects (e.g., Driver without car),
+ *   therefore all car access should go through ensureCar().
  */
 public class Driver {
 
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String phone;
+    private String firstName; // Driver first name
+    private String lastName; // Driver last name
+    private String email; // Driver email address
+    private String phone; // Driver phone number
+    private Car car; // Associated car object (can be null when loaded from Firestore)
 
-    // רכב יחיד
-    private Car car;
-
-    //private String carImageUri; // Firestore friendly
-
-
-    //private String carNumber;
-
-    //private ArrayList<Car> cars = new ArrayList<>();
-    //private String dismissedInsuranceStage;
-    //private String dismissedTestStage;
-    //private String dismissedTreatment10kStage;
-    //private long insuranceDateMillis; // in millis
-    //private long testDateMillis;
-    //private long treatmentDateMillis;
 
     // Empty constructor for Firebase
     public Driver() {
         // Firestore fills fields
     }
 
-    // Constructor with all fields
+    /**
+     * Full constructor for creating a Driver with a Car.
+     *
+     * @param firstName driver's first name
+     * @param lastName driver's last name
+     * @param email driver's email
+     * @param phone driver's phone number
+     * @param carNumber car license plate
+     * @param carModel car manufacturer
+     * @param year car manufacturing year
+     * @param insuranceDateMillis insurance expiration date (millis)
+     * @param testDateMillis annual test date (millis)
+     * @param treatDateMillis treatment/service date (millis)
+     * @param carImageUri image URI of the car
+     */
     public Driver(String firstName,
                   String lastName,
                   String email,
@@ -314,22 +318,25 @@ public class Driver {
                   long testDateMillis,
                   long treatDateMillis
                   ,String carImageUri // Firestore friendly
-) {
+        ) {
 
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
 
-
-        // Create a new instance of Car (רכב יחיד)
+        // Create a new instance of Car
         this.car = new Car(carNumber,carModel,year, insuranceDateMillis, testDateMillis, treatDateMillis,carImageUri);
     }
 
     // ====== Helpers ======
-
     /**
-     * Firestore יכול להחזיר Driver בלי car (null) -> לא מפילים מסכים.
+     * Ensures that the car object is never null.
+     *
+     * This prevents NullPointerExceptions when accessing car fields,
+     * especially when Firestore returns a Driver without a car.
+     *
+     * @return non-null Car instance
      */
     private Car ensureCar() {
         if (car == null) car = new Car();
@@ -337,121 +344,88 @@ public class Driver {
     }
 
     // ====== Getters / Setters ======
-
+    /** @return driver's first name */
     public String getFirstName() {
         return firstName;
     }
 
+    /** @param firstName driver's first name */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
+    /** @return driver's last name */
     public String getLastName() {
         return lastName;
     }
 
+    /** @param lastName driver's last name */
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
+    /** @return driver's email */
     public String getEmail() {
         return email;
     }
 
+    /** @param email driver's email */
     public void setEmail(String email) {
         this.email = email;
     }
 
+    /** @return driver's phone number */
     public String getPhone() {
         return phone;
     }
 
+    /** @param phone driver's phone number */
     public void setPhone(String phone) {
         this.phone = phone;
     }
 
     /**
-     * חשוב ל-Firestore mapping: getter/setter לשדה car.
+     * Returns the driver's car.
+     * Always safe (never null).
+     *
+     * @return Car instance
      */
     public Car getCar() {
         return ensureCar();
     }
 
+    /**
+     * Sets the driver's car.
+     *
+     * @param car Car object
+     */
     public void setCar(Car car) {
         this.car = car;
     }
 
+
+    /**
+     * @return car image URI
+     */
     public String getCarImageUri() {
         return ensureCar().getCarImageUri();
     }
 
+    /**
+     * @param carImageUri URI of the car image
+     */
     public void setCarImageUri(String carImageUri) {
         ensureCar().setCarImageUri(carImageUri);
     }
 
 
-//
-//    // ====== Convenience methods (נוחים לשימוש במסכים/ריפוזיטורי) ======
-//    // אם אתה לא רוצה אותם – אפשר למחוק, אבל הם מקלים מאוד כשעובדים עם רכב יחיד.
-//
-//    public String getCarNumber() {
-//        return ensureCar().getCarNum();
-//    }
-//
-//    public void setCarNumber(String carNumber) {
-//        ensureCar().setCarNum(carNumber);
-//    }
-//
-//    public long getInsuranceDateMillis() {
-//        return ensureCar().getInsuranceDateMillis();
-//    }
-//
-//    public void setInsuranceDateMillis(long insuranceDateMillis) {
-//        ensureCar().setInsuranceDateMillis(insuranceDateMillis);
-//    }
-//
-//    public long getTestDateMillis() {
-//        return ensureCar().getTestDateMillis();
-//    }
-//
-//    public void setTestDateMillis(long testDateMillis) {
-//        ensureCar().setTestDateMillis(testDateMillis);
-//    }
-//
-//    public long getTreatmentDateMillis() {
-//        return ensureCar().getTreatmentDateMillis();
-//    }
-//
-//    public void setTreatmentDateMillis(long treatmentDateMillis) {
-//        ensureCar().setTreatmentDateMillis(treatmentDateMillis);
-//    }
-//
-//    public String getDismissedInsuranceStage() {
-//        return ensureCar().getDismissedInsuranceStage();
-//    }
-//
-//    public void setDismissedInsuranceStage(String dismissedInsuranceStage) {
-//        ensureCar().setDismissedInsuranceStage(dismissedInsuranceStage);
-//    }
-//
-//    public String getDismissedTestStage() {
-//        return ensureCar().getDismissedTestStage();
-//    }
-//
-//    public void setDismissedTestStage(String dismissedTestStage) {
-//        ensureCar().setDismissedTestStage(dismissedTestStage);
-//    }
-//
-//    public String getDismissedTreatment10kStage() {
-//        return ensureCar().getDismissedTreatment10kStage();
-//    }
-//
-//    public void setDismissedTreatment10kStage(String dismissedTreatment10kStage) {
-//        ensureCar().setDismissedTreatment10kStage(dismissedTreatment10kStage);
-//    }
-//
-//    // ====== Formatted fields (נוח לראות) ======
+    // ====== Formatted Fields (UI helpers) ======
 
+    /**
+     * Formats insurance date to dd/MM/yyyy.
+     *
+     * @return formatted date or empty string if invalid
+     */
     public String getFormattedInsuranceDate() {
         long millis = car.getInsuranceDateMillis();
         if (millis <= 0) return "";
@@ -465,6 +439,11 @@ public class Driver {
         return date.format(formatter);
     }
 
+    /**
+     * Formats test date to dd/MM/yyyy.
+     *
+     * @return formatted date or empty string if invalid
+     */
     public String getFormattedTestDate() {
         long millis = car.getTestDateMillis();
         if (millis <= 0) return "";
@@ -478,6 +457,11 @@ public class Driver {
         return date.format(formatter);
     }
 
+    /**
+     * Formats treatment date to dd/MM/yyyy.
+     *
+     * @return formatted date or empty string if invalid
+     */
     public String getFormattedTreatDate() {
         long millis = car.getTreatmentDateMillis();
         if (millis <= 0) return "";
@@ -493,6 +477,11 @@ public class Driver {
 
     // ====== toString ======
 
+    /**
+     * Returns a readable string representation of the Driver.
+     *
+     * @return string with driver and car details
+     */
     @Override
     public String toString() {
         return "Driver{" +
