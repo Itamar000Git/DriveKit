@@ -19,37 +19,65 @@ import com.example.drive_kit.ViewModel.NotificationsViewModel;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
+/**
+ * BaseLoggedInActivity
+ *
+ * Abstract base class for all logged-in user screens.
+ *
+ * Responsibilities:
+ * 1. Provides a shared layout:
+ *    - DrawerLayout (navigation menu)
+ *    - NavigationView (menu items)
+ *    - Bottom bar (profile / notifications / menu)
+ *    - Content container (child layout injected)
+ *
+ * 2. Handles navigation:
+ *    - Drawer menu navigation between screens
+ *    - Bottom bar navigation
+ *    - Logout flow
+ *
+ * 3. Handles notifications badge:
+ *    - Observes NotificationsViewModel
+ *    - Updates badge count dynamically
+ *
+ * Usage:
+ * - All logged-in activities extend this class
+ * - Must implement getContentLayoutId()
+ */
 public abstract class BaseLoggedInActivity extends AppCompatActivity {
 
-    // Drawer
-    protected DrawerLayout drawerLayout;
-    protected NavigationView navigationView;
+    // ===== Drawer =====
+    protected DrawerLayout drawerLayout; // Root DrawerLayout
+    protected NavigationView navigationView; // Navigation menu
 
-    // Bottom bar
-    private View bottomNotyBtn;
-    private View bottomProfileBtn;
-    private View bottomMenuBtn;
-    private TextView bottomNotyBadge;
+    // ===== Bottom bar =====
+    private View bottomNotyBtn; // Notifications button
+    private View bottomProfileBtn; // Profile button
+    private View bottomMenuBtn; // Menu (hamburger) button
+    private TextView bottomNotyBadge; // Badge showing number of notifications
 
-    // Badge VM
-    protected NotificationsViewModel notyVm;
+    // ===== ViewModel =====
+    protected NotificationsViewModel notyVm; // ViewModel responsible for notifications
 
+    /**
+     * Initializes base layout, drawer, bottom bar and notifications.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // 1) Base layout with Drawer + container + bottom bar
+        // 1. Set base layout (drawer + container + bottom bar)
         setContentView(R.layout.activity_base_logged_in);
 
-        // 2) Inject screen-specific content
+        // 2. Inject child layout
         FrameLayout container = findViewById(R.id.contentContainer);
         LayoutInflater.from(this).inflate(getContentLayoutId(), container, true);
 
-        // 3) Drawer views
+        // 3. Bind drawer views
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navigationView);
 
-        // 4) Bottom bar views
+        // 4. Bind bottom bar views
         bottomNotyBtn = findViewById(R.id.bottomNotyBtn);
         bottomProfileBtn = findViewById(R.id.bottomProfileBtn);
         bottomMenuBtn = findViewById(R.id.bottomMenuBtn);
@@ -57,18 +85,28 @@ public abstract class BaseLoggedInActivity extends AppCompatActivity {
 
         setupBottomBar();
         setupDrawerMenu();
-
-        // צבעי התפריט שנפתח מההמבורגר
         applyDrawerColors();
 
         // Badge notifications
         setupNotificationsBadge();
     }
 
-    /** Each inheriting Activity must return its own content layout id */
+    /**
+     * Each inheriting Activity must provide its layout.
+     *
+     * @return layout resource ID
+     */
     @LayoutRes
     protected abstract int getContentLayoutId();
 
+    /**
+     * Initializes bottom bar actions.
+     *
+     * Behavior:
+     * - Notifications → open NotificationsActivity
+     * - Profile → open ProfileActivity
+     * - Menu → open drawer (RTL support)
+     */
     private void setupBottomBar() {
         bottomNotyBtn.setOnClickListener(v -> {
             startActivity(new Intent(this, NotificationsActivity.class));
@@ -86,10 +124,18 @@ public abstract class BaseLoggedInActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Initializes drawer navigation logic.
+     *
+     * Handles:
+     * - Highlighting current screen
+     * - Navigation between screens
+     * - Logout action
+     */
     private void setupDrawerMenu() {
         if (navigationView == null || drawerLayout == null) return;
 
-        // סימון הפריט הפעיל לפי המסך הנוכחי
+        // Highlight current screen
         if (this instanceof HomeActivity) {
             navigationView.setCheckedItem(R.id.nav_home);
         } else if (this instanceof ProfileActivity) {
@@ -109,11 +155,13 @@ public abstract class BaseLoggedInActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(item -> {
             int id = item.getItemId();
 
-            // סמן מיד את הפריט שנבחר (חוויית UI טובה יותר)
+            // Mark selected item
             navigationView.setCheckedItem(id);
 
+            // Close drawer after selection
             drawerLayout.closeDrawer(GravityCompat.END);
 
+            // Navigation handling
             if (id == R.id.nav_home) {
                 if (!(this instanceof HomeActivity)) {
                     startActivity(new Intent(this, HomeActivity.class));
@@ -150,6 +198,7 @@ public abstract class BaseLoggedInActivity extends AppCompatActivity {
                 }
 
             } else if (id == R.id.nav_logout) {
+                // Logout flow
                 FirebaseAuth.getInstance().signOut();
                 Intent i = new Intent(this, MainActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -162,9 +211,10 @@ public abstract class BaseLoggedInActivity extends AppCompatActivity {
     }
 
     /**
-     * Drawer menu colors:
-     * - checked item: Royal Blue
-     * - default item: DriveKit dark blue
+     * Applies color styling to drawer items.
+     *
+     * - Selected item → green (#8BC34A)
+     * - Default item → dark blue (#001F3F)
      */
     private void applyDrawerColors() {
         if (navigationView == null) return;
@@ -175,7 +225,7 @@ public abstract class BaseLoggedInActivity extends AppCompatActivity {
         };
 
         int[] colors = new int[]{
-                0xFF8BC34A, // selected (הסימון)
+                0xFF8BC34A, // selected
                 0xFF001F3F  // default
         };
 
@@ -185,15 +235,41 @@ public abstract class BaseLoggedInActivity extends AppCompatActivity {
         navigationView.setItemBackgroundResource(R.color.nav_item_bg);
     }
 
+    /**
+     * Initializes the notifications badge logic.
+     *
+     * Responsibilities:
+     * - Create NotificationsViewModel instance
+     * - Observe notifications list (LiveData)
+     * - Update badge count whenever data changes
+     *
+     * Flow:
+     * ViewModel → LiveData<List<NotificationItem>> → UI (badge)
+     */
     private void setupNotificationsBadge() {
+        // Initialize ViewModel
         notyVm = new ViewModelProvider(this).get(NotificationsViewModel.class);
 
+        // Observe notifications list
         notyVm.getNoty().observe(this, list -> {
+            // Convert list to count safely
             int count = (list == null) ? 0 : list.size();
+            // Update badge UI
             updateBadge(count);
         });
     }
 
+    /**
+     * Called when Activity becomes visible again.
+     *
+     * Responsibilities:
+     * - Reload notifications from backend (Firestore)
+     * - Update badge accordingly
+     *
+     * Important:
+     * - Ensures badge stays up-to-date after returning to screen
+     * - Handles case where user is not logged in
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -206,6 +282,17 @@ public abstract class BaseLoggedInActivity extends AppCompatActivity {
         }
     }
 
+
+    /**
+     * Updates the notifications badge UI.
+     *
+     * Behavior:
+     * - count <= 0 → hide badge
+     * - count > 0 → show badge
+     * - count > 99 → display "99+"
+     *
+     * @param count number of notifications
+     */
     protected void updateBadge(int count) {
         if (bottomNotyBadge == null) return;
 
