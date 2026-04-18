@@ -19,63 +19,92 @@ import java.util.List;
 /**
  * DriverInsuranceInquiryActivity
  *
- * Screen for a driver to send an insurance inquiry.
+ * Screen for sending an insurance inquiry by a driver.
  *
- * UI responsibilities:
- * - Bind views (dropdown, message, button)
- * - Observe ViewModel LiveData and update UI
- * - Read intent extras (driver details)
- * - Show Toast and finish() on success
+ * Responsibilities:
+ * - Display dropdown of insurance companies
+ * - Collect user message
+ * - Send inquiry via ViewModel
  *
- * Data/business responsibilities are in the ViewModel:
- * - Loading companies list
- * - Sending inquiry to Firestore
+ * Architecture (MVVM):
+ * - Activity: UI + input handling
+ * - ViewModel: business logic (Firestore interaction)
+ *
+ * Data Flow:
+ * ViewModel → LiveData (companies list) → Dropdown
+ * User input → Activity → ViewModel.sendInquiry()
  */
 public class DriverInsuranceInquiryActivity extends AppCompatActivity {
+    private MaterialAutoCompleteTextView companyDropdown; // Dropdown for selecting insurance company
+    private EditText messageEditText; // Text input for inquiry message
+    private Button sendButton; // Send button
+    private DriverInsuranceInquiryViewModel vm; // ViewModel handling logic
 
-    private MaterialAutoCompleteTextView companyDropdown;
-    private EditText messageEditText;
-    private Button sendButton;
-
-    private DriverInsuranceInquiryViewModel vm;
-
-    // Keep the selected text (display string) exactly as shown in the dropdown
+    /**
+     * Holds selected company display string.
+     * Important:
+     * This is NOT an ID — it is the visible string shown in dropdown.
+     */
     private String selectedCompanyDisplay = "";
 
+    /**
+     * Initializes UI, ViewModel and observers.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_insurance_inquiry);
 
+        // ===== Bind views =====
         companyDropdown = findViewById(R.id.insuranceCompanyDropdown);
         messageEditText = findViewById(R.id.messageEditText);
         sendButton = findViewById(R.id.sendInquiryButton);
 
+        // ===== ViewModel =====
         vm = new ViewModelProvider(this).get(DriverInsuranceInquiryViewModel.class);
 
-        // Always show dropdown when clicked (same UX)
+        /**
+         * Always show dropdown when clicked.
+         * Prevents confusion if user expects dropdown to open immediately.
+         */
         companyDropdown.setOnClickListener(v -> companyDropdown.showDropDown());
 
-        // Observe companies list and bind adapter
+        /**
+         * Observe companies list and bind dropdown adapter.
+         */
         vm.getCompanyDisplayList().observe(this, this::bindDropdown);
 
-        // Observe toast messages from VM
+        /**
+         * Observe toast messages from ViewModel.
+         */
         vm.getToastMessage().observe(this, msg -> {
             if (msg != null && !msg.trim().isEmpty()) {
                 Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
             }
         });
 
-        // Close screen on success (same behavior)
+        /**
+         * Close screen after successful send.
+         */
         vm.getSent().observe(this, ok -> {
             if (Boolean.TRUE.equals(ok)) {
                 finish();
             }
         });
 
-        // Load companies once
+        // Load companies list from ViewModel
         vm.loadCompanies();
 
+        /**
+         * Send button logic.
+         *
+         * Flow:
+         * - Validate user is logged in
+         * - Read selected company
+         * - Read message
+         * - Read optional driver details from Intent
+         * - Send to ViewModel
+         */
         sendButton.setOnClickListener(v -> {
             String userId = FirebaseAuth.getInstance().getUid();
             if (userId == null || userId.trim().isEmpty()) {
@@ -109,17 +138,31 @@ public class DriverInsuranceInquiryActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Binds dropdown adapter with company list.
+     *
+     * @param items list of display strings for companies
+     */
     private void bindDropdown(List<String> items) {
         ArrayAdapter<String> adapter =
                 new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         companyDropdown.setAdapter(adapter);
 
+        /**
+         * Save selected item when user clicks from dropdown.
+         */
         companyDropdown.setOnItemClickListener((parent, view, position, id) -> {
             // Save the display string user selected
             selectedCompanyDisplay = items.get(position);
         });
     }
 
+    /**
+     * Null-safe string trimming helper.
+     *
+     * @param s input string
+     * @return trimmed string or empty string if null
+     */
     private String safe(String s) {
         return s == null ? "" : s.trim();
     }
