@@ -23,50 +23,66 @@ import android.text.Html;
 import android.text.method.LinkMovementMethod;
 
 /**
- * DIYFilterActivity lets the user filter DIY videos by:
- * 1) Manufacturer (CarModel)
- * 2) Model (enum depends on manufacturer)
- * 3) Year range (LOADED FROM FIRESTORE via VideosViewModel)
+ * DIYFilterActivity
  *
- * Notes:
- * - No typing: user can only pick from dropdown lists.
- * - Year ranges are filled ONLY after selecting a model.
- * - Activity does NOT talk to repository directly (MVVM).
+ * Screen for filtering DIY car videos based on:
+ * - Manufacturer
+ * - Model
+ * - Year range (loaded from Firestore)
+ *
+ * Responsibilities:
+ * - Manage dropdown selections
+ * - Enforce valid selection flow (manufacturer → model → year)
+ * - Load data via ViewModel (MVVM)
+ * - Navigate to DIYIssuesActivity with selected filters
+ *
+ * Special Features:
+ * - "My Car" button → auto-fill filters from user's saved car
+ * - Auto-select year range based on car year
+ *
+ * Architecture:
+ * - Activity → UI + interactions
+ * - ViewModel → data loading (Firestore + logic)
  */
 public class DIYFilterActivity extends BaseLoggedInActivity {
 
+    /** Layout wrappers for inputs */
     private TextInputLayout manufacturerLayout;
     private TextInputLayout modelLayout;
     private TextInputLayout yearLayout;
+
+    /** Dropdowns */
     private MaterialAutoCompleteTextView manufacturerDropdown;
     private MaterialAutoCompleteTextView modelDropdown;
     private MaterialAutoCompleteTextView yearDropdown;
+
+    /** Search button */
     private Button searchButton;
 
-    // =========================
-    // ✅ ADDED (Step 2): "My Car" button
-    // =========================
+    /** "My Car" button (auto-fill feature) */
     private Button myCarButton;
 
-    // ViewModel (MVVM)
+    /** ViewModel (MVVM) */
     private VideosViewModel vm;
 
-    // Selected values
-    private CarModel selectedManufacturer = CarModel.UNKNOWN;
-    private String selectedModelName = null;        // enum name (e.g., "COROLLA")
-    private String selectedYearRangeLabel = null;   // from Firestore (e.g., "2016-2020")
-    private static final boolean DEV_SEED = false;
+    // ===== Selected values =====
+    private CarModel selectedManufacturer = CarModel.UNKNOWN; // Selected manufacturer enum
+    private String selectedModelName = null; // Selected model name (string enum name)
+    private String selectedYearRangeLabel = null; // Selected year range label (e.g., "2016-2020")
+    private static final boolean DEV_SEED = false; // Development flag for seeding database
 
-    // =========================
-    // ✅ ADDED (Step 2): support auto-selecting a yearRange from my car year
-    // =========================
-    private int pendingMyCarYear = -1;
-    private boolean pendingAutoSelectYearRange = false;
+    // ===== Auto-select logic for "My Car" =====
+    private int pendingMyCarYear = -1; // Holds user's car year temporarily
+    private boolean pendingAutoSelectYearRange = false; // Indicates whether we should auto-select year range
 
+    /**
+     * Initializes UI, ViewModel, dropdown logic and observers.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.diy_filter);
+
+        // Enable clickable HTML link in credit text
         getContentLayoutId();
 
         TextView credit = findViewById(R.id.creditCarCareKiosk);
@@ -74,7 +90,7 @@ public class DIYFilterActivity extends BaseLoggedInActivity {
         credit.setMovementMethod(LinkMovementMethod.getInstance());
         credit.setLinksClickable(true);
 
-        // --- Find views ---
+        // ===== Bind views =====
         manufacturerLayout = findViewById(R.id.manufacturerLayout);
         modelLayout = findViewById(R.id.modelLayout);
         yearLayout = findViewById(R.id.yearLayout);
@@ -84,37 +100,34 @@ public class DIYFilterActivity extends BaseLoggedInActivity {
         yearDropdown = findViewById(R.id.yearDropdown);
         searchButton = findViewById(R.id.searchButton);
 
-        // =========================
-        // ✅ ADDED (Step 2): find My Car button
-        // (Make sure the id matches your XML)
-        // =========================
         myCarButton = findViewById(R.id.myCarButton);
 
-        // --- ViewModel ---
+        // ===== ViewModel =====
         vm = new ViewModelProvider(this).get(VideosViewModel.class);
 
-        // --- Disable typing (dropdown only) ---
+        // Disable typing → dropdown only
         disableTyping(manufacturerDropdown);
         disableTyping(modelDropdown);
         disableTyping(yearDropdown);
 
-        // Clicking anywhere on the row should open the list
+        // Clicking anywhere opens dropdown
         manufacturerDropdown.setOnClickListener(v -> manufacturerDropdown.showDropDown());
         modelDropdown.setOnClickListener(v -> modelDropdown.showDropDown());
         yearDropdown.setOnClickListener(v -> yearDropdown.showDropDown());
 
-        // --- Fill manufacturer list ---
+        // ===== Manufacturer list =====
         ArrayAdapter<String> manufacturerAdapter =
                 new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, getManufacturersForDropdown());
         manufacturerDropdown.setAdapter(manufacturerAdapter);
 
-        // Start with model & year disabled until a manufacturer is picked
+        // Disable dependent fields initially
         setModelEnabled(false);
         setYearEnabled(false);
 
-        // =========================
-        // ✅ CHANGED (Step 2): observe year ranges + support auto-select after "My Car"
-        // =========================
+        /**
+         * Observe year ranges from Firestore.
+         * Triggered after selecting manufacturer + model.
+         */
         vm.getYearRanges().observe(this, ranges -> {
 
             ArrayAdapter<String> yearAdapter =
@@ -126,7 +139,7 @@ public class DIYFilterActivity extends BaseLoggedInActivity {
             boolean enabled = (ranges != null && !ranges.isEmpty());
             setYearEnabled(enabled);
 
-            // Reset year selection whenever list changes
+            // Reset selection
             selectedYearRangeLabel = null;
             yearDropdown.setText("", false);
 
@@ -135,7 +148,9 @@ public class DIYFilterActivity extends BaseLoggedInActivity {
                 return;
             }
 
-            // ✅ ADDED (Step 2): if user clicked "My Car", auto-pick the range matching car's year
+            /**
+             * Auto-select year range if "My Car" was used.
+             */
             if (pendingAutoSelectYearRange && pendingMyCarYear > 0) {
                 String match = pickRangeLabelForYear(ranges, pendingMyCarYear);
                 if (match != null && !match.trim().isEmpty()) {
@@ -147,7 +162,7 @@ public class DIYFilterActivity extends BaseLoggedInActivity {
             }
         });
 
-        // --- Observe errors ---
+        // Observe errors
         vm.getError().observe(this, err -> {
             if (err != null && !err.trim().isEmpty()) {
                 Log.e("DIY_FILTER", "VM error: " + err);
@@ -156,10 +171,12 @@ public class DIYFilterActivity extends BaseLoggedInActivity {
 
         if (DEV_SEED) vm.seedDatabaseFromAssets(this);
 
-        // --- Optional: pre-fill manufacturer from Intent ---
+        // Prefill manufacturer if exists
         prefillFromIntent(getIntent());
 
-        // --- Manufacturer chosen -> update models ---
+        /**
+         * Manufacturer selection → updates model dropdown
+         */
         manufacturerDropdown.setOnItemClickListener((parent, view, position, id) -> {
             String chosen = (String) parent.getItemAtPosition(position);
 
@@ -182,7 +199,9 @@ public class DIYFilterActivity extends BaseLoggedInActivity {
             setYearEnabled(false);
         });
 
-        // --- Model chosen -> load year ranges from Firestore ---
+        /**
+         * Model selection → load year ranges from Firestore
+         */
         modelDropdown.setOnItemClickListener((parent, view, position, id) -> {
             selectedModelName = (String) parent.getItemAtPosition(position);
 
@@ -197,21 +216,23 @@ public class DIYFilterActivity extends BaseLoggedInActivity {
             vm.loadYearRanges(selectedManufacturer.name(), selectedModelName);
         });
 
-        // --- Year range chosen ---
+        /**
+         * Year selection
+         */
         yearDropdown.setOnItemClickListener((parent, view, position, id) -> {
             selectedYearRangeLabel = (String) parent.getItemAtPosition(position);
         });
 
-        // =========================
-        // ✅ ADDED (Step 2): Hook "My Car" button -> ask ViewModel to load user's car and fill filters
-        // =========================
+        /**
+         * "My Car" button → load user's car from ViewModel
+         */
         if (myCarButton != null) {
             myCarButton.setOnClickListener(v -> vm.loadMyCar()); // <- requires VM method (see notes below)
         }
 
-        // =========================
-        // ✅ ADDED (Step 2): Observe user's car details and populate dropdowns in correct order
-        // =========================
+        /**
+         * Observe user's car → auto-fill all fields
+         */
         vm.getMyCar().observe(this, car -> {  // <- requires VM LiveData<Car>
             if (car == null) {
                 Toast.makeText(this, "לא נמצאו פרטי רכב", Toast.LENGTH_SHORT).show();
@@ -261,9 +282,11 @@ public class DIYFilterActivity extends BaseLoggedInActivity {
             }
         });
 
+        /**
+         * Search button → validate inputs and navigate
+         */
         searchButton.setOnClickListener(v -> {
 
-            // ✅ enforce all fields are selected
             boolean missing = false;
 
             if (selectedManufacturer == null || selectedManufacturer == CarModel.UNKNOWN) {
@@ -308,6 +331,11 @@ public class DIYFilterActivity extends BaseLoggedInActivity {
 
     }
 
+    /**
+     * Provides layout resource for BaseLoggedInActivity.
+     *
+     * @return layout resource ID for this screen
+     */
     @Override
     protected int getContentLayoutId() {
         return R.layout.diy_filter ;
@@ -366,39 +394,98 @@ public class DIYFilterActivity extends BaseLoggedInActivity {
         modelDropdown.setAdapter(modelAdapter);
     }
 
+    /**
+     * Resets model selection and UI.
+     *
+     * Clears:
+     * - selected model value
+     * - dropdown text
+     * - adapter data
+     */
     private void resetModel() {
         selectedModelName = null;
         modelDropdown.setText("", false);
         modelDropdown.setAdapter(null);
     }
 
+    /**
+     * Resets year selection and UI.
+     *
+     * Clears:
+     * - selected year range
+     * - dropdown text
+     * - adapter data
+     */
     private void resetYear() {
         selectedYearRangeLabel = null;
         yearDropdown.setText("", false);
         yearDropdown.setAdapter(null);
     }
 
+    /**
+     * Disables manual typing in dropdown.
+     *
+     * Purpose:
+     * - Forces user to select from list only
+     * - Prevents invalid input
+     *
+     * @param v dropdown view
+     */
     private void disableTyping(MaterialAutoCompleteTextView v) {
         v.setInputType(android.text.InputType.TYPE_NULL);
         v.setCursorVisible(false);
         v.setKeyListener(null);
     }
 
+    /**
+     * Enables/disables model input.
+     *
+     * Affects:
+     * - TextInputLayout (visual state)
+     * - Dropdown interaction
+     *
+     * @param enabled true to enable, false to disable
+     */
     private void setModelEnabled(boolean enabled) {
         if (modelLayout != null) modelLayout.setEnabled(enabled);
         modelDropdown.setEnabled(enabled);
         modelDropdown.setClickable(enabled);
     }
 
+    /**
+     * Enables/disables year input.
+     *
+     * Affects:
+     * - TextInputLayout (visual state)
+     * - Dropdown interaction
+     *
+     * @param enabled true to enable, false to disable
+     */
     private void setYearEnabled(boolean enabled) {
         if (yearLayout != null) yearLayout.setEnabled(enabled);
         yearDropdown.setEnabled(enabled);
         yearDropdown.setClickable(enabled);
     }
 
-    // =========================
-    // ✅ ADDED (Step 2): helper to choose range label from "2014-2018" for a given year
-    // =========================
+
+    /**
+     * Finds matching year range label for a given year.
+     *
+     * Input format example:
+     * - ranges: ["2014-2018", "2019-2022"]
+     * - year: 2017
+     *
+     * Output:
+     * - "2014-2018"
+     *
+     * Logic:
+     * - Parses each range
+     * - Checks if year is within [from, to]
+     *
+     * @param ranges list of range labels
+     * @param year specific year
+     * @return matching range label or null if none found
+     */
     private String pickRangeLabelForYear(List<String> ranges, int year) {
         if (ranges == null || ranges.isEmpty() || year <= 0) return null;
 
