@@ -39,47 +39,49 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * Activity for displaying nearby garages.
+ * activity_nearby_garages
  *
- * This is the UI layer:
- * - Shows the map and the list (RecyclerView)
- * - Requests location permissions (Android UI responsibility)
- * - Starts Intents (dial, navigation, open website)
+ * Displays nearby garages using:
+ * - Google Maps (markers)
+ * - RecyclerView (list)
  *
- * The ViewModel holds the screen state and business logic:
- * - Loads location + garages via repository
- * - Filters/sorts the list based on the slider radius
- * - Fetches phone number only when user clicks "Call"
+ * Responsibilities:
+ * - Request location permissions (UI responsibility)
+ * - Display garages on map + list
+ * - Handle user actions (navigate, call, open website)
+ *
+ * Architecture (MVVM):
+ * - Activity: UI + permissions + intents
+ * - ViewModel: data loading, filtering, business logic
  */
 public class activity_nearby_garages extends BaseLoggedInActivity implements OnMapReadyCallback {
 
-    // UI
-    private TextView tvRadiusValue, tvEmptyState;
-    private ProgressBar progressLoading;
-    private Slider sliderRadiusKm;
-    private RecyclerView rvGarages;
+    // ===== UI =====
+    private TextView tvRadiusValue, tvEmptyState; // Shows current radius value, Empty state message
+    private ProgressBar progressLoading; // Loading spinner
+    private Slider sliderRadiusKm; // Radius selection slider
+    private RecyclerView rvGarages; // RecyclerView for garage list
 
-    // Map
-    private GoogleMap googleMap;
+    // ===== Map =====
+    private GoogleMap googleMap; // Google Map instance
 
-    // Recycler data (kept here because adapter uses it directly)
-    private final List<GarageItem> visibleGarages = new ArrayList<>();
+    // ===== Data =====
+    private final List<GarageItem> visibleGarages = new ArrayList<>(); // List of currently visible garages (filtered by radius)
+    private final Map<Marker, GarageItem> markerToGarage = new HashMap<>(); // Maps markers to their corresponding garage item
+    private GaragesAdapter adapter; // Recycler adapter
+    private ActivityResultLauncher<String[]> locationPermissionLauncher; // Launcher for requesting location permissions
+    private NearbyGaragesViewModel vm; // ViewModel
 
-    // Map -> item mapping (for marker clicks)
-    private final Map<Marker, GarageItem> markerToGarage = new HashMap<>();
-
-    private GaragesAdapter adapter;
-    private ActivityResultLauncher<String[]> locationPermissionLauncher;
-
-    private NearbyGaragesViewModel vm;
-
+    /**
+     * Initializes UI, adapter, permissions, and observers.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         vm = new ViewModelProvider(this).get(NearbyGaragesViewModel.class);
 
-        // Find views
+        // Bind views
         tvRadiusValue = findViewById(R.id.tvRadiusValue);
         tvEmptyState = findViewById(R.id.tvEmptyState);
         progressLoading = findViewById(R.id.progressLoading);
@@ -88,11 +90,14 @@ public class activity_nearby_garages extends BaseLoggedInActivity implements OnM
 
         // Setup RecyclerView
         adapter = new GaragesAdapter(visibleGarages, new GaragesAdapter.OnGarageAction() {
+
+            /** Navigate to garage */
             @Override
             public void onNavigate(GarageItem item) {
                 openNav(item);
             }
 
+            /** Click on list item → focus map */
             @Override
             public void onItemClick(GarageItem item) {
                 if (googleMap != null) {
@@ -100,12 +105,14 @@ public class activity_nearby_garages extends BaseLoggedInActivity implements OnM
                 }
             }
 
+            /** Call button clicked */
             @Override
             public void onCall(GarageItem item, MaterialButton callButton) {
                 if (item == null) return;
                 onCallClicked(item, callButton);
             }
 
+            /** Open website */
             @Override
             public void onWebsite(GarageItem item) {
                 if (item.website == null || item.website.trim().isEmpty()) return;
@@ -116,7 +123,9 @@ public class activity_nearby_garages extends BaseLoggedInActivity implements OnM
         rvGarages.setLayoutManager(new LinearLayoutManager(this));
         rvGarages.setAdapter(adapter);
 
-        // Permission launcher (UI responsibility)
+        /**
+         * Location permission handling (UI responsibility)
+         */
         locationPermissionLauncher = registerForActivityResult(
                 new ActivityResultContracts.RequestMultiplePermissions(),
                 result -> {
@@ -209,6 +218,9 @@ public class activity_nearby_garages extends BaseLoggedInActivity implements OnM
         });
     }
 
+    /**
+     * Called when Google Map is ready.
+     */
     @Override
     public void onMapReady(@NonNull GoogleMap map) {
         googleMap = map;
@@ -311,15 +323,18 @@ public class activity_nearby_garages extends BaseLoggedInActivity implements OnM
         }
     }
 
+    /** Updates radius label */
     private void updateRadiusText(int km) {
         tvRadiusValue.setText("טווח: " + km + " ק״מ");
     }
 
+    /** Checks location permission */
     private boolean hasLocationPermission() {
         return ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                 || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
     }
 
+    /** Requests location permission */
     private void requestLocationPermission() {
         locationPermissionLauncher.launch(new String[]{
                 Manifest.permission.ACCESS_FINE_LOCATION,
@@ -328,8 +343,7 @@ public class activity_nearby_garages extends BaseLoggedInActivity implements OnM
     }
 
     /**
-     * Opens Google Maps navigation to the selected garage.
-     * This is UI/Intent logic, so it stays in the Activity.
+     * Opens Google Maps navigation.
      */
     private void openNav(GarageItem item) {
         Uri uri = Uri.parse("google.navigation:q=" + item.latLng.latitude + "," + item.latLng.longitude + "&mode=d");
@@ -343,10 +357,10 @@ public class activity_nearby_garages extends BaseLoggedInActivity implements OnM
         }
     }
 
-    // --------------------------------------------------
-    // UI model used by adapter + map
-    // --------------------------------------------------
-
+    // ===== UI Model =====
+    /**
+     * Represents a garage item in UI.
+     */
     public static class GarageItem {
         public final String placeId;
         public final String name;
@@ -374,21 +388,34 @@ public class activity_nearby_garages extends BaseLoggedInActivity implements OnM
 
     static class GaragesAdapter extends RecyclerView.Adapter<GarageViewHolder> {
 
+        /**
+         * Callback interface for handling user actions on a garage item.
+         *
+         * Implemented by the Activity.
+         */
         interface OnGarageAction {
-            void onNavigate(GarageItem item);
-            void onItemClick(GarageItem item);
-            void onCall(GarageItem item, MaterialButton callButton);
-            void onWebsite(GarageItem item);
+            void onNavigate(GarageItem item); // Navigate to garage using maps
+            void onItemClick(GarageItem item); // Click on item (focus map, etc.)
+            void onCall(GarageItem item, MaterialButton callButton); // Call button clicked
+            void onWebsite(GarageItem item); //  Open website
         }
+        private final List<GarageItem> items; // List of garage items displayed in RecyclerView
+        private final OnGarageAction action; // Action handler implemented by Activity
 
-        private final List<GarageItem> items;
-        private final OnGarageAction action;
-
+        /**
+         * Adapter constructor.
+         *
+         * @param items list of garage items
+         * @param action callback handler for user actions
+         */
         GaragesAdapter(List<GarageItem> items, OnGarageAction action) {
             this.items = items;
             this.action = action;
         }
 
+        /**
+         * Creates a new ViewHolder (inflates item layout).
+         */
         @NonNull
         @Override
         public GarageViewHolder onCreateViewHolder(@NonNull android.view.ViewGroup parent, int viewType) {
@@ -397,6 +424,15 @@ public class activity_nearby_garages extends BaseLoggedInActivity implements OnM
             return new GarageViewHolder(v);
         }
 
+        /**
+         * Binds a GarageItem to the UI.
+         *
+         * Responsibilities:
+         * - Set text values
+         * - Calculate distance (meters → km)
+         * - Attach click listeners
+         * - Enable/disable buttons based on data
+         */
         @Override
         public void onBindViewHolder(@NonNull GarageViewHolder holder, int position) {
             GarageItem item = items.get(position);
@@ -427,16 +463,29 @@ public class activity_nearby_garages extends BaseLoggedInActivity implements OnM
             }
         }
 
+        /**
+         * @return number of items in list
+         */
         @Override
         public int getItemCount() {
             return items.size();
         }
     }
 
+    /**
+     * ViewHolder for a single garage item.
+     *
+     * Holds references to UI elements to avoid repeated findViewById calls.
+     */
     static class GarageViewHolder extends RecyclerView.ViewHolder {
-        final TextView tvName, tvAddress, tvDistance;
-        final MaterialButton btnNavigate, btnCall, btnWebsite;
+        final TextView tvName, tvAddress, tvDistance; // Garage name, address, Distance from user
+        final MaterialButton btnNavigate, btnCall, btnWebsite; // Navigation button, Call button, Website button
 
+        /**
+         * Initializes view references.
+         *
+         * @param itemView inflated layout for item
+         */
         GarageViewHolder(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvGarageName);
