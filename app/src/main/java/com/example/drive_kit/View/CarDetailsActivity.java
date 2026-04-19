@@ -1,4 +1,3 @@
-
 package com.example.drive_kit.View;
 
 import android.app.DownloadManager;
@@ -20,51 +19,64 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
 
+/**
+ * CarDetailsActivity
+ *
+ * Displays full details about the user's car.
+ *
+ * Responsibilities:
+ * - Show car info (number, manufacturer, model, year)
+ * - Show insurance info
+ * - Display car image (Base64 or URI fallback)
+ * - Handle car manual (PDF download + view)
+ * - Open external links (Yad2)
+ *
+ * Architecture:
+ * - Activity → UI only
+ * - ViewModel → provides data via LiveData
+ */
 public class CarDetailsActivity extends BaseLoggedInActivity {
+    private static final String TAG = "CAR_DETAILS"; // Log tag for debugging
 
-    private static final String TAG = "CAR_DETAILS";
+    // ===== Header =====
+    private TextView title; // Screen title
+    private TextView tvCarSubtitle; // Subtitle showing car summary
+    private ShapeableImageView ivCarImage; //Car image
 
-    // Header
-    private TextView title;
-    private TextView tvCarSubtitle;
-    private ShapeableImageView ivCarImage;
+    // ===== Car details =====
+    private TextView tvCarNumberValue; // Car number
+    private TextView tvManufacturerValue; // Manufacturer
+    private TextView tvModelValue; // Model
+    private TextView tvYearValue; // Year
 
-    // Details rows
-    private TextView tvCarNumberValue;
-    private TextView tvManufacturerValue;
-    private TextView tvModelValue;
-    private TextView tvYearValue;
+    // ===== Insurance =====
+    private TextView tvInsuranceCompanyValue; // Insurance company name
+    private TextView tvInsuranceCompanyIdValue; // Insurance company ID
 
-    // Insurance rows
-    private TextView tvInsuranceCompanyValue;
-    private TextView tvInsuranceCompanyIdValue;
+    // ===== Legacy =====
+    private TextView info; // Legacy text field (kept for backward compatibility)
 
-    // Legacy view (hidden in XML)
-    private TextView info;
+    // ===== Actions =====
+    private MaterialButton btnDownloadManual;   // Download car manual as PDF
+    private MaterialButton btnDownloadCarBook; // Open car manual inside app
+    private MaterialButton btnOpenYad2; // Open Yad2 website
+    private CarDetailsViewModel vm; // ViewModel
 
-    // Actions
-    private MaterialButton btnDownloadManual;   // ספר רכב (PDF) - הורדה
-    private MaterialButton btnDownloadCarBook;  // חפש בספר הרכב - פתיחה באפליקציה
-    private MaterialButton btnOpenYad2;
-
-    private CarDetailsViewModel vm;
-
+    /**
+     * Initializes UI and loads data.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         bindViews();
         setupDefaultUi();
-
         vm = new ViewModelProvider(this).get(CarDetailsViewModel.class);
 
-        // Buttons start disabled until URLs arrive
+        // Disable buttons until URLs arrive
         setButtonEnabled(btnDownloadManual, false);
         setButtonEnabled(btnDownloadCarBook, false);
         setButtonEnabled(btnOpenYad2, false);
-
         observeViewModel();
-
         String uid = FirebaseAuth.getInstance().getUid();
         vm.loadDriverAndManual(uid);
     }
@@ -74,6 +86,9 @@ public class CarDetailsActivity extends BaseLoggedInActivity {
         return R.layout.activity_car_details;
     }
 
+    /**
+     * Binds UI elements from layout.
+     */
     private void bindViews() {
         tvCarNumberValue = findViewById(R.id.tvCarNumberValue);
         tvManufacturerValue = findViewById(R.id.tvManufacturerValue);
@@ -87,6 +102,9 @@ public class CarDetailsActivity extends BaseLoggedInActivity {
         btnOpenYad2 = findViewById(R.id.btnOpenYad2);
     }
 
+    /**
+     * Sets default UI values before data loads.
+     */
     private void setupDefaultUi() {
         if (title != null) title.setText("פרטי הרכב שלי");
 
@@ -107,30 +125,39 @@ public class CarDetailsActivity extends BaseLoggedInActivity {
         if (btnDownloadCarBook != null) btnDownloadCarBook.setText("חיפוש בספר הרכב");
     }
 
+    /**
+     * Connects ViewModel LiveData to UI.
+     */
     private void observeViewModel() {
-        // Details
+
+        // ===== Car details =====
         vm.getCarSubtitle().observe(this, v -> setTextOrDash(tvCarSubtitle, v));
         vm.getCarNumber().observe(this, v -> setTextOrDash(tvCarNumberValue, v));
         vm.getManufacturer().observe(this, v -> setTextOrDash(tvManufacturerValue, v));
         vm.getModel().observe(this, v -> setTextOrDash(tvModelValue, v));
         vm.getYear().observe(this, v -> setTextOrDash(tvYearValue, v));
 
-        // Insurance
+        // ===== Insurance =====
         vm.getInsuranceCompanyName().observe(this, v -> setTextOrDash(tvInsuranceCompanyValue, v));
         vm.getInsuranceCompanyId().observe(this, v -> setTextOrDash(tvInsuranceCompanyIdValue, v));
 
-        // Legacy info
         vm.getInfoText().observe(this, text -> {
             if (info != null) info.setText(text == null ? "" : text);
         });
 
+        // ===== Errors =====
         vm.getScreenError().observe(this, err -> {
             if (err != null && !err.trim().isEmpty()) {
                 Toast.makeText(this, err, Toast.LENGTH_SHORT).show();
             }
         });
+        // ===== Image loading =====
 
-        // Image (base64 first, uri fallback)
+        /**
+         * Priority:
+         * 1. Base64 image
+         * 2. URI fallback
+         */
         vm.getCarImageBase64().observe(this, base64 -> {
             boolean loaded = tryLoadCarBase64Into(ivCarImage, base64);
             if (!loaded) {
@@ -145,12 +172,12 @@ public class CarDetailsActivity extends BaseLoggedInActivity {
             tryLoadCarUriInto(ivCarImage, uri);
         });
 
-        // ========= ספר רכב =========
+        // ===== Manual (PDF) =====
 
         vm.getManualLoading().observe(this, loading -> {
             boolean isLoading = (loading != null && loading);
 
-            // UX: בזמן טעינה ננטרל את שני הכפתורים (PDF + חיפוש)
+            // Disable buttons while loading
             if (btnDownloadManual != null) {
                 btnDownloadManual.setText(isLoading ? "טוען ספר רכב..." : "ספר רכב (PDF)");
                 setButtonEnabled(btnDownloadManual, false);
@@ -161,9 +188,11 @@ public class CarDetailsActivity extends BaseLoggedInActivity {
             }
         });
 
-        // ✅ אותו URL מפעיל שני כפתורים:
-        // btnDownloadManual -> הורדה
-        // btnDownloadCarBook -> פתיחה באפליקציה (כמו קודם)
+        /**
+         * Same URL is used for:
+         * - Download PDF
+         * - Open inside app
+         */
         vm.getManualPdfUrl().observe(this, url -> {
             Log.d(TAG, "manual url=" + url);
 
@@ -215,7 +244,9 @@ public class CarDetailsActivity extends BaseLoggedInActivity {
         });
     }
 
-    // ✅ כמו בקוד הישן שעבד: פתיחה בתוך האפליקציה (PdfViewerActivity)
+    /**
+     * Opens PDF inside the app.
+     */
     private void openManualInApp(String url) {
         try {
             Intent i = new Intent(this, PdfViewerActivity.class);
@@ -227,7 +258,9 @@ public class CarDetailsActivity extends BaseLoggedInActivity {
         }
     }
 
-    // ✅ Download PDF
+    /**
+     * Downloads PDF using Android DownloadManager.
+     */
     private void downloadPdf(String url) {
         try {
             Uri uri = Uri.parse(url);
@@ -254,14 +287,15 @@ public class CarDetailsActivity extends BaseLoggedInActivity {
         }
     }
 
-    // -------------------- Helpers --------------------
-
+    // ===== Helpers =====
+    /** Enables/disables button visually */
     private void setButtonEnabled(MaterialButton btn, boolean enabled) {
         if (btn == null) return;
         btn.setEnabled(enabled);
         btn.setAlpha(enabled ? 1f : 0.5f);
     }
 
+    /** Sets text or "-" fallback */
     private void setTextOrDash(TextView tv, String value) {
         if (tv == null) return;
         if (value == null) {
@@ -272,6 +306,7 @@ public class CarDetailsActivity extends BaseLoggedInActivity {
         tv.setText(t.isEmpty() ? "-" : t);
     }
 
+    /** Opens external URL safely */
     private void openUrl(String url, String errorToast) {
         try {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
@@ -280,6 +315,11 @@ public class CarDetailsActivity extends BaseLoggedInActivity {
         }
     }
 
+    /**
+     * Loads Base64 image into ImageView.
+     *
+     * @return true if loaded successfully
+     */
     private boolean tryLoadCarBase64Into(ShapeableImageView target, String base64) {
         if (target == null) return false;
         if (base64 == null || base64.trim().isEmpty()) return false;
@@ -304,6 +344,9 @@ public class CarDetailsActivity extends BaseLoggedInActivity {
         }
     }
 
+    /**
+     * Loads image from URI fallback.
+     */
     private void tryLoadCarUriInto(ShapeableImageView target, String uri) {
         if (target == null) return;
 

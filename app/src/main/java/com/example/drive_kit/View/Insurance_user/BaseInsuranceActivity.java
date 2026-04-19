@@ -1,93 +1,3 @@
-//package com.example.drive_kit.View.Insurance_user;
-//
-//import android.content.Intent;
-//import android.os.Bundle;
-//import android.view.LayoutInflater;
-//import android.view.View;
-//import android.widget.FrameLayout;
-//import android.widget.TextView;
-//
-//import androidx.annotation.LayoutRes;
-//import androidx.annotation.Nullable;
-//import androidx.appcompat.app.AppCompatActivity;
-//
-//import com.example.drive_kit.R;
-//
-///**
-// * BaseInsuranceActivity
-// *
-// * Base screen for the insurance interface.
-// * It injects the child layout into a container and shows the bottom bar.
-// *
-// * Important:
-// * - We keep the insuranceCompanyId in a field so all screens can reuse it.
-// */
-//public abstract class BaseInsuranceActivity extends AppCompatActivity {
-//
-//    // NEW: stored company id for navigation across insurance screens
-//    protected String companyId;
-//
-//    // Bottom bar views (same IDs from bottom_bar.xml)
-//    protected View bottomNotyBtn;
-//    protected View bottomProfileBtn;
-//    protected View bottomMenuBtn;
-//    protected TextView bottomNotyBadge;
-//
-//    @Override
-//    protected void onCreate(@Nullable Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//
-//        setContentView(R.layout.activity_base_insurance);
-//
-//        // Inject the screen-specific layout into the container
-//        FrameLayout container = findViewById(R.id.contentContainer);
-//        LayoutInflater.from(this).inflate(getContentLayoutId(), container, true);
-//
-//        // Read companyId once (same key you already use everywhere)
-//        companyId = getIntent().getStringExtra("insuranceCompanyId");
-//
-//        // Bind bottom bar views
-//        bottomNotyBtn = findViewById(R.id.bottomNotyBtn);
-//        bottomProfileBtn = findViewById(R.id.bottomProfileBtn);
-//        bottomMenuBtn = findViewById(R.id.bottomMenuBtn);
-//        bottomNotyBadge = findViewById(R.id.bottomNotyBadge);
-//
-//        setupBottomBarBase();
-//    }
-//
-//    @LayoutRes
-//    protected abstract int getContentLayoutId();
-//
-//    /**
-//     * Minimal bottom bar behavior for now.
-//     * We implement only Profile navigation (as you asked).
-//     * Other buttons can be added later.
-//     */
-//    protected void setupBottomBarBase() {
-//
-//        // Profile button -> open company profile screen
-//        if (bottomProfileBtn != null) {
-//            bottomProfileBtn.setOnClickListener(v -> {
-//                Intent i = new Intent(this, InsuranceCompanyProfileActivity.class);
-//                i.putExtra("insuranceCompanyId", companyId);
-//                startActivity(i);
-//            });
-//        }
-//    }
-//
-//    protected void updateBadge(int count) {
-//        if (bottomNotyBadge == null) return;
-//
-//        if (count <= 0) {
-//            bottomNotyBadge.setVisibility(View.GONE);
-//        } else {
-//            bottomNotyBadge.setVisibility(View.VISIBLE);
-//            bottomNotyBadge.setText(count > 99 ? "99+" : String.valueOf(count));
-//        }
-//    }
-//}
-
-
 package com.example.drive_kit.View.Insurance_user;
 
 import android.content.Intent;
@@ -109,34 +19,46 @@ import com.google.firebase.auth.FirebaseAuth;
 /**
  * BaseInsuranceActivity
  *
- * Base class for all insurance screens.
+ * Abstract base activity for all insurance-related screens.
  *
  * Responsibilities:
- * 1) Wrap the screen with a base layout:
- *    - contentContainer (child layout injected here)
- *    - bottom_bar (same design as driver)
- *    - DrawerLayout + NavigationView (hamburger menu)
- * 2) Handle hamburger click -> open drawer
- * 3) Handle drawer item selection -> navigate between insurance screens
+ * 1. Provides a shared layout structure:
+ *    - DrawerLayout (hamburger menu)
+ *    - NavigationView (menu items)
+ *    - Bottom bar (navigation + badge)
+ *    - Content container (child activities inject their layout here)
  *
- * Notes:
- * - We keep using the same Intent extra key: "insuranceCompanyId" (Firestore docId).
+ * 2. Handles:
+ *    - Drawer open/close behavior
+ *    - Navigation between insurance screens
+ *    - Logout logic
+ *    - Bottom bar actions
+ *
+ * 3. Manages shared state:
+ *    - insuranceCompanyId (Firestore document ID)
+ *
+ * Usage:
+ * - Every insurance screen extends this class
+ * - Must implement getContentLayoutId()
  */
 public abstract class BaseInsuranceActivity extends AppCompatActivity {
 
-    // Drawer
-    protected DrawerLayout drawerLayout;
-    protected NavigationView navigationView;
+    // ===== Drawer =====
+    protected DrawerLayout drawerLayout; // Root drawer layout
+    protected NavigationView navigationView; // Navigation menu inside drawer
 
-    // Bottom bar
-    protected View bottomNotyBtn;
-    protected View bottomProfileBtn;
-    protected View bottomMenuBtn;
-    protected TextView bottomNotyBadge;
+    // ===== Bottom bar =====
+    protected View bottomNotyBtn; // Notifications button (bottom bar)
+    protected View bottomProfileBtn; // Profile button (bottom bar)
+    protected View bottomMenuBtn; // Hamburger/menu button (bottom bar)
+    protected TextView bottomNotyBadge; //Badge showing notification count
 
-    // Company doc id (the Firestore document id)
-    protected String companyDocId;
+    // ===== Shared data =====
+    protected String companyDocId; //Firestore document ID of the insurance company
 
+    /**
+     * Initializes base layout, injects child layout, and binds UI components.
+     */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -165,16 +87,22 @@ public abstract class BaseInsuranceActivity extends AppCompatActivity {
         setupDrawerMenu();
     }
 
-    /** Each insurance Activity must return its own content layout id */
+    /**
+     * Each child Activity must provide its layout resource ID.
+     *
+     * @return layout resource ID
+     */
+
     @LayoutRes
     protected abstract int getContentLayoutId();
 
     /**
-     * Bottom bar actions (insurance version).
-     * For now:
-     * - Profile -> open company profile
-     * - Hamburger -> open drawer
-     * - Notifications button: we will connect later (you said later)
+     * Initializes bottom bar interactions.
+     *
+     * Behavior:
+     * - Menu button → opens drawer (RTL supported)
+     * - Profile button → navigates to profile screen
+     * - Notifications → reserved for future implementation
      */
     private void setupBottomBar() {
         if (bottomMenuBtn != null) {
@@ -189,15 +117,17 @@ public abstract class BaseInsuranceActivity extends AppCompatActivity {
         if (bottomProfileBtn != null) {
             bottomProfileBtn.setOnClickListener(v -> openInsuranceProfile());
         }
-
-        // Noty button will be connected later.
-        // Keep it clickable but do nothing for now (or route to inquiries if you want later).
     }
 
     /**
-     * Drawer menu actions (insurance screens).
+     * Initializes drawer menu item handling.
+     *
+     * Handles navigation between:
+     * - Inquiries
+     * - Profile
+     * - Edit Profile
+     * - Logout
      */
-
     private void setupDrawerMenu() {
         if (navigationView == null || drawerLayout == null) return;
 
@@ -235,10 +165,11 @@ public abstract class BaseInsuranceActivity extends AppCompatActivity {
         });
     }
 
-    // ---------------------------------------------------------
-    // Navigation helpers
-    // ---------------------------------------------------------
+    // ===== Navigation helpers =====
 
+    /**
+     * Opens Insurance Inquiries screen.
+     */
     protected void openInsuranceInquiries() {
         if (companyDocId == null || companyDocId.trim().isEmpty()) return;
 
@@ -249,6 +180,9 @@ public abstract class BaseInsuranceActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Opens Insurance Profile screen.
+     */
     protected void openInsuranceProfile() {
         if (companyDocId == null || companyDocId.trim().isEmpty()) return;
 
@@ -259,6 +193,9 @@ public abstract class BaseInsuranceActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Opens Insurance Edit Profile screen.
+     */
     protected void openInsuranceEditProfile() {
         if (companyDocId == null || companyDocId.trim().isEmpty()) return;
 
@@ -271,8 +208,9 @@ public abstract class BaseInsuranceActivity extends AppCompatActivity {
     }
 
     /**
-     * Badge helper (same as driver base).
-     * We will use it later for "unhandled inquiries count".
+     * Updates notification badge in bottom bar.
+     *
+     * @param count number of notifications
      */
     protected void updateBadge(int count) {
         if (bottomNotyBadge == null) return;

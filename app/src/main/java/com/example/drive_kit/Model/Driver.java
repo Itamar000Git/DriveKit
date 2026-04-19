@@ -384,21 +384,12 @@ public class Driver {
         this.phone = phone;
     }
 
-    /**
-     * Returns the driver's car.
-     * Always safe (never null).
-     *
-     * @return Car instance
-     */
+    /** @return Car instance */
     public Car getCar() {
         return ensureCar();
     }
 
-    /**
-     * Sets the driver's car.
-     *
-     * @param car Car object
-     */
+    /** @param car Car object */
     public void setCar(Car car) {
         this.car = car;
     }

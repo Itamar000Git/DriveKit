@@ -1,128 +1,3 @@
-//package com.example.drive_kit.View.Insurance_user;
-//
-//import android.os.Bundle;
-//import android.view.View;
-//import android.widget.Toast;
-//
-//import androidx.lifecycle.ViewModelProvider;
-//
-//import com.example.drive_kit.R;
-//import com.example.drive_kit.ViewModel.Insurance_user_ViewModel.InsuranceCompanyEditProfileViewModel;
-//import com.google.android.material.button.MaterialButton;
-//import com.google.android.material.textfield.TextInputEditText;
-//
-///**
-// * InsuranceCompanyEditProfileActivity
-// *
-// * Edit screen for insurance company profile.
-// *
-// * UI responsibilities:
-// * - Bind views
-// * - Observe LiveData from ViewModel
-// * - Collect user input and call ViewModel.save(...)
-// *
-// * Data responsibilities:
-// * - ViewModel + Repository
-// *
-// * Important:
-// * - companyDocId is stored in BaseInsuranceActivity (read from Intent extra "insuranceCompanyId")
-// */
-//public class InsuranceCompanyEditProfileActivity extends BaseInsuranceActivity {
-//
-//    private TextInputEditText etId, etName, etPhone, etEmail, etWebsite;
-//    private View loading;
-//    private MaterialButton btnSave;
-//
-//    private InsuranceCompanyEditProfileViewModel vm;
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//
-//        // Bind views from the injected content layout
-//        etId = findViewById(R.id.editCompanyId);
-//        etName = findViewById(R.id.editCompanyName);
-//        etPhone = findViewById(R.id.editCompanyPhone);
-//        etEmail = findViewById(R.id.editCompanyEmail);
-//        etWebsite = findViewById(R.id.editCompanyWebsite);
-//
-//        loading = findViewById(R.id.editCompanyLoading);
-//        btnSave = findViewById(R.id.btnSaveCompany);
-//
-//        vm = new ViewModelProvider(this).get(InsuranceCompanyEditProfileViewModel.class);
-//
-//        // companyDocId comes from BaseInsuranceActivity
-//        String cid = safe(companyDocId);
-//        if (cid.isEmpty()) {
-//            Toast.makeText(this, "Missing insuranceCompanyId", Toast.LENGTH_LONG).show();
-//            finish();
-//            return;
-//        }
-//
-//        // Observe loading state
-//        vm.getLoading().observe(this, isLoading -> {
-//            if (loading != null) {
-//                loading.setVisibility(Boolean.TRUE.equals(isLoading) ? View.VISIBLE : View.GONE);
-//            }
-//        });
-//
-//        // Observe errors
-//        vm.getErrorMessage().observe(this, msg -> {
-//            if (msg != null && !msg.trim().isEmpty()) {
-//                Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
-//            }
-//        });
-//
-//        // Observe company data and fill the form
-//        vm.getCompany().observe(this, c -> {
-//            if (c == null) return;
-//
-//            if (etId != null) etId.setText(safe(c.getId()));
-//            if (etName != null) etName.setText(safe(c.getName()));
-//            if (etPhone != null) etPhone.setText(safe(c.getPhone()));
-//            if (etEmail != null) etEmail.setText(safe(c.getEmail()));
-//            if (etWebsite != null) etWebsite.setText(safe(c.getWebsite()));
-//        });
-//
-//        // Observe save success -> close screen
-//        vm.getSaveSuccess().observe(this, ok -> {
-//            if (Boolean.TRUE.equals(ok)) {
-//                Toast.makeText(this, "נשמר בהצלחה", Toast.LENGTH_SHORT).show();
-//                finish(); // back to profile screen
-//            }
-//        });
-//
-//        // Save button -> collect input and call VM
-//        if (btnSave != null) {
-//            btnSave.setOnClickListener(v -> {
-//                String name = text(etName);
-//                String phone = text(etPhone);
-//                String email = text(etEmail);
-//                String website = text(etWebsite);
-//
-//                // Use the docId for updating Firestore document
-//                vm.saveCompany(cid, name, phone, email, website);
-//            });
-//        }
-//
-//        // Initial load
-//        vm.loadCompany(cid);
-//    }
-//
-//    @Override
-//    protected int getContentLayoutId() {
-//        return R.layout.insurance_company_edit_profile_activity;
-//    }
-//
-//    private String text(TextInputEditText et) {
-//        return (et == null || et.getText() == null) ? "" : et.getText().toString().trim();
-//    }
-//
-//    private String safe(String s) {
-//        return s == null ? "" : s.trim();
-//    }
-//}
-// InsuranceCompanyEditProfileActivity.java
 package com.example.drive_kit.View.Insurance_user;
 
 import android.net.Uri;
@@ -141,24 +16,40 @@ import com.example.drive_kit.ViewModel.Insurance_user_ViewModel.InsuranceCompany
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textfield.TextInputEditText;
-
+/**
+ * Activity for editing an insurance company's profile.
+ *
+ * Responsibilities:
+ * - Display current company details
+ * - Allow editing basic fields (name, phone, email, website)
+ * - Handle logo selection and preview
+ * - Upload new logo via ViewModel
+ * - Save updated company data
+ *
+ * Uses MVVM architecture:
+ * - View (this Activity)
+ * - ViewModel: InsuranceCompanyEditProfileViewModel
+ */
 public class InsuranceCompanyEditProfileActivity extends BaseInsuranceActivity {
+    private static final String TAG = "LOGO_FLOW_UI"; //Tag for logging logo-related flow
+    private TextInputEditText etId, etName, etPhone, etEmail, etWebsite; // Input fields for company details
+    private View loading; //Loading overlay view
+    private MaterialButton btnSave; // Save button
 
-    private static final String TAG = "LOGO_FLOW_UI";
+    // ===== Logo UI =====
+    private ShapeableImageView ivLogo; // ImageView for displaying company logo
+    private MaterialButton btnChangeLogo; // Button to trigger logo change
+    private Uri pendingLogoUri = null; //Holds the selected image URI for preview before upload
+    private InsuranceCompanyEditProfileViewModel vm; // ViewModel handling business logic
 
-    private TextInputEditText etId, etName, etPhone, etEmail, etWebsite;
-    private View loading;
-    private MaterialButton btnSave;
-
-    // logo UI
-    private ShapeableImageView ivLogo;
-    private MaterialButton btnChangeLogo;
-
-    // local preview
-    private Uri pendingLogoUri = null;
-
-    private InsuranceCompanyEditProfileViewModel vm;
-
+    /**
+     * Launcher for selecting an image from device storage.
+     *
+     * Flow:
+     * 1. User picks image
+     * 2. Preview is shown immediately
+     * 3. Image is uploaded via ViewModel
+     */
     private final ActivityResultLauncher<String> pickImage =
             registerForActivityResult(new ActivityResultContracts.GetContent(), uri -> {
                 if (uri == null) return;
@@ -174,11 +65,13 @@ public class InsuranceCompanyEditProfileActivity extends BaseInsuranceActivity {
                     vm.uploadLogo(cid, uri);
                 }
             });
-
+    /**
+     * Initializes UI, ViewModel, observers, and event handlers.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        // Bind views
         etId = findViewById(R.id.editCompanyId);
         etName = findViewById(R.id.editCompanyName);
         etPhone = findViewById(R.id.editCompanyPhone);
@@ -190,7 +83,7 @@ public class InsuranceCompanyEditProfileActivity extends BaseInsuranceActivity {
 
         ivLogo = findViewById(R.id.editCompanyLogo);
         btnChangeLogo = findViewById(R.id.btnChangeLogo);
-
+        // Initialize ViewModel
         vm = new ViewModelProvider(this).get(InsuranceCompanyEditProfileViewModel.class);
 
         String cid = safe(companyDocId);
@@ -203,14 +96,14 @@ public class InsuranceCompanyEditProfileActivity extends BaseInsuranceActivity {
         // Show/hide overlay based on BOTH loading + saving
         vm.getLoading().observe(this, v -> updateLoadingOverlay());
         vm.getSaving().observe(this, v -> updateLoadingOverlay());
-
+        // Observe errors
         vm.getErrorMessage().observe(this, msg -> {
             if (msg != null && !msg.trim().isEmpty()) {
                 Log.e(TAG, "error=" + msg);
                 Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
             }
         });
-
+        // Observe company data and bind to UI
         vm.getCompany().observe(this, c -> {
             if (c == null) return;
 
@@ -237,21 +130,21 @@ public class InsuranceCompanyEditProfileActivity extends BaseInsuranceActivity {
                 Log.d(TAG, "skip url bind because pendingLogoUri=" + pendingLogoUri);
             }
         });
-
+        // Observe save success
         vm.getSaveSuccess().observe(this, ok -> {
             if (Boolean.TRUE.equals(ok)) {
                 Toast.makeText(this, "נשמר בהצלחה", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
-
+        // Logo change button
         if (btnChangeLogo != null) {
             btnChangeLogo.setOnClickListener(v -> {
                 Log.d(TAG, "change logo clicked");
                 pickImage.launch("image/*");
             });
         }
-
+        // Save button
         if (btnSave != null) {
             btnSave.setOnClickListener(v -> {
                 String name = text(etName);
@@ -263,15 +156,20 @@ public class InsuranceCompanyEditProfileActivity extends BaseInsuranceActivity {
                 vm.saveCompany(cid, name, phone, email, website);
             });
         }
-
+        // Initial data load
         vm.loadCompany(cid);
     }
-
+    /**
+     * Returns layout resource ID for this screen.
+     */
     @Override
     protected int getContentLayoutId() {
         return R.layout.insurance_company_edit_profile_activity;
     }
 
+    /**
+     * Returns layout resource ID for this screen.
+     */
     private void updateLoadingOverlay() {
         boolean isLoading = Boolean.TRUE.equals(vm.getLoading().getValue());
         boolean isSaving = Boolean.TRUE.equals(vm.getSaving().getValue());
@@ -280,11 +178,22 @@ public class InsuranceCompanyEditProfileActivity extends BaseInsuranceActivity {
         Log.d(TAG, "updateLoadingOverlay loading=" + isLoading + " saving=" + isSaving + " show=" + show);
         if (loading != null) loading.setVisibility(show ? View.VISIBLE : View.GONE);
     }
-
+    /**
+     * Safely extracts trimmed text from an input field.
+     *
+     * @param et input field
+     * @return trimmed string or empty string
+     */
     private String text(TextInputEditText et) {
         return (et == null || et.getText() == null) ? "" : et.getText().toString().trim();
     }
 
+    /**
+     * Safely trims a string, avoiding null values.
+     *
+     * @param s input string
+     * @return trimmed string or empty string
+     */
     private String safe(String s) {
         return s == null ? "" : s.trim();
     }

@@ -16,32 +16,38 @@ import com.google.android.material.imageview.ShapeableImageView;
 /**
  * InsuranceCompanyProfileActivity
  *
- * Profile screen for an insurance company.
+ * Displays the profile of an insurance company.
  *
- * MVVM:
- * - Activity = UI only (bind views, observe LiveData, navigation).
- * - ViewModel = loads company data and exposes it as LiveData.
+ * Responsibilities:
+ * - Show company details (name, id, phone, email, website, partner status)
+ * - Display company logo
+ * - Navigate to edit profile screen
+ * - Observe data from ViewModel (MVVM pattern)
  *
- * Important:
- * - companyDocId is stored in BaseInsuranceActivity (Intent extra "insuranceCompanyId").
+ * Architecture:
+ * - Activity: UI only (bind views, observe LiveData, navigation)
+ * - ViewModel: handles data loading and business logic
+ *
+ * Data source:
+ * - companyDocId is passed via Intent and stored in BaseInsuranceActivity
  */
 public class InsuranceCompanyProfileActivity extends BaseInsuranceActivity {
 
-    // UI
-    private TextView tvCompanyName;
-    private TextView tvCompanyIdValue;
-    private TextView tvPhoneValue;
-    private TextView tvEmailValue;
-    private TextView tvWebsiteValue;
-    private TextView tvPartnerValue;
+    // ===== UI elements =====
+    private TextView tvCompanyName; //Company name title
+    private TextView tvCompanyIdValue; //Company ID value
+    private TextView tvPhoneValue; //Phone number value
+    private TextView tvEmailValue; //Email value
+    private TextView tvWebsiteValue; //Website value
+    private TextView tvPartnerValue; //Partner status
+    private View loadingView; //Loading overlay view
+    private MaterialButton btnEdit; //Button to navigate to edit profile
+    private ShapeableImageView profileAvatar; //ImageView for displaying company logo
+    private InsuranceCompanyProfileViewModel vm; // ViewModel for this screen
 
-    private View loadingView;
-    private MaterialButton btnEdit;
-    private ShapeableImageView profileAvatar;
-
-
-    private InsuranceCompanyProfileViewModel vm;
-
+    /**
+     * Initializes UI, ViewModel, observers, and event handlers.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,7 +106,7 @@ public class InsuranceCompanyProfileActivity extends BaseInsuranceActivity {
             tvWebsiteValue.setText(safe(company.getWebsite()).isEmpty() ? "-" : safe(company.getWebsite()));
             tvPartnerValue.setText(company.isPartner() ? "כן" : "לא");
 
-            // ✅ Logo (avatar)
+            // ===== Logo handling =====
             String logoUrl = safe(company.getLogoUrl());
             if (profileAvatar != null) {
                 if (logoUrl.isEmpty()) {
@@ -114,11 +120,9 @@ public class InsuranceCompanyProfileActivity extends BaseInsuranceActivity {
                 }
             }
             android.util.Log.d("PROFILE_LOGO", "logoUrl=" + safe(company.getLogoUrl()));
-
-
         });
 
-        // Edit button -> open edit screen and pass the SAME docId
+        // Edit button → navigate to edit screen
         if (btnEdit != null) {
             btnEdit.setOnClickListener(v -> {
                 Intent i = new Intent(this, InsuranceCompanyEditProfileActivity.class);
@@ -131,11 +135,18 @@ public class InsuranceCompanyProfileActivity extends BaseInsuranceActivity {
         vm.loadCompany(cid);
     }
 
+    /**
+     * Returns layout resource ID for this screen.
+     */
     @Override
     protected int getContentLayoutId() {
         return R.layout.insurance_company_profile_activity;
     }
 
+    /**
+     * Reloads company data when returning to this screen
+     * (e.g., after editing profile).
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -147,6 +158,12 @@ public class InsuranceCompanyProfileActivity extends BaseInsuranceActivity {
         }
     }
 
+    /**
+     * Utility method to safely trim strings and avoid null values.
+     *
+     * @param s input string
+     * @return trimmed string or empty string if null
+     */
     private String safe(String s) {
         return s == null ? "" : s.trim();
     }
